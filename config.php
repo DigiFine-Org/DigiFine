@@ -1,0 +1,1 @@
+<?php define('base_path', '/digifine');

@@ -1,0 +1,99 @@
+/* Button */
+
+.btn {
+  padding: 0 12px;
+  height: 30px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: none;
+  background-color: var(--color-blue);
+  color: var(--color-lighter-blue);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.btn.small {
+  padding: 0 6px;
+  height: 20px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.btn:hover {
+  background-color: var(--color-dark-blue);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn.secondary {
+  background-color: var(--color-light-blue);
+  color: var(--color-dark-blue);
+}
+
+.btn.secondary:hover {
+  background-color: var(--color-blue);
+  color: var(--color-lighter-blue);
+}
+
+/* Input */
+.input {
+  padding: 0 9px;
+  height: 30px;
+  border: 1px solid var(--color-gray);
+  border-radius: 4px;
+}
+
+.input:focus {
+  background-color: var(--color-lighter-blue);
+  border-color: var(--color-blue);
+}
+
+textarea.input {
+  padding: 12px 12px;
+  min-height: 80px;
+}
+
+/* Input Field */
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+/* Paragraph */
+.p {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Headings */
+.h1 {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 32px;
+}
+
+/* Link */
+.link {
+  color: var(--color-blue);
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,42 @@
+main {
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.login-container {
+  margin: auto;
+  background-color: var(--color-white);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.login-container h1 {
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form .field {
+  margin-bottom: 16px;
+}
+
+form .btn {
+  margin-top: 6px;
+}
+
+form .btn {
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
