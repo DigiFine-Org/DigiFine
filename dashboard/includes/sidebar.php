@@ -18,9 +18,9 @@ function renderLink(string $title, string $link)
     <?php endif ?>
 
     <?php if ($role === 'driver'): ?>
-        <?php renderLink("My Fines", "/digifine/dashboard/my-fines/index.php") ?>
+        <?php renderLink("My Fines", "/digifine/dashboard/driver/my-fines/index.php") ?>
         <?php renderLink("Gov-Fine List", "/digifine/dashboard/gov-fine-list/index.php") ?>
-        <?php renderLink("Payments", "/digifine/dashboard/payments/index.php") ?>
+        <?php renderLink("Payments", "/digifine/dashboard/driver/payments/index.php") ?>
     <?php endif ?>
 
     <?php if ($role === 'admin'): ?>
