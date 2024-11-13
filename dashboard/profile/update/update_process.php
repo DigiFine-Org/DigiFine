@@ -4,7 +4,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die("invalid method!!!");
 }
 
-include '../../../db/connect.php';
+require_once '../../../db/connect.php';
 
 session_start();
 

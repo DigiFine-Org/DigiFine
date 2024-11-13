@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     die("invalid request!");
 }
 
-include '../db/connect.php';
+require_once '../db/connect.php';
 session_start();
 
 $userid = htmlspecialchars($_POST['userid']);
@@ -62,11 +62,6 @@ if (!password_verify($password, $dbPasswordHash)) {
 unset($user['password']);
 
 // set user role
-if (array_key_exists('is_oic', $user) && $user['is_oic'] == 1) {
-    $user['role'] = 'oic';
-} else {
-    $user['role'] = $asPolice ? 'officer' : 'driver';
-}
-
+$user['role'] = $asPolice ? 'officer' : 'driver';
 $_SESSION['user'] = $user;
 header("Location: /digifine/dashboard/index.php");

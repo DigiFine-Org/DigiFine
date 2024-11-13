@@ -8,7 +8,7 @@ $pageConfig = [
 include_once "../includes/header.php" ?>
 <main>
     <div class="login-container">
-        <img src="/assets/logo.svg" alt="Logo">
+        <img src="/digifine/assets/logo.svg" alt="Logo">
         <h2>Welcome Back!</h2>
         <form action="login_process.php" method="POST">
             <div class="field">
