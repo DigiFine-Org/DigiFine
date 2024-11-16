@@ -32,9 +32,9 @@ include('./backend/get-ticket-data.php');
                             <p>Date and Time : <?= $ticket['issued_on']; ?></p>
                             <p>Place : <?= $ticket['issued_place']; ?></p>
                             <!--<p>Violation Category : <?= $ticket['category_name']; ?></p>-->
-                            <p>Violation : <?= $ticket['violation_name']; ?></p>
+                            <p>Violation : <?= $ticket['offence_description_english']; ?></p>
                             <p>Status : <?= $ticket['payment_status']; ?></p>
-                            <p class="fine-amount">Fine : Rs.<?= $ticket['price']; ?></p>
+                            <p class="fine-amount">Fine : Rs.<?= $ticket['fine_amount']; ?></p>
                             <button class="pay-btn">Pay Now</button>
                             <button class="pay-btn" onclick="window.location.href='./backend/report-fine.php?fine_id=<?= $ticket['id']; ?>'">Report Fine</button>
                         </div>

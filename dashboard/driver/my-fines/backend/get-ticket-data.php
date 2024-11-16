@@ -21,12 +21,12 @@ $query = "
         f.payment_status,
         f.description,
         f.issued_place,
-        v.price,
-        v.violation_name,
+        o.fine_amount,
+        o.offence_description_english,
         /*c.category_name,*/
         CONCAT(d.fname, ' ', d.lname) AS full_name
     FROM fines f
-    JOIN violations v ON f.violation_id = v.violation_id
+    JOIN offences o ON f.violation_id = o.id
     JOIN drivers d ON f.driver_id = d.id 
     /*JOIN violation_categories c ON v.category_id = c.category_id*/
     WHERE f.driver_id = ?";

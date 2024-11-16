@@ -1,4 +1,10 @@
 <?php
+$pageConfig = [
+    'title' => 'Report Unfair Fine',
+    'styles' => ["../../../../dashboard.css", "../report-fine.css"],
+    'scripts' => ["../../../../dashboard.js"],
+    'authRequired' => true
+];
 
 if (isset($_GET['fine_id'])) {
     $fine_id = $_GET['fine_id']; // Retrieve the fine_id from the URL
@@ -8,16 +14,7 @@ if (isset($_GET['fine_id'])) {
     exit();
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Unfair Fine</title>
-    <link rel="stylesheet" href="../assets/css/report-fine.css">
-</head>
-<body>
+<main>
     <div class="form-container">
         <h2>Report Unfair Fine</h2>
 
@@ -36,5 +33,5 @@ if (isset($_GET['fine_id'])) {
         </form>
     </div>
 
-</body>
-</html>
+</main>
+
