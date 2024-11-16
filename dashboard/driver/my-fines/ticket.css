@@ -36,14 +36,14 @@
   margin-bottom: 20px;
   outline: black;
   text-align: center;
-  color: hsl(6, 78%, 57%);
+  color: hsl(6, 92%, 31%);
 }
 
 .pay-btn {
   background: linear-gradient(
     135deg,
-    hsl(126, 73%, 32%),
-    hsla(176, 85%, 29%, 0.685)
+    hsl(215, 90%, 23%),
+    hsla(215, 85%, 32%, 0.685)
   );
   color: white;
   padding: 10px 20px;
@@ -59,7 +59,7 @@
 .pay-btn:hover {
   background: linear-gradient(
     135deg,
-    hsl(126, 74%, 46%),
+    hsl(208, 68%, 50%),
     hsla(176, 83%, 42%, 0.9)
   );
 }
