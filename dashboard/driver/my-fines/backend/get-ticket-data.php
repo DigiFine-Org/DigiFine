@@ -1,0 +1,62 @@
+<?php
+include('../../../db/connect.php');
+
+// Ensure the user is logged in and session is set
+
+// Fetch license number from session
+$license_number = $_SESSION['id']; // Driver's license number from session
+
+// Prepare the query to avoid SQL injection
+$query = "
+    SELECT 
+        f.id, 
+        f.officer_id, 
+        f.driver_id, 
+        f.violation_id, 
+        f.issued_on, 
+        f.expire_date,  
+        f.payment_status,
+        f.description,
+        f.issued_place,
+        v.price,
+        v.violation_name,
+        c.category_name,
+        d.fname,
+        d.lname
+    FROM fines f
+    JOIN violations v ON f.violation_id = v.violation_id
+    JOIN drivers d ON f.driver_id = d.id 
+    JOIN violation_categories c ON v.category_id = c.category_id 
+    WHERE f.driver_id = ?";
+
+// Prepare the statement
+$stmt = mysqli_prepare($conn, $query);
+
+if ($stmt === false) {
+    // Handle error if statement preparation fails
+    die('Error preparing the statement: ' . mysqli_error($conn));
+}
+
+// Bind the parameter
+mysqli_stmt_bind_param($stmt, 's', $license_number);
+
+// Execute the statement
+mysqli_stmt_execute($stmt);
+
+// Get the result
+$result = mysqli_stmt_get_result($stmt);
+
+// Check if tickets are found
+if (mysqli_num_rows($result) > 0) {
+    $tickets = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    // For testing, let's output the result to check
+    echo "<pre>";
+    // print_r($tickets);
+    echo "</pre>";
+} else {
+    echo "No tickets found for license number: " . $license_number;
+}
+
+// Close the statement and the connection
+mysqli_stmt_close($stmt);
+mysqli_close($conn);
