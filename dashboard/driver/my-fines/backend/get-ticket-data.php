@@ -1,15 +1,18 @@
 <?php
 include('../../../db/connect.php');
 
-// Ensure the user is logged in and session is set
-
-// Fetch license number from session
-$license_number = $_SESSION['id']; // Driver's license number from session
+// Ensure the user is logged in and is a driver
+if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'driver') {
+    $id = $_SESSION['user']['id'];  // This is the driver's ID from the session
+} else {
+    echo json_encode(['success' => false, 'message' => 'You are not logged in as a driver!']);
+    exit();
+}
 
 // Prepare the query to avoid SQL injection
 $query = "
     SELECT 
-        f.id, 
+        f.fine_id, 
         f.officer_id, 
         f.driver_id, 
         f.violation_id, 
@@ -21,8 +24,7 @@ $query = "
         v.price,
         v.violation_name,
         c.category_name,
-        d.fname,
-        d.lname
+        d.full_name
     FROM fines f
     JOIN violations v ON f.violation_id = v.violation_id
     JOIN drivers d ON f.driver_id = d.id 
@@ -38,7 +40,7 @@ if ($stmt === false) {
 }
 
 // Bind the parameter
-mysqli_stmt_bind_param($stmt, 's', $license_number);
+mysqli_stmt_bind_param($stmt, 's', $id);
 
 // Execute the statement
 mysqli_stmt_execute($stmt);
@@ -49,12 +51,16 @@ $result = mysqli_stmt_get_result($stmt);
 // Check if tickets are found
 if (mysqli_num_rows($result) > 0) {
     $tickets = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+
     // For testing, let's output the result to check
-    echo "<pre>";
+    // echo "<pre>";
     // print_r($tickets);
-    echo "</pre>";
+    // echo "</pre>";
+
+
 } else {
-    echo "No tickets found for license number: " . $license_number;
+    echo "No tickets found for driver ID: " . $id;
 }
 
 // Close the statement and the connection

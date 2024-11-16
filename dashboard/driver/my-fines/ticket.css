@@ -1,0 +1,65 @@
+.tickets-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+}
+
+.ticket {
+  background: linear-gradient(135deg, hsl(220, 89%, 32%), hsl(197, 78%, 54%));
+  color: white;
+  outline: black;
+  padding: 30px;
+  width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px #504f4f;
+  text-align: left;
+  position: relative;
+}
+
+.ticket h3 {
+  color: #7abdff;
+  font-size: 1.5em;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.ticket p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+.ticket .fine-amount {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  outline: black;
+  text-align: center;
+  color: hsl(6, 78%, 57%);
+}
+
+.pay-btn {
+  background: linear-gradient(
+    135deg,
+    hsl(126, 73%, 32%),
+    hsla(176, 85%, 29%, 0.685)
+  );
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 30px;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
+
+.pay-btn:hover {
+  background: linear-gradient(
+    135deg,
+    hsl(126, 74%, 46%),
+    hsla(176, 83%, 42%, 0.9)
+  );
+}
