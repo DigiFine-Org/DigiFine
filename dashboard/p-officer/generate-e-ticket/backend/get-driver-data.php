@@ -1,13 +1,13 @@
 <?php
 include('../../../../db/connect.php');
-if (isset($_GET['driver_id'])) {
-    $driver_id = $_GET['driver_id'];
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
 
     // Fetch driver data based on the license number
     $query = "SELECT full_name, phone_no, license_valid_from, license_valid_to, competent_categories, d_address
-              FROM drivers WHERE driver_id = ?";
+              FROM drivers WHERE id = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("s", $driver_id);
+    $stmt->bind_param("s", $id);
     $stmt->execute();
     $result = $stmt->get_result();
 

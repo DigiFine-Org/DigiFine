@@ -16,56 +16,6 @@ include_once "../../../includes/header.php";
 ?>
 
 <main>
-    <!-- <script>
-        function fetchDriverData() {
-            const id = document.getElementById("id").value;
-
-            if (id) {
-                // Send an AJAX request to fetch driver data from the backend
-                fetch(`backend/get-driver-data.php?id=${id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Populate the fields with fetched data
-                            document.getElementById("full_name").value = data.full_name;
-                            document.getElementById("d_address").value = data.d_address;
-                            document.getElementById("license_valid_from").value = data.license_valid_from;
-                            document.getElementById("license_valid_to").value = data.license_valid_to;
-                            document.getElementById("competent_categories").innerHTML = data.competent_categories;
-                        } else {
-                            alert("Driver data not found!");
-                        }
-                    })
-                    .catch(error => console.error("Error fetching driver data:", error));
-            } else {
-                alert("Please enter a license number.");
-            }
-        }
-
-        function fetchViolationData() {
-            const violationId = document.getElementById("violation_id").value;
-
-            if (violationId) {
-                // Send an AJAX request to fetch violation data from the backend
-                fetch(`backend/get-violation-data.php?violation_id=${violationId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Populate the fields with fetched data
-                            document.getElementById("violation_name").value = data.violation_name;
-                            document.getElementById("price").value = data.price;
-                        } else {
-                            alert("Violation data not found!");
-                        }
-                    })
-                    .catch(error => console.error("Error fetching violation data:", error));
-            } else {
-                alert("Please enter a violation ID.");
-            }
-        }
-    </script> -->
-
-
     <?php include_once "../../includes/navbar.php" ?>
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
@@ -75,8 +25,8 @@ include_once "../../../includes/header.php";
                 <form method="POST" action="backend/store-fine.php">
 
                     <div class="field">
-                        <label for="driver_id">Driver License ID</label>
-                        <input type="text" id="driver_id" name="driver_id" class="input" placeholder="CAD-6264" required>
+                        <label for="id">Driver License ID</label>
+                        <input type="text" id="id" name="id" class="input" placeholder="CAD-6264" required>
                     </div>
                     <div class="field">
                         <button class="btn" type="button" onclick="fetchDriverData()">Fetch Driver Details</button>

@@ -1,9 +1,9 @@
 function fetchDriverData() {
-  const driver_id = document.getElementById("driver_id").value;
+  const id = document.getElementById("id").value;
 
-  if (driver_id) {
+  if (id) {
     // Send an AJAX request to fetch driver data from the backend
-    fetch(`backend/get-driver-data.php?driver_id=${driver_id}`)
+    fetch(`backend/get-driver-data.php?id=${id}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
