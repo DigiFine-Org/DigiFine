@@ -12,7 +12,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'driver') {
 // Prepare the query to avoid SQL injection
 $query = "
     SELECT 
-        f.fine_id, 
+        f.id, 
         f.officer_id, 
         f.driver_id, 
         f.violation_id, 
@@ -23,12 +23,12 @@ $query = "
         f.issued_place,
         v.price,
         v.violation_name,
-        c.category_name,
-        d.full_name
+        /*c.category_name,*/
+        CONCAT(d.fname, ' ', d.lname) AS full_name
     FROM fines f
     JOIN violations v ON f.violation_id = v.violation_id
     JOIN drivers d ON f.driver_id = d.id 
-    JOIN violation_categories c ON v.category_id = c.category_id 
+    /*JOIN violation_categories c ON v.category_id = c.category_id*/
     WHERE f.driver_id = ?";
 
 // Prepare the statement
