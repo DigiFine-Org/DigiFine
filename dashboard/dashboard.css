@@ -212,40 +212,105 @@ form .btn {
   margin-bottom: 10px;
 }
 
+/* Table Container Styling */
 .table-container {
   width: 100%;
   overflow: auto;
 }
 
-table {
+/* Table Styling */
+table,
+.officer-table,
+.fines-table,
+.unfair-fines-table,
+.court-violations-table {
   width: 100%;
+  border-collapse: collapse;
   border-spacing: 0;
 }
 
-table th {
+table th,
+.officer-table th,
+.fines-table th,
+.unfair-fines-table th,
+.court-violations-table th {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 600;
   text-align: left;
   padding: 8px 12px;
   background-color: var(--color-lighter-blue);
-}
-
-table,
-table th,
-table td {
   border: 1px solid var(--color-gray);
-  border-collapse: collapse;
 }
 
-table td {
+table td,
+.officer-table td,
+.fines-table td,
+.unfair-fines-table td,
+.court-violations-table td {
   font-size: 8px 12px;
-  padding: 5px;
+  padding: 5px 15px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
 }
 
-table td.centered {
+table td.centered,
+.officer-table td.centered,
+.fines-table td.centered,
+.unfair-fines-table td.centered,
+.court-violations-table td.centered {
   text-align: center;
   vertical-align: middle;
+}
+
+/* Table Hover Effects */
+.officer-table tbody tr:hover,
+.fines-table tbody tr:hover,
+.unfair-fines-table tbody tr:hover,
+.court-violations-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Status Label Styling */
+.status {
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: white;
+}
+
+.status.pending {
+  background-color: orange;
+}
+
+.status.solved,
+.status.paid,
+.status.accepted {
+  background-color: green;
+}
+
+.status.not-solved,
+.status.late,
+.status.rejected {
+  background-color: red;
+}
+
+/* View Button Styling */
+.view-button {
+  background-color: hsl(220, 100%, 40%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.view-button:hover {
+  background-color: #003399;
+}
+
+/* Responsive Styling */
+.table-responsive {
+  overflow-x: auto;
 }
 
 .home-grid {
