@@ -1,12 +1,12 @@
 <?php
 $pageConfig = [
     'title' => 'Officer Check Vehicle Details',
-    'styles' => ["../dashboard.css"],
-    'scripts' => ["../dashboard.js"],
+    'styles' => ["../../dashboard.css"],
+    'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
 
-include_once "../../includes/header.php";
+include_once "../../../includes/header.php";
 
 $result = "";
 
@@ -16,9 +16,9 @@ if (isset($_GET)) {
 ?>
 
 <main>
-    <?php include_once "../includes/navbar.php" ?>
+    <?php include_once "../../includes/navbar.php" ?>
     <div class="dashboard-layout">
-        <?php include_once "../includes/sidebar.php" ?>
+        <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container">
                 <h1>Check Vehicle Details</h1>
@@ -26,7 +26,7 @@ if (isset($_GET)) {
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
                         <input name="query" required type="search" class="input"
                             placeholder="Enter Licence Plate Number(ex:- CAD-6264)">
-                        <button class="btn">Search</button>
+                        <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>
                     <div class="warning">
@@ -74,4 +74,4 @@ if (isset($_GET)) {
     </div>
 </main>
 
-<?php include_once "../../includes/footer.php" ?>
+<?php include_once "../../../includes/footer.php" ?>

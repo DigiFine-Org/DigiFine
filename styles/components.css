@@ -44,6 +44,10 @@
   color: var(--color-lighter-blue);
 }
 
+.btn.margintop {
+  margin-top: 8px;
+}
+
 /* Input */
 .input {
   padding: 0 9px;

@@ -6,6 +6,8 @@ $pageConfig = [
     'authRequired' => true
 ];
 
+include "../../db/connect.php";
+
 include_once "../../includes/header.php";
 ?>
 
@@ -14,9 +16,9 @@ include_once "../../includes/header.php";
     <div class="dashboard-layout">
         <?php include_once "../includes/sidebar.php" ?>
         <div class="content">
-            <p class="p">
-                Gov-Fine List
-            </p>
+            <div class="container x-large no-border">
+                
+            </div>
         </div>
     </div>
 </main>

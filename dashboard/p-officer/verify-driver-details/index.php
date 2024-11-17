@@ -1,12 +1,12 @@
 <?php
 $pageConfig = [
     'title' => 'Verify Driver Details',
-    'styles' => ["../dashboard.css"],
-    'scripts' => ["../dashboard.js"],
+    'styles' => ["../../dashboard.css"],
+    'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
 
-include_once "../../includes/header.php";
+include_once "../../../includes/header.php";
 
 $result = "";
 
@@ -16,16 +16,16 @@ if (isset($_GET)) {
 ?>
 
 <main>
-    <?php include_once "../includes/navbar.php" ?>
+    <?php include_once "../../includes/navbar.php" ?>
     <div class="dashboard-layout">
-        <?php include_once "../includes/sidebar.php" ?>
+        <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container">
                 <h1>Verify Driver Details</h1>
                 <?php if (!$result): ?>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
                         <input name="query" required type="search" class="input" placeholder="Enter Driver License ID">
-                        <button class="btn">Search</button>
+                        <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>
                     <h3>Driver License</h3>
@@ -122,4 +122,4 @@ if (isset($_GET)) {
     </div>
 </main>
 
-<?php include_once "../../includes/footer.php" ?>
+<?php include_once "../../../includes/footer.php" ?>

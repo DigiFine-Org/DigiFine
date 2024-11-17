@@ -11,15 +11,15 @@ function renderLink(string $title, string $link)
 <div class="sidebar">
     <?php renderLink("Home", "/digifine/dashboard/index.php") ?>
     <?php if ($role === 'officer'): ?>
-        <?php renderLink("Check Vehicle Details", "/digifine/dashboard/check-vehicle-details/index.php") ?>
-        <?php renderLink("Generate E-Ticket", "/digifine/dashboard/generate-e-ticket/index.php") ?>
-        <?php renderLink("Verify Driver Details", "/digifine/dashboard/verify-driver-details/index.php") ?>
-        <?php renderLink("Submit Duty", "/digifine/dashboard/submit-duty/index.php") ?>
+        <?php renderLink("Check Vehicle Details", "/digifine/dashboard/p-officer/check-vehicle-details/index.php") ?>
+        <?php renderLink("Generate E-Ticket", "/digifine/dashboard/p-officer/generate-e-ticket/index.php") ?>
+        <?php renderLink("Verify Driver Details", "/digifine/dashboard/p-officer/verify-driver-details/index.php") ?>
+        <?php renderLink("Submit Duty", "/digifine/dashboard/p-officer/submit-duty/index.php") ?>
     <?php endif ?>
 
     <?php if ($role === 'driver'): ?>
         <?php renderLink("My Fines", "/digifine/dashboard/driver/my-fines/index.php") ?>
-        <?php renderLink("Gov-Fine List", "/digifine/dashboard/gov-fine-list/index.php") ?>
+        <?php renderLink("Gov-Offense List", "/digifine/dashboard/gov-fine-list/index.php") ?>
         <?php renderLink("Payments", "/digifine/dashboard/driver/payments/index.php") ?>
     <?php endif ?>
 
