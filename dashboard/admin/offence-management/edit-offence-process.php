@@ -18,6 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             fine = ? 
         WHERE offence_number = ?";
 
+    $stmt = $conn->prepare($sql);
+    if ($stmt === false) {
+        die("Error preparing statement: " . $conn->error);
+    }
 
     ...
 } else {
