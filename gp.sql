@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2024 at 06:24 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Nov 18, 2024 at 05:43 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -72,6 +72,29 @@ INSERT INTO `drivers` (`id`, `fname`, `lname`, `email`, `phone_no`, `nic`, `pass
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `offences`
+--
+
+CREATE TABLE `offences` (
+  `offence_id` int(11) NOT NULL,
+  `offence_number` varchar(10) DEFAULT NULL,
+  `description_sinhala` varchar(255) NOT NULL,
+  `description_tamil` varchar(255) NOT NULL,
+  `description_english` varchar(255) NOT NULL,
+  `points_deducted` int(11) DEFAULT NULL,
+  `fine` decimal(10,2) NOT NULL DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `offences`
+--
+
+INSERT INTO `offences` (`offence_id`, `offence_number`, `description_sinhala`, `description_tamil`, `description_english`, `points_deducted`, `fine`) VALUES
+(1, '001', 'හඳුනාගැනීමේ තහඩු', 'அடையாளங்காணல் தகடுகள்', 'Identification Plates', 1, 1000.00);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `officers`
 --
 
@@ -85,7 +108,7 @@ CREATE TABLE `officers` (
   `police_station` int(11) NOT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `is_oic` tinyint(4) DEFAULT NULL
+  `is_oic` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -93,7 +116,11 @@ CREATE TABLE `officers` (
 --
 
 INSERT INTO `officers` (`id`, `fname`, `lname`, `email`, `phone_no`, `nic`, `police_station`, `password`, `created_at`, `is_oic`) VALUES
-(23233, 'Theshawa', 'Nimantha', 'mrclocktd@gmail.com', '0766743755', '200224903146', 515, '$2y$10$t8p0egMwMC1UJPS3hr/.I.3epX3PxeAh4QWGCAXjmt4HZNy.Qiuf.', '2024-11-10 17:03:05', 0);
+(15364, 'Sakuna', 'Manamperi', 'sakunasanka@gmail.com', '0762381520', '200238273819', 1, '$2y$10$4CW08N6ppv2o190oQC5MfOnKZ6s6W9P3O.KeOH6xpCihr5fyBIpF2', '2024-11-17 16:35:01', 1),
+(15365, 'Pawan', 'Weearasuriya', 'pawan@gmail.com', '0782381520', '200223356485', 1, '$2y$10$vegPhLKyMQdySvO6A5udrOC9KXHV.cMY.TL8ih1QtFT72JqGcOJl6', '2024-11-17 16:36:28', 0),
+(15366, 'Roneth', 'Nimlaka', 'rowneth@gmail.com', '0784564436', '200234254634', 529, '$2y$10$1Nqfly5VSZLFya.L1g62fu4gDsI6LgxKfSZ7FfJczIDY/n/NOA9eS', '2024-11-17 16:45:20', 1),
+(15367, 'Risafa', 'Imtiyas', 'risafaimtiyas@gmail.com', '0783425345', '200145365456', 350, '$2y$10$UtkpQ4OA7OJO8ASr/NItjeXYw5BE04qoJI2FIP5IF1kpVUFcCs/SK', '2024-11-17 18:43:44', 0),
+(23233, 'Imalsha', 'Akalanka', 'imaz@gmail.com', '0766743755', '2001362824646', 515, '$2y$10$t8p0egMwMC1UJPS3hr/.I.3epX3PxeAh4QWGCAXjmt4HZNy.Qiuf.', '2024-11-10 17:03:05', 1);
 
 -- --------------------------------------------------------
 
@@ -1354,6 +1381,12 @@ ALTER TABLE `drivers`
   ADD UNIQUE KEY `nic` (`nic`);
 
 --
+-- Indexes for table `offences`
+--
+ALTER TABLE `offences`
+  ADD PRIMARY KEY (`offence_id`);
+
+--
 -- Indexes for table `officers`
 --
 ALTER TABLE `officers`
@@ -1384,6 +1417,12 @@ ALTER TABLE `update_driver_profile_requests`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `offences`
+--
+ALTER TABLE `offences`
+  MODIFY `offence_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `officers`
