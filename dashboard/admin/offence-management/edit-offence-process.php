@@ -10,6 +10,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $points_deducted = intval($_POST['points_deducted']);
     $fine = floatval($_POST['fine']);
 
+    $sql = "UPDATE offences SET 
+            description_sinhala = ?, 
+            description_tamil = ?, 
+            description_english = ?, 
+            points_deducted = ?, 
+            fine = ? 
+        WHERE offence_number = ?";
+
+
     ...
 } else {
     die("Invalid request method.");
