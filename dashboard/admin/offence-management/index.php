@@ -38,6 +38,7 @@ try {
     die("error: " . $e->getMessage());
 }
 
+include_once "../../../includes/header.php";
 
 
 
