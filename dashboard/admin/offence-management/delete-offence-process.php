@@ -1,11 +1,5 @@
 <?php
-
-
-
-
 include '../../../db/connect.php';
-
-
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['offence_number']) && is_numeric($_POST['offence_number'])) {
@@ -37,22 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     die("Invalid request method.");
 }
 
-
-
-
-
 if ($conn) {
     $conn->close();
 }
-
-
-
-
-
-
-
-
-
-
-
 ?>
