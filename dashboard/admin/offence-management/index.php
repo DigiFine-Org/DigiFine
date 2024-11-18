@@ -87,29 +87,13 @@ include_once "../../../includes/header.php";
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
-
-
-
-
-<?php include_once "../../../includes/footer.php" ?>
-
-
-
-
-
-
-
-
-
+                </table>
+            </div>
+            <div class="container x-large no-border">
 
             </div>
         </div>
     </div>
 </main>
 
-
-
-
-
-
-?>
+<?php include_once "../../../includes/footer.php" ?>
