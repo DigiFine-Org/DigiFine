@@ -2,6 +2,14 @@
 include '../../../db/connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $offence_number = $conn->real_escape_string($_POST['offence_number']);
+    $description_sinhala = $conn->real_escape_string($_POST['description_sinhala']);
+    $description_tamil = $conn->real_escape_string($_POST['description_tamil']);
+    $description_english = $conn->real_escape_string($_POST['description_english']);
+    $points_deducted = intval($_POST['points_deducted']);
+    $fine = floatval($_POST['fine']);
+
     ...
 } else {
     die("Invalid request method.");
