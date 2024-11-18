@@ -40,6 +40,7 @@ if(!$offence) {
         <div class="content">
             <div class="container">
                 <h1>Edit Offence</h1>
+                <form action="edit-offence-process.php" method="post">
                 ...
             </div>
         </div>
