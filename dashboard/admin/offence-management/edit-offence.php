@@ -65,6 +65,8 @@ if(!$offence) {
                         <label for="">Fine Amount(RS):</label>
                         <input type="text" class="input" placeholder="1000.00" name="fine" value="<?= htmlspecialchars($offence['fine']) ?>" required>
                     </div>
+                    <button class="btn">Update</button>
+                </form>
             </div>
         </div>
     </div>
