@@ -23,6 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die("Error preparing statement: " . $conn->error);
     }
 
+    $stmt->bind_param("sssids", $description_sinhala, $description_tamil, $description_english, $points_deducted, $fine, $offence_number);
+
+
     ...
 } else {
     die("Invalid request method.");
