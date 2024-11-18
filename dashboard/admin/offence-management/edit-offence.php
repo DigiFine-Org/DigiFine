@@ -6,6 +6,8 @@ $pageConfig = [
     'authRequired' => true
 ];
 
+require_once "../../../db/connect.php";
+include_once "../../../includes/header.php";
 
 
 
