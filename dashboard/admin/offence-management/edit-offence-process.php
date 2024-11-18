@@ -25,6 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $stmt->bind_param("sssids", $description_sinhala, $description_tamil, $description_english, $points_deducted, $fine, $offence_number);
 
+    if ($stmt->execute()) {
+        header("Location: /digifine/dashboard/admin/offence-management/index.php?message=Offence updated successfully");
+        exit();
+    } else {
+        die("Error updating offence: " . $stmt->error);
+    }
+    
 
     ...
 } else {
