@@ -39,13 +39,33 @@ try {
 }
 
 include_once "../../../includes/header.php";
+?>   
+
 
 <main>
     <?php include_once "../../includes/navbar.php" ?>
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
-            ...
+            <div class="table-container">
+                <h1>Offence List</h1>
+                <form action="/digifine/dashboard/admin/offence-management/add-offence.php" method="get">
+                    <input type="submit" class="btn margintop marginbottom" value="Add Offence">
+                </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
         </div>
     </div>
 </main>
