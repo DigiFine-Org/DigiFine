@@ -24,7 +24,6 @@ function renderLink(string $title, string $link)
     <?php endif ?>
 
     <?php if ($role === 'admin'): ?>
-        <?php renderLink("Home", "/digifine/dashboard/admin/index.php") ?>
         <?php renderLink("Assign OIC", "/digifine/dashboard/admin/assign-oic/index.php") ?>
         <?php renderLink("Offence Management", "/digifine/dashboard/admin/Offence-management/index.php") ?>
     <?php endif ?>
