@@ -1,0 +1,10 @@
+<?php
+include '../../../db/connect.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $offence_number = htmlspecialchars($_POST['offence_number']);
+    $description_sinhala = htmlspecialchars($_POST['description_sinhala']);
+    $description_tamil = htmlspecialchars($_POST['description_tamil']);
+    $description_english = htmlspecialchars($_POST['description_english']);
+    $points_deducted = htmlspecialchars($_POST['points_deducted']);
+    $fine = floatval($_POST['fine']);
