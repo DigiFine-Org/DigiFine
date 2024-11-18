@@ -31,6 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         die("Error updating offence: " . $stmt->error);
     }
+
+    if ($stmt) {
+        $stmt->close();
+    }
+    
     
 
     ...
