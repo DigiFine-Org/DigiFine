@@ -8,3 +8,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description_english = htmlspecialchars($_POST['description_english']);
     $points_deducted = htmlspecialchars($_POST['points_deducted']);
     $fine = floatval($_POST['fine']);
+
+
+    $sql = "INSERT INTO offences (offence_number, description_sinhala, description_tamil, description_english, points_deducted, fine)
+            VALUES (?, ?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+    if ($stmt === false) {
+        die("Error preparing statement: " . $conn->error);
+    }
+
+
+    $stmt->bind_param("ssssid", $offence_number, $description_sinhala, $description_tamil, $description_english, $points_deducted, $fine);
