@@ -1,36 +1,3 @@
-CREATE TABLE `fines` (
-  `fine_id` int(11) NOT NULL,
-  `driver_id` varchar(20) NOT NULL,
-  `officer_id` int(11) NOT NULL,
-  `violation_id` int(11) NOT NULL,
-  `issued_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `expire_date` date NOT NULL,
-  `payment_status` varchar(20) NOT NULL,
-  `description` varchar(10) NOT NULL,
-  `vehicle_number` varchar(11) NOT NULL,
-  `issued_place` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `fines`
---
-
-INSERT INTO `fines` (`fine_id`, `driver_id`, `officer_id`, `violation_id`, `issued_on`, `expire_date`, `payment_status`, `description`, `vehicle_number`, `issued_place`) VALUES
-(2, 'b2222222', 12345, 23, '2024-11-15 21:44:35', '2024-11-30', 'Pending', 'h jhjb vyu', 'AAB-9487', 'colombo 6'),
-(3, 'b2222222', 12345, 3, '2024-11-15 21:49:33', '2024-11-30', 'Pending', ' grgres gr', 'KB-8438', 'colombo 7'),
-(4, 'b2222222', 12345, 1, '2024-11-15 21:49:55', '2024-11-30', 'Pending', 'rger erge ', 'KB-8438', 'nugegoda'),
-(5, 'b1111111 ', 12345, 7, '2024-11-15 22:14:10', '2024-11-30', 'Pending', 'fee fe w e', 'HB-8438', 'col 3'),
-(6, 'b1111111 ', 12345, 5, '2024-11-15 22:14:32', '2024-11-30', 'Pending', ' q e r ewf', 'FG-3456', 'nugegoda'),
-(7, 'b1111111 ', 12345, 5, '2024-11-15 22:14:38', '2024-11-30', 'Pending', ' q e r ewf', 'FG-3456', 'nugegoda'),
-(8, 'b1111111 ', 12345, 1, '2024-11-15 22:15:01', '2024-11-30', 'Pending', ' q e r ewf', 'FG-3456', 'colombo 6'),
-(9, 'b2222222', 12345, 4, '2024-11-15 23:20:00', '2024-11-30', 'Pending', 'effewe ewf', 'AAB-9487', 'colombo 7'),
-(10, 'b2222222', 12345, 23, '2024-11-15 23:20:46', '2024-11-30', 'Pending', 'hehehehehe', 'AAB-9487', 'colombo 7');
-
--- --------------------------------------------------------
-
--- Table structure for table `violations`
---
-
 CREATE TABLE `violations` (
   `violation_id` int(11) NOT NULL,
   `violation_name` varchar(100) DEFAULT NULL,

@@ -26,7 +26,7 @@ include_once "../../../includes/header.php";
 
                     <div class="field">
                         <label for="id">Driver License ID</label>
-                        <input type="text" id="id" name="id" class="input" placeholder="CAD-6264" required>
+                        <input type="text" id="id" name="id" class="input" placeholder="b1234567" required>
                     </div>
                     <div class="field">
                         <button class="btn" type="button" onclick="fetchDriverData()">Fetch Driver Details</button>
@@ -34,17 +34,17 @@ include_once "../../../includes/header.php";
                     </div>
                     <div class="field">
                         <label for="full_name">Full Name</label>
-                        <input type="text" id="full_name" name="full_name" class="input" placeholder="CAD-6264" required>
+                        <input type="text" id="full_name" name="full_name" class="input" readonly>
                     </div>
 
                     <div class="field">
                         <label for="d_address">Address</label>
-                        <input type="text" id="d_address" name="d_address" class="input" placeholder="CAD-6264" required>
+                        <input type="text" id="d_address" name="d_address" class="input" readonly>
                     </div>
 
                     <div class="field">
                         <label for="license_valid_from">License Valid From</label>
-                        <input type="date" id="license_valid_from" name="license_valid_from" class="input" placeholder="CAD-6264" readonly>
+                        <input type="date" id="license_valid_from" name="license_valid_from" class="input" readonly>
                     </div>
 
                     <div class="field">
@@ -62,17 +62,17 @@ include_once "../../../includes/header.php";
 
                     <div class="field">
                         <label for="issued_place">Issued Place</label>
-                        <input type="text" id="issued_place" name="issued_place" class="input" placeholder="CAD-6264" required>
+                        <input type="text" id="issued_place" name="issued_place" class="input" placeholder="Colombo 6" required>
                     </div>
                     <div class="field">
                         <!-- <label for="category">Nature of Offence (Category)</label> -->
                         <label for="categoryDropdown">Nature of Offence (Category)</label>
-                        <input type="text" id="category" name="category" class="input" placeholder="CAD-6264" required>
+                        <input type="text" id="category" name="category" class="input" required>
                     </div>
                     <div class="field">
                         <!-- New section for violation -->
                         <label for="violation_id">Violation ID</label>
-                        <input type="text" id="violation_id" name="violation_id" class="input" placeholder="CAD-6264" required>
+                        <input type="text" id="violation_id" name="violation_id" class="input" placeholder="1" required>
                     </div>
                     <div class="field">
                         <button class="btn" type="button" onclick="fetchViolationData()">Fetch Violation Details</button>
@@ -80,15 +80,15 @@ include_once "../../../includes/header.php";
                     </div>
                     <div class="field">
                         <label for="violation_name">Violation Name</label>
-                        <input type="text" id="violation_name" name="violation_name" class="input" placeholder="CAD-6264" required>
-                    </div>
-                    <div class="field">
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description" class="input" placeholder="CAD-6264" required></textarea>
+                        <input type="text" id="violation_name" name="violation_name" class="input" readonly>
                     </div>
                     <div class="field">
                         <label for="price">Price</label>
-                        <input type="text" id="price" name="price" class="input" placeholder="CAD-6264" readonly>
+                        <input type="text" id="price" name="price" class="input" readonly>
+                    </div>
+                    <div class="field">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" class="input" required></textarea>
                     </div>
 
 

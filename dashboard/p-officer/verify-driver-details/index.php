@@ -26,30 +26,30 @@ if (isset($_GET)) {
 
                     <div class="field">
                         <label for="driver_id">Driver License ID</label>
-                        <input type="text" id="id" name="id" class="input" placeholder="CAD-6264" required>
+                        <input type="text" id="id" name="id" class="input" placeholder="b1234567" required>
                     </div>
                     <div class="field">
-                        <button class="btn" type="button" onclick="fetchDriverData()">Fetch Driver Details</button>
+                        <button class="btn" type="button" onclick="fetchDriverData()">VERIFY</button>
                         <script src="backend/fetchDriverData.js"></script>
                     </div>
                     <div class="field">
                         <label for="full_name">Full Name</label>
-                        <input type="text" id="full_name" name="full_name" class="input" placeholder="CAD-6264" required>
+                        <input type="text" id="full_name" name="full_name" class="input" readonly>
                     </div>
 
                     <div class="field">
                         <label for="d_address">Address</label>
-                        <input type="text" id="d_address" name="d_address" class="input" placeholder="CAD-6264" required>
+                        <input type="text" id="d_address" name="d_address" class="input" readonly>
                     </div>
 
                     <div class="field">
                         <label for="license_valid_from">License Valid From</label>
-                        <input type="date" id="license_valid_from" name="license_valid_from" class="input" placeholder="CAD-6264" readonly>
+                        <input type="date" id="license_valid_from" name="license_valid_from" class="input" readonly>
                     </div>
 
                     <div class="field">
                         <label for="license_valid_to">License Valid To</label>
-                        <input type="date" id="license_valid_to" name="license_valid_to" class="input" placeholder="CAD-6264" readonly>
+                        <input type="date" id="license_valid_to" name="license_valid_to" class="input" readonly>
                     </div>
                     <div class="field">
                         <label for="competent_categories">Competent Drive Categories</label>
