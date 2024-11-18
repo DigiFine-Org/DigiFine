@@ -54,6 +54,21 @@ include_once "../../../includes/header.php";
                 </form>
 
 
+                <table>
+                    <thead>
+                        <tr>
+                            <th>offence Number</th>
+                            <th>offence Desciption (Sinhala)</th>
+                            <th>offence Desciption (Tamil)</th>
+                            <th>offence Desciption (English)</th>
+                            <th>Points Deducted</th>
+                            <th>Fine</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+
+
 
 
 
