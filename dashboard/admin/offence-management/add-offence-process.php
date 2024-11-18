@@ -20,3 +20,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     $stmt->bind_param("ssssid", $offence_number, $description_sinhala, $description_tamil, $description_english, $points_deducted, $fine);
+
+
+    if ($stmt->execute()) {
+        echo "Offence added successfully!";
+        header("Location: /digifine/dashboard/admin/offence-management/index.php");
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+
+    $stmt->close();
+    $conn->close();
+} else {
+    echo "Invalid request method.";
+}
+
