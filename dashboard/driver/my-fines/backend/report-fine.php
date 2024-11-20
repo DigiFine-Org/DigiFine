@@ -7,10 +7,11 @@ $pageConfig = [
 ];
 
 if (isset($_GET['fine_id'])) {
-    $fine_id = $_GET['fine_id']; // Retrieve the fine_id from the URL
+    $fine_id = $_GET['fine_id']; 
+    $driver_id = $_GET['driver_id']; 
 } else {
     // Redirect back if no fine_id is provided
-    header("Location: driver-dashboard.php");
+    header("Location: index.php");
     exit();
 }
 ?>
@@ -20,6 +21,7 @@ if (isset($_GET['fine_id'])) {
 
         <form action="submit-unfair-fine.php" method="POST">
             <input type="hidden" name="fine_id" value="<?= $fine_id; ?>"> 
+            <input type="hidden" name="driver_id" value="<?= $driver_id; ?>"> 
             <div class="field">
                 <label for="reason">Reason for reporting this fine:</label><br>
                 <textarea id="reason" name="reason" rows="5" cols="50" placeholder="Explain why this fine is unfair"></textarea><br><br>

@@ -12,7 +12,10 @@ $pageConfig = [
 ];
 
 include_once "../../../includes/header.php";
+<<<<<<< HEAD
 
+=======
+>>>>>>> db80d349711448c20f9c0b5a59666efc9d2987af
 ?>
 
 <main>
@@ -56,8 +59,16 @@ include_once "../../../includes/header.php";
                         <div class="field" id="competent_categories"></div>
                     </div>
                     <div class="field">
+<<<<<<< HEAD
                         <label for="vehicle_number">Vehicle License Number</label>
                         <input type="text" id="vehicle_number" name="vehicle_number" class="input" placeholder="CAD-6264" required>
+=======
+                        <label for="">Offense Type:</label>
+                        <select type="time" class="input" required>
+                            <option value="">Fine</option>
+                            <option value="">Court</option>
+                        </select>
+>>>>>>> db80d349711448c20f9c0b5a59666efc9d2987af
                     </div>
 
                     <div class="field">
@@ -111,6 +122,7 @@ include_once "../../../includes/header.php";
     </div>
 </main>
 
+<<<<<<< HEAD
 <?php include_once "../../../includes/footer.php" ?>
 
 <?php
@@ -118,3 +130,6 @@ include_once "../../../includes/header.php";
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+=======
+<?php include_once "../../../includes/footer.php" ?>
+>>>>>>> db80d349711448c20f9c0b5a59666efc9d2987af

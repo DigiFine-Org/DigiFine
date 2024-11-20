@@ -6,6 +6,7 @@ include('../../../../db/connect.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $fine_id = $_POST['fine_id'];
+    $driver_id = $_POST['driver_id'];
     $reason = $_POST['reason'];
     $evidence = null;
 
@@ -36,10 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     
-    $stmt = $conn->prepare("INSERT INTO unfair_fines (fine_id, report_reason, evidence, status) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO unfair_fines (fine_id, driver_id, report_reason, evidence, status) VALUES (?, ?, ?, ?, ?)");
     if ($stmt) {
         $status = 'Pending'; 
-        $stmt->bind_param("isss", $fine_id, $reason, $evidence, $status); 
+        $stmt->bind_param("issss", $fine_id, $driver_id, $reason, $evidence, $status); 
 
         if ($stmt->execute()) {
            

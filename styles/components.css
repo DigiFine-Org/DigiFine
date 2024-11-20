@@ -44,6 +44,30 @@
   color: var(--color-lighter-blue);
 }
 
+.btn.margintop {
+  margin-top: 8px;
+}
+
+.btn.marginbottom {
+  margin-bottom: 8px;
+}
+
+.deletebtn {
+  padding: 0 12px;
+  height: 30px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: none;
+  background-color: var(--color-red);
+  color: var(--color-lighter-blue);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
 /* Input */
 .input {
   padding: 0 9px;
