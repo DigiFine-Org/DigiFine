@@ -18,7 +18,7 @@
         <a href="/digifine/dashboard/profile">
             <img src="/digifine/assets/user-circle.svg" width="28" />
         </a>
-        <a href="/digifine/logout">Logout</a>
+        <!-- <a href="/digifine/logout">Logout</a> -->
 
     </nav>
 </header>
