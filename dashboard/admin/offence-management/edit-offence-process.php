@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($stmt) {
         $stmt->close();
     }
-       ...
+       
 } else {
     die("Invalid request method.");
 }

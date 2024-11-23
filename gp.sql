@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2024 at 05:43 AM
+-- Generation Time: Nov 18, 2024 at 01:06 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -42,6 +42,51 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `fname`, `lname`, `email`, `nic`, `password`) VALUES
 (1100, 'Imalsha', 'Jathunarachchi', 'imalsha.contact@gmail.com', '200138241314', 'Digifine00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dmt_drivers`
+--
+
+CREATE TABLE `dmt_drivers` (
+  `id` int(11) NOT NULL,
+  `fname` varchar(50) NOT NULL,
+  `lname` varchar(50) NOT NULL,
+  `license_id` varchar(10) NOT NULL,
+  `nic` varchar(20) NOT NULL,
+  `address` varchar(300) NOT NULL,
+  `license_issue_date` date NOT NULL,
+  `license_expiry_date` date NOT NULL,
+  `restrictions` date NOT NULL,
+  `blood_group` enum('A+','A-','B+','B-','O+','O-','AB+','AB-') NOT NULL,
+  `A1_issue_date` date NOT NULL,
+  `A1_expiry_date` date NOT NULL,
+  `A_issue_date` date NOT NULL,
+  `A_expiry_date` date NOT NULL,
+  `B1_issue_date` date NOT NULL,
+  `B1_expiry_date` date NOT NULL,
+  `B_issue_date` date NOT NULL,
+  `B_expiry_date` date NOT NULL,
+  `C1_issue_date` date NOT NULL,
+  `C1_expiry_date` date NOT NULL,
+  `C_issue_date` date NOT NULL,
+  `C_expiry_date` date NOT NULL,
+  `CE_issue_date` date NOT NULL,
+  `CE_expiry_date` date NOT NULL,
+  `D1_issue_date` date NOT NULL,
+  `D1_expiry_date` date NOT NULL,
+  `D_issue_date` date NOT NULL,
+  `D_expiry_date` date NOT NULL,
+  `DE_issue_date` date NOT NULL,
+  `DE_expiry_date` date NOT NULL,
+  `G1_issue_date` date NOT NULL,
+  `G1_expiry_date` date NOT NULL,
+  `G_issue_date` date NOT NULL,
+  `G_expiry_date` date NOT NULL,
+  `J_issue_date` date NOT NULL,
+  `J_expiry_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1370,6 +1415,13 @@ INSERT INTO `update_driver_profile_requests` (`id`, `fname`, `lname`, `email`, `
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dmt_drivers`
+--
+ALTER TABLE `dmt_drivers`
+  ADD UNIQUE KEY `license_id` (`license_id`),
+  ADD UNIQUE KEY `nic` (`nic`);
 
 --
 -- Indexes for table `drivers`
