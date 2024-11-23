@@ -28,7 +28,7 @@ if (!is_null($isAdmin)) {
 $asPolice = true;
 
 // search in officers
-$sql = "SELECT id,fname,lname,email,nic,password,is_oic FROM officers WHERE id = '$userid'";
+$sql = "SELECT id,fname,lname,email,nic,password,is_oic,phone_no FROM officers WHERE id = '$userid'";
 $result = $conn->query($sql);
 if (!$result) {
     die("Error: " . $conn->error);
@@ -36,7 +36,7 @@ if (!$result) {
 
 if ($result->num_rows == 0) {
     // search in drivers
-    $sql = "SELECT id,fname,lname,email,nic,password FROM drivers WHERE id = '$userid'";
+    $sql = "SELECT id,fname,lname,email,nic,password,phone_no FROM drivers WHERE id = '$userid'";
     $result = $conn->query($sql);
     if (!$result) {
         die("Error: " . $conn->error);

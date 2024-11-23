@@ -7,12 +7,36 @@ $pageConfig = [
 ];
 
 include_once "../../../includes/header.php";
+require_once "../../../db/connect.php";
 
-$result = "";
+$result = null;
+$id = $_GET['query'] ?? null;
+if ($id) {
+    $sql = "SELECT * FROM dmt_drivers WHERE license_id=?";
+    $stmt = $conn->prepare($sql);
 
-if (isset($_GET)) {
-    $result = $_GET['query'] ?? "";
+    if (!$stmt) {
+        die("Database error: " . $conn->error);
+    }
+
+    $stmt->bind_param("s", $id);
+
+    if (!$stmt->execute()) {
+        die("Query execution error: " . $stmt->error);
+    }
+
+    $result = $stmt->get_result();
+    if ($result->num_rows === 0) {
+        header("Location: verify-driver-details?error=Driver not found");
+        exit();
+    }
+
+    $result = $result->fetch_assoc();
 }
+
+
+
+
 ?>
 
 <main>
@@ -31,39 +55,39 @@ if (isset($_GET)) {
                     <h3>Driver License</h3>
                     <div class="data-line">
                         <span>FULL NAME:</span>
-                        <p>IMALSHA AKALANKA JATHUN ARACHCHI</p>
+                        <p><?= $result['fname'] . " " . $result['lname'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>LICENSE ID:</span>
-                        <p>B5767089</p>
+                        <p><?= $result['license_id'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>NIC:</span>
-                        <p>200136567826</p>
+                        <p><?= $result['nic'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>PERMANENT PLACE OF RESIDENCE:</span>
-                        <p>SAKUNA’S BOARDING, WOODLAND AVENUE, NUGEGODA</p>
+                        <p><?= $result['address'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>BIRTHDATE:</span>
-                        <p>27.12.2001</p>
+                        <p><?= $result['birth_date'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>DATE OF ISSUE LICENSE ID:</span>
-                        <p>24.02.2020</p>
+                        <p><?= $result['license_issue_date'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>DATE OF EXPIRY LICENSE ID:</span>
-                        <p>24.05.2028</p>
+                        <p><?= $result['license_expiry_date'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>BLOOD GROUP:</span>
-                        <p>A-</p>
+                        <p><?= $result['blood_group'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>RESTRICTIONS IN CODE FORM:</span>
-                        <p>SPECTACLES</p>
+                        <p><?= $result['restrictions'] ?></p>
                     </div>
                     <hr>
                     <div class="table-container">
@@ -78,43 +102,88 @@ if (isset($_GET)) {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Cycle</td>
-                                    <td>2024.02.03</td>
-                                    <td>2024.02.03</td>
-                                    <td>-</td>
+                                    <td>A1</td>
+                                    <td><?= $result['A1_issue_date'] ?></td>
+                                    <td><?= $result['A1_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Van</td>
-                                    <td>2024.02.03</td>
-                                    <td>2024.02.03</td>
-                                    <td>-</td>
+                                    <td>A</td>
+                                    <td><?= $result['A_issue_date'] ?></td>
+                                    <td><?= $result['A_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Cycle</td>
-                                    <td>2024.02.03</td>
-                                    <td>2024.02.03</td>
-                                    <td>-</td>
+                                    <td>B1</td>
+                                    <td><?= $result['B1_issue_date'] ?></td>
+                                    <td><?= $result['B1_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Van</td>
-                                    <td>2024.02.03</td>
-                                    <td>2024.02.03</td>
-                                    <td>-</td>
+                                    <td>B</td>
+                                    <td><?= $result['B_issue_date'] ?></td>
+                                    <td><?= $result['B_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Cycle</td>
-                                    <td>2024.02.03</td>
-                                    <td>2024.02.03</td>
-                                    <td>-</td>
+                                    <td>C1</td>
+                                    <td><?= $result['C1_issue_date'] ?></td>
+                                    <td><?= $result['C1_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Van</td>
-                                    <td>2024.02.03</td>
-                                    <td>2024.02.03</td>
-                                    <td>-</td>
+                                    <td>C</td>
+                                    <td><?= $result['C_issue_date'] ?></td>
+                                    <td><?= $result['C_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>CE</td>
+                                    <td><?= $result['CE_issue_date'] ?></td>
+                                    <td><?= $result['CE_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>D1</td>
+                                    <td><?= $result['D1_issue_date'] ?></td>
+                                    <td><?= $result['D1_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>D</td>
+                                    <td><?= $result['D_issue_date'] ?></td>
+                                    <td><?= $result['D_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>DE</td>
+                                    <td><?= $result['DE_issue_date'] ?></td>
+                                    <td><?= $result['DE_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>G1</td>
+                                    <td><?= $result['G1_issue_date'] ?></td>
+                                    <td><?= $result['G1_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>G</td>
+                                    <td><?= $result['G_issue_date'] ?></td>
+                                    <td><?= $result['G_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td>J</td>
+                                    <td><?= $result['J_issue_date'] ?></td>
+                                    <td><?= $result['J_expiry_date'] ?></td>
+                                    <td><?= $result['restrictions'] ?></td>
                                 </tr>
                             </tbody>
                         </table>
+                        <br>
+                        <a href="../generate-e-ticket/index.php?id=<?= $id ?>" class="btn margintop">Issue
+                            Fine</a>
                     </div>
                 <?php endif ?>
             </div>

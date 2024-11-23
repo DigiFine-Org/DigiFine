@@ -21,6 +21,14 @@
   height: 20px;
 }
 
+.btn.black {
+  background-color: black;
+}
+
+.btn.black:hover {
+  background-color: rgb(50, 48, 48);
+}
+
 .btn:disabled {
   opacity: 0.5;
   pointer-events: none;
@@ -50,6 +58,19 @@
 
 .btn.marginbottom {
   margin-bottom: 8px;
+}
+
+.btn.marginleft {
+  margin-left: 10px;
+}
+
+.btn.marginright {
+  margin-right: 10px;
+}
+
+.wrapper {
+  display: flex;
+  /* margin-left: 10px; */
 }
 
 .deletebtn {
