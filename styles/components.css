@@ -21,6 +21,14 @@
   height: 20px;
 }
 
+.btn.black {
+  background-color: black;
+}
+
+.btn.black:hover {
+  background-color: rgb(50, 48, 48);
+}
+
 .btn:disabled {
   opacity: 0.5;
   pointer-events: none;
@@ -46,6 +54,39 @@
 
 .btn.margintop {
   margin-top: 8px;
+}
+
+.btn.marginbottom {
+  margin-bottom: 8px;
+}
+
+.btn.marginleft {
+  margin-left: 10px;
+}
+
+.btn.marginright {
+  margin-right: 10px;
+}
+
+.wrapper {
+  display: flex;
+  /* margin-left: 10px; */
+}
+
+.deletebtn {
+  padding: 0 12px;
+  height: 30px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: none;
+  background-color: var(--color-red);
+  color: var(--color-lighter-blue);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 
 /* Input */

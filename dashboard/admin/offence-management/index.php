@@ -2,13 +2,13 @@
 
 $pageConfig = [
     'title' => 'Offence Management',
-    'styles' => ["../dashboard.css"],
-    'scripts' => ["../dashboard.js"],
+    'styles' => ["../../dashboard.css"],
+    'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
 
 
-require_once "../../db/connect.php";
+require_once "../../../db/connect.php";
 
 try {
     $sql = "SELECT offence_number, description_sinhala, description_tamil, description_english, points_deducted, fine FROM offences";
@@ -38,17 +38,22 @@ try {
     die("error: " . $e->getMessage());
 }
 
-include_once "../../includes/header.php";
-?>
+include_once "../../../includes/header.php";
+?>   
 
 
 <main>
-    <?php include_once "../includes/navbar.php" ?>
+    <?php include_once "../../includes/navbar.php" ?>
     <div class="dashboard-layout">
-        <?php include_once "../includes/sidebar.php" ?>
+        <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="table-container">
                 <h1>Offence List</h1>
+                <form action="/digifine/dashboard/admin/offence-management/add-offence.php" method="get">
+                    <input type="submit" class="btn margintop marginbottom" value="Add Offence">
+                </form>
+
+
                 <table>
                     <thead>
                         <tr>
@@ -58,6 +63,7 @@ include_once "../../includes/header.php";
                             <th>offence Desciption (English)</th>
                             <th>Points Deducted</th>
                             <th>Fine</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,6 +75,15 @@ include_once "../../includes/header.php";
                                 <td><?php echo htmlspecialchars($offence['description_english']); ?></td>
                                 <td><?php echo htmlspecialchars($offence['points_deducted']); ?></td>
                                 <td><?php echo "Rs. " . number_format($offence['fine'], 2); ?></td>
+                                <td>
+                                    <a href="edit-offence.php?offence_number=<?php echo urlencode($offence['offence_number']); ?>"
+                                        class="btn marginbottom">Edit</a>
+                                    <form action="delete-offence-process.php" method="POST" style="display:inline;">
+                                        <input type="hidden" name="offence_number"
+                                            value="<?php echo htmlspecialchars($offence['offence_number']); ?>">
+                                        <button type="submit" class="deletebtn">Delete</button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -81,4 +96,4 @@ include_once "../../includes/header.php";
     </div>
 </main>
 
-<?php include_once "../../includes/footer.php" ?>
+<?php include_once "../../../includes/footer.php" ?>
