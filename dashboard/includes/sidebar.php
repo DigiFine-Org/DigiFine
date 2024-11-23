@@ -1,6 +1,6 @@
 <?php
 
-$user = $_SESSION['user'];
+$sidebar_user = $_SESSION['user'];
 
 function renderLink(string $title, string $link)
 {
@@ -11,10 +11,10 @@ function renderLink(string $title, string $link)
 ?>
 <div class="sidebar">
     <?php renderLink("Home", "/digifine/dashboard/index.php") ?>
-    <?php if ($user['role'] === 'officer'): ?>
-        <?php if ($user['is_oic'] === "1"): ?>
+    <?php if ($sidebar_user['role'] === 'officer'): ?>
+        <?php if ($sidebar_user['is_oic'] === "1"): ?>
             <!-- oic links -->
-            
+            <?php renderLink("Fines", "/digifine/dashboard/oic/fine-management/index.php") ?>
             <?php renderLink("Duty Submissions", "/digifine/dashboard/oic/duty-submissions/index.php") ?>
             <?php renderLink("Station Officers", "/digifine/dashboard/oic/officer-management/index.php") ?>
         <?php else: ?>
@@ -25,18 +25,19 @@ function renderLink(string $title, string $link)
         <?php endif; ?>
     <?php endif ?>
 
-    <?php if ($user['role'] === 'driver'): ?>
+    <?php if ($sidebar_user['role'] === 'driver'): ?>
         <?php renderLink("My Fines", "/digifine/dashboard/driver/my-fines/index.php") ?>
         <?php renderLink("Gov-Offence List", "/digifine/dashboard/gov-fine-list/index.php") ?>
         <?php renderLink("Payments", "/digifine/dashboard/driver/payments/index.php") ?>
     <?php endif ?>
 
-    <?php if ($user['role'] === 'admin'): ?>
+    <?php if ($sidebar_user['role'] === 'admin'): ?>
         <?php renderLink("Assign OIC", "/digifine/dashboard/admin/assign-oic/index.php") ?>
         <?php renderLink("Offence Management", "/digifine/dashboard/admin/Offence-management/index.php") ?>
-        <?php renderLink("Driver Management", "/digifine/dashboard/admin//index.php") ?>
-        <?php renderLink("Vehicle Management", "/digifine/dashboard/admin//index.php") ?>
+        <?php renderLink("Driver Management", "/digifine/dashboard/admin/driver-management/index.php") ?>
+        <?php renderLink("Vehicle Management", "/digifine/dashboard/admin/vehicle-management/index.php") ?>
         <?php renderLink("Publish Announcements", "/digifine/dashboard/admin/announcements/index.php") ?>
-        <?php renderLink("Police Officer Management", "/digifine/dashboard/admin//index.php") ?>
+        <?php renderLink("Police Officer Management", "/digifine/dashboard/admin/officer-management/index.php") ?>
+        <?php renderLink("Fine Management", "/digifine/dashboard/admin/fine-management/index.php") ?>
     <?php endif ?>
 </div>
