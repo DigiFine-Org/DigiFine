@@ -25,6 +25,7 @@ if ($currentUser['role'] !== 'admin') {
 
     $user = $result->fetch_assoc();
 
+
     // fetch police station info
     $policeStation = null;
     if ($asPolice) {
@@ -50,6 +51,8 @@ $pageConfig = [
 ];
 
 include_once "../../includes/header.php";
+
+
 ?>
 
 <main>
@@ -66,6 +69,7 @@ include_once "../../includes/header.php";
                         <span>id:</span>
                         <p><?php echo $currentUser['id'] ?></p>
                     </div>
+                    <a href="/digifine/logout" class="btn" style="margin-right: auto;margin-top:20px">Logout</a>
                 <?php else: ?>
                     <h1 class="h1">
                         <?php echo $user['fname'] . " " . $user['lname'] ?>'s Profile
@@ -77,6 +81,7 @@ include_once "../../includes/header.php";
                     <div class="data-line">
                         <span>Phone No:</span>
                         <p><?php echo $user['phone_no'] ?></p>
+
                     </div>
                     <div class="data-line">
                         <span>NIC:</span>
@@ -89,7 +94,8 @@ include_once "../../includes/header.php";
                         </div>
                         <div class="data-line">
                             <span>Police Station:</span>
-                            <p><?php echo $policeStation['name'] . ", " . $PROVINCES[$policeStation['province']] . ' Province' ?></p>
+                            <p><?php echo $policeStation['name'] . ", " . $PROVINCES[$policeStation['province']] . ' Province' ?>
+                            </p>
                         </div>
                     <?php else: ?>
                         <div class="data-line">
@@ -97,8 +103,11 @@ include_once "../../includes/header.php";
                             <p style="text-transform: uppercase;"><?php echo $userid ?></p>
                         </div>
                     <?php endif; ?>
-                    <a href="/digifine/dashboard/profile/update/index.php" class="btn"
-                        style="margin-right: auto;margin-top:20px">Edit Profile</a>
+                    <div class="wrapper">
+                        <a href="/digifine/dashboard/profile/update/index.php" class="btn"
+                            style="margin-right: 10px;margin-top:20px">Edit Profile</a>
+                        <a href="/digifine/logout" class="btn" style="margin-right: 10px;margin-top:20px">Logout</a>
+                    </div>
                 <?php endif; ?>
 
             </div>
