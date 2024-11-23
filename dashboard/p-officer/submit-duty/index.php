@@ -1,18 +1,18 @@
 <?php
 $pageConfig = [
     'title' => 'Submit Duty',
-    'styles' => ["../dashboard.css"],
-    'scripts' => ["../dashboard.js"],
+    'styles' => ["../../dashboard.css"],
+    'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
 
-include_once "../../includes/header.php";
+include_once "../../../includes/header.php";
 ?>
 
 <main>
-    <?php include_once "../includes/navbar.php" ?>
+    <?php include_once "../../includes/navbar.php" ?>
     <div class="dashboard-layout">
-        <?php include_once "../includes/sidebar.php" ?>
+        <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container">
                 <h1>Submit Duty</h1>
@@ -50,4 +50,4 @@ include_once "../../includes/header.php";
     </div>
 </main>
 
-<?php include_once "../../includes/footer.php" ?>
+<?php include_once "../../../includes/footer.php" ?>

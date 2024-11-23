@@ -27,7 +27,7 @@ class AdminAuth
 
     // public static function print()
     // {
-    //     var_dump(AdminAuth::$credentials);
+    //     var_dumpml(AdminAuth::$credentials);
     // }
 
 }

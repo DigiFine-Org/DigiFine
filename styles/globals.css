@@ -27,7 +27,8 @@ button {
   --color-white: #ffffff;
   --color-black: #000000;
   --color-gray: #a1a1aa;
-  --color-red: #ef5350;
+  --color-red: #e61e1a;
+  --color-lighter-red: #f57876;
   font-size: 13px;
   background-color: var(--color-white);
   color: var(--color-black);

@@ -1,72 +1,95 @@
 <?php
 $pageConfig = [
-    'title' => 'Officer Check Vehicle Details',
-    'styles' => ["../dashboard.css"],
-    'scripts' => ["../dashboard.js"],
+    'title' => 'Check Vehicle Details',
+    'styles' => ["../../dashboard.css"],
+    'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
 
-include_once "../../includes/header.php";
+include_once "../../../includes/header.php";
+require_once "../../../db/connect.php";
 
-$result = "";
+$result = null;
+$id = $_GET['query'] ?? null;
+if ($id) {
+    $sql = "SELECT * FROM dmt_vehicles WHERE license_plate_number=?";
+    $stmt = $conn->prepare($sql);
 
-if (isset($_GET)) {
-    $result = $_GET['query'] ?? "";
+    if (!$stmt) {
+        die("Database error: " . $conn->error);
+    }
+
+    $stmt->bind_param("s", $id);
+
+    if (!$stmt->execute()) {
+        die("Query execution error: " . $stmt->error);
+    }
+
+    $result = $stmt->get_result();
+    if ($result->num_rows === 0) {
+        header("Location: verify-vehicle-details?error=Vehicle not found");
+    }
+
+    $result = $result->fetch_assoc();
 }
+
 ?>
 
 <main>
-    <?php include_once "../includes/navbar.php" ?>
+    <?php include_once "../../includes/navbar.php" ?>
     <div class="dashboard-layout">
-        <?php include_once "../includes/sidebar.php" ?>
+        <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container">
                 <h1>Check Vehicle Details</h1>
                 <?php if (!$result): ?>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
                         <input name="query" required type="search" class="input"
-                            placeholder="Enter Licence Plate Number(ex:- CAD-6264)">
-                        <button class="btn">Search</button>
+                            placeholder="Enter Licence Plate Number (SP|BBY-1683)">
+                        <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>
-                    <div class="warning">
+                    <!-- <div class="warning">
                         <h3>This vehicle is stolen!</h3>
                         <p>Stolen Date: 2024-09-08</p>
-                    </div>
+                    </div> -->
                     <hr>
                     <h3>Vehicle Revenue Licence</h3>
                     <div class="data-line">
                         <span>Licence Id:</span>
-                        <p>SP000000308603</p>
+                        <p><?= $result['license_id'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>Vehicle Type:</span>
-                        <p>Motor Car|Petrol</p>
+                        <p><?= $result['vehicle_type'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>License Type:</span>
-                        <p>Normal License</p>
+                        <p><?= $result['license_type'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>License Plate Number:</span>
-                        <p>SP | CAD-6264</p>
+                        <p><?= $result['license_plate_number'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>Vehicle Owner’s Name:</span>
-                        <p>MR. Imalsha Jathunarachchi</p>
+                        <p><?= $result['vehicle_owner_fname'] . " " . $result['vehicle_owner_lname'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>Vehicle Owner’s Address:</span>
-                        <p>Sakuna’s Boarding, Woodland Avenue, Nugegoda</p>
+                        <p><?= $result['address'] ?></p>
                     </div>
                     <div class="data-line">
                         <span>Validity Period:</span>
-                        <p>From 28-02-2024 To 27-02-2025</p>
+                        <p>From <b><?= $result['license_issue_date'] ?></b> To <b><?= $result['license_expiry_date'] ?></b>
+                        </p>
                     </div>
                     <div class="data-line">
                         <span>Number of Seats:</span>
-                        <p>4</p>
+                        <p><?= $result['no_of_seats'] ?></p>
                     </div>
+                    <br>
+                    <a href="../generate-e-ticket/index.php?id=<?= $id ?>" class="btn margintop">Issue Fine</a>
 
                 <?php endif ?>
             </div>
@@ -74,4 +97,4 @@ if (isset($_GET)) {
     </div>
 </main>
 
-<?php include_once "../../includes/footer.php" ?>
+<?php include_once "../../../includes/footer.php" ?>
