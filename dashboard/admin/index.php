@@ -1,6 +1,6 @@
 <?php
 $pageConfig = [
-    'title' => 'Ad',
+    'title' => 'Admin',
     'styles' => ["../dashboard.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
@@ -8,6 +8,10 @@ $pageConfig = [
 
 include_once "../../includes/header.php";
 require_once "../../db/connect.php";
+
+if ($_SESSION['user']['role'] !== 'admin') {
+    die("unauthorized user!");
+}
 
 ?>
 
@@ -23,3 +27,5 @@ require_once "../../db/connect.php";
         </div>
     </div>
 </main>
+
+<?php include_once "../../includes/footer.php";?>
