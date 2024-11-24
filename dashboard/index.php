@@ -18,22 +18,20 @@ $dashboard_user = $_SESSION['user'];
         <?php include_once "./includes/sidebar.php" ?>
         <div class="content">
             <div class="home-grid">
-                <?php if ($dashboard_user['role'] === 'officer'): ?>
-                    <?php if ($dashboard_user['is_oic'] === '1'): ?>
-                        <a href="" class="tile">
-                            <span>oic link 1</span>
-                        </a>
-                        <a href="" class="tile">
-                            <span>oic link 2</span>
-                        </a>
-                    <?php else: ?>
-                        <a href="" class="tile">
-                            <span>officer link 1</span>
-                        </a>
-                        <a href="" class="tile">
-                            <span>officer link 2</span>
-                        </a>
-                    <?php endif ?>
+                <?php if ($dashboard_user['role'] === 'oic'): ?>
+                    <a href="" class="tile">
+                        <span>oic link 1</span>
+                    </a>
+                    <a href="" class="tile">
+                        <span>oic link 2</span>
+                    </a>
+                <?php elseif ($dashboard_user['role'] === 'officer'): ?>
+                    <a href="" class="tile">
+                        <span>officer link 1</span>
+                    </a>
+                    <a href="" class="tile">
+                        <span>officer link 2</span>
+                    </a>
                 <?php elseif ($dashboard_user['role'] === 'admin'): ?>
                     <a href="" class="tile">
                         <span>admin link 1</span>
