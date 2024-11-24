@@ -33,7 +33,7 @@ if (!$stmt) {
 $stmt->bind_param("s", $driver_id);
 
 if (!$stmt->execute()) {
-    die("Query Error" . $stmt->error);
+    die("Error exqcuting query" . $stmt->error);
 }
 
 
@@ -62,13 +62,13 @@ $stmt->close();
                                 <p><?= htmlspecialchars($fine['offence']) ?></p>
                             </div>
                             <div class="data-line">
-                                <div class="label">Date & Time:</div>
-                                <p><?= htmlspecialchars($fine['issued_date'] . " " . $fine['issued_time']) ?></p>
+                                <div class="label">Date:</div>
+                                <p><?= htmlspecialchars($fine['issued_date'])?></p>
                             </div>
                             <div class="bottom-bar">
                                 <div class="actions">
-                                    <button class="btn">View</button>
-                                    <button class="btn">Pay</button>
+                                    <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id'])?>" class="btn">View</a>
+                                    <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id'])?>" class="btn">Pay</a>
                                 </div>
                                 <div class="status-list">
                                     <span class="status <?= $fine['fine_status'] === 'overdue' ? 'danger' : '' ?>">
