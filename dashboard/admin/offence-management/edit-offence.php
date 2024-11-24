@@ -9,6 +9,10 @@ $pageConfig = [
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
+if ($_SESSION['user']['role'] !== 'admin') {
+    die("unauthorized user!");
+}
+
 
 $offence = null;
 if (isset($_GET['offence_number']) && is_numeric($_GET['offence_number'])) {
