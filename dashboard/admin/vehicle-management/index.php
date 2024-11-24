@@ -23,3 +23,5 @@ require_once "../../../db/connect.php";
         </div>
     </div>
 </main>
+
+<?php include_once "../../../includes/footer.php";?>
