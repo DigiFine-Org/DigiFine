@@ -2,7 +2,7 @@
     <div class="logo">
         <img src="/digifine/assets/logo-white.svg" width="70" />
         <span>
-            <?php echo array_key_exists('is_oic', $_SESSION['user']) && $_SESSION['user']['is_oic'] == 1 ? 'oic' : $_SESSION['user']['role'] ?>
+            <?= $_SESSION['user']['role'] ?>
         </span>
     </div>
     <nav>
