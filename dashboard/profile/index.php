@@ -7,7 +7,7 @@ session_start();
 $currentUser = $_SESSION['user'];
 if ($currentUser['role'] !== 'admin') {
     $userid = $currentUser['id'];
-    $asPolice = $currentUser['role'] === 'officer';
+    $asPolice = $currentUser['role'] === 'officer' || $currentUser['role'] === 'oic';
     if ($asPolice) {
         $sql = "SELECT fname, lname, email, nic, phone_no, police_station FROM officers WHERE id = '$userid'";
     } else {

@@ -1,13 +1,19 @@
 <?php
 $pageConfig = [
-    'title' => 'Ad',
+    'title' => 'OIC Dashboard',
     'styles' => ["../dashboard.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
 ];
 
-include_once "../../includes/header.php";
 require_once "../../db/connect.php";
+include_once "../../includes/header.php";
+
+
+
+if ($_SESSION['user']['role'] !== 'oic') {
+    die("unauthorized user!");
+}
 
 ?>
 
@@ -23,3 +29,5 @@ require_once "../../db/connect.php";
         </div>
     </div>
 </main>
+
+<?php include_once "../../includes/footer.php"; ?>

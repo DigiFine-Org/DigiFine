@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         echo "Duty submitted successfully!";
-        header("Location: /digifine/dashboard/p-officer/submit-duty/index.php?message=Duty submitted successfully");
+        header("Location: /digifine/dashboard/officer/submit-duty/index.php?message=Duty submitted successfully");
         exit();
     } else {
         die("Error inserting fine: " . $stmt->error);
