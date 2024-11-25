@@ -9,6 +9,10 @@ $pageConfig = [
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
 
+if ($_SESSION['user']['role'] !== 'admin') {
+    die("unauthorized user!");
+}
+
 $fines = [];
 $stmt = $conn->prepare("SELECT id, police_id, driver_id, license_plate_number, issued_date, issued_time, offence_type, nature_of_offence, offence, fine_status FROM fines");
 if (!$stmt->execute()) {
@@ -27,6 +31,7 @@ $stmt->close();
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container x-large no-border">
+                <h1>All Fines</h1>
                 <div class="table-container">
                     <table>
                         <thead>
@@ -64,3 +69,5 @@ $stmt->close();
         </div>
     </div>
 </main>
+
+<?php include_once "../../../includes/footer.php";?>

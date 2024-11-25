@@ -9,6 +9,10 @@ $pageConfig = [
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
 
+if ($_SESSION['user']['role'] !== 'admin') {
+    die("unauthorized user!");
+}
+
 ?>
 
 <main>
@@ -23,3 +27,5 @@ require_once "../../../db/connect.php";
         </div>
     </div>
 </main>
+
+<?php include_once "../../../includes/footer.php";?>

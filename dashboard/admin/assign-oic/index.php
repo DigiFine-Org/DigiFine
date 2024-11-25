@@ -9,6 +9,10 @@ $pageConfig = [
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
 
+if ($_SESSION['user']['role'] !== 'admin') {
+    die("unauthorized user!");
+}
+
 $officers = [];
 $stmt = $conn->prepare("SELECT po.id, po.fname, po.lname, po.phone_no, ps.id as police_station_id, ps.name as police_station_name FROM officers as po INNER JOIN police_stations as ps ON po.police_station=ps.id
   WHERE po.is_oic=0");
@@ -65,3 +69,5 @@ $stmt->close();
         </div>
     </div>
 </main>
+
+<?php include_once "../../../includes/footer.php";?>

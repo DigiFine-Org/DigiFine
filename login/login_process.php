@@ -21,7 +21,8 @@ if (!is_null($isAdmin)) {
     }
     $user = ['id' => $userid, 'role' => 'admin'];
     $_SESSION['user'] = $user;
-    header("Location: /digifine/dashboard/index.php");
+    header("Location: /digifine/dashboard/admin/index.php");
+    return;
 }
 
 
@@ -62,6 +63,7 @@ if (!password_verify($password, $dbPasswordHash)) {
 unset($user['password']);
 
 // set user role
-$user['role'] = $asPolice ? 'officer' : 'driver';
+$user['role'] = $asPolice ? ($user['is_oic'] ? 'oic' : 'officer') : 'driver';
 $_SESSION['user'] = $user;
-header("Location: /digifine/dashboard/index.php");
+
+header("Location: /digifine/dashboard/" . $user['role'] . "/index.php");

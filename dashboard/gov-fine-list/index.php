@@ -47,35 +47,34 @@ include_once "../../includes/header.php";
     <div class="dashboard-layout">
         <?php include_once "../includes/sidebar.php" ?>
         <div class="content">
-            <div class="table-container">
-                <h1>Offence List</h1>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>offence Number</th>
-                            <th>offence Desciption (Sinhala)</th>
-                            <th>offence Desciption (Tamil)</th>
-                            <th>offence Desciption (English)</th>
-                            <th>Points Deducted</th>
-                            <th>Fine</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($offences as $offence): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($offence['offence_number']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['description_sinhala']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['description_tamil']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['description_english']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['points_deducted']); ?></td>
-                                <td><?php echo "Rs. " . number_format($offence['fine'], 2); ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
             <div class="container x-large no-border">
-
+            <h1>Offence List</h1>
+                <div class="table-container">                  
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>offence Number</th>
+                                <th>offence Desciption (Sinhala)</th>
+                                <th>offence Desciption (Tamil)</th>
+                                <th>offence Desciption (English)</th>
+                                <th>Points Deducted</th>
+                                <th>Fine</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($offences as $offence): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($offence['offence_number']); ?></td>
+                                    <td><?php echo htmlspecialchars($offence['description_sinhala']); ?></td>
+                                    <td><?php echo htmlspecialchars($offence['description_tamil']); ?></td>
+                                    <td><?php echo htmlspecialchars($offence['description_english']); ?></td>
+                                    <td><?php echo htmlspecialchars($offence['points_deducted']); ?></td>
+                                    <td><?php echo "Rs. " . number_format($offence['fine'], 2); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

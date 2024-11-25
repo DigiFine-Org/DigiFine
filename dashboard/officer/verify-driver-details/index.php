@@ -6,8 +6,12 @@ $pageConfig = [
     'authRequired' => true
 ];
 
-include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
+include_once "../../../includes/header.php";
+
+if ($_SESSION['user']['role'] !== 'officer') {
+    die("unauthorized user!");
+}
 
 $result = null;
 $id = $_GET['query'] ?? null;
@@ -48,7 +52,7 @@ if ($id) {
                 <h1>Verify Driver Details</h1>
                 <?php if (!$result): ?>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-                        <input name="query" required type="search" class="input" placeholder="Enter Driver License ID">
+                        <input name="query" required type="search" class="input" placeholder="Enter Driver License ID (B1234567)">
                         <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>

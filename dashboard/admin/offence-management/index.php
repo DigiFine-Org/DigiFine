@@ -39,6 +39,10 @@ try {
 }
 
 include_once "../../../includes/header.php";
+
+if ($_SESSION['user']['role'] !== 'admin') {
+    die("unauthorized user!");
+}
 ?>   
 
 

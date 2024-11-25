@@ -10,6 +10,10 @@ $pageConfig = [
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
+if ($_SESSION['user']['role'] !== 'oic') {
+    die("unauthorized user!");
+}
+
 $oic_id = $_SESSION['user']['id'] ?? null;
 
 if (!$oic_id) {
@@ -57,6 +61,7 @@ $conn->close();
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container x-large no-border">
+            <h1>All Fines</h1>
                 <div class="table-container">
                     <table>
                         <thead>

@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $driverResult = $driverCheckStmt->get_result();
 
     if ($driverResult->num_rows === 0) {
-        header("Location: /digifine/dashboard/p-officer/generate-e-ticket/index.php?error=Driver not found");
+        header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php?error=Driver not found");
         exit();
     }
 
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($stmt->execute()) {
         echo "Fine issued successfully!";
-        header("Location: /digifine/dashboard/p-officer/generate-e-ticket/index.php?message=Fine issued successfully");
+        header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php?message=Fine issued successfully");
         exit();
     } else {
         die("Error inserting fine: " . $stmt->error);

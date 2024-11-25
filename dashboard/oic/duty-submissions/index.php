@@ -7,6 +7,9 @@ $pageConfig = [
 ];
 
 include_once "../../../includes/header.php";
+if ($_SESSION['user']['role'] !== 'oic') {
+    die("unauthorized user!");
+}
 
 $result = "";
 
@@ -20,8 +23,10 @@ if (isset($_GET)) {
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
+            <div class="container x-large no-border">
             <h1>Duty Submissions</h1>
-            <table>
+                <div class="table-container">
+                <table>
                     <thead>
                         <tr>
                             <th>Submission Number</th>
@@ -51,6 +56,9 @@ if (isset($_GET)) {
                             </tr>
                         <?php endforeach; ?>
                     </tbody> -->
+                </div>
+            </div>
+            
         </div>
     </div>
 </main>

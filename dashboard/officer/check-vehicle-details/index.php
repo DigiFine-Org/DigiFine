@@ -6,8 +6,12 @@ $pageConfig = [
     'authRequired' => true
 ];
 
-include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
+include_once "../../../includes/header.php";
+
+if ($_SESSION['user']['role'] !== 'officer') {
+    die("unauthorized user!");
+}
 
 $result = null;
 $id = $_GET['query'] ?? null;
