@@ -1,0 +1,137 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+header {
+  background: #003366;
+  color: white;
+  padding: 10px 20px;
+}
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  max-height: 50px;
+}
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+}
+.nav-list a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+/* Hero Section */
+.hero-section {
+  background: url("assets/landingPage/hero-home.jpg") no-repeat center center;
+  background-size: cover; /* Ensures the image fills the section while maintaining aspect ratio */
+  color: rgb(0, 0, 0);
+  height: 50vh; /* Sets the hero section to take full viewport height */
+  display: flex; /* Enables alignment for content inside the section */
+  flex-direction: column; /* Arranges content vertically */
+  justify-content: center; /* Centers content vertically */
+  align-items: center; /* Centers content horizontally */
+  text-align: center; /* Aligns text in the center */
+  padding: 20px;
+}
+
+.hero-content {
+  max-width: 600px;
+  margin: auto;
+}
+.btn-primary {
+  background: #145da0;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+/* Info Section */
+.info-section {
+  background: url("assets/landingPage/spenser-h-OxJxV4qakx0-unsplash.jpg")
+    no-repeat center center;
+  background-size: cover; /* Ensures the image fills the section while maintaining aspect ratio */
+  color: rgb(0, 0, 0);
+  opacity: 1; /* Fades the image */
+  height: 50vh; /* Sets the hero section to take full viewport height */
+  display: flex; /* Enables alignment for content inside the section */
+  flex-direction: column; /* Arranges content vertically */
+  justify-content: center; /* Centers content vertically */
+  align-items: center; /* Centers content horizontally */
+  text-align: center; /* Aligns text in the center */
+  padding: 20px;
+  /* padding: 50px 20px;
+  text-align: center;
+  background: #f4f4f4; */
+}
+/* .info-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+} */
+
+/* Services Section */
+.services-section {
+  padding: 50px 20px;
+  text-align: center;
+}
+.service-list {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.service-item {
+  background: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 250px;
+}
+
+/* Contact Section */
+.contact-section {
+  padding: 50px 20px;
+  background: #f4f4f4;
+}
+.contact-form {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.contact-form label {
+  font-weight: bold;
+}
+.contact-form input,
+.contact-form textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.contact-form button {
+  background: #145da0;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Footer */
+footer {
+  background: #003366;
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+}
