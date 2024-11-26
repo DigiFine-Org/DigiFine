@@ -31,9 +31,7 @@ $services = [
 <body>
     <header>
         <div class="header-container">
-            <img src="assets/logo-white.svg" alt="Logo" class="logo">
-
-
+            <img src="../../assets/logo-white.svg" alt="Logo" class="logo">
             <nav>
                 <ul class="nav-list">
                     <li><a href="#home">Home</a></li>

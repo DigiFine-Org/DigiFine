@@ -32,10 +32,11 @@ header {
 
 /* Hero Section */
 .hero-section {
-  background: url("assets/landingPage/hero-home.jpg") no-repeat center center;
+  background: url("../../assets/landingPage/hero-home.jpg") no-repeat center
+    center;
   background-size: cover; /* Ensures the image fills the section while maintaining aspect ratio */
   color: rgb(0, 0, 0);
-  height: 50vh; /* Sets the hero section to take full viewport height */
+  height: 70vh; /* Sets the hero section to take full viewport height */
   display: flex; /* Enables alignment for content inside the section */
   flex-direction: column; /* Arranges content vertically */
   justify-content: center; /* Centers content vertically */
@@ -58,8 +59,8 @@ header {
 
 /* Info Section */
 .info-section {
-  background: url("assets/landingPage/spenser-h-OxJxV4qakx0-unsplash.jpg")
-    no-repeat center center;
+  background: url("../../assets/landingPage/spenser-h-OxJxV4qakx0-unsplash.jpg")
+    no-repeat center -120px;
   background-size: cover; /* Ensures the image fills the section while maintaining aspect ratio */
   color: rgb(0, 0, 0);
   opacity: 1; /* Fades the image */

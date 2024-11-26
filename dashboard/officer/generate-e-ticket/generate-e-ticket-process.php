@@ -7,7 +7,13 @@ include '../../../db/connect.php';
 $policeId = $_SESSION['user']['id'] ?? null;
 
 if (!$policeId) {
-    die("Unauthorized access. Police ID not found.");
+    echo "<script>alert('Unauthorized access. Police ID not found.'); window.location.href = '/digifine/dashboard/officer/login.php';</script>";
+    exit();
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Save form data to session
+    $_SESSION['form_data'] = $_POST;
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -25,7 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $driverCheckSql = "SELECT * FROM drivers WHERE id = ?";
     $driverCheckStmt = $conn->prepare($driverCheckSql);
     if (!$driverCheckStmt) {
-        die("Error preparing driver check stmt: " . $conn->error);
+        echo "<script>alert('Error preparing driver check statement: " . $conn->error . "'); window.location.href = '/digifine/dashboard/officer/generate-e-ticket/index.php';</script>";
+        exit();
     }
 
     $driverCheckStmt->bind_param("s", $driver_id);
@@ -33,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $driverResult = $driverCheckStmt->get_result();
 
     if ($driverResult->num_rows === 0) {
-        header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php?error=Driver not found");
+        echo "<script>alert('Driver not found'); window.location.href = '/digifine/dashboard/officer/generate-e-ticket/index.php';</script>";
         exit();
     }
 
@@ -43,7 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $offenceSql = "SELECT description_english FROM offences WHERE offence_number = ?";
         $offenceStmt = $conn->prepare($offenceSql);
         if (!$offenceStmt) {
-            die("Error preparing offence stmt: " . $conn->error);
+            echo "<script>alert('Error preparing offence statement: " . $conn->error . "'); window.location.href = '/digifine/dashboard/officer/generate-e-ticket/index.php';</script>";
+            exit();
         }
 
         $offenceStmt->bind_param("s", $offence_number);
@@ -51,7 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $offenceResult = $offenceStmt->get_result();
 
         if ($offenceResult->num_rows === 0) {
-            die("Invalid offence selected.");
+            echo "<script>alert('Invalid offence selected.'); window.location.href = '/digifine/dashboard/officer/generate-e-ticket/index.php';</script>";
+            exit();
         }
 
         $offence = $offenceResult->fetch_assoc()['description_english']; // Get English description
@@ -64,17 +73,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $sql = "INSERT INTO fines (police_id, driver_id, license_plate_number, issued_date, issued_time, offence_type, nature_of_offence, offence) VALUES (?, ?, ?, CURRENT_DATE, CURRENT_TIME, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
-        die("Error preparing statement: " . $conn->error);
+        echo "<script>alert('Error preparing statement: " . $conn->error . "'); window.location.href = '/digifine/dashboard/officer/generate-e-ticket/index.php';</script>";
+        exit();
     }
 
     $stmt->bind_param("isssss", $policeId, $driver_id, $license_plate_number, $offence_type, $nature_of_offence, $offence);
 
     if ($stmt->execute()) {
-        echo "Fine issued successfully!";
-        header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php?message=Fine issued successfully");
+        echo "<script>alert('Fine issued successfully!'); window.location.href = '/digifine/dashboard/officer/generate-e-ticket/index.php?message=Fine issued successfully';</script>";
         exit();
     } else {
-        die("Error inserting fine: " . $stmt->error);
+        echo "<script>alert('Error inserting fine: " . $stmt->error . "'); window.location.href = '/digifine/dashboard/officer/generate-e-ticket/index.php';</script>";
+        exit();
     }
 
     $stmt->close();
@@ -82,5 +92,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $driverCheckStmt->close();
     $conn->close();
 } else {
-    die("Invalid request method.");
+    echo "<script>alert('Invalid request method.'); window.location.href = '/digifine/dashboard/officer/generate-e-ticket/index.php';</script>";
+    exit();
 }

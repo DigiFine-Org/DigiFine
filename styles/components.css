@@ -142,3 +142,31 @@ textarea.input {
 .link:hover {
   text-decoration: underline;
 }
+
+#alert-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: none; /* Hidden by default */
+}
+
+.alert {
+  padding: 1rem;
+  text-align: center;
+  font-size: 16px;
+  color: white;
+}
+
+.alert-success {
+  background-color: #4caf50; /* Green for success */
+}
+
+.alert-error {
+  background-color: #f44336; /* Red for error */
+}
+
+.alert-warning {
+  background-color: #ff9800; /* Orange for warning */
+}
