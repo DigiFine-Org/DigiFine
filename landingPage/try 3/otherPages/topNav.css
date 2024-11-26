@@ -7,11 +7,11 @@ body {
 /* General Header Styling */
 .overlay-header {
   position: absolute; /* Position it above the hero image */
-  top: 100;
+  top: 0;
   left: 0;
   width: 100%;
   z-index: 10; /* Ensures it appears above other elements */
-  /* background: rgba(0, 5, 71, 0.463); */
+  background: rgba(0, 5, 71, 0.463); /* Adds a semi-transparent background */
   color: white;
 }
 
@@ -19,12 +19,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* padding: 20px 40px; */
-  padding: 7px 19px;
+  padding: 20px 40px;
 }
 
 .overlay-header .logo {
-  width: 130px;
+  width: 90px;
   height: 40px;
 }
 
@@ -45,7 +44,6 @@ body {
   padding: 5px 10px;
   font-weight: bold;
   border-radius: 5px;
-  font-size: 1.1rem; /* Increased font size */
 }
 
 .overlay-header nav ul li a:hover {
@@ -64,9 +62,8 @@ body {
   background: no-repeat center center;
   background-size: cover; /* Ensures the image fills the section while maintaining aspect ratio */
   color: rgb(0, 0, 0);
-  /* min-height: 34vh;
-  max-height: 34vh; */
-  height: 150px;
+  min-height: 41vh;
+  max-height: 41vh;
 }
 
 /* Hamburger Button */
@@ -123,10 +120,10 @@ body {
 }
 
 .features,
-  /* .info-cards,
-  .info-section, */
-  .chief-message,
-  .statistics {
+/* .info-cards,
+.info-section, */
+.chief-message,
+.statistics {
   padding: 20px;
   text-align: center;
 }
@@ -135,7 +132,7 @@ body {
     no-repeat center center;
   background-size: cover; /* Ensures the image fills the section while maintaining aspect ratio */
   color: rgb(0, 0, 0);
-  min-height: 61vh;
+  min-height: 49vh;
 }
 
 .features .feature {
