@@ -30,6 +30,130 @@ header {
   font-weight: bold;
 }
 
+/* Contacts Section CSS */
+.contacts {
+  background-color: #f9f9f9;
+  padding: 30px;
+  max-width: 900px;
+  margin: 30px auto;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contacts h2 {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 2rem;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.contacts p {
+  text-align: center;
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.contact-card {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.contact-card h3 {
+  color: #3498db;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.contact-card p {
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.contact-card a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+.contact-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+/* Contacts Section CSS */
+.contacts {
+  background-color: #f9f9f9;
+  padding: 30px;
+  max-width: 900px;
+  margin: 30px auto;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contacts h2 {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 2rem;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.contacts p {
+  text-align: center;
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.contact-card {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.contact-card h3 {
+  color: #3498db;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.contact-card p {
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.contact-card a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+.contact-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
 /* Hero Section */
 .hero-section {
   background: url("../../assets/landingPage/hero-home.jpg") no-repeat center

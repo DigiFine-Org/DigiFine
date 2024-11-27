@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Digi Fine</title>
+    <title>About Us - DigiFine</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -17,52 +17,31 @@
         <section class="about">
             <h2>About Us</h2>
             <p>
-                Welcome to <strong>Digi-Fine</strong>, an innovative platform dedicated to transforming traffic management in Sri Lanka.
-                Our mission is to simplify the process of issuing, managing, and paying traffic fines while promoting accountability and transparency.
+                Welcome to <strong>DigiFine</strong>, a pioneering platform designed to revolutionize traffic fine management in Sri Lanka. 
+                Our mission is to simplify the complexities of issuing, managing, and paying traffic fines, while fostering a culture of accountability, transparency, and efficiency.
             </p>
             <p>
-                Digi-Fine leverages cutting-edge technology to create a seamless experience for police officers, drivers, and administrators.
-                By digitalizing the entire process, we aim to reduce paperwork, save time, and ensure accurate record-keeping.
+                At DigiFine, we leverage state-of-the-art technology to create an intuitive and seamless experience for police officers, drivers, and administrators alike. 
+                By digitalizing every aspect of the process, we aim to eliminate cumbersome paperwork, streamline operations, and ensure precise record-keeping.
             </p>
             <h3>What We Offer:</h3>
             <ul>
-                <li>Efficiency for officers</li>
-                <li>Convenience for drivers</li>
-                <li>Robust tools for administrators</li>
+                <li><strong>Efficiency for officers:</strong> Tools that enable quick and effective management of fines.</li>
+                <li><strong>Convenience for drivers:</strong> Simplified access to fine-related information and payments.</li>
+                <li><strong>Robust tools for administrators:</strong> Advanced analytics and streamlined workflows for better oversight.</li>
             </ul>
+            <p>
+                Join us in embracing a smarter, faster, and more transparent approach to traffic fine management. Together, we can ensure a system that works better for everyone.
+            </p>
 
-            <a href="login/index.php" class="btn-primary">Login / Sign up</a>
+            <a href="../../login/index.php" class="btn-primary">Login / Sign Up</a>
         </section>
-        <!-- <section>
-            <h2>Our Team</h2>
-            <div class="team">
-                <div class="team-member">
-                    <img src="../../assets/landingPage/team/ceo.jpg" alt="CEO" class="team-image">
-                    <h3>John Doe</h3>
-                    <p>CEO</p>
-                </div>
-                <div class="team-member">
-                    <img src="../../assets/landingPage/team/cto.jpg" alt="CTO" class="team-image">
-                    <h3>Jane Doe</h3>
-                    <p>CTO</p>
-                </div>
-                <div class="team-member">
-                    <img src="../../assets/landingPage/team/cfo.jpg" alt="CFO" class="team-image">
-                    <h3>James Doe</h3>
-                    <p>CFO</p>
-                </div>
-            </div>
-        </section> -->
-
     </main>
 
     <?php
     include_once 'footer.php';
     ?>
 
-    <!-- <footer>
-        <p>&copy; 2024 Digi-Fine. All rights reserved.</p>
-    </footer> -->
 </body>
 
 </html>
