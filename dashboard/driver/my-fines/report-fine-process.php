@@ -2,10 +2,12 @@
 
 include '../../../db/connect.php';
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fine_id = isset($_POST['fine_id']) ? intval($_POST['fine_id']) : null;
     $reported_description = isset($_POST['reported_description']) ? htmlspecialchars($_POST['reported_description']) : '';
 
+    
     if (!$fine_id || empty($reported_description)) {
         die("Error: Missing required fields.");
     }
@@ -26,9 +28,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Error updating fine: " . $stmt->error);
     }
 
-    $stmt->close();
-    $conn->close();
-
-} else {
-    die("Invalid request method.");
-}
+    
