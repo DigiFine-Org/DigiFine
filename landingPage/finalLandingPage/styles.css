@@ -33,10 +33,11 @@ body {
 
 /* Motto Styling */
 #motto {
-  font-size: 1.5rem;
+  font-size: 1.5rem; /* Default font size */
   font-weight: bold;
   margin-bottom: 20px; /* Space between motto and welcome text */
   animation: fadeInMotto 2s ease-out 0s forwards; /* Motto fade-in animation */
+  text-align: center; /* Center the motto text */
 }
 
 /* Welcome Text Styling */
@@ -45,6 +46,7 @@ body {
   font-weight: bold;
   margin-top: 10px;
   animation: fadeInText 2s ease-out 2s forwards; /* Welcome text fade-in animation */
+  text-align: center; /* Center the welcome text */
 }
 
 /* Main Content (Initially Hidden) */
@@ -101,6 +103,34 @@ body {
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Media Query for Small Screens (Mobile Devices) */
+@media (max-width: 768px) {
+  /* Adjusting Motto Font Size */
+  #motto {
+    font-size: 1.2rem; /* Smaller font size for tablets and mobile */
+    margin-bottom: 15px; /* Reduce space between motto and welcome text */
+  }
+
+  /* Adjusting Welcome Text Font Size */
+  #welcome-overlay h1 {
+    font-size: 2rem; /* Slightly smaller welcome text on smaller screens */
+  }
+}
+
+/* Media Query for Extra Small Screens (Very Small Devices) */
+@media (max-width: 480px) {
+  /* Further adjust Motto Font Size */
+  #motto {
+    font-size: 1rem; /* Even smaller font size for very small devices */
+    margin-bottom: 10px; /* Adjust spacing for smaller devices */
+  }
+
+  /* Further adjust Welcome Text Font Size */
+  #welcome-overlay h1 {
+    font-size: 1.5rem; /* Smaller font size for very small devices */
   }
 }
 

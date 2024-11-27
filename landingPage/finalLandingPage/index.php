@@ -17,11 +17,25 @@
         <div id="welcome-overlay">
 
             <img src="../../assets/logo-white.svg" alt="DigiFine-Logo" id="welcome-logo">
-            <p id="motto" style="color:#145da0;">Effortless Payments, Seamless Compliance</p>
+            <p id="motto" style="color:#1e77ca;">Effortless Payments, Seamless Compliance</p>
             <!-- <h1>Welcome to Our Website</h1> -->
         </div>
 
         <section class="features">
+            <div class="feature">
+                <a href="./payFInesOnline.php" style="text-decoration: none; color: inherit;">
+                    <div class="icon"><img src="../../assets/landingPage/icons/fine.png" alt="list-icon"></div>
+                    <h3>Pay Fines Online</h3>
+                    <p>Liquam rhoncus, libero non congue ultricies. Lorem ipsum dolor sit amet.</p>
+                </a>
+            </div>
+            <div class="feature">
+                <a href="../../dashboard/gov-fine-list/index.php" style="text-decoration: none; color: inherit;">
+                    <div class="icon"><img src="../../assets/landingPage/icons/list2.png" alt="list-icon"></div>
+                    <h3>Traffic Offence List</h3>
+                    <p>Liquam rhoncus, libero non congue ultricies. Lorem ipsum dolor sit amet.</p>
+                </a>
+            </div>
 
             <div class="feature">
                 <a href="#" style="text-decoration: none; color: inherit;">
@@ -36,20 +50,6 @@
                 <a href="#" style="text-decoration: none; color: inherit;">
                     <div class="icon">&#9776;</div>
                     <h3>Crime Statistics</h3>
-                    <p>Liquam rhoncus, libero non congue ultricies. Lorem ipsum dolor sit amet.</p>
-                </a>
-            </div>
-            <div class="feature">
-                <a href="./payFInesOnline.php" style="text-decoration: none; color: inherit;">
-                    <div class="icon"><img src="../../assets/landingPage/icons/fine.png" alt="list-icon"></div>
-                    <h3>Pay Fines Online</h3>
-                    <p>Liquam rhoncus, libero non congue ultricies. Lorem ipsum dolor sit amet.</p>
-                </a>
-            </div>
-            <div class="feature">
-                <a href="../../dashboard/gov-fine-list/index.php" style="text-decoration: none; color: inherit;">
-                    <div class="icon"><img src="../../assets/landingPage/icons/list2.png" alt="list-icon"></div>
-                    <h3>Traffic Offence List</h3>
                     <p>Liquam rhoncus, libero non congue ultricies. Lorem ipsum dolor sit amet.</p>
                 </a>
             </div>

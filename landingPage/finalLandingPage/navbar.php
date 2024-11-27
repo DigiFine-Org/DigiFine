@@ -16,4 +16,13 @@
 </header>
 <section class="hero">
     <img src="../../assets/landingPage/hero-home.JPG" alt="Police Image">
+    <!-- <div class="hero-content">
+        <div class="hero-text">
+            <h1>How work should work</h1>
+            <p>Forget the old rules. You can have the best people. Right now. Right here.</p>
+        </div>
+        <div class="hero-action">
+            <button class="get-started-button">Get started</button>
+        </div>
+    </div> -->
 </section>
