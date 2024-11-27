@@ -23,7 +23,7 @@ $stmt = $conn->prepare("
     f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status
     FROM fines AS f
     INNER JOIN drivers AS d ON f.driver_id = d.id
-    WHERE d.id = ?
+    WHERE d.id = ? AND is_discarded = 0
     ");
 
 if (!$stmt) {
@@ -51,8 +51,8 @@ $stmt->close();
             <div class="content">
                 <div class="home-grid">
                     <?php foreach ($fines as $fine): ?>
-                        <a href="" class="ticket <?= $fine['fine_status'] === 'overdue' ? 'danger' : '' ?>">
-                            <span class="id">Ticket: <?= htmlspecialchars($fine['id']) ?></span>
+                        <div class="ticket <?= $fine['fine_status'] === 'overdue' ? 'danger' : '' ?>">
+                            <span class="id">Ticket: 3456<?= htmlspecialchars($fine['id']) ?></span>
                             <div class="data-line">
                                 <div class="label">Offence Type:</div>
                                 <p><?= htmlspecialchars($fine['offence_type']) ?></p>
@@ -63,12 +63,13 @@ $stmt->close();
                             </div>
                             <div class="data-line">
                                 <div class="label">Date:</div>
-                                <p><?= htmlspecialchars($fine['issued_date'])?></p>
+                                <p><?= htmlspecialchars($fine['issued_date']) ?></p>
                             </div>
                             <div class="bottom-bar">
                                 <div class="actions">
-                                    <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id'])?>" class="btn">View</a>
-                                    <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id'])?>" class="btn">Pay</a>
+                                    <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
+                                        class="btn">View</a>
+                                    <a href="#" class="btn">Pay</a>
                                 </div>
                                 <div class="status-list">
                                     <span class="status <?= $fine['fine_status'] === 'overdue' ? 'danger' : '' ?>">
@@ -76,7 +77,7 @@ $stmt->close();
                                     </span>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     <?php endforeach; ?>
                 </div>
             </div>
