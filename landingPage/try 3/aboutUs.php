@@ -33,7 +33,7 @@
 
             <a href="login/index.php" class="btn-primary">Login / Sign up</a>
         </section>
-        <section>
+        <!-- <section>
             <h2>Our Team</h2>
             <div class="team">
                 <div class="team-member">
@@ -52,19 +52,17 @@
                     <p>CFO</p>
                 </div>
             </div>
-        </section>
+        </section> -->
 
-        <section>
-            <div>
-                <h2>Get Sarterd</h2>
-                <a href="login/index.php" class="btn-primary">Login / Sign up</a>
-            </div>
-        </section>
     </main>
 
-    <footer>
+    <?php
+    include_once 'footer.php';
+    ?>
+
+    <!-- <footer>
         <p>&copy; 2024 Digi-Fine. All rights reserved.</p>
-    </footer>
+    </footer> -->
 </body>
 
 </html>

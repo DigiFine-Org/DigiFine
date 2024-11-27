@@ -2,6 +2,11 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: #333;
+  min-height: 100vh; /* Full viewport height */
+}
+
+main {
+  flex: 1; /* Fills the remaining space between header and footer */
 }
 
 /* General Header Styling */
@@ -143,9 +148,11 @@ body {
   display: inline-block;
   margin: 10px;
   height: 180px;
-
-  width: calc(33.33% - 20px); /* Ensures three tiles per row with equal width */
-  box-sizing: border-box; /* Ensures padding and border are included in the width */
+  max-width: 200px;
+  /* Ensures three tiles per row with equal width */
+  width: calc(33.33% - 20px);
+  /* Ensures padding and border are included in the width */
+  box-sizing: border-box;
 }
 
 .feature {

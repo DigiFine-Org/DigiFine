@@ -2,6 +2,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: #333;
+  /* padding-bottom: 60px; */
 }
 
 /* General Header Styling */
@@ -130,22 +131,27 @@ body {
   padding: 20px;
   text-align: center;
 }
+
 .features {
-  background: url("../../assets/landingPage/spenser-h-OxJxV4qakx0-unsplash.jpg")
-    no-repeat center center;
   background-size: cover; /* Ensures the image fills the section while maintaining aspect ratio */
   color: rgb(0, 0, 0);
   min-height: 61vh;
+
+  /* display: grid; */
+  grid-template-columns: repeat(2, 1fr); /* Two items per row */
+  gap: 20px; /* Add space between tiles */
+  padding: 20px; /* Add padding around the container */
 }
 
 .features .feature {
-  background: rgba(255, 255, 255, 0.638);
+  /* background: rgba(255, 255, 255, 0.638); */
+  background: #145ca0a5;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   display: inline-block;
-  margin: 10px;
-  height: 180px;
+  margin: 17px;
+  /* height: 195px; */
 
   width: calc(33.33% - 20px); /* Ensures three tiles per row with equal width */
   box-sizing: border-box; /* Ensures padding and border are included in the width */
@@ -157,7 +163,9 @@ body {
 }
 
 .feature:hover {
-  background: rgba(255, 255, 255, 0.782);
+  /* background: rgba(255, 255, 255, 0.782); */
+  background: #145ca0e0;
+
   transition: background 0.7s ease;
 }
 
@@ -404,11 +412,11 @@ body {
 /* Footer Styling */
 footer {
   text-align: center;
-  padding: 10px 0;
+  padding: 5px 0;
   background: rgb(0, 5, 71); /* Adds a semi-transparent background */
   color: #fff;
-  margin-top: 20px;
-  position: fixed;
   width: 100%;
+  /* position: fixed; */
   bottom: 0;
+  height: 60px; /* Define a fixed height for the footer */
 }
