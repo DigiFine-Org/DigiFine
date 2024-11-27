@@ -1,0 +1,111 @@
+.insights-bar {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap; /* Ensures items wrap to the next row on smaller screens */
+}
+
+.inner-tile {
+  display: flex;
+  align-items: center;
+  background-color: #f9fbff;
+  border-radius: 10px;
+  padding: 10px;
+  width: 24%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.inner-tile:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.icon {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+}
+
+.icon img {
+  width: 50%;
+  height: auto;
+}
+
+.info p {
+  margin: 0;
+  font-size: 14px;
+  color: #8a96a4;
+}
+
+.info h3 {
+  margin: 5px 0 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.charts-bar {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.inner-chart {
+  width: 50%;
+  /* gap: 10px; */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+  .inner-tile {
+    width: 48%; /* Adjust to take up more space on medium screens */
+  }
+
+  .charts-bar {
+    flex-direction: column; /* Stack charts vertically */
+  }
+
+  .inner-chart {
+    width: 100%; /* Make each chart full-width */
+  }
+}
+
+@media (max-width: 768px) {
+  .inner-tile {
+    width: 100%; /* Stack each tile vertically on smaller screens */
+    margin-bottom: 6px; /* Add spacing between tiles */
+  }
+
+  .icon {
+    height: 40px; /* Adjust icon size */
+    width: 40px;
+  }
+
+  .icon img {
+    width: 60%; /* Adjust icon size */
+  }
+
+  .info p {
+    font-size: 12px; /* Adjust text size */
+  }
+
+  .info h3 {
+    font-size: 16px; /* Adjust heading size */
+  }
+}
+
+@media (max-width: 480px) {
+  .inner-tile {
+    padding: 8px; /* Reduce padding on very small screens */
+  }
+
+  .info h3 {
+    font-size: 14px; /* Further adjust heading size */
+  }
+}
