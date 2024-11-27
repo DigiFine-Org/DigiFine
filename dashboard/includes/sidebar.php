@@ -14,8 +14,9 @@ function renderLink(string $title, string $link)
         <!-- oic links -->
         <?php renderLink("Home", "/digifine/dashboard/oic/index.php") ?>
         <?php renderLink("Fines", "/digifine/dashboard/oic/fine-management/index.php") ?>
-        <?php renderLink("Duty Submissions", "/digifine/dashboard/oic/duty-submissions/index.php") ?>
         <?php renderLink("Station Officers", "/digifine/dashboard/oic/officer-management/index.php") ?>
+        <?php renderLink("Duty Submissions", "/digifine/dashboard/oic/duty-submissions/index.php") ?>
+        <?php renderLink("Assign Duties", "/digifine/dashboard/oic/assign-duties/index.php") ?>
     <?php endif ?>
 
     <?php if ($sidebar_user['role'] === 'officer'): ?>
@@ -35,12 +36,12 @@ function renderLink(string $title, string $link)
 
     <?php if ($sidebar_user['role'] === 'admin'): ?>
         <?php renderLink("Home", "/digifine/dashboard/admin/index.php") ?>
-        <?php renderLink("Assign OIC", "/digifine/dashboard/admin/assign-oic/index.php") ?>
         <?php renderLink("Offence Management", "/digifine/dashboard/admin/Offence-management/index.php") ?>
+        <?php renderLink("Fine Management", "/digifine/dashboard/admin/fine-management/index.php") ?>
+        <?php renderLink("Assign OIC", "/digifine/dashboard/admin/assign-oic/index.php") ?>
         <?php renderLink("Driver Management", "/digifine/dashboard/admin/driver-management/index.php") ?>
         <?php renderLink("Vehicle Management", "/digifine/dashboard/admin/vehicle-management/index.php") ?>
         <?php renderLink("Publish Announcements", "/digifine/dashboard/admin/announcements/index.php") ?>
         <?php renderLink("Police Officer Management", "/digifine/dashboard/admin/officer-management/index.php") ?>
-        <?php renderLink("Fine Management", "/digifine/dashboard/admin/fine-management/index.php") ?>
     <?php endif ?>
 </div>

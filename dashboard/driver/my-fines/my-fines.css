@@ -60,7 +60,7 @@
 
 .ticket .bottom-bar {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   align-items: center;
   justify-content: space-between;
   margin-top: auto;

@@ -46,6 +46,7 @@ if ($id) {
         <div class="content">
             <div class="container">
                 <h1>Check Vehicle Details</h1>
+                <!-- <img src="/digifine/assets/test.jpg" alt="" style="margin-bottom: 10px"> -->
                 <?php if (!$result): ?>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
                         <input name="query" required type="search" class="input"

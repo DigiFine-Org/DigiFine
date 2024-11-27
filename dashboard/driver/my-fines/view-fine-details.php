@@ -96,12 +96,35 @@ $conn->close();
                     <p><?= htmlspecialchars($fine['fine_status']) ?></p>
                 </div>
                 <div class="wrapper">
-                    <a href="index.php" class="btn" style="margin-right: 10px;margin-top:20px">Back to Fines</a>
-                    <a href="index.php" class="btn" style="margin-right: 10px;margin-top:20px">Report Fine</a>
+                    <!-- <a href="index.php" class="btn" style="margin-right: 10px;margin-top:20px">Back to Fines</a> -->
+                    <button class="btn" style="margin-right: 10px;margin-top:20px" id="reportFineButton">Report</button>
+                    <!-- <a href="" class="btn" style="margin-right: 10px;margin-top:20px" id="reportFineButton">Report</a> -->
+                    <button class="btn" style="margin-right: 10px;margin-top:20px" id="payFineButton">Pay</button>
                 </div>
+                <!-- Hidden report form -->
+                <form action="report-fine-process.php" method="post" id="reportFineForm"
+                    style="display: none; margin-top: 20px;">
+                    <div class="field">
+                        <input type="file" style="margin-bottom: 10px;">
+                        <label for="reported_description">Reason for Reporting:</label>
+                        <textarea type="text" class="input" name="reported_description" id="reported_description"
+                            required></textarea>
+                        <button class="btn" style="margin-top: 10px; margin-right: 10px">Submit</button>
+                        <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['fine_id']) ?>">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </main>
+
+<script>
+    // Toggle visibility for the report form and hide the Pay button
+    document.getElementById('reportFineButton').addEventListener('click', function () {
+        document.getElementById('reportFineForm').style.display = 'block'; // Show the form
+        this.style.display = 'none'; // Hide the Report button
+        document.getElementById('payFineButton').style.display = 'none'; // Hide the Pay button
+    });
+</script>
 
 <?php include_once "../../../includes/footer.php" ?>
