@@ -34,11 +34,17 @@ if ($_SESSION['user']['role'] !== 'officer') {
 }
 
 if ($_SESSION['message'] ?? null) {
-    $message = $_SESSION['message']; // Store the message
-    unset($_SESSION['message']); // Clear the session message
+    if ($_SESSION['message'] === 'Fine issued successfully!') {
+        $message = "E-Ticket generated successfully!";
+        unset($_SESSION['message']); // Clear the session message
+        include '../../../includes/alerts/success.php';
+    } else {
+        $message = $_SESSION['message']; // Store the message
+        unset($_SESSION['message']); // Clear the session message
 
-    // Include the alert.php file to display the message
-    include '../../../includes/alerts/failed.php';
+        // Include the alert.php file to display the message
+        include '../../../includes/alerts/failed.php';
+    }
 }
 
 ?>

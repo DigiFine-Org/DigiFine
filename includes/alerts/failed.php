@@ -1,7 +1,7 @@
 <div class="alert-container">
     <div class="popup" id="popup">
         <img src="/digifine/assets/alerts/error.png" alt="alert_icon" />
-        <h2>Failed</h2>
+        <h2 class="failedH2">Failed</h2>
         <p><?php echo htmlspecialchars($message ?? "Operation failed!"); ?></p>
         <button class="ok-button" onclick="closePopup()">OK</button>
     </div>

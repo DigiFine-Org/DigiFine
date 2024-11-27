@@ -3,9 +3,9 @@
   <!-- <button type="submit" class="button" onclick="openPopup()">Submit</button> -->
 
   <div class="popup" id="popup">
-    <img src="../../assets/alerts/checkmark_17927110.png" alt="tick_icon" />
-    <h2>Success</h2>
-    <p>Your details submitted successfully</p>
+    <img src="/digifine/assets/alerts/tick.png" alt="tick_icon" />
+    <h2 class="successH2">Success</h2>
+    <p>Submitted successfully</p>
     <button class="ok-button" onclick="closePopup()">OK</button>
   </div>
 </div>

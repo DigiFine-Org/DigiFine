@@ -346,7 +346,7 @@ table td.centered {
   font-size: 38px;
   font-weight: 500;
   margin: 30px 0 10px;
-  color: red;
+  /* color: red; */
 }
 
 .popup p {
