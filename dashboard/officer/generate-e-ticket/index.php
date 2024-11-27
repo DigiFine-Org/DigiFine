@@ -1,8 +1,8 @@
 <?php
 $pageConfig = [
     'title' => 'Generate E-ticket',
-    'styles' => ["../../dashboard.css", "../../alert.css"], // Includes alert styles
-    'scripts' => ["../../dashboard.js", "../../alerts.js"], // Includes alert scripts
+    'styles' => ["../../dashboard.css"], // Includes alert styles
+    'scripts' => ["../../dashboard.js",], // Includes alert scripts
     'authRequired' => true
 ];
 
@@ -32,6 +32,15 @@ if ($_SESSION['user']['role'] !== 'officer') {
     echo "<script>setTimeout(() => window.location.href = '/digifine/dashboard/officer/login.php', 3000);</script>";
     exit();
 }
+
+if ($_SESSION['message'] ?? null) {
+    $message = $_SESSION['message']; // Store the message
+    unset($_SESSION['message']); // Clear the session message
+
+    // Include the alert.php file to display the message
+    include '../../../includes/alerts/failed.php';
+}
+
 ?>
 
 <main>
