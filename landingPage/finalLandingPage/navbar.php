@@ -1,6 +1,6 @@
 <header class="overlay-header">
     <div class="header-container">
-        <img src="../../../assets/logo-white.svg" alt="Logo" class="logo">
+        <img src="../../assets/logo-white.svg" alt="Logo" class="logo">
         <button class="hamburger" aria-label="Toggle navigation">&#9776;</button>
         <nav>
             <ul class="nav-links">
@@ -15,5 +15,5 @@
     </div>
 </header>
 <section class="hero">
-    <img src="../../../assets/landingPage/hero-home.JPG" alt="Police Image">
+    <img src="../../assets/landingPage/hero-home.JPG" alt="Police Image">
 </section>
