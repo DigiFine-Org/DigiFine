@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digi-Fine | Pay Fines Online</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="../../styles/components.css">
+    <link rel="stylesheet" href="../../../styles/components.css">
 </head>
 
 <body>

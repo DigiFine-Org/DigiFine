@@ -13,6 +13,14 @@
     include_once 'navbar.php';
     ?>
     <main>
+
+        <div id="welcome-overlay">
+
+            <img src="../../../assets/logo.svg" alt="DigiFine-Logo" id="welcome-logo">
+            <p id="motto">Effortless Payments, Seamless Compliance</p>
+            <!-- <h1>Welcome to Our Website</h1> -->
+        </div>
+
         <section class="features">
 
             <div class="feature">
@@ -33,14 +41,14 @@
             </div>
             <div class="feature">
                 <a href="./payFInesOnline.php" style="text-decoration: none; color: inherit;">
-                    <div class="icon"><img src="../../assets/landingPage/icons/fine.png" alt="list-icon"></div>
+                    <div class="icon"><img src="../../../assets/landingPage/icons/fine.png" alt="list-icon"></div>
                     <h3>Pay Fines Online</h3>
                     <p>Liquam rhoncus, libero non congue ultricies. Lorem ipsum dolor sit amet.</p>
                 </a>
             </div>
             <div class="feature">
-                <a href="../../dashboard/gov-fine-list/index.php" style="text-decoration: none; color: inherit;">
-                    <div class="icon"><img src="../../assets/landingPage/icons/list2.png" alt="list-icon"></div>
+                <a href="../../../dashboard/gov-fine-list/index.php" style="text-decoration: none; color: inherit;">
+                    <div class="icon"><img src="../../../assets/landingPage/icons/list2.png" alt="list-icon"></div>
                     <h3>Traffic Offence List</h3>
                     <p>Liquam rhoncus, libero non congue ultricies. Lorem ipsum dolor sit amet.</p>
                 </a>
@@ -94,7 +102,7 @@
         <section class="chief-message">
             <h2>A Message from Chief</h2>
             <div class="message-content">
-                <img src="../../assets/landingPage/igp.webp" alt="Chief Photo" class="chief-photo">
+                <img src="../../../assets/landingPage/igp.webp" alt="Chief Photo" class="chief-photo">
                 <p>
                     Mes cuml dia sed ineniasinge dolor ipsum commete ipsum comnetus. Dolor ipsum commete ipsum comnetus mes ineniasinge dolor.
                     <br><br>
@@ -128,6 +136,8 @@
     <?php
     include_once 'footer.php';
     ?>
+    <script src="script.js"></script>
+
 </body>
 
 </html>
