@@ -37,6 +37,7 @@ if (!is_null($authRequired)) {
         rel="stylesheet">
     <link rel="stylesheet" href="/digifine/styles/globals.css">
     <link rel="stylesheet" href="/digifine/styles/components.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <?php
     foreach ($pageStyles as $style) {
         echo "<link rel='stylesheet' href='$style'/>";

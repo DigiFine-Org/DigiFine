@@ -18,8 +18,10 @@ if ($_SESSION['user']['role'] !== 'admin') {
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
+
 <main>
     <?php include_once "../includes/navbar.php" ?>
+
 
     <div class="dashboard-layout">
         <?php include_once "../includes/sidebar.php" ?>

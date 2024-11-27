@@ -91,7 +91,7 @@ $conn->close();
                 </div>
 
             </div>
-            <div class="navigation-tile-grid">
+            <!-- <div class="navigation-tile-grid">
                 <div class="tile police-stations">
                     <span>Police Stations</span>
                 </div>
@@ -101,7 +101,7 @@ $conn->close();
                 <div class="tile traffic-signs">
                     <span>Traffic Signs</span>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </main>
