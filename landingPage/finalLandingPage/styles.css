@@ -197,86 +197,100 @@ body {
 }
 
 .hero img {
-  width: 190px; /* Adjusted size */
+  width: 200px; /* Adjusted size */
   height: auto;
   object-fit: contain;
-  transform: scale(0.6); /* Start small */
-  animation: logoScaleUp 4s ease forwards; /* Smooth scaling animation */
-}
-
-/* Keyframes for the scaling effect */
-@keyframes logoScaleUp {
-  0% {
-    transform: scale(0.8); /* Initial size */
-    opacity: 0; /* Start hidden */
-  }
-  50% {
-    opacity: 0.5; /* Gradually appear */
-  }
-  100% {
-    transform: scale(1.1); /* Final size */
-    opacity: 1; /* Fully visible */
-  }
+  /* transform: scale(0.6); */
+  /* animation: logoScaleUp 4s ease forwards; */
 }
 
 /* .hero img:hover {
   transform: scale(1.1);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 } */
 
-/* Hamburger Button */
 .hamburger {
-  display: none;
+  display: none; /* Hide by default */
   background: none;
   border: none;
   color: white;
   font-size: 2rem;
   cursor: pointer;
+  position: fixed; /* Fix it at the top-right corner */
+  top: 2px; /* Adjust top position */
+  right: 13px; /* Adjust right position */
+  z-index: 100; /* Ensure it stays above other content */
 }
 
 /* Mobile Navigation */
 /* Mobile Navigation */
+/* Mobile Styles (max-width: 768px) */
 @media (max-width: 768px) {
+  /* Hamburger icon styles */
   .hamburger {
     display: block; /* Show hamburger menu on smaller screens */
   }
 
-  nav ul {
-    display: none; /* Initially hide the navigation links */
+  /* Navigation links */
+  nav ul.nav-links {
+    display: none !important; /* Initially hidden */
     flex-direction: column; /* Stack links vertically */
     position: absolute;
     top: 60px; /* Adjust to match header height */
     right: 20px;
-    background: rgba(
-      0,
-      0,
-      0,
-      0.9
-    ); /* Darker background for better visibility */
+    background: rgb(20, 92, 160); /* Semi-transparent background */
     border-radius: 5px;
-    width: 200px;
-    padding: 10px 0;
+    width: 175px;
+    height: auto;
+    padding: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     z-index: 10;
+    /* Add a transition for smooth toggle effect */
+    transition: transform 0.3s ease-in-out;
   }
 
-  nav ul li {
+  /* Menu items */
+  nav ul.nav-links li {
     text-align: center;
     margin: 5px 0;
   }
 
-  nav ul li a {
+  /* Links inside menu */
+  nav ul.nav-links li a {
     color: white;
     font-weight: normal;
     font-size: 1rem;
+    text-decoration: none; /* Optional: Remove underline from links */
+    display: block;
+    padding: 10px;
+    transition: background-color 0.3s;
   }
 
-  /* Ensure the menu toggles when the .open class is added */
+  /* Link hover effect */
+  nav ul.nav-links li a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Slight hover effect */
+  }
+
+  /* Toggle menu when .open class is added */
   nav ul.nav-links.open {
-    display: flex; /* Show links when menu is toggled */
+    display: flex !important; /* Show links when menu is toggled */
+    transform: translateY(0); /* Default position of menu when visible */
+  }
+
+  /* Add transition for smooth visibility toggle */
+  nav ul.nav-links.open {
+    transform: translateY(0); /* When the menu is open, move to visible state */
+  }
+
+  /* Optional: Add a close button or icon inside the menu */
+  .close-btn {
+    font-size: 30px;
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
   }
 }
-
 .features,
   /* .info-cards,
   .info-section, */
