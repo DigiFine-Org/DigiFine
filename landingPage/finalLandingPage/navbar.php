@@ -15,7 +15,7 @@
     </div>
 </header>
 <section class="hero">
-    <img src="../../assets/landingPage/hero-home.JPG" alt="Police Image">
+    <img src="../../assets/landingPage/hero-home.png" alt="Police Image">
     <!-- <div class="hero-content">
         <div class="hero-text">
             <h1>How work should work</h1>
