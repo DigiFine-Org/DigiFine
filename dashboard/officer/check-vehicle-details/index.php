@@ -10,7 +10,7 @@ require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
 if ($_SESSION['user']['role'] !== 'officer') {
-    die("unauthorized user!");
+    die("Unauthorized user!");
 }
 
 $result = null;
@@ -31,26 +31,13 @@ if ($id) {
 
     $result = $stmt->get_result();
     if ($result->num_rows === 0) {
-        header("Location: verify-vehicle-details?error=Vehicle not found");
+        $_SESSION['message'] = "Vehicle not found!";
+        header("Location: /digifine/dashboard/officer/check-vehicle-details/index.php");
+        exit();
     }
 
     $result = $result->fetch_assoc();
-
-    if ($_SESSION['message'] ?? null) {
-        if ($_SESSION['message'] === 'success') {
-            $message = "E-Ticket generated successfully!";
-            unset($_SESSION['message']); // Clear the session message
-            include '../../../includes/alerts/success.php';
-        } else {
-            $message = $_SESSION['message']; // Store the message
-            unset($_SESSION['message']); // Clear the session message
-
-            // Include the alert.php file to display the message
-            include '../../../includes/alerts/failed.php';
-        }
-    }
 }
-
 ?>
 
 <main>
@@ -61,7 +48,12 @@ if ($id) {
             <img class="watermark" src="../../../assets/watermark.png" />
             <div class="container">
                 <h1>Check Vehicle Details</h1>
-                <!-- <img src="/digifine/assets/test.jpg" alt="" style="margin-bottom: 10px"> -->
+                <?php if ($_SESSION['message'] ?? null): ?>
+                    <?php $message = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                    include '../../../includes/alerts/failed.php';
+                    ?>
+                <?php endif; ?>
                 <?php if (!$result): ?>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
                         <input name="query" required type="search" class="input"
@@ -69,10 +61,6 @@ if ($id) {
                         <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>
-                    <!-- <div class="warning">
-                        <h3>This vehicle is stolen!</h3>
-                        <p>Stolen Date: 2024-09-08</p>
-                    </div> -->
                     <hr>
                     <h3>Vehicle Revenue Licence</h3>
                     <div class="data-line">
@@ -110,7 +98,6 @@ if ($id) {
                     </div>
                     <br>
                     <a href="../generate-e-ticket/index.php?id=<?= $id ?>" class="btn margintop">Issue Fine</a>
-
                 <?php endif ?>
             </div>
         </div>
