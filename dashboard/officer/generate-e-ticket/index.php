@@ -130,7 +130,7 @@ if ($_SESSION['message'] ?? null) {
 
     offenceType.addEventListener("change", function() {
         if (this.value === "fine") {
-            offenceSelectField.style.display = "block";
+            offenceSelectField.style.display = "flex";
         } else {
             offenceSelectField.style.display = "none";
         }

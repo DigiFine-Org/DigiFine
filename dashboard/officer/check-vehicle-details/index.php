@@ -44,6 +44,7 @@ if ($id) {
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
+            <img class="watermark" src="../../../assets/watermark.png" />
             <div class="container">
                 <h1>Check Vehicle Details</h1>
                 <!-- <img src="/digifine/assets/test.jpg" alt="" style="margin-bottom: 10px"> -->

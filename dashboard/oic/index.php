@@ -91,17 +91,7 @@ $conn->close();
                 </div>
 
             </div>
-            <div class="navigation-tile-grid">
-                <div class="tile police-stations">
-                    <span>Police Stations</span>
-                </div>
-                <div class="tile tips-drivers">
-                    <span>Tips For Drivers</span>
-                </div>
-                <div class="tile traffic-signs">
-                    <span>Traffic Signs</span>
-                </div>
-            </div>
+
         </div>
     </div>
 </main>
