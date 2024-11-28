@@ -23,6 +23,21 @@ if (!$stmt->execute()) {
 $result = $stmt->get_result();
 $officers = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
+
+if ($_SESSION['message'] ?? null) {
+    if ($_SESSION['message'] === 'OIC assigned successfully!') {
+        $message = $_SESSION['message']; // Store the message
+        unset($_SESSION['message']); // Clear the session message
+        include '../../../includes/alerts/success.php';
+    } else {
+        $message = $_SESSION['message']; // Store the message
+        unset($_SESSION['message']); // Clear the session message
+
+        // Include the alert.php file to display the message
+        include '../../../includes/alerts/failed.php';
+    }
+}
+
 ?>
 
 <main>
@@ -70,4 +85,4 @@ $stmt->close();
     </div>
 </main>
 
-<?php include_once "../../../includes/footer.php";?>
+<?php include_once "../../../includes/footer.php"; ?>

@@ -40,6 +40,7 @@ if ($currentUser['role'] !== 'admin') {
     }
 }
 
+
 ?>
 
 <?php
@@ -104,10 +105,11 @@ include_once "../../includes/header.php";
                         </div>
                     <?php endif; ?>
                     <div class="wrapper">
-                    <?php if (!$asPolice): // Check if the user is not an officer ?>
-                        <a href="/digifine/dashboard/profile/update/index.php" class="btn"
-                            style="margin-right: 10px;margin-top:20px">Edit Profile</a>
-                    <?php endif; ?>
+                        <?php if (!$asPolice): // Check if the user is not an officer 
+                        ?>
+                            <a href="/digifine/dashboard/profile/update/index.php" class="btn"
+                                style="margin-right: 10px;margin-top:20px">Edit Profile</a>
+                        <?php endif; ?>
                         <a href="/digifine/logout" class="btn" style="margin-right: 10px;margin-top:20px">Logout</a>
                     </div>
                 <?php endif; ?>

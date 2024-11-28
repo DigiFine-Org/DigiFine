@@ -34,7 +34,7 @@ if ($_SESSION['user']['role'] !== 'officer') {
 }
 
 if ($_SESSION['message'] ?? null) {
-    if ($_SESSION['message'] === 'Fine issued successfully!') {
+    if ($_SESSION['message'] === 'success') {
         $message = "E-Ticket generated successfully!";
         unset($_SESSION['message']); // Clear the session message
         include '../../../includes/alerts/success.php';

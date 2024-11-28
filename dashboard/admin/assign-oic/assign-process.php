@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die("invalid method!!!");
@@ -19,7 +19,10 @@ $result = $stmt1->get_result();
 $alreadyOICInCurrentStation = $result->fetch_assoc();
 $stmt1->close();
 if ($alreadyOICInCurrentStation) {
-    die("there exists an OIC in respective police station already!!!");
+    // die("there exists an OIC in respective police station already!!!");
+    $_SESSION['message'] = "There exists an OIC already";
+    header("Location: /digifine/dashboard/admin/assign-oic/index.php");
+    exit();
 }
 
 $stmt2 = $conn->prepare("UPDATE officers SET is_oic=1 WHERE id=?");
@@ -28,4 +31,5 @@ if (!$stmt2->execute()) {
     die("mysql stmt2 execution error!");
 }
 header('Location: /digifine/dashboard/admin/assign-oic/index.php');
+$_SESSION['message'] = "OIC assigned successfully!"; // Optional: for message styling
 $stmt2->close();

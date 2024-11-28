@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($stmt->execute()) {
         // Set the success message in the session
-        $_SESSION["message"] = "Fine issued successfully!";
+        $_SESSION["message"] = "success";
         header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php");
         exit();
     } else {
