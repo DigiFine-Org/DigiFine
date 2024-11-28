@@ -56,49 +56,49 @@ if (!$driverId) {
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <h1>Police Stations</h1>
-            <div class="navigation-tile-grid" style="">
+            <div class="province-grid" style="">
                 <a href="">
-                    <div class="tile">
+                    <div class="province-button">
                         <span>Western Province Police Stations</span>
                     </div>
                 </a>
                 <a href="">
-                    <div class="tile ">
+                    <div class="province-button">
                         <span>Western Province Police Stations</span>
                     </div>
                 </a>
                 <a href="">
-                    <div class="tile">
+                    <div class="province-button">
                         <span>Central Province Police Stations</span>
                     </div>
                 </a>
                 <a href="">
-                    <div class="tile ">
+                    <div class="province-button">
                         <span>Uva Province Police Stations</span>
                     </div>
                 </a>
                 <a href="">
-                    <div class="tile">
+                    <div class="province-button">
                         <span>Sabaragamuwa Province Police Stations</span>
                     </div>
                 </a>
                 <a href="">
-                    <div class="tile">
+                    <div class="province-button">
                         <span>North Western Province Police Stations</span>
                     </div>
                 </a>
                 <a href="">
-                    <div class="tile ">
+                    <div class="province-button">
                         <span>North Central Province Police Stations</span>
                     </div>
                 </a>
                 <a href="">
-                    <div class="tile">
+                    <div class="province-button">
                         <span>Northern Province Police Stations</span>
                     </div>
                 </a>
                 <a href="">
-                    <div class="tile">
+                    <div class="province-button">
                         <span>Eastern Province Police Stations</span>
                     </div>
                 </a>
