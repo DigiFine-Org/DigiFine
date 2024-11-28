@@ -1,7 +1,7 @@
 <?php
 
 $pageConfig = [
-    'title' => 'Offence Management',
+    'title' => 'Gov Fine List',
     'styles' => ["../dashboard.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
@@ -48,8 +48,8 @@ include_once "../../includes/header.php";
         <?php include_once "../includes/sidebar.php" ?>
         <div class="content">
             <div class="container x-large no-border">
-            <h1>Offence List</h1>
-                <div class="table-container">                  
+                <h1>Offence List</h1>
+                <div class="table-container">
                     <table>
                         <thead>
                             <tr>

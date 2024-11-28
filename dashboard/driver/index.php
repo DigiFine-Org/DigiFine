@@ -1,6 +1,6 @@
 <?php
 $pageConfig = [
-    'title' => 'Payments',
+    'title' => 'Dashboard',
     'styles' => ["../dashboard.css", "./driver-dashboard.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
@@ -8,7 +8,6 @@ $pageConfig = [
 
 include_once "../../includes/header.php";
 require_once "../../db/connect.php";
-
 
 if ($_SESSION['user']['role'] !== 'driver') {
     die("unauthorized user!");
@@ -37,10 +36,6 @@ if ($result->num_rows === 0) {
 $driver = $result->fetch_assoc();
 $stmt->close();
 $conn->close();
-
-
-
-
 ?>
 
 <main>
@@ -51,10 +46,37 @@ $conn->close();
             <h2>Welcome Driver <?= htmlspecialchars($driver['fname'] . ' ' . $driver['lname']) ?>!</h2>
             <p>A responsible driver is a true road hero.</p>
             <div class="navigation-tile-grid" style="margin-top: 40px;">
-                <div class="tile emergency-services">
-                    <span>Emergency Services</span>
-                </div>
-                <div class="tile tips-drivers">
+                <a href="/digifine/dashboard/driver/dashboard-links/emergency-services.php">
+                    <div class="tile emergency-services">
+                        <span>Emergency Services</span>
+                    </div>
+                </a>
+                <a href="/digifine/dashboard/driver/dashboard-links/tips-for-drivers.php">
+                    <div class="tile tips-drivers">
+                        <span>Tips for Drivers</span>
+                    </div>
+                </a>
+                <a href="/digifine/dashboard/driver/dashboard-links/traffic-signs.php">
+                    <div class="tile traffic-signs">
+                        <span>Traffic Signs</span>
+                    </div>
+                </a>
+                <a href="/digifine/dashboard/driver/dashboard-links/remaining-points.php">
+                    <div class="tile remaining-points">
+                        <span>Remaining Points</span>
+                    </div>
+                </a>
+                <a href="/digifine/dashboard/driver/dashboard-links/tell-igp.php">
+                    <div class="tile tell-igp">
+                        <span>Tell IGP</span>
+                    </div>
+                </a>
+                <a href="/digifine/dashboard/driver/dashboard-links/police-stations.php">
+                    <div class="tile police-stations">
+                        <span>Police Stations</span>
+                    </div>
+                </a>
+                <!-- <div class="tile tips-drivers">
                     <span>Tips For Drivers</span>
                 </div>
                 <div class="tile traffic-signs">
@@ -68,7 +90,7 @@ $conn->close();
                 </div>
                 <div class="tile police-stations">
                     <span>Police Stations</span>
-                </div>
+                </div> -->
             </div>
 </main>
 

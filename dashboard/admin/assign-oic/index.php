@@ -47,6 +47,7 @@ if ($_SESSION['message'] ?? null) {
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container x-large no-border">
+                <h2>Assign OIC for Police Stations</h2>
                 <div class="table-container">
                     <table>
                         <thead>
