@@ -5,6 +5,16 @@ $pageConfig = [
     'authRequired' => false
 ];
 
+session_start();
+if ($_SESSION['message'] ?? null) {
+
+    $message = $_SESSION['message']; // Store the message
+    unset($_SESSION['message']); // Clear the session message
+
+    // Include the alert.php file to display the message
+    include '../includes/alerts/failed.php';
+}
+
 include_once "../includes/header.php" ?>
 <main>
     <div class="login-container">

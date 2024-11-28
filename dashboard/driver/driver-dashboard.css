@@ -1,0 +1,73 @@
+.navigation-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+@media (max-width: 1024px) {
+  .navigation-tile-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .navigation-tile-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .navigation-tile-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+.navigation-tile-grid .tile {
+  background-color: var(--color-light-blue);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: flex;
+  align-items: end;
+  justify-content: start;
+  padding: 20px;
+  height: 200px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.navigation-tile-grid .tile.emergency-services {
+  background-image: url("/digifine/assets/emergency.jpg");
+}
+
+.navigation-tile-grid .tile.tips-drivers {
+  background-image: url("/digifine/assets/tips.jpg");
+}
+
+.navigation-tile-grid .tile.traffic-signs {
+  background-image: url("/digifine/assets/traffic-signs.jpg");
+}
+
+.navigation-tile-grid .tile.remaining-points {
+  background-image: url("/digifine/assets/remaining-points1.jpg");
+}
+
+.navigation-tile-grid .tile.police-stations {
+  background-image: url("/digifine/assets/police-stations.jpg");
+}
+
+.navigation-tile-grid .tile.tell-igp {
+  background-image: url("/digifine/assets/tell-igp.jpg");
+}
+
+.navigation-tile-grid .tile:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+

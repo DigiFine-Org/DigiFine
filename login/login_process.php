@@ -21,14 +21,15 @@ if (!is_null($isAdmin)) {
     }
     $user = ['id' => $userid, 'role' => 'admin'];
     $_SESSION['user'] = $user;
-    header("Location: /digifine/dashboard/index.php");
+    header("Location: /digifine/dashboard/admin/index.php");
+    return;
 }
 
 
 $asPolice = true;
 
 // search in officers
-$sql = "SELECT id,fname,lname,email,nic,password,is_oic FROM officers WHERE id = '$userid'";
+$sql = "SELECT id,fname,lname,email,nic,password,is_oic,phone_no FROM officers WHERE id = '$userid'";
 $result = $conn->query($sql);
 if (!$result) {
     die("Error: " . $conn->error);
@@ -36,14 +37,17 @@ if (!$result) {
 
 if ($result->num_rows == 0) {
     // search in drivers
-    $sql = "SELECT id,fname,lname,email,nic,password FROM drivers WHERE id = '$userid'";
+    $sql = "SELECT id,fname,lname,email,nic,password,phone_no FROM drivers WHERE id = '$userid'";
     $result = $conn->query($sql);
     if (!$result) {
         die("Error: " . $conn->error);
     }
     // Neither a officer nor a driver found
     if ($result->num_rows == 0) {
-        die("No account found with that ID!");
+        // die("No account found with that ID!");
+        $_SESSION['message'] = "No account found with that ID!";
+        header("Location: /digifine/login/index.php");
+        exit();
     }
     $asPolice = false;
 }
@@ -55,13 +59,17 @@ $user = $result->fetch_assoc();
 
 $dbPasswordHash = $user['password'];
 if (!password_verify($password, $dbPasswordHash)) {
-    die("Incorrect password!");
+    // die("Incorrect password!");
+    $_SESSION['message'] = "Incorrect password!";
+    header("Location: /digifine/login/index.php");
+    exit();
 }
 
 // remove password field from database record to save to session
 unset($user['password']);
 
 // set user role
-$user['role'] = $asPolice ? 'officer' : 'driver';
+$user['role'] = $asPolice ? ($user['is_oic'] ? 'oic' : 'officer') : 'driver';
 $_SESSION['user'] = $user;
-header("Location: /digifine/dashboard/index.php");
+
+header("Location: /digifine/dashboard/" . $user['role'] . "/index.php");

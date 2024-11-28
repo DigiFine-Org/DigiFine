@@ -1,0 +1,94 @@
+.ticket {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 16px 10px 16px;
+  border: 1px solid var(--color-gray);
+  border-radius: 10px;
+  transition: border-color 0.6s;
+}
+
+.ticket.danger {
+  background-color: rgba(255, 0, 0, 0.03);
+}
+
+.ticket:hover {
+  border-color: var(--color-blue);
+}
+
+.ticket.danger:hover {
+  border-color: rgb(202, 54, 54);
+}
+
+.ticket .id {
+  text-transform: uppercase;
+  color: var(--color-blue);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.ticket .data {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket .data-line {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: end;
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .ticket .data-line {
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
+  }
+}
+
+.ticket .data-line .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-gray);
+  width: 100px;
+}
+
+.ticket .data-line p {
+  margin-left: 0;
+  flex: 1;
+}
+
+.ticket .bottom-bar {
+  display: flex;
+  /* flex-wrap: wrap; */
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 30px;
+}
+
+.ticket .status {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background-color: var(--color-lighter-blue);
+  font-size: 12px;
+  color: var(--color-blue);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.ticket .status.danger {
+  background-color: rgb(202, 54, 54);
+  color: white;
+}
+
+.ticket .bottom-bar .actions {
+  display: flex;
+  gap: 6px;
+  margin-right: 10px;
+}
+
+.ticket .bottom-bar .status-list {
+  display: flex;
+  gap: 6px;
+}
