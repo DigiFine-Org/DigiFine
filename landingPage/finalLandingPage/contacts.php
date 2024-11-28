@@ -31,9 +31,9 @@
                 <p>Email: <a href="mailto:fire_brigade@srilanka.gov">fire_brigade@srilanka.gov</a></p>
             </div>
             <div class="contact-card">
-                <h3>Traffic Division</h3>
-                <p>Phone: 112-123-456</p>
-                <p>Email: <a href="mailto:traffic_division@srilanka.gov">traffic_division@srilanka.gov</a></p>
+                <h3>Police Transport Division</h3>
+                <p>Phone: 0112 595 418</p>
+                <p>Email: <a href="mailto:traffic_division@srilanka.gov">transport_division@srilanka.gov</a></p>
             </div>
         </section>
     </main>
