@@ -17,14 +17,17 @@
     <main>
         <section class="chief-message">
             <div class="message-content">
-                <h1>services</h1>
+                <h1>Services</h1>
                 <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate quaerat magni ratione distinctio aperiam eveniet ab reprehenderit! Quae sed ipsum quo, officiis maiores odio exercitationem, ea consequatur illo quisquam id!
+                    DigiFine revolutionizes traffic fine management with a wide range of user-friendly services designed to enhance convenience, transparency, and efficiency. Drivers can easily <b>view and pay their fines online, report unfair fines for review,</b> and access a <b>comprehensive list of government fine policies.</b> Additionally, they can monitor their fine history and ensure timely payments, avoiding unnecessary penalties.
                 </p>
                 <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus dolore alias provident quae sit quod. Corrupti explicabo nostrum accusantium nemo libero saepe quia, quidem molestiae necessitatibus totam porro eveniet voluptate?
+                    For law enforcement, DigiFine enables police officers to issue e-tickets seamlessly during field operations, submit duty reports digitally, and maintain accurate records with minimal paperwork. Officers in Charge (OICs) can oversee these operations, monitor duty submissions, and assess reported unfair fines to ensure justice and fairness. They also have access to real-time data analytics for improved decision-making and operational management.
                 </p>
-                <a href="../../signup/index.php" class="btn-primary">Get Started</a>
+                <p>
+                    DigiFine bridges the gap between the public and law enforcement, fostering trust and accountability while simplifying processes through digital innovation. With an intuitive interface and secure platform, DigiFine ensures that managing traffic-related issues is hassle-free for everyone.
+                </p>
+                <a href=" login/index.php" class="btn-primary">Get Started</a>
             </div>
         </section>
     </main>
