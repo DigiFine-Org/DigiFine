@@ -121,7 +121,7 @@ $conn->close();
 <script>
     // Toggle visibility for the report form and hide the Pay button
     document.getElementById('reportFineButton').addEventListener('click', function () {
-        document.getElementById('reportFineForm').style.display = 'block'; // Show the form
+        document.getElementById('reportFineForm').style.display = 'flex'; // Show the form
         this.style.display = 'none'; // Hide the Report button
         document.getElementById('payFineButton').style.display = 'none'; // Hide the Pay button
     });

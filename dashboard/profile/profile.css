@@ -1,0 +1,17 @@
+.avatar-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar-wrapper .avatar {
+  width: 100px;
+  height: 100px;
+  color: var(--color-light-blue);
+  position: relative;
+  left: -10px;
+}
+
+.avatar-wrapper h1 {
+  margin-bottom: 0;
+}

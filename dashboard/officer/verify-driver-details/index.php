@@ -48,11 +48,12 @@ if ($id) {
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
-            <div class="container">
+            <div class="container <?= $result ? "large" : "" ?>">
                 <h1>Verify Driver Details</h1>
                 <?php if (!$result): ?>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-                        <input name="query" required type="search" class="input" placeholder="Enter Driver License ID (B1234567)">
+                        <input name="query" required type="search" class="input"
+                            placeholder="Enter Driver License ID (B1234567)">
                         <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>
