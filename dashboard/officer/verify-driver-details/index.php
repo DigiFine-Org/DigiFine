@@ -59,6 +59,7 @@ if ($_SESSION['message'] ?? null) {
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
+            <img class="watermark" src="../../../assets/watermark.png" />
             <div class="container <?= $result ? "large" : "" ?>">
                 <h1>Verify Driver Details</h1>
                 <?php if (!$result): ?>

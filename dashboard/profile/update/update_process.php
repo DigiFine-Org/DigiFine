@@ -90,7 +90,9 @@ if (!$ok) {
     die("Error: " . $conn->error);
 }
 
+//this should be change
 echo "<script>
     alert('Profile update request sent successfully!');
     window.location.href = '/digifine/dashboard/profile';
     </script>";
+

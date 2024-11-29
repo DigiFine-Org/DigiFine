@@ -23,7 +23,7 @@ if (isset($_GET)) {
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
-            <div class="container x-large no-border">
+            <div class="container  ">
                 <h1>Assign Duty</h1>
                 <form action="generate-e-ticket-process.php" method="POST">
                     <div class="field">
@@ -38,7 +38,7 @@ if (isset($_GET)) {
                         <label for="">Additional Notes:</label>
                         <textarea name="" id=""></textarea>
                     </div>
-                    <button class="btn">Generate</button>
+                    <button class="btn">Assign</button>
                 </form>
 
             </div>

@@ -24,41 +24,112 @@ if (isset($_GET)) {
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container x-large no-border">
-            <h1>Duty Submissions</h1>
+                <h1>Duty Submissions</h1>
                 <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Submission Number</th>
-                            <th>Police ID</th>
-                            <th>Officer Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <!-- <tbody>
-                        <?php foreach ($offences as $offence): ?>
+                    <table>
+                        <thead>
                             <tr>
-                                <td><?php echo htmlspecialchars($offence['offence_number']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['description_sinhala']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['description_tamil']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['description_english']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['points_deducted']); ?></td>
-                                <td><?php echo "Rs. " . number_format($offence['fine'], 2); ?></td>
-                                <td>
-                                    <a href="edit-offence.php?offence_number=<?php echo urlencode($offence['offence_number']); ?>"
-                                        class="btn marginbottom">Edit</a>
-                                    <form action="delete-offence-process.php" method="POST" style="display:inline;">
-                                        <input type="hidden" name="offence_number"
-                                            value="<?php echo htmlspecialchars($offence['offence_number']); ?>">
-                                        <button type="submit" class="deletebtn">Delete</button>
-                                    </form>
-                                </td>
+                                <th>Submission Number</th>
+                                <th>Police ID</th>
+                                <th>Officer Name</th>
+                                <th>Action</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody> -->
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>440891</td>
+                                <td>15364</td>
+                                <td>Pubuditha Walgampaya</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>44082</td>
+                                <td>12675</td>
+                                <td>Wendt Edmund</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>44083</td>
+                                <td>14567</td>
+                                <td>Thihansa Sanjunie</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>44084</td>
+                                <td>18934</td>
+                                <td>John Manuel</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>44085</td>
+                                <td>17256</td>
+                                <td>Nikila Silva</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>44086</td>
+                                <td>16321</td>
+                                <td>Nadun Madusanka</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>44087</td>
+                                <td>13452</td>
+                                <td>Abdhul Basith</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>44088</td>
+                                <td>14678</td>
+                                <td>Nimsara Wickramathanthri</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>44089</td>
+                                <td>17892</td>
+                                <td>Chamath Abeysinghe</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>440810</td>
+                                <td>12543</td>
+                                <td>Heshan Fernando</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>440811</td>
+                                <td>13987</td>
+                                <td>Dinuka Perera</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>440812</td>
+                                <td>14236</td>
+                                <td>Ravindu Wijesinghe</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>440813</td>
+                                <td>16897</td>
+                                <td>Samadhi Peiris</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>440814</td>
+                                <td>17562</td>
+                                <td>Mahesh Samarasinghe</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>440815</td>
+                                <td>15834</td>
+                                <td>Ruwan Lakmal</td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            
         </div>
     </div>
 </main>
