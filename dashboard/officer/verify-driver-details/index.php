@@ -31,25 +31,12 @@ if ($id) {
 
     $result = $stmt->get_result();
     if ($result->num_rows === 0) {
-        header("Location: verify-driver-details?error=Driver not found");
+        $_SESSION['message'] = "Driver not found!";
+        header("Location: /digifine/dashboard/officer/verify-driver-details/index.php");
         exit();
     }
 
     $result = $result->fetch_assoc();
-}
-
-if ($_SESSION['message'] ?? null) {
-    if ($_SESSION['message'] === 'success') {
-        $message = "E-Ticket generated successfully!";
-        unset($_SESSION['message']); // Clear the session message
-        include '../../../includes/alerts/success.php';
-    } else {
-        $message = $_SESSION['message']; // Store the message
-        unset($_SESSION['message']); // Clear the session message
-
-        // Include the alert.php file to display the message
-        include '../../../includes/alerts/failed.php';
-    }
 }
 
 ?>
@@ -62,6 +49,12 @@ if ($_SESSION['message'] ?? null) {
             <img class="watermark" src="../../../assets/watermark.png" />
             <div class="container <?= $result ? "large" : "" ?>">
                 <h1>Verify Driver Details</h1>
+                <?php if ($_SESSION['message'] ?? null): ?>
+                    <?php $message = $_SESSION['message'];
+                    unset($_SESSION['message']);
+                    include '../../../includes/alerts/failed.php';
+                    ?>
+                <?php endif; ?>
                 <?php if (!$result): ?>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
                         <input name="query" required type="search" class="input"
