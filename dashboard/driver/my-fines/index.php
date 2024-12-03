@@ -49,6 +49,7 @@ $stmt->close();
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="content">
+                <h1 style="margin-bottom:10px;">Fines to be Paid</h1>
                 <div class="home-grid">
                     <?php foreach ($fines as $fine): ?>
                         <div class="ticket <?= $fine['fine_status'] === 'overdue' ? 'danger' : '' ?>">
