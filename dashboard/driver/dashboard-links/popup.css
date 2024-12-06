@@ -1,0 +1,135 @@
+.popup-new {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 450px;
+    max-width: 90%;
+    max-height: 80%;
+    padding: 25px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    overflow-y: auto;
+    text-align: left;
+    font-family: 'Arial', sans-serif;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.popup-new.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.popup-new.hide {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+}
+
+.popup-new h2 {
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+    color: #444;
+    border-bottom: 3px solid #007BFF;
+    padding-bottom: 10px;
+    font-weight: 600;
+}
+
+.popup-new .search-bar {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.popup-new .search-bar input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.2s ease;
+}
+
+.popup-new .search-bar input:focus {
+    outline: none;
+    border-color: #007BFF;
+}
+
+.popup-new ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popup-new ul li {
+    margin: 12px 0;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    word-wrap: break-word;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.popup-new ul li:last-child {
+    border-bottom: none;
+}
+
+.popup-new .close-btn {
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.popup-new .close-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.popup-new-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Scrollbar styling */
+.popup-new::-webkit-scrollbar {
+    width: 10px;
+}
+
+.popup-new::-webkit-scrollbar-track {
+    background: #f4f4f4;
+    border-radius: 10px;
+}
+
+.popup-new::-webkit-scrollbar-thumb {
+    background: #007BFF;
+    border-radius: 10px;
+    border: 2px solid #f4f4f4;
+}
+
+.popup-new::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
+}
+
+/* Smooth transitions */
+.popup-new,
+.popup-new-overlay {
+    transition: opacity 0.3s ease-in-out;
+}
