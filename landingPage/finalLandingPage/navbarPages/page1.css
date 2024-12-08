@@ -1,0 +1,293 @@
+/* General Elements */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    margin: 0;
+    padding: 10px;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.75em;
+}
+
+h4 {
+    font-size: 1.5em;
+}
+
+h5 {
+    font-size: 1.25em;
+}
+
+h6 {
+    font-size: 1em;
+}
+
+/* Paragraphs and Text */
+p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Forms */
+input, select, textarea {
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Containers */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col {
+    flex: 1;
+    padding: 10px;
+}
+
+/* Navigation */
+nav {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f4f4f4;
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Specific Classes */
+.box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px 0;
+}
+
+.card-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.card-body {
+    font-size: 1em;
+}
+
+/* Utilities */
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.margin-10 {
+    margin: 10px;
+}
+
+.padding-10 {
+    padding: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 2s ease-in;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Miscellaneous Styling */
+div.example {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+span.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+ul.styled-list {
+    list-style: square inside;
+    padding: 10px;
+}
+
+ol.numbered-list {
+    list-style: decimal;
+    padding: 10px;
+}
+
+header.site-header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.sidebar {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+main.content-area {
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+/* Placeholders */
+input::placeholder {
+    color: #999;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 0;
+    height: 20px;
+    background-color: #28a745;
+    transition: width 0.5s ease-in-out;
+}

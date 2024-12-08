@@ -462,3 +462,16 @@ table td.centered {
   cursor: pointer;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
 }
+
+.watermark {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.1;
+  object-fit: contain;
+}
