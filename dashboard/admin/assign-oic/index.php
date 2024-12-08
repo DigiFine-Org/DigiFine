@@ -72,7 +72,7 @@ if ($_SESSION['message'] ?? null) {
                                             <input type="hidden" name="police_station_id"
                                                 value="<?= $officer['police_station_id'] ?>">
                                             <button type=" submit" name="officer_id" value="<?= $officer['id'] ?>"
-                                                style="width:100%" class="btn small">Assign</button>
+                                                style="width:100%" class="btn">Assign</button>
                                         </form>
                                     </td>
                                 </tr>

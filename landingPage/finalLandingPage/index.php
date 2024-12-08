@@ -26,14 +26,14 @@
                 <a href="./payFInesOnline.php" style="text-decoration: none; color: inherit;">
                     <div class="icon"><img src="../../assets/landingPage/icons/fine.png" alt="list-icon"></div>
                     <h3>Pay Fines Online</h3>
-                    <p>Liquam rhoncus, libero non congue ultricies. Lorem ipsum dolor sit amet.</p>
+                    <p>Quickly pay your traffic fines online with ease and convenience</p>
                 </a>
             </div>
             <div class="feature">
                 <a href="../../dashboard/gov-fine-list/index.php" style="text-decoration: none; color: inherit;">
                     <div class="icon"><img src="../../assets/landingPage/icons/list2.png" alt="list-icon"></div>
                     <h3>Traffic Offence List</h3>
-                    <p>Liquam rhoncus, libero non congue ultricies. Lorem ipsum dolor sit amet.</p>
+                    <p>View a comprehensive list of traffic offences and corresponding penalties.</p>
                 </a>
             </div>
 
@@ -42,7 +42,7 @@
 
                     <div class="icon">&#9733;</div>
                     <h3>Safety & Security</h3>
-                    <p>Liquam rhoncus, libero non congue ultricies. Lorem ipsum dolor sit amet.</p>
+                    <p>Explore tips and guidelines to ensure road safety and personal security.</p>
                 </a>
             </div>
 
@@ -50,7 +50,7 @@
                 <a href="#" style="text-decoration: none; color: inherit;">
                     <div class="icon">&#9776;</div>
                     <h3>Crime Statistics</h3>
-                    <p>Liquam rhoncus, libero non congue ultricies. Lorem ipsum dolor sit amet.</p>
+                    <p>Analyze detailed crime statistics for improved awareness and prevention.</p>
                 </a>
             </div>
         </section>
@@ -59,19 +59,17 @@
             <div class="info-column">
                 <h2>Criminal Facts</h2>
                 <div class="tabs">
-                    <button>Dolore Ipsum</button>
-                    <button>Quis Enim</button>
-                    <button>Ligula Pharetra</button>
-                    <button>Itollicil Tua</button>
+                    <button>Property Crimes</button>
+                    <button>Traffic Violations</button>
+                    <button>Cyber Crimes</button>
+                    <button>Drug Offences</button>
                 </div>
                 <div class="fact-content">
                     <div class="fact-icon">&#9733;</div>
                     <p>
-                        Maecenas quis enim non ligula pharetra fringilla vel id eros. Aliqu vitae nunc.
+                       
                         <br><br>
-                        Dolor nunc vule putateulr ips dol consect. Donec semp eret laciniate ultricie upi disse comete dolo
-                        lectus fgilla itollicil tua ludin dolor nec met quam accumsan. Dolore con dime netus lullam utlacus
-                        adipiscing ipsum molestie.
+                        Sri Lanka Police reports focus on improving crime prevention strategies, with recent efforts leading to increased public awareness and successful law enforcement campaigns. Continued efforts are underway to address emerging threats, such as cybercrime and organized crime groups.
                     </p>
                 </div>
             </div>
@@ -80,21 +78,21 @@
                 <div class="news-item">
                     <div class="date">
                         <p>03</p>
-                        <span>Jan 2015</span>
+                        <span>Jan 2024</span>
                     </div>
                     <div class="news-content">
-                        <h3>Donec Facilisi Ule</h3>
-                        <p>Morbi tempor quam mas sadip iscing ut cucuonge pentesqu nisl elit comte modo velutrics vel conseq.</p>
+                        <h3>New Traffic Regulation Policies</h3>
+                        <p>The Police Department introduced stricter measures for reckless driving to reduce accidents.</p>
                     </div>
                 </div>
                 <div class="news-item">
                     <div class="date">
                         <p>06</p>
-                        <span>Jan 2015</span>
+                        <span>Jan 2024</span>
                     </div>
                     <div class="news-content">
-                        <h3>Donec Facilisi Ule</h3>
-                        <p>Morbi tempor quam mas sadip iscing ut cucuonge pentesqu nisl elit comte modo velutrics vel conseq.</p>
+                        <h3>Enhanced Crime Detection Systems</h3>
+                        <p>Sri Lanka Police launches advanced surveillance systems to combat urban crime rates.</p>
                     </div>
                 </div>
             </div>
@@ -104,11 +102,7 @@
             <div class="message-content">
                 <img src="../../assets/landingPage/igp.webp" alt="Chief Photo" class="chief-photo">
                 <p>
-                    Mes cuml dia sed ineniasinge dolor ipsum commete ipsum comnetus. Dolor ipsum commete ipsum comnetus mes ineniasinge dolor.
-                    <br><br>
-                    Dolor nunc vule putateulr ips dol consect. Donec semp eret laciniate ultricie upi disse comete dolo lectus fgilla itollicil tua
-                    ludin dolor nec met quam accumsan. Dolore con dime netus lullam utlacus adipiscing ipsum molestie euis mod lore estibulum
-                    vel libero ipsum sit amet sollicitudin ante. Aenean imper diet alique drerit. Nunc interdum ullas molestie euis mod lore estibulum.
+                The Sri Lanka Police remains committed to serving and protecting the public. With improved systems and collaborative efforts, we aim to ensure the safety and security of every citizen. Let’s work together to build a peaceful and lawful society.
                 </p>
             </div>
         </section>
