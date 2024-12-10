@@ -372,6 +372,8 @@ table td.centered {
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
 }
 
+<<<<<<< HEAD
+=======
 .watermark {
   width: 100%;
   height: 100%;
@@ -385,6 +387,7 @@ table td.centered {
   object-fit: contain;
 }
 
+>>>>>>> b0b249a3371758cc0a55b6d908ae6d4f6793aff2
 /* Alerts */
 /* Background overlay container */
 .alert-container {
@@ -461,4 +464,38 @@ table td.centered {
   border-radius: 4px;
   cursor: pointer;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+<<<<<<< HEAD
+}
+
+.watermark {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.1;
+  object-fit: contain;
+=======
+>>>>>>> b0b249a3371758cc0a55b6d908ae6d4f6793aff2
+}
+
+.success-message {
+  color: #ffffff;
+  background-color: #145da0; /* Light green background */
+  border: 1px solid #145da0;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.error-message {
+  color: red;
+  background-color: #ffe0e0; /* Light red background */
+  border: 1px solid red;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
 }
