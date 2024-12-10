@@ -99,7 +99,7 @@ $conn->close();
                     <!-- <a href="index.php" class="btn" style="margin-right: 10px;margin-top:20px">Back to Fines</a> -->
                     <button class="btn" style="margin-right: 10px;margin-top:20px" id="reportFineButton">Report</button>
                     <!-- <a href="" class="btn" style="margin-right: 10px;margin-top:20px" id="reportFineButton">Report</a> -->
-                    <button class="btn" style="margin-right: 10px;margin-top:20px" id="payFineButton">Pay</button>
+                    <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?=htmlspecialchars($fine['fine_id']) ?>" class="btn" style="margin-right: 10px;margin-top:20px" id="payFinea">Pay</a>
                 </div>
                 <!-- Hidden report form -->
                 <form action="report-fine-process.php" method="post" id="reportFineForm"
