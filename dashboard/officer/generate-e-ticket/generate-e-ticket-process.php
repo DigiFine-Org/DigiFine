@@ -11,7 +11,6 @@ if (!$policeId) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    var_dump($_POST);
 
     $issued_date = htmlspecialchars($_POST['issued_date']);
     $issued_time = htmlspecialchars($_POST['issued_time']);
@@ -20,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $offence_type = htmlspecialchars($_POST['offence_type']);
     $nature_of_offence = htmlspecialchars($_POST['nature_of_offence']);
     $offence_number = htmlspecialchars($_POST['offence'] ?? null); // Offence number from dropdown
+    $fine_amount = htmlspecialchars($_POST['fine_amount'] ?? 0);
 
     // Validate if the driver exists in the system
     $driverCheckSql = "SELECT * FROM drivers WHERE id = ?";
@@ -66,13 +66,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $offence_number = $offence_type === "court" ? null : $offence_number;
 
     // Insert the fine into the database
-    $sql = "INSERT INTO fines (police_id, driver_id, license_plate_number, issued_date, issued_time, offence_type, nature_of_offence, offence) VALUES (?, ?, ?, CURRENT_DATE, CURRENT_TIME, ?, ?, ?)";
+    $sql = "INSERT INTO fines (police_id, driver_id, license_plate_number, issued_date, issued_time, offence_type, nature_of_offence, offence, fine_amount) VALUES (?, ?, ?, CURRENT_DATE, CURRENT_TIME, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die("Error preparing statement: " . $conn->error);
     }
 
-    $stmt->bind_param("isssss", $policeId, $driver_id, $license_plate_number, $offence_type, $nature_of_offence, $offence);
+    $stmt->bind_param("issssss", $policeId, $driver_id, $license_plate_number, $offence_type, $nature_of_offence, $offence, $fine_amount);
 
     if ($stmt->execute()) {
         // Set the success message in the session
