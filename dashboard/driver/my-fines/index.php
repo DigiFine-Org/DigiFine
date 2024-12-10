@@ -69,7 +69,8 @@ $stmt->close();
                                 <div class="actions">
                                     <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
                                         class="btn">View</a>
-                                    <a href="#" class="btn">Pay</a>
+                                    <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
+                                        class="btn">Pay</a>
                                 </div>
                                 <div class="status-list">
                                     <span class="status <?= $fine['fine_status'] === 'overdue' ? 'danger' : '' ?>">
