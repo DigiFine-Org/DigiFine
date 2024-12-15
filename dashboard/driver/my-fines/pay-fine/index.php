@@ -63,7 +63,7 @@ $conn->close();
     <div class="dashboard-layout">
         <?php include_once "../../../includes/sidebar.php" ?>
         <div class="content">
-            <div class="container large">
+            <form class="container large" method="post" action="https://sandbox.payhere.lk/pay/checkout">
                 <h1>Pay Fine</h1>
                 <div class="data-line">
                     <span>Fine ID:</span>
@@ -100,24 +100,64 @@ $conn->close();
                 <div class="wrapper">
                     <button id="payFineButton" class="btn">Pay Now</button>
                 </div>
-            </div>
+                <input type="hidden" name="sandbox" value="true">
+                <input type="hidden" name="merchant_id" value="1228631">
+                <input type="hidden" name="return_url"
+                    value="http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-success.php">
+                <input type="hidden" name="cancel_url"
+                    value="http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-cancel.php">
+                <input type="hidden" name="notify_url"
+                    value="http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-notify.php">
+                <?php
+                $merchant_id = "1228631";
+                $order_id = htmlspecialchars($fine['fine_id']);
+                $amount = htmlspecialchars($fine['fine_amount']);
+                $currency = "LKR";
+                $merchant_secret = "MjE0ODIwNjgzNTg4ODgxMzI2MDI4MzA3MDg1NjAzODU4NTA1NTE1";
+                $hash = strtoupper(
+                    md5(
+                        $merchant_id .
+                        $order_id .
+                        number_format($amount, 2, '.', '') .
+                        $currency .
+                        strtoupper(md5($merchant_secret))
+                    )
+                );
+                ?>
+
+                <input type="hidden" name="first_name" value="<?= htmlspecialchars($_SESSION['user']['fname']) ?>">
+                <input type="hidden" name="last_name" value="<?= htmlspecialchars($_SESSION['user']['lname']) ?>">
+                <input type="hidden" name="email" value="<?= htmlspecialchars($_SESSION['user']['email']) ?>">
+                <input type="hidden" name="phone" value="<?= htmlspecialchars($_SESSION['user']['phone_no']) ?>">
+                <input type="hidden" name="address" value="<?= "Haputhale, Sri Lanka" ?>">
+                <input type="hidden" name="city" value="<?= "Colombo" ?>">
+                <input type="hidden" name="country" value="Sri Lanka">
+                <input type="hidden" name="order_id" value="<?= $order_id ?>">
+                <input type="hidden" name="items" value="Traffic Fine Payment">
+                <input type="hidden" name="currency" value="LKR">
+                <input type="hidden" name="amount" value="<?= $amount ?>">
+                <input type="hidden" name="hash" value="<?= $hash ?>">
+            </form>
         </div>
     </div>
 </main>
 
 <!-- PayHere Payment Integration -->
-<script src="https://www.payhere.lk/lib/payhere.js"></script>
+<!-- <script src="https://www.payhere.lk/lib/payhere.js"></script>
 <script>
+    console.log("asdsad");
     document.getElementById('payFineButton').addEventListener('click', function () {
+        console.log("asdsad");
+        return;
         const payment = {
             "sandbox": true, // Set to false for production
-            "merchant_id": "Your Merchant ID", // Replace with your PayHere Merchant ID
+            "merchant_id": "1228631", // Replace with your PayHere Merchant ID
             "return_url": "http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-success.php",
             "cancel_url": "http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-cancel.php",
             "notify_url": "http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-notify.php",
             "order_id": "FINE-<?= htmlspecialchars($fine['fine_id']) ?>",
             "items": "Traffic Fine Payment",
-            "amount": "<?= number_format($fine['fine_amount'], 2) ?>",
+            "amount": "<?= htmlspecialchars($fine['fine_amount']) ?>", // Avoid formatting numbers here
             "currency": "LKR",
             "first_name": "<?= htmlspecialchars($_SESSION['user']['fname']) ?>",
             "last_name": "<?= htmlspecialchars($_SESSION['user']['lname']) ?>",
@@ -127,8 +167,9 @@ $conn->close();
             "city": "<?= htmlspecialchars($_SESSION['user']['city']) ?>"
         };
 
+        console.log({ payment });
         payhere.startPayment(payment);
     });
-</script>
+</script> -->
 
 <?php include_once "../../../../includes/footer.php"; ?>
