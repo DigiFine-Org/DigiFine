@@ -107,7 +107,7 @@ include_once "../../../includes/header.php";
                     <input type="password" id="password" minlength="6" name="password" class="input">
                 </div>
                 <p>
-                    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small>
+                    <!-- <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</small> -->
                 </p>
                 <button class="btn" style="margin-right: auto;margin-top:20px">Create Update Profile Request</a>
         </div>
