@@ -1,9 +1,9 @@
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gp";
+$servername = "mysql-digifine.alwaysdata.net";
+$username = "digifine_db";
+$password = "Digifine1234#";
+$dbname = "digifine_db";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 mysqli_report(MYSQLI_REPORT_OFF);
