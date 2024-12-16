@@ -16,7 +16,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
 <main>
     <?php include_once "../includes/navbar.php" ?>
@@ -28,25 +28,25 @@ if ($_SESSION['user']['role'] !== 'admin') {
             <div class="insights-bar">
                 <div class="inner-tile">
                     <div class="icon" style="background-color: #FFEFB4;">
-                        <!-- <img src="driver-icon.svg" alt="Driver Icon"> -->
+                        <span class="material-symbols-outlined" style="font-size: 36px;">directions_car</span>
                     </div>
                     <div class="info">
                         <p>Drivers</p>
-                        <h3>248</h3>
+                        <h3>5484</h3>
                     </div>
                 </div>
                 <div class="inner-tile">
                     <div class="icon" style="background-color: #CDE4FF;">
-                        <!-- <img src="officer-icon.svg" alt="Officer Icon"> -->
+                        <span class="material-symbols-outlined" style="font-size: 36px;">badge</span>
                     </div>
                     <div class="info">
                         <p>Police Officers</p>
-                        <h3>56</h3>
+                        <h3>2489</h3>
                     </div>
                 </div>
                 <div class="inner-tile">
                     <div class="icon" style="background-color: #F8C8D8;">
-                        <!-- <img src="report-icon.svg" alt="Report Icon"> -->
+                        <span class="material-symbols-outlined" style="font-size: 36px;">report_problem</span>
                     </div>
                     <div class="info">
                         <p>Stolen Vehicles</p>
@@ -55,7 +55,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
                 </div>
                 <div class="inner-tile">
                     <div class="icon" style="background-color: #D5F2EA;">
-                        <!-- <img src="fines-icon.svg" alt="Fines Icon"> -->
+                        <span class="material-symbols-outlined" style="font-size: 36px;">currency_rupee</span>
                     </div>
                     <div class="info">
                         <p>Total Fines</p>
@@ -64,7 +64,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
                 </div>
             </div>
 
-            <div class="charts-bar" style="margin-top: 12px;">
+            <div class="charts-bar" style="margin-top: 75px;">
                 <div class="inner-chart">
                     <canvas id="myChart"></canvas>
                 </div>
@@ -82,10 +82,10 @@ if ($_SESSION['user']['role'] !== 'admin') {
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'August', 'Sept', 'Oct', 'Nov', 'Dec'],
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                label: ' Monthly Driver Registrations',
+                data: [121, 58, 45, 145, 23, 67, 73, 95, 100, 36, 78, 60],
                 borderWidth: 1
             }]
         },
@@ -105,10 +105,10 @@ if ($_SESSION['user']['role'] !== 'admin') {
     new Chart(cty, {
         type: 'line',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'August', 'Sept', 'Oct', 'Nov', 'Dec'],
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                label: ' Monthly Fines Issued',
+                data: [1321, 2558, 4645, 4145, 1523, 5667, 8673, 6695, 6100, 4364, 4578, 4560],
                 borderWidth: 1
             }]
         },

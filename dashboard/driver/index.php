@@ -22,7 +22,8 @@ if (!$driverId) {
 // fetch driver's nameS
 $sql = "SELECT fname, lname FROM drivers WHERE id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $driverId);
+
+$stmt->bind_param("s", $driverId);
 
 if (!$stmt->execute()) {
     die("Error fetching officer details " . $stmt->error);
