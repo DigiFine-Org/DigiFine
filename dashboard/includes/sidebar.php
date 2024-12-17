@@ -230,6 +230,8 @@ function renderLink(string $title, string $link)
     <?php if ($sidebar_user['role'] === 'oic'): ?>
       <!-- oic links -->
       <?php renderLink("Home", "/digifine/dashboard/oic/index.php") ?>
+      <?php renderLink("Announcements", "/digifine/dashboard/oic/announcements/index.php") ?>
+      <?php renderLink("Publish Announcements", "/digifine/dashboard/oic/announcements/index.php") ?>
       <?php renderLink("Fines", "/digifine/dashboard/oic/fine-management/index.php") ?>
       <?php renderLink("Station Officers", "/digifine/dashboard/oic/officer-management/index.php") ?>
       <?php renderLink("Duty Submissions", "/digifine/dashboard/oic/duty-submissions/index.php") ?>
@@ -238,6 +240,7 @@ function renderLink(string $title, string $link)
 
     <?php if ($sidebar_user['role'] === 'officer'): ?>
       <?php renderLink("Home", "/digifine/dashboard/officer/index.php") ?>
+      <?php renderLink("Announcements", "/digifine/dashboard/officer/announcements/index.php") ?>
       <?php renderLink("Check Vehicle Details", "/digifine/dashboard/officer/check-vehicle-details/index.php") ?>
       <?php renderLink("Generate E-Ticket", "/digifine/dashboard/officer/generate-e-ticket/index.php") ?>
       <?php renderLink("Verify Driver Details", "/digifine/dashboard/officer/verify-driver-details/index.php") ?>
@@ -247,6 +250,7 @@ function renderLink(string $title, string $link)
     <?php if ($sidebar_user['role'] === 'driver'): ?>
       <?php renderLink("Home", "/digifine/dashboard/driver/index.php") ?>
       <?php renderLink("My Fines", "/digifine/dashboard/driver/my-fines/index.php") ?>
+      <?php renderLink("Announcements", "/digifine/dashboard/driver/announcements/index.php") ?>
       <?php renderLink("Gov-Offence List", "/digifine/dashboard/gov-fine-list/index.php") ?>
       <?php renderLink("Payments", "/digifine/dashboard/driver/payments/index.php") ?>
     <?php endif ?>

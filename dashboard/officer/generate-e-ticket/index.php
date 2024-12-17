@@ -33,19 +33,19 @@ if ($_SESSION['user']['role'] !== 'officer') {
     exit();
 }
 
-// if ($_SESSION['message'] ?? null) {
-//     if ($_SESSION['message'] === 'success') {
-//         $message = "E-Ticket generated successfully!";
-//         unset($_SESSION['message']); // Clear the session message
-//         include '../../../includes/alerts/success.php';
-//     } else {
-//         $message = $_SESSION['message']; // Store the message
-//         unset($_SESSION['message']); // Clear the session message
+if ($_SESSION['message'] ?? null) {
+    if ($_SESSION['message'] === 'success') {
+        $message = "E-Ticket generated successfully!";
+        unset($_SESSION['message']); // Clear the session message
+        include '../../../includes/alerts/success.php';
+    } else {
+        $message = $_SESSION['message']; // Store the message
+        unset($_SESSION['message']); // Clear the session message
 
-//         // Include the alert.php file to display the message
-//         include '../../../includes/alerts/failed.php';
-//     }
-// }
+        // Include the alert.php file to display the message
+        include '../../../includes/alerts/failed.php';
+    }
+}
 ?>
 
 <main>
@@ -133,7 +133,7 @@ if ($_SESSION['user']['role'] !== 'officer') {
     const offenceType = document.getElementById("offence_type");
     const offenceSelectField = document.getElementById("offence_select_field");
 
-    offenceType.addEventListener("change", function () {
+    offenceType.addEventListener("change", function() {
         if (this.value === "fine") {
             offenceSelectField.style.display = "flex";
         } else {
@@ -145,7 +145,7 @@ if ($_SESSION['user']['role'] !== 'officer') {
     const offenceDropdown = document.getElementById("offence");
     const fineAmountInput = document.getElementById("fine_amount");
 
-    offenceDropdown.addEventListener("change", function () {
+    offenceDropdown.addEventListener("change", function() {
         const selectedOption = offenceDropdown.options[offenceDropdown.selectedIndex];
         const fineAmount = selectedOption.getAttribute("data-fine") || 0;
         fineAmountInput.value = fineAmount;

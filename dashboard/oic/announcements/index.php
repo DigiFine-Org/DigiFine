@@ -9,7 +9,7 @@ session_start();
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
 
-if ($_SESSION['user']['role'] !== 'admin') {
+if ($_SESSION['user']['role'] !== 'oic') {
     die("unauthorized user!");
 }
 
@@ -56,6 +56,7 @@ if ($_SESSION['message'] ?? null) {
                             <option value="oic">OIC</option>
                             <option value="officer">Officer</option>
                             <option value="driver">Driver</option>
+                            <!-- if driver to which area option -->
                         </select>
                     </div>
                     <div class="field">

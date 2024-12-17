@@ -17,7 +17,9 @@ $password = $_POST['password'];
 $isAdmin = AdminAuth::check_credential($userid, $password);
 if (!is_null($isAdmin)) {
     if (!$isAdmin) {
-        die("Incorrect password!!!");
+        $_SESSION['message'] = "Incorrect password!";
+        header("Location: /digifine/login/index.php");
+        exit();
     }
     $user = ['id' => $userid, 'role' => 'admin'];
     $_SESSION['user'] = $user;
