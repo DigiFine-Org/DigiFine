@@ -262,8 +262,8 @@ function renderLink(string $title, string $link)
       <?php renderLink("Assign OIC", "/digifine/dashboard/admin/assign-oic/index.php") ?>
       <?php renderLink("Profile Update Requests", "/digifine/dashboard/admin/profile-update-requests/index.php") ?>
       <!-- <?php renderLink("Driver Management", "/digifine/dashboard/admin/driver-management/index.php") ?> -->
-      <!-- <?php renderLink("Stolen Vehicles", "/digifine/dashboard/admin/stolen-vehicles/index.php") ?>
-      <?php renderLink("Publish Announcements", "/digifine/dashboard/admin/announcements/index.php") ?> -->
+      <!-- <?php renderLink("Stolen Vehicles", "/digifine/dashboard/admin/stolen-vehicles/index.php") ?> -->
+      <?php renderLink("Publish Announcements", "/digifine/dashboard/admin/announcements/index.php") ?>
       <!-- <?php renderLink("Police Officer Management", "/digifine/dashboard/admin/officer-management/index.php") ?> -->
     <?php endif ?>
   </div>
