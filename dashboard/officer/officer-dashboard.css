@@ -139,7 +139,7 @@
 
 .navigation-tile-grid .tile {
   background-color: var(--color-light-blue);
-  color: white;
+  color: black;
   font-weight: 600;
   text-transform: uppercase;
   display: flex;
@@ -160,23 +160,27 @@
 }
 
 .navigation-tile-grid .tile.offence-list {
-  background-image: url("");
+  background-image: url("/digifine/assets/remaining-points1.jpg");
 }
 
 .navigation-tile-grid .tile.resources {
-  background-image: url("");
+  background-image: url("/digifine/assets/resources.jpg");
 }
 
 .navigation-tile-grid .tile.training {
-  background-image: url("");
+  background-image: url("/digifine/assets/training.jpg");
 }
 
 .navigation-tile-grid .tile.stolen-vehicles {
-  background-image: url("");
+  background-image: url("/digifine/assets/stolen-vehicles.jpg");
 }
 
-.navigation-tile-grid .tile.dummy {
-  background-image: url("");
+.navigation-tile-grid .tile.fines-issued {
+  background-image: url("/digifine/assets/issued-fines.jpg");
+}
+
+.navigation-tile-grid .tile.duty {
+  background-image: url("/digifine/assets/duty.jpg");
 }
 
 .navigation-tile-grid .tile.dummy {
@@ -186,4 +190,23 @@
 .navigation-tile-grid .tile:hover {
   transform: scale(1.02);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+.tile span {
+  position: relative;
+  font-weight: bold;
+  z-index: 1; /* Ensure the text appears above the highlight */
+  color: black; /* Adjust text color if needed */
+}
+
+.tile span::before {
+  content: "";
+  position: absolute;
+  bottom: 0; /* Position at the base of the text */
+  left: -10px; /* Extend the highlight to the left */
+  right: -10px; /* Extend the highlight to the right */
+  height: 15px; /* Adjust the height of the highlight bar */
+  background-color: white; /* White highlight bar */
+  z-index: -1; /* Place the highlight behind the text */
+  transform: skewX(-10deg); /* Optional: Add an angled effect */
 }

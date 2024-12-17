@@ -18,3 +18,15 @@ sidebarToggler.addEventListener("click", () => {
     sidebarToggler.innerHTML = closeIcon;
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+

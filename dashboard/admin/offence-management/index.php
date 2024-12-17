@@ -43,7 +43,7 @@ include_once "../../../includes/header.php";
 if ($_SESSION['user']['role'] !== 'admin') {
     die("unauthorized user!");
 }
-?>   
+?>
 
 
 <main>
@@ -52,7 +52,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="table-container">
-                <h1>Offence List</h1>
+                <h2>Offence List</h2>
                 <form action="/digifine/dashboard/admin/offence-management/add-offence.php" method="get">
                     <input type="submit" class="btn margintop marginbottom" value="Add Offence">
                 </form>

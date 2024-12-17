@@ -23,7 +23,11 @@ if (isset($_GET)) {
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
+<<<<<<< HEAD
             <div class="container">
+=======
+            <div class="container  ">
+>>>>>>> c2e6a350219c3bb0ba715390fc7af16602c190d5
                 <h1>Assign Duty</h1>
                 <form action="assign-duty-handler.php" method="POST">
                     <div class="field">
@@ -38,7 +42,11 @@ if (isset($_GET)) {
                         <label for="notes">Additional Notes:</label>
                         <textarea name="notes" id="notes"></textarea>
                     </div>
+<<<<<<< HEAD
                     <button class="btn">Assign Duty</button>
+=======
+                    <button class="btn">Assign</button>
+>>>>>>> c2e6a350219c3bb0ba715390fc7af16602c190d5
                 </form>
                 
                 <?php if (isset($_SESSION['success'])): ?>
