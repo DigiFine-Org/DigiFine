@@ -1,29 +1,32 @@
-<?
+<?php
 
-    //checking if the form is submit
-    if(isset($_POST['submit'])) {
-        $fullname = $_POST['fullname'];
-        $email = $_POST['email'];
-        $subject = $_POST['subject'];
-        $message = $_POST['message'];
-    }
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-    $to = 'imalsha.contact@gmail.com';
-    $mail_subject = 'Message from website';
-    $email_body = "Message from contact us page of the website: <br>";
-    $email_body .= "<b>From:</b> {$fullname} <br>";
-    $email_body .= "<b>Subject:</b> {$subject} <br>";
-    $email_body .= "<b>Message:</b><br>" .nl2br(strip_tags($message));
-
-    
-
-    mail(to, subject, $message)
+require 'phpmailer/src/Exception.php';
+require 'phpmailer/src/PHPMailer.php';
+require 'phpmailer/src/SMTP.php';
 
 
+
+// Checking if the form is submitted
+if (isset($_POST['submit'])) {
+
+    $mail = new PHPMailer(true);
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'imalsha.contact@gmail.com';
+    $mail->Password = 'maxq quoe itby rizk';
+
+    $fullname = $_POST['fullname'];
+    $email = $_POST['email'];
+    $subject = $_POST['subject'];
+    $message = $_POST['message'];
+
+}
 
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,19 +39,19 @@
     <div class="container">
         <form action="test.php" method="post">
             <p>
-                <label for="fullname">Full Name: </label>
+                <label for="fullname">Full Name:</label>
                 <input type="text" name="fullname" id="fullname" required>
             </p>
             <p>
-                <label for="email">Email: </label>
+                <label for="email">Email:</label>
                 <input type="email" name="email" id="email" required>
             </p>
             <p>
-                <label for="subject">Subject: </label>
+                <label for="subject">Subject:</label>
                 <input type="text" name="subject" id="subject" required>
             </p>
             <p>
-                <label for="message">Message: </label>
+                <label for="message">Message:</label>
                 <textarea name="message" id="message" cols="30" rows="10" required></textarea>
             </p>
             <p>
@@ -56,6 +59,5 @@
             </p>
         </form>
     </div>
-    
 </body>
 </html>
