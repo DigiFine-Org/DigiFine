@@ -28,15 +28,15 @@ if (isset($_POST['submit'])) {
         $mail->SMTPAuth = true;                                   //Enable SMTP authentication
 
         $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
-        $mail->Username = 'imalsha.contact@gmail.com';                     //SMTP username
-        $mail->Password = '';                               //SMTP password
+        $mail->Username = 'hmnewsdiary@gmail.com';                     //SMTP username
+        $mail->Password = 'eiffazxrvlamszea';                               //SMTP password
 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $mail->setFrom('imalsha.contact@gmail.com', 'Imalsha Jathunarachchi');
-        $mail->addAddress('imalsha.contact@gmail.com', 'Imalsha Jathunarachchi');     //Add a recipient
+        $mail->setFrom('hmnewsdiary@gmail.com', $fullname);
+        $mail->addAddress('hmnewsdiary@gmail.com', $fullname);     //Add a recipient
 
         // $mail->addAddress('ellen@example.com');               //Name is optional
         // $mail->addReplyTo('info@example.com', 'Information');
@@ -64,6 +64,7 @@ if (isset($_POST['submit'])) {
 
         if ($mail->send()) {
             $_SESSION['status'] = "Thankyou for contact us - Digifine";
+            header('Location: contact.php');
             
         } else {
             $_SESSION['status'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
