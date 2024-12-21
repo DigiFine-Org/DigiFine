@@ -5,16 +5,22 @@ session_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
+require '../../PHPMailer/src/Exception.php';
+require '../../PHPMailer/src/PHPMailer.php';
+require '../../PHPMailer/src/SMTP.php';
 
 if (isset($_POST['submit'])) {
 
-    $fullname = $_POST['fullname'];
+    $district = $_POST['district'];
+    $police_station = $_POST['police_station'];
+    $complaint = $_POST['complaint'];
+    $name = $_POST['name'];
+    $address = $_POST['address'];
+    $nic = $_POST['nic'];
+    $contact_number = $_POST['contact_number'];
     $email = $_POST['email'];
-    $subject = $_POST['subject'];
-    $message = $_POST['message'];
+    $complaint_text = $_POST['complaint_text'];
+    $complaint_subject = $_POST['complaint_subject'];
 
 
 
@@ -51,11 +57,16 @@ if (isset($_POST['submit'])) {
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'Tell IGP';
         $mail->Body = '
-            <h4>Full Name: ' . $fullname . '</h4>
-            <h4>Email: ' . $email . '</h4>
-            <h4>Subject: ' . $subject . '</h4>
-            <h4>Message: ' . $message . '</h4>
-        
+            <h3>District: ' . $district . '</h3>
+            <h4>Police Station: ' . $police_station . '</h4>
+            <h5>Complaint Category: ' . $complaint . '</h5>
+            <p>Name: ' . $name . '</p>       
+            <p>Address: ' . $address . '</p>       
+            <p>NIC: ' . $nic . '</p>       
+            <p>Contact Number: ' . $contact_number . '</p>       
+            <p>Email: ' . $email . '</p>       
+            <p>Complaint Subject: ' . $complaint_subject . '</p>       
+            <p>Complaint: ' . $complaint_text . '</p>       
         ';
         // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
@@ -64,8 +75,8 @@ if (isset($_POST['submit'])) {
 
         if ($mail->send()) {
             $_SESSION['status'] = "Thankyou for contact us - Digifine";
-            header('Location: contact.php');
-            
+            header('Location: ../../index.php');
+
         } else {
             $_SESSION['status'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             header('Location: {$_SERVER["HTTP_REFERER"]}');
@@ -78,6 +89,6 @@ if (isset($_POST['submit'])) {
 
 
 } else {
-    header('Location: contact.php');
+    header('Location: ../../index.php');
     exit(0);
 }
