@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
 
         $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->Username = 'imalsha.contact@gmail.com';                     //SMTP username
-        $mail->Password = 'maxqquoeitbyrizk';                               //SMTP password
+        $mail->Password = '';                               //SMTP password
 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
@@ -64,8 +64,7 @@ if (isset($_POST['submit'])) {
 
         if ($mail->send()) {
             $_SESSION['status'] = "Thankyou for contact us - Digifine";
-            header('Location: {$_SERVER["HTTP_REFERER"]}');
-            exit(0);
+            
         } else {
             $_SESSION['status'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             header('Location: {$_SERVER["HTTP_REFERER"]}');
