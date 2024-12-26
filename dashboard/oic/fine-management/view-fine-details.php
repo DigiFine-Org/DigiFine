@@ -9,7 +9,6 @@ $pageConfig = [
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
 
-
 $oic_id = $_SESSION['user']['id'] ?? null;
 if (!$oic_id) {
     die("Unauthorized access.");
@@ -24,7 +23,8 @@ $fine_id = intval($_GET['id']);
 // Ensure the fine belongs to the OIC's police station
 $sql = "
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
-           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported , f.reported_description
+           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported, f.reported_description, 
+           f.evidence
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
     WHERE f.id = ? AND o.police_station = (SELECT police_station FROM officers WHERE id = ?)
@@ -93,6 +93,18 @@ $conn->close();
                         <span>Reported Description:</span>
                         <p><?= htmlspecialchars($fine['reported_description'] ?? 'No description provided') ?></p>
                     </div>
+
+                    <?php if (!empty($fine['evidence'])): ?>
+                        <div class="data-line">
+                            <span>Evidence:</span>
+                            <!-- Display image or link to the file -->
+                            <?php if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $fine['evidence'])): ?>
+                                <img src="<?= htmlspecialchars($fine['evidence']) ?>" alt="Uploaded Evidence" style="max-width: 100%; height: auto; margin-top: 10px;">
+                            <?php else: ?>
+                                <a href="<?= htmlspecialchars($fine['evidence_path']) ?>" target="_blank">View Uploaded Evidence</a>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- OIC Comment Form -->
                     <form action="oic-action-process.php" method="post" id="oicActionForm" style="margin-top: 20px;">
