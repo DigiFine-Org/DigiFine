@@ -11,30 +11,26 @@ require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
 if ($_SESSION['user']['role'] !== 'driver') {
-    die("unauthorized user!");
+    die("Unauthorized user!");
 }
 
 $driver_id = $_SESSION['user']['id'] ?? null;
 
-// Fine ID Numeric Validation
 $fine_id = isset($_GET['fine_id']) ? intval($_GET['fine_id']) : 0;
-if ($fine_id <= 0) {
-    die("Invalid fine ID.");
-}
-
-
-if (!$driver_id) {
-    die("Unathorized access.");
+if ($fine_id <= 0 || !$driver_id) {
+    die("Invalid fine ID or unauthorized access.");
 }
 
 $sql = "
     SELECT f.id AS fine_id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, 
-    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status FROM fines AS
-     f INNER JOIN drivers AS d ON f.driver_id = d.id WHERE f.id = ? AND d.id = ?;
+    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status 
+    FROM fines AS f 
+    INNER JOIN drivers AS d ON f.driver_id = d.id 
+    WHERE f.id = ? AND d.id = ?;
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("is", $fine_id, $driver_id);
+$stmt->bind_param("ii", $fine_id, $driver_id);
 
 if (!$stmt->execute()) {
     die("Error executing query: " . $stmt->error);
@@ -53,9 +49,9 @@ $conn->close();
 ?>
 
 <main>
-    <?php include_once "../../includes/navbar.php" ?>
+    <?php include_once "../../includes/navbar.php"; ?>
     <div class="dashboard-layout">
-        <?php include_once "../../includes/sidebar.php" ?>
+        <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
             <div class="container large">
                 <h1>Fine Details</h1>
@@ -96,22 +92,23 @@ $conn->close();
                     <p><?= htmlspecialchars($fine['fine_status']) ?></p>
                 </div>
                 <div class="wrapper">
-                    <!-- <a href="index.php" class="btn" style="margin-right: 10px;margin-top:20px">Back to Fines</a> -->
-                    <button class="btn" style="margin-right: 10px;margin-top:20px" id="reportFineButton">Report</button>
-                    <!-- <a href="" class="btn" style="margin-right: 10px;margin-top:20px" id="reportFineButton">Report</a> -->
-                    <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?=htmlspecialchars($fine['fine_id']) ?>" class="btn" style="margin-right: 10px;margin-top:20px" id="payFinea">Pay</a>
+                    <button class="btn" style="margin-right: 10px; margin-top: 20px" id="reportFineButton">Report</button>
+                    <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']) ?>" 
+                       class="btn" style="margin-right: 10px; margin-top: 20px" id="payFineButton">Pay</a>
                 </div>
                 <!-- Hidden report form -->
-                <form action="report-fine-process.php" method="post" id="reportFineForm"
-                    style="display: none; margin-top: 20px;">
+                <form action="report-fine-process.php" method="post" id="reportFineForm" enctype="multipart/form-data"
+                      style="display: none; margin-top: 20px; flex-direction: column;">
                     <div class="field">
-                        <input type="file" style="margin-bottom: 10px;">
-                        <label for="reported_description">Reason for Reporting:</label>
-                        <textarea type="text" class="input" name="reported_description" id="reported_description"
-                            required></textarea>
-                        <button class="btn" style="margin-top: 10px; margin-right: 10px">Submit</button>
-                        <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['fine_id']) ?>">
+                        <label for="evidence">Upload Evidence:</label>
+                        <input type="file" name="evidence" id="evidence" accept="image/*,application/pdf" required>
                     </div>
+                    <div class="field">
+                        <label for="reported_description">Reason for Reporting:</label>
+                        <textarea name="reported_description" id="reported_description" class="input" required></textarea>
+                    </div>
+                    <button class="btn" style="margin-top: 10px; margin-right: 10px">Submit</button>
+                    <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['fine_id']) ?>">
                 </form>
             </div>
         </div>
@@ -119,12 +116,15 @@ $conn->close();
 </main>
 
 <script>
-    // Toggle visibility for the report form and hide the Pay button
+    // Toggle visibility for the report form and hide other buttons
     document.getElementById('reportFineButton').addEventListener('click', function () {
-        document.getElementById('reportFineForm').style.display = 'flex'; // Show the form
+        const reportForm = document.getElementById('reportFineForm');
+        const payFineButton = document.getElementById('payFineButton');
+
+        reportForm.style.display = 'flex'; // Show the report form
         this.style.display = 'none'; // Hide the Report button
-        document.getElementById('payFineButton').style.display = 'none'; // Hide the Pay button
+        if (payFineButton) payFineButton.style.display = 'none'; // Hide the Pay button
     });
 </script>
 
-<?php include_once "../../../includes/footer.php" ?>
+<?php include_once "../../../includes/footer.php"; ?>
