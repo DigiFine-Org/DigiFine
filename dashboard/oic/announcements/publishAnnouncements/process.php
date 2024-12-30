@@ -14,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $targetRole = "officer";
 
     // Insert announcement into the database
-    $insertQuery = "INSERT INTO announcements (title, message, target_role, expires_at, police_station) 
-                    VALUES (?, ?, ?, ?, ?)";
+    $insertQuery = "INSERT INTO announcements (title, message, published_by, published_id, target_role, expires_at, police_station) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($insertQuery);  // Use $conn for mysqli
-    $stmt->bind_param("sssss", $title, $message, $targetRole, $expiresAt, $oicStationNumber);  // Bind parameters
+    $stmt->bind_param("ssssssi", $title, $message, $role, $id, $targetRole, $expiresAt, $policeStation);  // Bind parameters
     $stmt->execute();
 
     $_SESSION['message'] = 'Announcement published successfully.';
