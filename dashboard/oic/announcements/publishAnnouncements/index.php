@@ -35,6 +35,19 @@ if (!isset($_SESSION['user']['police_station'])) {
 
 $oicStationNumber = $_SESSION['user']['police_station']; // Retrieve OIC's station number
 
+if ($_SESSION['message'] ?? null) {
+    if ($_SESSION['message'] === 'success') {
+        $message = "Announcement published successfully!";
+        unset($_SESSION['message']); // Clear the session message
+        include '../../../../includes/alerts/success.php';
+    } else {
+        $message = $_SESSION['message']; // Store the message
+        unset($_SESSION['message']); // Clear the session message
+
+        // Include the alert.php file to display the message
+        include '../../../../includes/alerts/failed.php';
+    }
+}
 
 ?>
 

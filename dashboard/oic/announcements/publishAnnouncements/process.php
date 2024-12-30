@@ -20,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssssssi", $title, $message, $role, $id, $targetRole, $expiresAt, $policeStation);  // Bind parameters
     $stmt->execute();
 
-    $_SESSION['message'] = 'Announcement published successfully.';
-    header("Location: ");
+    $_SESSION['message'] = 'success';
+    header("Location: /digifine/dashboard/oic/announcements/publishAnnouncements/index.php");
     exit();
 } else {
     die("Invalid request method!");
