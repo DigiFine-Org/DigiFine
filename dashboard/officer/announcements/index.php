@@ -1,6 +1,6 @@
 <?php
 $pageConfig = [
-    'title' => 'Check Vehicle Details',
+    'title' => 'Announcements',
     'styles' => ["../../dashboard.css", "./announcements.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
