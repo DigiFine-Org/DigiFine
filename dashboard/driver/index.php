@@ -77,6 +77,11 @@ $conn->close();
                         <span>Police Stations</span>
                     </div>
                 </a>
+                <a href="/digifine/dashboard/driver/dashboard-links/stolen-vehicles.php">
+                    <div class="tile police-stations">
+                        <span>Vehicle Stolen?</span>
+                    </div>
+                </a>
                 <!-- <div class="tile tips-drivers">
                     <span>Tips For Drivers</span>
                 </div>

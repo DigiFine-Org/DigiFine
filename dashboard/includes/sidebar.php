@@ -246,6 +246,8 @@ function renderLink(string $title, string $link)
       <?php renderLink("Station Officers", "/digifine/dashboard/oic/officer-management/index.php") ?>
       <?php renderLink("Duty Submissions", "/digifine/dashboard/oic/duty-submissions/index.php") ?>
       <?php renderLink("Assign Duties", "/digifine/dashboard/oic/assign-duties/index.php") ?>
+      <?php renderLink("Stolen Vehicle", "/digifine/dashboard/oic/stolen-vehicles/index.php") ?>
+
     <?php endif ?>
 
     <?php if ($sidebar_user['role'] === 'officer'): ?>
