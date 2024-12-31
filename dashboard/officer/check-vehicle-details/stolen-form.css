@@ -1,0 +1,73 @@
+/* General Styling */
+
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.vehicle-details {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.vehicle-details p {
+    font-size: 16px;
+    color: #555;
+    margin: 8px 0;
+}
+
+.vehicle-details strong {
+    color: #333;
+}
+
+.stolen-form {
+    margin-top: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+button.btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .vehicle-details p {
+        font-size: 14px;
+    }
+}
