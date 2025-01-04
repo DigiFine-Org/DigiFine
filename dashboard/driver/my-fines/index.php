@@ -23,7 +23,7 @@ $stmt = $conn->prepare("
     f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status
     FROM fines AS f
     INNER JOIN drivers AS d ON f.driver_id = d.id
-    WHERE d.id = ? AND is_discarded = 0
+    WHERE d.id = ? AND is_discarded = 0 AND (fine_status = 'pending' OR fine_status = 'overdue')
     ");
 
 if (!$stmt) {

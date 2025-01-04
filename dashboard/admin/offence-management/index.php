@@ -11,13 +11,13 @@ $pageConfig = [
 require_once "../../../db/connect.php";
 
 try {
-    $sql = "SELECT offence_number, description_sinhala, description_tamil, description_english, points_deducted, fine FROM offences";
+    $sql = "SELECT offence_number, description_sinhala, description_tamil, description_english, points_deducted, fine_amount FROM offences";
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         die("Query preparation failed: " . $conn->error);
     }
     $stmt->execute();
-    $stmt->bind_result($offence_number, $description_sinhala, $description_tamil, $description_english, $points_deducted, $fine);
+    $stmt->bind_result($offence_number, $description_sinhala, $description_tamil, $description_english, $points_deducted, $fine_amount);
     $offences = [];
 
     while ($stmt->fetch()) {
@@ -27,7 +27,7 @@ try {
             'description_tamil' => $description_tamil,
             'description_english' => $description_english,
             'points_deducted' => $points_deducted,
-            'fine' => $fine
+            'fine_amount' => $fine_amount
         ];
     }
 
@@ -56,8 +56,6 @@ if ($_SESSION['user']['role'] !== 'admin') {
                 <form action="/digifine/dashboard/admin/offence-management/add-offence.php" method="get">
                     <input type="submit" class="btn margintop marginbottom" value="Add Offence">
                 </form>
-
-
                 <table>
                     <thead>
                         <tr>
@@ -78,7 +76,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
                                 <td><?php echo htmlspecialchars($offence['description_tamil']); ?></td>
                                 <td><?php echo htmlspecialchars($offence['description_english']); ?></td>
                                 <td><?php echo htmlspecialchars($offence['points_deducted']); ?></td>
-                                <td><?php echo "Rs. " . number_format($offence['fine'], 2); ?></td>
+                                <td><?php echo "Rs. " . number_format($offence['fine_amount'], 2); ?></td>
                                 <td>
                                     <a href="edit-offence.php?offence_number=<?php echo urlencode($offence['offence_number']); ?>"
                                         class="btn marginbottom">Edit</a>

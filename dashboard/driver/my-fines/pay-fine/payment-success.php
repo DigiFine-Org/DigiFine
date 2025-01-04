@@ -12,8 +12,10 @@ include_once "../../../../includes/header.php";
 // Display success message
 ?>
 <main>
+    <?php include_once "../../../includes/navbar.php"; ?>
     <div class="dashboard-layout">
-        <?php include_once "../../../includes/navbar.php"; ?>
+        <?php include_once "../../../includes/sidebar.php" ?>
+
         <div class="content">
             <div class="container large">
                 <h1>Payment Successful</h1>
