@@ -1,6 +1,6 @@
 <?php
 $pageConfig = [
-    'title' => 'DAssign Duties',
+    'title' => 'Assign Duties',
     'styles' => ["../../dashboard.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
@@ -8,7 +8,7 @@ $pageConfig = [
 
 include_once "../../../includes/header.php";
 if ($_SESSION['user']['role'] !== 'oic') {
-    die("unauthorized user!");
+    die("Unauthorized user!");
 }
 
 $result = "";
@@ -19,32 +19,45 @@ if (isset($_GET)) {
 ?>
 
 <main>
-    <?php include_once "../../includes/navbar.php" ?>
+    <?php include_once "../../includes/navbar.php"; ?>
     <div class="dashboard-layout">
-        <?php include_once "../../includes/sidebar.php" ?>
+        <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
-            <div class="container x-large no-border">
+            <div class="container">
                 <h1>Assign Duty</h1>
-                <form action="generate-e-ticket-process.php" method="POST">
+                <form action="assign-duty-handler.php" method="POST">
                     <div class="field">
-                        <label for="">Police ID:</label>
-                        <input type="text" class="input" value="">
+                        <label for="policeId">Police ID:</label>
+                        <input type="text" name="policeId" class="input" required>
                     </div>
                     <div class="field">
-                        <label for="">Duty:</label>
-                        <input type="text" class="input" value="">
+                        <label for="duty">Duty:</label>
+                        <input type="text" name="duty" class="input" required>
                     </div>
                     <div class="field">
-                        <label for="">Additional Notes:</label>
-                        <textarea name="" id=""></textarea>
+                        <label for="dutyDate">Duty Date:</label>
+                        <input type="date" name="dutyDate" class="input" id="dutyDate" min="<?= date('Y-m-d') ?>" required>
                     </div>
-                    <button class="btn">Generate</button>
+                    <div class="field">
+                        <label for="notes">Additional Notes:</label>
+                        <textarea name="notes" id="notes"></textarea>
+                    </div>
+                    <button class="btn">Assign Duty</button>
                 </form>
+                
+                <?php if (isset($_SESSION['success'])): ?>
+                    <div class="success-message"><?php echo $_SESSION['success']; ?></div>
+                    <?php unset($_SESSION['success']); ?>
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="error-message"><?php echo $_SESSION['error']; ?></div>
+                    <?php unset($_SESSION['error']); ?>
+                <?php endif; ?>
 
             </div>
-
         </div>
     </div>
 </main>
 
-<?php include_once "../../../includes/footer.php" ?>
+<?php include_once "../../../includes/footer.php"; ?>
