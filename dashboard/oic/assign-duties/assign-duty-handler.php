@@ -9,6 +9,7 @@ if ($_SESSION['user']['role'] !== 'oic' && $_SESSION['user']['is_oic'] != 1) {
 $policeId = trim($_POST['policeId'] ?? "");
 $duty = trim($_POST['duty'] ?? "");
 $notes = trim($_POST['notes'] ?? "");
+$dutyDate = trim($_POST['dutyDate'] ?? "");
 
 // Validate inputs
 $errors = [];
@@ -17,6 +18,11 @@ if (empty($policeId)) {
 }
 if (empty($duty)) {
     $errors[] = "Duty is required.";
+}
+if (empty($dutyDate)) {
+    $errors[] = "Duty Date is required.";
+} elseif (strtotime($dutyDate) < strtotime(date('Y-m-d'))) {
+    $errors[] = "Duty Date cannot be in the past.";
 }
 
 if (!empty($errors)) {
@@ -62,11 +68,12 @@ try {
         exit;
     }
 
-    $query = "INSERT INTO assigned_duties (police_id, duty, notes, assigned_by) VALUES (?, ?, ?, ?)";
+    // Insert the duty assignment with duty_date into the database
+    $query = "INSERT INTO assigned_duties (police_id, duty, notes, duty_date, assigned_by) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
     $assignedBy = $_SESSION['user']['id'];
-    $stmt->bind_param("issi", $policeId, $duty, $notes, $assignedBy);
+    $stmt->bind_param("isssi", $policeId, $duty, $notes, $dutyDate, $assignedBy);
     
     if ($stmt->execute()) {
         $_SESSION['success'] = "Duty assigned successfully to Police ID: {$policeId}.";
