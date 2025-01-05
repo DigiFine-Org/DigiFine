@@ -19,7 +19,7 @@ $officer_id = $_SESSION['user']['id'];
 
 $duties = [];
 $stmt = $conn->prepare("
-    SELECT ad.id, ad.duty, ad.notes, ad.assigned_by, ad.assigned_at
+    SELECT ad.id, ad.duty, ad.notes, ad.assigned_by, ad.assigned_at,ad.duty_date
     FROM assigned_duties AS ad
     WHERE ad.police_id = ? AND ad.submitted = 0
 ");
@@ -63,6 +63,10 @@ $stmt->close();
                         <div class="data-line">
                             <div class="label">Assigned At:</div>
                             <p><?= htmlspecialchars($duty['assigned_at']) ?></p>
+                        </div>
+                        <div class="data-line">
+                            <div class="label">Duty Date:</div>
+                            <p><?= htmlspecialchars($duty['duty_date']) ?></p>
                         </div>
                         <div class="bottom-bar">
                             <div class="actions">
