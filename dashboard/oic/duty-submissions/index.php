@@ -1,66 +1,101 @@
 <?php
 $pageConfig = [
-    'title' => 'Duty Submissions',
+    'title' => 'Submitted Duties',
     'styles' => ["../../dashboard.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
 
+require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
+
 if ($_SESSION['user']['role'] !== 'oic') {
-    die("unauthorized user!");
+    die("Unauthorized user!");
 }
 
-$result = "";
+try {
+    $oic_id = $_SESSION['user']['id'];
 
-if (isset($_GET)) {
-    $result = $_GET['query'] ?? "";
+    $sql = "SELECT police_station FROM officers WHERE is_oic = 1 AND id = ? LIMIT 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $oic_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) {
+        die("OIC not found or police station not assigned.");
+    }
+
+    $oic_data = $result->fetch_assoc();
+    $police_station_id = $oic_data['police_station'];
+
+    // Query to fetch duty submissions for officers under the OIC's police station
+    $query = "
+        SELECT ds.id AS submission_id, ds.police_id, ds.patrol_location, ds.patrol_time_start, ds.patrol_time_end, ds.patrol_information
+        FROM duty_submissions ds
+        INNER JOIN officers o ON ds.police_id = o.id
+        WHERE  o.police_station = ?
+        ORDER BY ds.patrol_time_start DESC";
+
+    $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        throw new Exception("Failed to prepare statement: " . $conn->error);
+    }
+
+    $stmt->bind_param('s', $police_station_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $duties = [];
+    while ($row = $result->fetch_assoc()) {
+        $duties[] = $row;
+    }
+} catch (Exception $e) {
+    die("Error fetching submitted duties: " . $e->getMessage());
 }
 ?>
 
 <main>
-    <?php include_once "../../includes/navbar.php" ?>
+    <?php include_once "../../includes/navbar.php"; ?>
+
     <div class="dashboard-layout">
-        <?php include_once "../../includes/sidebar.php" ?>
+        <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
             <div class="container x-large no-border">
-            <h1>Duty Submissions</h1>
+                <h1>Submitted Duties</h1>
                 <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Submission Number</th>
-                            <th>Police ID</th>
-                            <th>Officer Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <!-- <tbody>
-                        <?php foreach ($offences as $offence): ?>
+                    <table>
+                        <thead>
                             <tr>
-                                <td><?php echo htmlspecialchars($offence['offence_number']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['description_sinhala']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['description_tamil']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['description_english']); ?></td>
-                                <td><?php echo htmlspecialchars($offence['points_deducted']); ?></td>
-                                <td><?php echo "Rs. " . number_format($offence['fine'], 2); ?></td>
-                                <td>
-                                    <a href="edit-offence.php?offence_number=<?php echo urlencode($offence['offence_number']); ?>"
-                                        class="btn marginbottom">Edit</a>
-                                    <form action="delete-offence-process.php" method="POST" style="display:inline;">
-                                        <input type="hidden" name="offence_number"
-                                            value="<?php echo htmlspecialchars($offence['offence_number']); ?>">
-                                        <button type="submit" class="deletebtn">Delete</button>
-                                    </form>
-                                </td>
+                                <th>Police ID</th>
+                                <th>Patrol Location</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Additional Information</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody> -->
+                        </thead>
+                        <tbody>
+                            <?php if (empty($duties)): ?>
+                                <tr>
+                                    <td colspan="5">No submitted duties found.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($duties as $duty): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($duty['police_id']) ?></td>
+                                        <td><?= htmlspecialchars($duty['patrol_location']) ?></td>
+                                        <td><?= htmlspecialchars($duty['patrol_time_start']) ?></td>
+                                        <td><?= htmlspecialchars($duty['patrol_time_end']) ?></td>
+                                        <td><?= htmlspecialchars($duty['patrol_information'] ?? 'N/A') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            
         </div>
     </div>
 </main>
 
-<?php include_once "../../../includes/footer.php" ?>
+<?php include_once "../../../includes/footer.php"; ?>
