@@ -1,57 +1,88 @@
 <?php
+
 $pageConfig = [
     'title' => 'Submit Duty',
-    'styles' => ["../../dashboard.css"],
+    'styles' => ["../../dashboard.css", "./my-duties.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
 
-require_once "../../../includes/header.php";
+session_start();
+include_once "../../../includes/header.php";
+require_once "../../../db/connect.php";
+
 if ($_SESSION['user']['role'] !== 'officer') {
-    die("unauthorized user!");
+    die("Unauthorized user!");
 }
 
-$policeId = $_SESSION['user']['id'] ?? '';
+$officer_id = $_SESSION['user']['id'];
+
+$duties = [];
+$stmt = $conn->prepare("
+    SELECT ad.id, ad.duty, ad.notes, ad.assigned_by, ad.assigned_at,ad.duty_date
+    FROM assigned_duties AS ad
+    WHERE ad.police_id = ? AND ad.submitted = 0
+");
+
+if (!$stmt) {
+    die("Error preparing query!" . $conn->error);
+}
+
+$stmt->bind_param("i", $officer_id);
+
+if (!$stmt->execute()) {
+    die("Error executing query" . $stmt->error);
+}
+
+$result = $stmt->get_result();
+$duties = $result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 ?>
 
 <main>
-    <?php include_once "../../includes/navbar.php" ?>
+    <?php include_once "../../includes/navbar.php"; ?>
     <div class="dashboard-layout">
-        <?php include_once "../../includes/sidebar.php" ?>
+        <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
-            <div class="container">
-                <h1>Submit Duty</h1>
-                <form action="submit-duty-process.php" method="post">
-                    <p><b>Police Officer Details</b></p>
-                    <div class="field">
-                        <label for="">Police ID:</label>
-                        <input type="text" class="input" value="<?php echo htmlspecialchars($policeId) ?>" disabled>
-                        <input type="hidden" class="input" name="police_id"
-                            value="<?php echo htmlspecialchars($policeId) ?>">
+            <div class="home-grid">
+                <?php foreach ($duties as $duty): ?>
+                    <div class="ticket">
+                        <span class="id">Duty ID: <?= htmlspecialchars($duty['id']) ?></span>
+                        <div class="data-line">
+                            <div class="label">Duty:</div>
+                            <p><?= htmlspecialchars($duty['duty']) ?></p>
+                        </div>
+                        <div class="data-line">
+                            <div class="label">Notes:</div>
+                            <p><?= htmlspecialchars($duty['notes'] ?? "N/A") ?></p>
+                        </div>
+                        <div class="data-line">
+                            <div class="label">Assigned By:</div>
+                            <p><?= htmlspecialchars($duty['assigned_by']) ?></p>
+                        </div>
+                        <div class="data-line">
+                            <div class="label">Assigned At:</div>
+                            <p><?= htmlspecialchars($duty['assigned_at']) ?></p>
+                        </div>
+                        <div class="data-line">
+                            <div class="label">Duty Date:</div>
+                            <p><?= htmlspecialchars($duty['duty_date']) ?></p>
+                        </div>
+                        <div class="bottom-bar">
+                            <div class="actions">
+                                <a href="submit-duty.php?id=<?= htmlspecialchars($duty['id']) ?>" class="btn">Submit Duty</a>
+                            </div>
+                        </div>
                     </div>
-                    <p><b>Duty Information</b></p>
-                    <div class="field">
-                        <label for="">Patrol Location :</label>
-                        <input type="text" class="input" name="patrol_location" required>
-                    </div>
-                    <div class="field">
-                        <label for="">Patrol Time(Start):</label>
-                        <input type="time" class="input" name="patrol_time_start" required>
-                    </div>
-                    <div class="field">
-                        <label for="">Patrol Time(End):</label>
-                        <input type="time" class="input" name="patrol_time_end" required>
-                    </div>
-                    <div class="field" required>
-                        <label for="">Patrol Information:</label>
-                        <textarea type="text" class="input" name="patrol_information"></textarea>
-                    </div>
-                    
-                    <button class="btn">Submit</button>
-                </form>
+                <?php endforeach; ?>
+                
+                <?php if (empty($duties)): ?>
+                    <p>No duties assigned to you yet.</p>
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </main>
 
-<?php include_once "../../../includes/footer.php" ?>
+<?php include_once "../../../includes/footer.php"; ?>
+ 
