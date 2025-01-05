@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Police Station Fines',
-    'styles' => ["../../dashboard.css"],
+    'styles' => ["../../dashboard.css","a.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
@@ -34,13 +34,13 @@ $police_station_id = $oic_data['police_station'];
 // Retrieve filter from GET
 $fine_status_filter = isset($_GET['fine_status']) ? htmlspecialchars($_GET['fine_status']) : null;
 
-// Fetch fines related to the OIC's police station
+// Fetch fines related to the OIC's police station and where offence_type is court
 $fines_sql = "
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
            f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
-    WHERE o.police_station = ?
+    WHERE o.police_station = ? AND f.offence_type = 'court'
 ";
 
 if (!empty($fine_status_filter)) {
@@ -74,7 +74,7 @@ $conn->close();
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container x-large no-border">
-                <h1>All Fines</h1>
+                <h1>All Fines (Court Offences)</h1>
                 <!-- FILTER FINES -->
                 <form method="get" action="" style="margin-bottom: 10px;">
                     <div class="wrapper">
@@ -90,40 +90,19 @@ $conn->close();
                     </div>
                 </form>
 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>POLICE ID</th>
-                                <th>DRIVER ID</th>
-                                <th>ISSUED DATE</th>
-                                <th>OFFENCE TYPE</th>
-                                <th>OFFENCE</th>
-                                <th>FINE STATUS</th>
-                                <th>REPORTED</th>
-                                <th>ACTION</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($fines as $fine): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($fine['police_id']) ?></td>
-                                    <td><?= htmlspecialchars($fine['driver_id']) ?></td>
-                                    <td><?= htmlspecialchars($fine['issued_date']) ?></td>
-                                    <td><?= htmlspecialchars($fine['offence_type']) ?></td>
-                                    <td><?= htmlspecialchars($fine['offence']) ?></td>
-                                    <td><?= htmlspecialchars($fine['fine_status']) ?></td>
-                                    <td class="<?= $fine['is_reported'] == 1 ? 'reported-yes' : 'reported-no' ?>">
-                                        <?= $fine['is_reported'] == 1 ? 'Yes' : 'No' ?>
-                                    </td>
-                                    <td>
-                                        <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>"
-                                            class="btn">View</a>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-                        </tbody>
-                    </table>
+                <div class="tiles-container">
+                    <?php foreach ($fines as $fine): ?>
+                        <div class="fine-tile <?= $fine['offence_type'] === 'court' ? 'court-violation' : '' ?>">
+                            <h2>Police ID: <?= htmlspecialchars($fine['police_id']) ?></h2>
+                            <p><strong>Driver ID:</strong> <?= htmlspecialchars($fine['driver_id']) ?></p>
+                            <p><strong>Issued Date:</strong> <?= htmlspecialchars($fine['issued_date']) ?></p>
+                            <p><strong>Offence Type:</strong> <?= htmlspecialchars($fine['offence_type']) ?></p>
+                            <p><strong>Offence:</strong> <?= htmlspecialchars($fine['offence']) ?></p>
+                            <p><strong>Fine Status:</strong> <?= htmlspecialchars($fine['fine_status']) ?></p>
+                            <p><strong>Reported:</strong> <?= $fine['is_reported'] == 1 ? 'Yes' : 'No' ?></p>
+                            <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>" class="btn">View Details</a>
+                        </div>
+                    <?php endforeach ?>
                 </div>
             </div>
         </div>
@@ -131,5 +110,3 @@ $conn->close();
 </main>
 
 <?php include_once "../../../includes/footer.php"; ?>
-
-
