@@ -28,11 +28,15 @@ if (isset($_GET)) {
                 <form action="assign-duty-handler.php" method="POST">
                     <div class="field">
                         <label for="policeId">Police ID:</label>
-                        <input type="text" name="policeId" class="input" value="">
+                        <input type="text" name="policeId" class="input" required>
                     </div>
                     <div class="field">
                         <label for="duty">Duty:</label>
-                        <input type="text" name="duty" class="input" value="">
+                        <input type="text" name="duty" class="input" required>
+                    </div>
+                    <div class="field">
+                        <label for="dutyDate">Duty Date:</label>
+                        <input type="date" name="dutyDate" class="input" id="dutyDate" min="<?= date('Y-m-d') ?>" required>
                     </div>
                     <div class="field">
                         <label for="notes">Additional Notes:</label>
