@@ -113,19 +113,20 @@ $conn->close();
                             <textarea type="text" class="input" name="oic_action" id="oic_action"
                                 placeholder="Provide your comment here..." required></textarea>
                         </div>
+                <?php if ($fine['offence_type'] !== 'court'): ?>
+    <div class="wrapper" style="margin-top: 10px;">
+        <!-- Button to Discard Fine -->
+        <button type="submit" name="action_type" value="discard" class="deletebtn" style="margin-right: 10px;">
+            Discard Fine (Unfair)
+        </button>
 
-                        <div class="wrapper" style="margin-top: 10px;">
-                            <!-- Button to Discard Fine -->
-                            <button type="submit" name="action_type" value="discard" class="deletebtn"
-                                style="margin-right: 10px;">
-                                Discard Fine (Unfair)
-                            </button>
+        <!-- Button to Mark Fine as Fair -->
+        <button type="submit" name="action_type" value="fair" class="btn" style="margin-right: 10px;">
+            Submit (Fair)
+        </button>
+    </div>
+<?php endif; ?>
 
-                            <!-- Button to Mark Fine as Fair -->
-                            <button type="submit" name="action_type" value="fair" class="btn" style="margin-right: 10px;">
-                                Submit (Fair)
-                            </button>
-                        </div>
 
                         <!-- Hidden input for the Fine ID -->
                         <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['id']) ?>">
