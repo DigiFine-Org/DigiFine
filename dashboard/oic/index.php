@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'OIC Dashboard',
-    'styles' => ["../dashboard.css", "oic-dashboard.css"],
+    'styles' => ["../dashboard.css", "oic-dashboard.css", "popup.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
 ];
@@ -39,16 +39,26 @@ if ($result->num_rows === 0) {
 }
 
 $oic = $result->fetch_assoc();
+$stmt->close();
+
 
 // Fetch duty locations
 $location_sql = "
-    SELECT id, police_station_id, location_name, created_at, updated_at FROM duty_locations";
+    SELECT id, police_station_id, location_name, created_at, updated_at FROM duty_locations WHERE police_station_id = ?";
 
 $location_stmt = $conn->prepare($location_sql);
+
 if (!$location_stmt) {
     die("Error preparing location statement: " . $conn->error);
 }
-$location_stmt->execute();
+
+$police_station_id = $oic['police_station'];
+$location_stmt->bind_param("i", $police_station_id);
+
+if (!$location_stmt->execute()) {
+    die("Error executing location query: " . $location_stmt->error);
+}
+
 $location_result = $location_stmt->get_result();
 $locations = $location_result->fetch_all(MYSQLI_ASSOC);
 
@@ -57,7 +67,7 @@ $location_stmt->close();
 
 
 
-$stmt->close();
+// $stmt->close();
 $conn->close();
 
 ?>
@@ -168,13 +178,12 @@ $conn->close();
                                     <td><?php echo htmlspecialchars($location['location_name']) ?></td>
                                     <td>
                                         <div class="wrapper">
-                                            <!-- <a href="" class="btn marginbottom">Edit</a> -->
-                                            <form action="delete-location-process.php" method="POST" style="display:inline;">
-                                                <input type="hidden" name="offence_number"
-                                                    value="<?php echo htmlspecialchars($offence['offence_number']); ?>">
+                                            <form action="delete-location-process.php" method="POST"
+                                                style="display:inline;">
+                                                <input type="hidden" name="location_id"
+                                                    value="<?php echo htmlspecialchars($location['id']); ?>">
                                                 <button type="submit" class="deletebtn">Delete</button>
                                             </form>
-
                                         </div>
                                     </td>
                                 </tr>
@@ -182,12 +191,58 @@ $conn->close();
                         </tbody>
                     </table>
                 </div>
-                <form action="/digifine/dashboard/oic/add-location.php" method="get">
-                    <input type="submit" class="btn margintop marginbottom" value="Add Duty Location">
-                </form>
+                <button class="btn" id="show-form">Add Duty Location</button>
             </div>
-        </div>
-    </div>
+
+            
+
+            <!-- Popup for Adding Duty Location -->
+            <div class="popup-overlay" id="popupOverlay" onclick="closeAddLocationPopup()"></div>
+            <div class="popup" id="addLocationPopup">
+                <h3>Add Duty Location</h3>
+                <form action="add-location-process.php" method="post">
+                    <div class="field">
+                        <label for="location_name">Location</label>
+                        <input type="text" class="input" placeholder="Enter location name" name="location_name"
+                            required>
+                        <input type="hidden" name="police_station_id"
+                            value="<?= htmlspecialchars($oic['police_station']) ?>">
+                    </div>
+                    <button class="btn" type="submit">Add</button>
+                </form>
+                <button class="close-btn" onclick="closeAddLocationPopup()">Cancel</button>
+            </div>
+
 </main>
+
+<script>
+    document.querySelector("#show-form").addEventListener("click", function () {
+        document.querySelector(".popup").classList.add("active");
+    });
+
+    document.querySelector(".popup .close-btn").addEventListener("click", function () {
+        document.querySelector(".popup").classList.remove("active");
+    });
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        function showAddLocationPopup() {
+            document.getElementById('popupOverlay').style.display = 'block';
+            document.getElementById('addLocationPopup').style.display = 'block';
+        }
+
+        function closeAddLocationPopup() {
+            document.getElementById('popupOverlay').style.display = 'none';
+            document.getElementById('addLocationPopup').style.display = 'none';
+        }
+
+        window.showAddLocationPopup = showAddLocationPopup;
+        window.closeAddLocationPopup = closeAddLocationPopup;
+    });
+
+</script>
+
 
 <?php include_once "../../includes/footer.php"; ?>
