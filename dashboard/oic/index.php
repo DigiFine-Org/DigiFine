@@ -197,52 +197,49 @@ $conn->close();
             
 
             <!-- Popup for Adding Duty Location -->
-            <div class="popup-overlay" id="popupOverlay" onclick="closeAddLocationPopup()"></div>
-            <div class="popup" id="addLocationPopup">
-                <h3>Add Duty Location</h3>
-                <form action="add-location-process.php" method="post">
-                    <div class="field">
-                        <label for="location_name">Location</label>
-                        <input type="text" class="input" placeholder="Enter location name" name="location_name"
-                            required>
-                        <input type="hidden" name="police_station_id"
-                            value="<?= htmlspecialchars($oic['police_station']) ?>">
-                    </div>
-                    <button class="btn" type="submit">Add</button>
-                </form>
-                <button class="close-btn" onclick="closeAddLocationPopup()">Cancel</button>
-            </div>
+            <div class="popup-new-overlay" id="popupNewOverlay" onclick="closeAddLocationPopup()"></div>
+<div class="popup-new" id="addLocationPopupNew">
+    <h3>Add Duty Location</h3>
+    <form action="add-location-process.php" method="post">
+        <div class="field">
+            <label for="location_name">Location</label>
+            <input type="text" class="input" placeholder="Enter location name" name="location_name" required>
+            <input type="hidden" name="police_station_id" value="<?= htmlspecialchars($oic['police_station']) ?>">
+        </div>
+        <button class="btn" type="submit">Add</button>
+    </form>
+    <button class="close-btn" onclick="closeAddLocationPopup()">Cancel</button>
+</div>
 
 </main>
 
 <script>
     document.querySelector("#show-form").addEventListener("click", function () {
-        document.querySelector(".popup").classList.add("active");
+        document.querySelector(".popup-new").classList.add("active");
     });
 
-    document.querySelector(".popup .close-btn").addEventListener("click", function () {
-        document.querySelector(".popup").classList.remove("active");
+    document.querySelector(".popup-new .close-btn").addEventListener("click", function () {
+        document.querySelector(".popup-new").classList.remove("active");
     });
 </script>
-
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         function showAddLocationPopup() {
-            document.getElementById('popupOverlay').style.display = 'block';
-            document.getElementById('addLocationPopup').style.display = 'block';
+            document.getElementById('popupNewOverlay').style.display = 'block';
+            document.getElementById('addLocationPopupNew').style.display = 'block';
         }
 
         function closeAddLocationPopup() {
-            document.getElementById('popupOverlay').style.display = 'none';
-            document.getElementById('addLocationPopup').style.display = 'none';
+            document.getElementById('popupNewOverlay').style.display = 'none';
+            document.getElementById('addLocationPopupNew').style.display = 'none';
         }
 
         window.showAddLocationPopup = showAddLocationPopup;
         window.closeAddLocationPopup = closeAddLocationPopup;
     });
-
 </script>
+
 
 
 <?php include_once "../../includes/footer.php"; ?>
