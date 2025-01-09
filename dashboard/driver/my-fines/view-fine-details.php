@@ -43,7 +43,7 @@ $sql = "
     WHERE f.id = ? AND d.id = ?;
 ";
 
-$stmt = $conn->prepare($sql);
+$stmt = $connn->prepare($sql);
 $stmt->bind_param("ii", $fine_id, $driver_id);
 $stmt->bind_param("ii", $fine_id, $driver_id);
 
@@ -59,7 +59,7 @@ if ($result->num_rows === 0) {
 
 $fine = $result->fetch_assoc();
 $stmt->close();
-$conn->close();
+$connn->close();
 
 ?>
 
