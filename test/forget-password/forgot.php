@@ -1,8 +1,9 @@
 <?php
 session_start();
+$error = array();
+
+
 require_once "../../db/connect.php";
-
-
 
 $mode = "enter_email";
 if (isset($_GET['mode'])) {
@@ -15,19 +16,41 @@ if (count($_POST) > 0) {
         case 'enter_email':
             // code ..
             $email = $_POST['email'];
-            $_SESSION['email'] = $email;
-            send_email($email);
-            header("Location: forgot.php?mode=enter_code");
-            die;
+
+            // validate email
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $error[] = "Please enter a valid email";
+            } else {
+                $_SESSION['email'] = $email;
+                send_email($email);
+                header("Location: forgot.php?mode=enter_code");
+                die;
+            }
             break;
         case 'enter_code':
             // code ..
-            header("Location: forgot.php?mode=enter_password");
-            die;
+            $code = $_POST['code'];
+            $result = is_code_correct($code);
+
+            if ($result == "the code is correct!") {
+                header("Location: forgot.php?mode=enter_password");
+                die;
+            } else {
+                $error[] = $result;
+            }
             break;
         case 'enter_password':
             // code ..
-            header("Location: login.php");
+            $password = $_POST['password'];
+            $password2 = $_POST['password2'];
+
+            if ($password !== $password2) {
+                $error[] = "Password do not match";
+            } else {
+                save_password($password);
+                header("Location: login.php");
+                die;
+            }
             die;
             break;
         default:
@@ -39,15 +62,40 @@ if (count($_POST) > 0) {
 function send_email($email)
 {
     // exxpire after 1 mins
-    $expire =time() + (60 * 1);
+    $expire = time() + (60 * 1);
     // random number between
     $code = rand(10000, 99999);
-    $query = "insert into codes ()"
+    $email = addslashes($email);
+
+    $query = "insert into codes (email, code, expire) value ('$email', '$code', '$expire')";
+    mysqli_query($conn, $query);
+
+    //send email here
+    mail($email, 'Digifine: Reset password', 'your code is' . $code);
 }
 
-function send_code($code)
+function is_code_correct($code)
 {
-    return true;
+    $code = addslashes($code);
+    $expire = time();
+    $email = addslashes($_SESSION['email']);
+
+    $query = "select * from codes where code = '$code' && email = '$email' order by id desc limit 1";
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            if ($row['expire'] > $expire) {
+                return "the code is correct!";
+            } else {
+                return "the code is expired!";
+            }
+        } else {
+            return "the code is incorrect!";
+        }
+    }
+
+    return "the code is incorrect!";
 }
 ?>
 
