@@ -62,11 +62,7 @@ try {
         <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
             <div class="container x-large no-border">
-<<<<<<< HEAD
-                <h1>Submitted Duties</h1>
-=======
                 <h1>Duty Submissions</h1>
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
                 <div class="table-container">
                     <table>
                         <thead>
