@@ -14,9 +14,8 @@ if (isset($_GET['mode'])) {
 	$mode = $_GET['mode'];
 }
 
-//something is posted
+// Handle form submissions
 if (count($_POST) > 0) {
-
 	switch ($mode) {
 		case 'enter_email':
 			// code...
@@ -61,7 +60,7 @@ if (count($_POST) > 0) {
 				header("Location: forgot.php");
 				die;
 			} else {
-
+				// 
 				save_password($password);
 				if (isset($_SESSION['forgot'])) {
 					unset($_SESSION['forgot']);
@@ -78,6 +77,7 @@ if (count($_POST) > 0) {
 	}
 }
 
+//Send mail with reset code
 function send_email($email)
 {
 
@@ -94,6 +94,7 @@ function send_email($email)
 	send_mail($email, 'Password reset', "Your code is " . $code);
 }
 
+// Save the new password in the appropriate table
 function save_password($password)
 {
 
@@ -102,10 +103,41 @@ function save_password($password)
 	$password = password_hash($password, PASSWORD_DEFAULT);
 	$email = addslashes($_SESSION['forgot']['email']);
 
-	$query = "update users set password = '$password' where email = '$email' limit 1";
+	// $query = "update users set password = '$password' where email = '$email' limit 1";
+	// mysqli_query($conn, $query);
+
+	// Determine if the email is in drivers or officers
+	$userType = get_user_type($email);
+
+	if ($userType === 'driver') {
+		$query = "UPDATE drivers SET password = '$password' WHERE email = '$email' LIMIT 1";
+	} elseif ($userType === 'officer') {
+		$query = "UPDATE officers SET password = '$password' WHERE email = '$email' LIMIT 1";
+	} else {
+		die("User type not found.");
+	}
+
 	mysqli_query($conn, $query);
 
 }
+
+// function valid_email($email)
+// {
+// 	global $conn;
+
+// 	$email = addslashes($email);
+
+// 	$query = "select * from users where email = '$email' limit 1";
+// 	$result = mysqli_query($conn, $query);
+// 	if ($result) {
+// 		if (mysqli_num_rows($result) > 0) {
+// 			return true;
+// 		}
+// 	}
+
+// 	return false;
+
+// }
 
 function valid_email($email)
 {
@@ -113,16 +145,49 @@ function valid_email($email)
 
 	$email = addslashes($email);
 
-	$query = "select * from users where email = '$email' limit 1";
+	// $query = "select * from users where email = '$email' limit 1";
+
+	// Check in drivers table
+	$query = "SELECT * FROM drivers WHERE email = '$email' LIMIT 1";
 	$result = mysqli_query($conn, $query);
-	if ($result) {
-		if (mysqli_num_rows($result) > 0) {
-			return true;
-		}
+	if ($result && mysqli_num_rows($result) > 0) {
+		$_SESSION['forgot']['user_type'] = 'driver';
+		return true;
+	}
+
+	// Check in officers table
+	$query = "SELECT * FROM officers WHERE email = '$email' LIMIT 1";
+	$result = mysqli_query($conn, $query);
+	if ($result && mysqli_num_rows($result) > 0) {
+		$_SESSION['forgot']['user_type'] = 'officer';
+		return true;
 	}
 
 	return false;
+}
 
+// Determine user type based on email
+function get_user_type($email)
+{
+	global $conn;
+
+	$email = addslashes($email);
+
+	// Check in drivers table
+	$query = "SELECT * FROM drivers WHERE email = '$email' LIMIT 1";
+	$result = mysqli_query($conn, $query);
+	if ($result && mysqli_num_rows($result) > 0) {
+		return 'driver';
+	}
+
+	// Check in officers table
+	$query = "SELECT * FROM officers WHERE email = '$email' LIMIT 1";
+	$result = mysqli_query($conn, $query);
+	if ($result && mysqli_num_rows($result) > 0) {
+		return 'officer';
+	}
+
+	return null;
 }
 
 function is_code_correct($code)

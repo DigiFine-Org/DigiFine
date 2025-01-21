@@ -30,7 +30,10 @@ include_once "../includes/header.php" ?>
                 <input type="password" id="password" name="password" required placeholder="Your Password" class="input">
             </div>
             <button type="submit" class="btn">Login</button>
-            <p class="p">Don't have an account? <a href="/digifine/signup/index.php" class="link">Register here</a></p>
+            <div class="link-wrap">
+                <p class="p"><a href="/digifine/signup/index.php" class="link">Sign up for Digifine</a></p>
+                <p class="p"><a href="/digifine/forget-password/forgot.php" class="link">Forgotton Password?</a></p>
+            </div>
             <!-- updated the path -->
         </form>
     </div>
