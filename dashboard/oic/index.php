@@ -138,8 +138,7 @@ $conn->close();
                         <h3>20</h3>
                     </div>
                 </div>
-<<<<<<< HEAD
-=======
+
             </div>
             <div>
                 <h3>Today Duties of Police Officers</h3>
@@ -212,7 +211,7 @@ $conn->close();
                     </table>
                 </div>
                 <button class="btn" id="show-form">Add Duty Location</button>
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
+
             </div>
             <div>
                 <h3>Today Duties of Police Officers</h3>
@@ -278,7 +277,7 @@ $conn->close();
                                                 <button type="submit" class="deletebtn">Delete</button>
                                             </form>
 
-<<<<<<< HEAD
+
                                         </div>
                                     </td>
                                 </tr>
@@ -290,7 +289,7 @@ $conn->close();
                     <input type="submit" class="btn margintop marginbottom" value="Add Duty Location">
                 </form>
             </div>
-=======
+
             
 
             <!-- Popup for Adding Duty Location -->
@@ -302,7 +301,7 @@ $conn->close();
             <label for="location_name">Location</label>
             <input type="text" class="input" placeholder="Enter location name" name="location_name" required>
             <input type="hidden" name="police_station_id" value="<?= htmlspecialchars($oic['police_station']) ?>">
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
+
         </div>
         <button class="btn" type="submit">Add</button>
     </form>
