@@ -19,7 +19,11 @@ $officer_id = $_SESSION['user']['id'];
 
 $duties = [];
 $stmt = $conn->prepare("
+<<<<<<< HEAD
     SELECT ad.id, ad.duty, ad.notes, ad.assigned_by, ad.assigned_at,ad.duty_date
+=======
+    SELECT ad.id, ad.duty, ad.notes, ad.assigned_by, ad.assigned_at
+>>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
     FROM assigned_duties AS ad
     WHERE ad.police_id = ? AND ad.submitted = 0
 ");

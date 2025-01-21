@@ -77,7 +77,11 @@ $stmt->close();
 </main>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <?php include_once "../../../includes/footer.php" ?>
 =======
 <?php include_once "../../../includes/footer.php" ?>
 >>>>>>> 35ae4724cab9c47f0e68afda1ff3af0e30f15e6d
+=======
+<?php include_once "../../../includes/footer.php" ?>
+>>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3

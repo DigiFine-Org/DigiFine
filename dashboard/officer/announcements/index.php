@@ -9,6 +9,7 @@ $pageConfig = [
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
+<<<<<<< HEAD
 if ($_SESSION['user']['role'] !== 'officer') {
     die("Unauthorized user!");
 }
@@ -24,14 +25,43 @@ if ($_SESSION['user']['role'] !== 'officer') {
 // if (!$stationNumber) {
 //     die("Officer's station not found.");
 // }
+=======
+
+$userId = $_SESSION['user']['id'] ?? null;  // Get user ID from session
+if (!$userId) {
+    die("User ID not found in session.");
+}
+
+$query = "SELECT police_station FROM officers WHERE id = ?";
+$stmt = $conn->prepare($query);
+if ($stmt === false) {
+    die('MySQL prepare failed for officers query: ' . $conn->error);
+}
+$stmt->bind_param("i", $userId);
+if (!$stmt->execute()) {
+    die('Execute failed for officers query: ' . $stmt->error);
+}
+$stmt->bind_result($stationNumber);
+$stmt->fetch();
+$stmt->close();
+
+if (!$stationNumber) {
+    die("Officer's station not found. Station number is empty.");
+}
+>>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
 
 // Fetch announcements for officers from the same station or those targeting all officers
 $stmt = $conn->prepare("
     SELECT title, message, published_by, created_at, expires_at, police_station
     FROM announcements 
     WHERE 
+<<<<<<< HEAD
         (target_role = 'officer' AND (police_station = ? OR police_station IS NULL)) 
         OR target_role = 'all'
+=======
+        ((target_role = 'officer' AND (police_station = ? OR police_station IS NULL)) 
+        OR (target_role = 'all'))
+>>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
         AND (expires_at IS NULL OR expires_at > NOW())
     ORDER BY created_at DESC
 ");

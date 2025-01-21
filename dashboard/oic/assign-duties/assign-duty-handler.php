@@ -10,9 +10,12 @@ $policeId = trim($_POST['policeId'] ?? "");
 $duty = trim($_POST['duty'] ?? "");
 $notes = trim($_POST['notes'] ?? "");
 <<<<<<< HEAD
+<<<<<<< HEAD
 $dutyDate = trim($_POST['dutyDate'] ?? "");
 =======
 >>>>>>> 35ae4724cab9c47f0e68afda1ff3af0e30f15e6d
+=======
+>>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
 
 // Validate inputs
 $errors = [];
@@ -23,6 +26,7 @@ if (empty($duty)) {
     $errors[] = "Duty is required.";
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 if (empty($dutyDate)) {
     $errors[] = "Duty Date is required.";
 } elseif (strtotime($dutyDate) < strtotime(date('Y-m-d'))) {
@@ -30,6 +34,8 @@ if (empty($dutyDate)) {
 }
 =======
 >>>>>>> 35ae4724cab9c47f0e68afda1ff3af0e30f15e6d
+=======
+>>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
 
 if (!empty($errors)) {
     $_SESSION['errors'] = $errors;
@@ -75,6 +81,7 @@ try {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     // Insert the duty assignment with duty_date into the database
     $query = "INSERT INTO assigned_duties (police_id, duty, notes, duty_date, assigned_by) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
@@ -82,12 +89,17 @@ try {
     $assignedBy = $_SESSION['user']['id'];
     $stmt->bind_param("isssi", $policeId, $duty, $notes, $dutyDate, $assignedBy);
 =======
+=======
+>>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
     $query = "INSERT INTO assigned_duties (police_id, duty, notes, assigned_by) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
     $assignedBy = $_SESSION['user']['id'];
     $stmt->bind_param("issi", $policeId, $duty, $notes, $assignedBy);
+<<<<<<< HEAD
 >>>>>>> 35ae4724cab9c47f0e68afda1ff3af0e30f15e6d
+=======
+>>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
     
     if ($stmt->execute()) {
         $_SESSION['success'] = "Duty assigned successfully to Police ID: {$policeId}.";
@@ -101,7 +113,11 @@ try {
     header("Location: index.php");
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 ?>
 =======
 ?>
 >>>>>>> 35ae4724cab9c47f0e68afda1ff3af0e30f15e6d
+=======
+?>
+>>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
