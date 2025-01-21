@@ -481,7 +481,6 @@ table td.centered {
   border-radius: 5px;
 }
 
-
 .alert {
   padding: 15px; /* Space inside the alert */
   margin: 15px 0; /* Space around the alert */
@@ -511,7 +510,6 @@ table td.centered {
   color: #721c24; /* Match text color */
 }
 
-
 .court-violation {
   color: #ff6b6b; /* Bright red to draw attention */
   font-size: 1.1rem; /* Slightly larger font size */
@@ -525,8 +523,13 @@ table td.centered {
   margin-bottom: 20px; /* Space below the message */
 }
 
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
 
-.btn1{
+.btn1 {
   background-color: #721c24;
   width: max-content;
   max-width: 100%;

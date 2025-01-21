@@ -34,20 +34,23 @@ if ($_SESSION['message'] ?? null) {
     <?php include_once "../../includes/navbar.php" ?>
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
-
-        <body>
+        <div class="content">
+            <!-- <div class="container"> -->
+            <div id="alert-container"></div>
             <h1>Fines Analytics</h1>
-            <label for="filter">Filter By:</label>
-            <select id="filter" onchange="loadData()">
-                <option value="lifetime">Lifetime</option>
-                <option value="year">Year</option>
-                <option value="month">Month</option>
-                <option value="week">Week</option>
-                <option value="day">Day</option>
-            </select>
-
-            <canvas class="chart"></canvas>
-
+            <div class="content">
+                <div class="feild">
+                    <label for="filter">Filter By:</label>
+                    <select id="filter" onchange="loadData()">
+                        <option value="lifetime">Lifetime</option>
+                        <option value="year">Year</option>
+                        <option value="month">Month</option>
+                        <option value="week">Week</option>
+                        <option value="day">Day</option>
+                    </select>
+                </div>
+                <canvas class="chart"></canvas>
+            </div>
             <script>
                 // Load data and render the chart
                 function loadData() {
@@ -104,7 +107,6 @@ if ($_SESSION['message'] ?? null) {
                 // Load data on page load
                 window.onload = loadData;
             </script>
-        </body>
 </main>
 
 <?php include_once "../../../includes/footer.php"; ?>
