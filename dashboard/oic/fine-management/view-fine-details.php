@@ -9,7 +9,6 @@ $pageConfig = [
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
 
-
 $oic_id = $_SESSION['user']['id'] ?? null;
 if (!$oic_id) {
     die("Unauthorized access.");
@@ -24,7 +23,8 @@ $fine_id = intval($_GET['id']);
 // Ensure the fine belongs to the OIC's police station
 $sql = "
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
-           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported , f.reported_description
+           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported, f.reported_description, 
+           f.evidence
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
     WHERE f.id = ? AND o.police_station = (SELECT police_station FROM officers WHERE id = ?)
@@ -87,14 +87,23 @@ $conn->close();
                     <p><?= htmlspecialchars($fine['fine_status']) ?></p>
                 </div>
 
-                <!-- This shows if it is a reported fine -->
                 <?php if ($fine['is_reported'] == 1): ?>
                     <div class="data-line">
                         <span>Reported Description:</span>
                         <p><?= htmlspecialchars($fine['reported_description'] ?? 'No description provided') ?></p>
                     </div>
 
-                    <!-- OIC Comment Form -->
+                    <?php if (!empty($fine['evidence'])): ?>
+                        <div class="data-line">
+                            <span>Evidence:</span>
+                            <?php if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $fine['evidence'])): ?>
+                                <img src="<?= htmlspecialchars($fine['evidence']) ?>" alt="Uploaded Evidence" style="max-width: 100%; height: auto; margin-top: 10px;">
+                            <?php else: ?>
+                                <a href="<?= htmlspecialchars($fine['evidence']) ?>" target="_blank">View Uploaded Evidence</a>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+
                     <form action="oic-action-process.php" method="post" id="oicActionForm" style="margin-top: 20px;">
                         <div class="field">
                             <label for="oic_action">OIC Action (Comment):</label>
@@ -103,24 +112,20 @@ $conn->close();
                         </div>
 
                         <div class="wrapper" style="margin-top: 10px;">
-                            <!-- Button to Discard Fine -->
                             <button type="submit" name="action_type" value="discard" class="deletebtn"
                                 style="margin-right: 10px;">
                                 Discard Fine (Unfair)
                             </button>
 
-                            <!-- Button to Mark Fine as Fair -->
                             <button type="submit" name="action_type" value="fair" class="btn" style="margin-right: 10px;">
                                 Submit (Fair)
                             </button>
                         </div>
-
-                        <!-- Hidden input for the Fine ID -->
+  
                         <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['id']) ?>">
                     </form>
 
                 <?php endif; ?>
-                <!-- <a href="index.php" class="btn" style="margin-top: 20px;">Back to Fines</a> -->
             </div>
         </div>
     </div>

@@ -69,5 +69,21 @@
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
 }
 
+.tile span {
+  position: relative;
+  font-weight: bold;
+  z-index: 1; /* Ensure the text appears above the highlight */
+  color: black; /* Adjust text color if needed */
+}
 
-
+.tile span::before {
+  content: "";
+  position: absolute;
+  bottom: 0; /* Position at the base of the text */
+  left: -10px; /* Extend the highlight to the left */
+  right: -10px; /* Extend the highlight to the right */
+  height: 15px; /* Adjust the height of the highlight bar */
+  background-color: white; /* White highlight bar */
+  z-index: -1; /* Place the highlight behind the text */
+  transform: skewX(-10deg); /* Optional: Add an angled effect */
+}

@@ -64,10 +64,6 @@ $stmt->close();
                             <div class="label">Assigned At:</div>
                             <p><?= htmlspecialchars($duty['assigned_at']) ?></p>
                         </div>
-                        <div class="data-line">
-                            <div class="label">Duty Date:</div>
-                            <p><?= htmlspecialchars($duty['duty_date']) ?></p>
-                        </div>
                         <div class="bottom-bar">
                             <div class="actions">
                                 <a href="submit-duty.php?id=<?= htmlspecialchars($duty['id']) ?>" class="btn">Submit Duty</a>

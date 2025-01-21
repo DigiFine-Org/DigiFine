@@ -22,7 +22,8 @@ if (!$driverId) {
 // fetch driver's nameS
 $sql = "SELECT fname, lname FROM drivers WHERE id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $driverId);
+
+$stmt->bind_param("s", $driverId);
 
 if (!$stmt->execute()) {
     die("Error fetching officer details " . $stmt->error);
@@ -74,6 +75,11 @@ $conn->close();
                 <a href="/digifine/dashboard/driver/dashboard-links/police-stations.php">
                     <div class="tile police-stations">
                         <span>Police Stations</span>
+                    </div>
+                </a>
+                <a href="/digifine/dashboard/driver/dashboard-links/stolen-vehicles.php">
+                    <div class="tile police-stations">
+                        <span>Vehicle Stolen?</span>
                     </div>
                 </a>
                 <!-- <div class="tile tips-drivers">

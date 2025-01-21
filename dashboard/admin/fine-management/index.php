@@ -31,7 +31,7 @@ $stmt->close();
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container x-large no-border">
-                <h1>All Fines</h1>
+                <h2>All Fines Issued</h2>
                 <div class="table-container">
                     <table>
                         <thead>

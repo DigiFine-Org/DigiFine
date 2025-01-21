@@ -76,4 +76,8 @@ $stmt->close();
     </div>
 </main>
 
+<<<<<<< HEAD
 <?php include_once "../../../includes/footer.php" ?>
+=======
+<?php include_once "../../../includes/footer.php" ?>
+>>>>>>> 35ae4724cab9c47f0e68afda1ff3af0e30f15e6d

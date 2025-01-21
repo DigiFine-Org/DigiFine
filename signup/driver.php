@@ -15,17 +15,17 @@ include_once "../includes/header.php";
         <form action="signup_process.php" method="POST">
             <div class="field">
                 <label for="fname">First Name:<span style="color: red;">*</span> </label>
-                <input type="text" id="fname" name="fname" required class="input" placeholder="John">
+                <input type="text" id="fname" name="fname" required class="input" placeholder="Pubuditha">
             </div>
 
             <div class="field">
                 <label for="fname">Last Name:<span style="color: red;">*</span> </label>
-                <input type="text" id="lname" name="lname" required class="input" placeholder="Doe">
+                <input type="text" id="lname" name="lname" required class="input" placeholder="Walgampaya">
             </div>
 
             <div class="field">
                 <label for="email">Email:<span style="color: red;">*</span> </label>
-                <input type="email" id="email" name="email" required class="input" placeholder="johndoe@example.com">
+                <input type="email" id="email" name="email" required class="input" placeholder="pubuditha@gmail.com">
             </div>
 
             <div class="field">

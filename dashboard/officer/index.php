@@ -88,7 +88,7 @@ $conn->close();
                     </div>
                     <div class="info">
                         <p>Duty Assignments</p>
-                        <h3>20</h3>
+                        <h3>3</h3>
                     </div>
                 </div>
             </div>
@@ -105,11 +105,11 @@ $conn->close();
                 <div class="tile stolen-vehicles">
                     <span>Stolen Vehicles</span>
                 </div>
-                <div class="tile dummy">
-                    <span>Dummy</span>
+                <div class="tile fines-issued">
+                    <span>Fines Issued</span>
                 </div>
-                <div class="tile dummy">
-                    <span>Dummy</span>
+                <div class="tile duty">
+                    <span>Duty Assignments</span>
                 </div>
             </div>
         </div>

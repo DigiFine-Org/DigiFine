@@ -10,7 +10,7 @@ session_start();
 require_once "../../../db/connect.php";
 
 // Fetch offences from offences table
-$sql = "SELECT offence_number, description_english FROM offences";
+$sql = "SELECT offence_number, description_english, fine_amount FROM offences";
 $result = $conn->query($sql);
 
 if ($result && $result->num_rows > 0) {
@@ -46,7 +46,6 @@ if ($_SESSION['message'] ?? null) {
         include '../../../includes/alerts/failed.php';
     }
 }
-
 ?>
 
 <main>
@@ -93,15 +92,21 @@ if ($_SESSION['message'] ?? null) {
                         <select name="offence" id="offence" class="input">
                             <option value="">Select Offence</option>
                             <?php foreach ($offences as $offence): ?>
-                                <option value="<?php echo htmlspecialchars($offence['offence_number']); ?>">
+                                <option value="<?php echo htmlspecialchars($offence['offence_number']); ?>"
+                                    data-fine="<?= htmlspecialchars($offence['fine_amount'] ?? 0); ?>">
                                     <?php echo htmlspecialchars($offence['description_english']); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="field">
+                        <label for="fine_amount">Fine Amount:</label>
+                        <input type="text" class="input" id="fine_amount" name="fine_amount" value="0" readonly>
+                    </div>
+                    <div class="field">
                         <label for="">Nature of Offence:</label>
-                        <textarea class="input" name="nature_of_offence" placeholder="Describe the nature of the offence" required></textarea>
+                        <textarea class="input" name="nature_of_offence"
+                            placeholder="Describe the nature of the offence" required></textarea>
                     </div>
                     <button class="btn">Generate</button>
                 </form>
@@ -134,6 +139,16 @@ if ($_SESSION['message'] ?? null) {
         } else {
             offenceSelectField.style.display = "none";
         }
+    });
+
+    // Get fine amount when selecting offence
+    const offenceDropdown = document.getElementById("offence");
+    const fineAmountInput = document.getElementById("fine_amount");
+
+    offenceDropdown.addEventListener("change", function() {
+        const selectedOption = offenceDropdown.options[offenceDropdown.selectedIndex];
+        const fineAmount = selectedOption.getAttribute("data-fine") || 0;
+        fineAmountInput.value = fineAmount;
     });
 </script>
 

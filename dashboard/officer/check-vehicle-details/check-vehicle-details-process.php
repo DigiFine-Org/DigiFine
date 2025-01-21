@@ -30,7 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         header("Location: /digifine/dashboard/officer/check-vehicle-details/index.php");
         exit();
     }
-    header("Location: /digifine/dashboard/officer/check-vehicle-details/index.php?query=$license_plate_number");
+
+    $vehicle = $result->fetch_assoc();
+
+    if ($vehicle['is_stolen'] == 1) {
+        // Redirect to stolen vehicle form if is_stolen is 1
+        header("Location: /digifine/dashboard/officer/check-vehicle-details/stolen-form.php?license_plate_number=$license_plate_number");
+    } else {
+        // Redirect to normal details page if is_stolen is 0
+        header("Location: /digifine/dashboard/officer/check-vehicle-details/index.php?query=$license_plate_number");
+    }
     exit();
 } else {
     die("Invalid request method!");

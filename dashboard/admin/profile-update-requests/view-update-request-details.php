@@ -55,7 +55,7 @@ $conn->close();
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container large">
-                <h1>Compare Driver Details</h1>
+                <!-- <h1>Compare Driver Details</h1>
 
                 <h2>Current Data</h2>
                 <table>
@@ -79,7 +79,7 @@ $conn->close();
                         <th>NIC</th>
                         <td><?= htmlspecialchars($current_data['nic']) ?></td>
                     </tr>
-                </table>
+                </table> -->
 
                 <h2>Requested Updates</h2>
                 <table>

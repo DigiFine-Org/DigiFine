@@ -77,7 +77,6 @@ $conn->close();
                 <h1>All Fines</h1>
                 <!-- FILTER FINES -->
                 <form method="get" action="" style="margin-bottom: 10px;">
-                    <!-- <label for="filter">Filter by Fine Status:</label> -->
                     <div class="wrapper">
                         <select name="fine_status" id="filter"
                             style="padding: 4px 6px; width:100px; margin-right:10px;">
@@ -114,7 +113,8 @@ $conn->close();
                                     <td><?= htmlspecialchars($fine['offence_type']) ?></td>
                                     <td><?= htmlspecialchars($fine['offence']) ?></td>
                                     <td><?= htmlspecialchars($fine['fine_status']) ?></td>
-                                    <td><?= $fine['is_reported'] == 1 ? 'Yes' : 'No' ?></td>
+                                    <td class="<?= $fine['is_reported'] == 1 ? 'reported-yes' : 'reported-no' ?>">
+                                        <?= $fine['is_reported'] == 1 ? 'Yes' : 'No' ?>
                                     </td>
                                     <td>
                                         <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>"
@@ -131,3 +131,5 @@ $conn->close();
 </main>
 
 <?php include_once "../../../includes/footer.php"; ?>
+
+
