@@ -13,7 +13,6 @@ include_once "../../../includes/header.php";
 // Check if the user is a driver
 if ($_SESSION['user']['role'] !== 'driver') {
     die("Unauthorized user!");
-    die("Unauthorized user!");
 }
 
 $driver_id = $_SESSION['user']['id'] ?? null;
@@ -26,6 +25,8 @@ if ($fine_id <= 0) {
 
 if (!$driver_id) {
     die("Unauthorized access.");
+}
+
 if ($fine_id <= 0 || !$driver_id) {
     die("Invalid fine ID or unauthorized access.");
 }
@@ -37,14 +38,10 @@ $sql = "
     FROM fines AS f 
     INNER JOIN drivers AS d ON f.driver_id = d.id 
     WHERE f.id = ? AND d.id = ?;
-    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status 
-    FROM fines AS f 
-    INNER JOIN drivers AS d ON f.driver_id = d.id 
-    WHERE f.id = ? AND d.id = ?;
 ";
 
-$stmt = $connn->prepare($sql);
-$stmt->bind_param("ii", $fine_id, $driver_id);
+$stmt = $conn->prepare($sql);
+
 $stmt->bind_param("ii", $fine_id, $driver_id);
 
 if (!$stmt->execute()) {
@@ -59,15 +56,13 @@ if ($result->num_rows === 0) {
 
 $fine = $result->fetch_assoc();
 $stmt->close();
-$connn->close();
+$conn->close();
 
 ?>
 
 <main>
     <?php include_once "../../includes/navbar.php"; ?>
-    <?php include_once "../../includes/navbar.php"; ?>
     <div class="dashboard-layout">
-        <?php include_once "../../includes/sidebar.php"; ?>
         <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
             <div class="container large">
@@ -112,48 +107,47 @@ $connn->close();
                     <?php if ($fine['offence_type'] === 'court'): ?>
                         <p class="court-violation">This is a court violation. Reporting or paying is not allowed online.</p>
                     <?php else: ?>
-                        <button class="btn" id="reportFineButton">Report</button>
-                        <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']); ?>" class="btn" id="payFineButton">Pay</a>
+                        <button class="btn" id="reportFineButton" style="margin-right: 10px;">Report</button>
+                        <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']); ?>"
+                            class="btn" id="payFineButton">Pay</a>
                     <?php endif; ?>
-                    <button class="btn" style="margin-right: 10px; margin-top: 20px" id="reportFineButton">Report</button>
-                    <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']) ?>" 
-                       class="btn" style="margin-right: 10px; margin-top: 20px" id="payFineButton">Pay</a>
+
                 </div>
                 <?php if ($fine['offence_type'] !== 'court'): ?>
-                    <form action="report-fine-process.php" method="post" id="reportFineForm" style="display: none; margin-top: 20px;">
+                    <form action="report-fine-process.php" method="post" id="reportFineForm"
+                        style="display: none; margin-top: 20px;">
                         <div class="field">
                             <input type="file" style="margin-bottom: 10px;">
                             <label for="reported_description">Reason for Reporting:</label>
-                            <textarea name="reported_description" id="reported_description" class="input" required></textarea>
-                            <button class="btn">Submit</button>
+                            <textarea name="reported_description" id="reported_description" class="input"
+                                required></textarea>
+                            <button class="btn" style="margin-top: 10px;">Submit</button>
                             <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['fine_id']); ?>">
                         </div>
                     </form>
                 <?php endif; ?>
-                <!-- Hidden report form -->
+                <!-- Hidden report form
                 <form action="report-fine-process.php" method="post" id="reportFineForm" enctype="multipart/form-data"
-                      style="display: none; margin-top: 20px; flex-direction: column;">
+                    style="display: none; margin-top: 20px; flex-direction: column;">
                     <div class="field">
                         <label for="evidence">Upload Evidence:</label>
                         <input type="file" name="evidence" id="evidence" accept="image/*,application/pdf" required>
                     </div>
                     <div class="field">
                         <label for="reported_description">Reason for Reporting:</label>
-                        <textarea name="reported_description" id="reported_description" class="input" required></textarea>
+                        <textarea name="reported_description" id="reported_description" class="input"
+                            required></textarea>
+                        <span style="margin-bottom:10px;"></span>
                     </div>
-                    <button class="btn" style="margin-top: 10px; margin-right: 10px">Submit</button>
+                    <button class="btn" style="margin-top: 12px; margin-right: 10px">Submit</button>
                     <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['fine_id']) ?>">
-                </form>
+                </form> -->
             </div>
         </div>
     </div>
 </main>
 
 <script>
-    document.getElementById('reportFineButton')?.addEventListener('click', function () {
-        document.getElementById('reportFineForm').style.display = 'flex';
-        this.style.display = 'none';
-        document.getElementById('payFineButton')?.style.display = 'none';
     // Toggle visibility for the report form and hide other buttons
     document.getElementById('reportFineButton').addEventListener('click', function () {
         const reportForm = document.getElementById('reportFineForm');
@@ -166,4 +160,3 @@ $connn->close();
 </script>
 
 <?php include_once "../../../includes/footer.php"; ?>
-
