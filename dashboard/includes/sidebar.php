@@ -233,8 +233,6 @@ const icons = [
   <path d="M19.5 19.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" />
 </svg>
 '
-<<<<<<< HEAD
-=======
   ],
   "Court-violations" => [
     'outlined' => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -247,7 +245,6 @@ const icons = [
   <path d="M12 7.875a1.125 1.125 0 1 0 0-2.25 1.125 1.125 0 0 0 0 2.25Z" />
 </svg>
 '
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
   ]
 ];
 
