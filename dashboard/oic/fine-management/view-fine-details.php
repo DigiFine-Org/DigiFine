@@ -96,62 +96,37 @@ $conn->close();
                     <?php if (!empty($fine['evidence'])): ?>
                         <div class="data-line">
                             <span>Evidence:</span>
-<<<<<<< HEAD
-                            <?php if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $fine['evidence'])): ?>
-                                <img src="<?= htmlspecialchars($fine['evidence']) ?>" alt="Uploaded Evidence" style="max-width: 100%; height: auto; margin-top: 10px;">
-                            <?php else: ?>
-                                <a href="<?= htmlspecialchars($fine['evidence']) ?>" target="_blank">View Uploaded Evidence</a>
-=======
                             <!-- Display image or link to the file -->
                             <?php if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $fine['evidence'])): ?>
                                 <img src="<?= htmlspecialchars($fine['evidence']) ?>" alt="Uploaded Evidence" style="max-width: 100%; height: auto; margin-top: 10px;">
                             <?php else: ?>
-                                <a href="<?= htmlspecialchars($fine['evidence_path']) ?>" target="_blank">View Uploaded Evidence</a>
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
+                                <a href="<?= htmlspecialchars($fine['evidence']) ?>" target="_blank">View Uploaded Evidence</a>
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>
 
-<<<<<<< HEAD
-=======
                     <!-- OIC Comment Form -->
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
                     <form action="oic-action-process.php" method="post" id="oicActionForm" style="margin-top: 20px;">
                         <div class="field">
                             <label for="oic_action">OIC Action (Comment):</label>
                             <textarea type="text" class="input" name="oic_action" id="oic_action"
                                 placeholder="Provide your comment here..." required></textarea>
                         </div>
-                <?php if ($fine['offence_type'] !== 'court'): ?>
-    <div class="wrapper" style="margin-top: 10px;">
-        <!-- Button to Discard Fine -->
-        <button type="submit" name="action_type" value="discard" class="deletebtn" style="margin-right: 10px;">
-            Discard Fine (Unfair)
-        </button>
 
-<<<<<<< HEAD
                         <div class="wrapper" style="margin-top: 10px;">
+                            <!-- Button to Discard Fine -->
                             <button type="submit" name="action_type" value="discard" class="deletebtn"
                                 style="margin-right: 10px;">
                                 Discard Fine (Unfair)
                             </button>
 
+                            <!-- Button to Mark Fine as Fair -->
                             <button type="submit" name="action_type" value="fair" class="btn" style="margin-right: 10px;">
                                 Submit (Fair)
                             </button>
                         </div>
-  
-=======
-        <!-- Button to Mark Fine as Fair -->
-        <button type="submit" name="action_type" value="fair" class="btn" style="margin-right: 10px;">
-            Submit (Fair)
-        </button>
-    </div>
-<?php endif; ?>
-
 
                         <!-- Hidden input for the Fine ID -->
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
                         <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['id']) ?>">
                     </form>
 
