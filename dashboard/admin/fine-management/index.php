@@ -17,6 +17,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
 $offenceTypes = [];
 $offences = [];
 $fineStatuses = ['Paid', 'Overdue', 'Pending'];
+$is_reported = ['1', '0'];
 
 $stmt = $conn->prepare("SELECT DISTINCT offence_type FROM fines");
 $stmt->execute();
@@ -71,6 +72,12 @@ if (isset($_GET['offence_type']) && !empty($_GET['offence_type'])) {
     $types .= 's';
 }
 
+if (isset($_GET['is_reported']) && !empty($_GET['is_reported'])) {
+    $whereClauses[] = "is_reported = ?";
+    $params[] = $_GET['is_reported'];
+    $types .= 's';
+}
+
 if (isset($_GET['offence']) && !empty($_GET['offence'])) {
     $whereClauses[] = "offence = ?";
     $params[] = $_GET['offence'];
@@ -84,7 +91,7 @@ if (isset($_GET['fine_status']) && !empty($_GET['fine_status'])) {
 }
 
 $query = "SELECT id, police_id, driver_id, license_plate_number, issued_date, issued_time,
-          offence_type, nature_of_offence, offence, fine_status FROM fines";
+          offence_type, nature_of_offence, offence, is_reported, fine_status FROM fines";
 if (!empty($whereClauses)) {
     $query .= " WHERE " . implode(' AND ', $whereClauses);
 }
@@ -134,6 +141,7 @@ $stmt->close();
                     <th>ISSUED DATE</th>
                     <th>OFFENCE TYPE</th>
                     <th>OFFENCE</th>
+                    <th>Is Reported</th>
                     <th>FINE STATUS</th>
                     <th>ACTION</th>
                 </tr>
@@ -148,6 +156,7 @@ $stmt->close();
                             <td><?= htmlspecialchars($fine['issued_date']) ?></td>
                             <td><?= htmlspecialchars($fine['offence_type']) ?></td>
                             <td><?= htmlspecialchars($fine['offence']) ?></td>
+                            <td><?= $fine['is_reported'] ? 'Yes' : 'No' ?></td>
                             <td><?= htmlspecialchars($fine['fine_status']) ?></td>
                             <td>
                                 <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>"
