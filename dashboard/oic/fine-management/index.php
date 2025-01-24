@@ -10,7 +10,7 @@ require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
 if ($_SESSION['user']['role'] !== 'oic') {
-    die("unauthorized user!");
+    die("Unauthorized user!");
 }
 
 $oic_id = $_SESSION['user']['id'] ?? null;
@@ -31,98 +31,115 @@ if ($result->num_rows === 0) {
 $oic_data = $result->fetch_assoc();
 $police_station_id = $oic_data['police_station'];
 
-// Retrieve filter from GET
-$fine_status_filter = isset($_GET['fine_status']) ? htmlspecialchars($_GET['fine_status']) : null;
-
-// Fetch fines related to the OIC's police station
-$query = "
-    SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
-           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported
-    FROM fines f
-    INNER JOIN officers o ON f.police_id = o.id
-    WHERE o.police_station = ?
-";
 $offenceTypes = [];
 $offences = [];
 $fineStatuses = ['Paid', 'Overdue', 'Pending'];
 
-$stmt = $conn->prepare("SELECT DISTINCT offence_type FROM fines");
+$stmt = $conn->prepare("SELECT DISTINCT offence_type FROM fines WHERE offence_type IS NOT NULL AND offence_type != ''");
 $stmt->execute();
 $result = $stmt->get_result();
 $offenceTypes = $result->fetch_all(MYSQLI_ASSOC);
 
-$stmt = $conn->prepare("SELECT DISTINCT offence FROM fines");
+$stmt = $conn->prepare("SELECT DISTINCT offence FROM fines WHERE offence IS NOT NULL AND offence != ''");
 $stmt->execute();
 $result = $stmt->get_result();
 $offences = $result->fetch_all(MYSQLI_ASSOC);
 
 $stmt->close();
 
-// Handle filters
+// Filters for fines
 $whereClauses = [];
 $params = [];
 $types = '';
 
+// Handle filters
 if (isset($_GET['fine_id']) && !empty($_GET['fine_id'])) {
-    $whereClauses[] = "id LIKE ?";
+    $whereClauses[] = "f.id LIKE ?";
     $params[] = "%" . $_GET['fine_id'] . "%";
     $types .= 's';
 }
 
 if (isset($_GET['police_id']) && !empty($_GET['police_id'])) {
-    $whereClauses[] = "police_id LIKE ?";
+    $whereClauses[] = "f.police_id LIKE ?";
     $params[] = "%" . $_GET['police_id'] . "%";
     $types .= 's';
 }
 
 if (isset($_GET['driver_id']) && !empty($_GET['driver_id'])) {
-    $whereClauses[] = "driver_id LIKE ?";
+    $whereClauses[] = "f.driver_id LIKE ?";
     $params[] = "%" . $_GET['driver_id'] . "%";
     $types .= 's';
 }
 
 if (isset($_GET['date-from']) && !empty($_GET['date-from'])) {
-    $whereClauses[] = "issued_date >= ?";
+    $whereClauses[] = "f.issued_date >= ?";
     $params[] = $_GET['date-from'];
     $types .= 's';
 }
 
 if (isset($_GET['date-to']) && !empty($_GET['date-to'])) {
-    $whereClauses[] = "issued_date <= ?";
+    $whereClauses[] = "f.issued_date <= ?";
     $params[] = $_GET['date-to'];
     $types .= 's';
 }
 
+if (isset($_GET['price-from']) && !empty($_GET['price-from'])) {
+    $whereClauses[] = "f.fine_amount >= ?";
+    $params[] = $_GET['price-from'];
+    $types .= 'd';
+}
+
+if (isset($_GET['price-to']) && !empty($_GET['price-to'])) {
+    $whereClauses[] = "f.fine_amount <= ?";
+    $params[] = $_GET['price-to'];
+    $types .= 'd';
+}
+
 if (isset($_GET['offence_type']) && !empty($_GET['offence_type'])) {
-    $whereClauses[] = "offence_type = ?";
+    $whereClauses[] = "f.offence_type = ?";
     $params[] = $_GET['offence_type'];
     $types .= 's';
 }
 
 if (isset($_GET['offence']) && !empty($_GET['offence'])) {
-    $whereClauses[] = "offence = ?";
+    $whereClauses[] = "f.offence = ?";
     $params[] = $_GET['offence'];
     $types .= 's';
 }
 
 if (isset($_GET['fine_status']) && !empty($_GET['fine_status'])) {
-    $whereClauses[] = "fine_status = ?";
+    $whereClauses[] = "f.fine_status = ?";
     $params[] = $_GET['fine_status'];
     $types .= 's';
 }
 
-if (!empty($fine_status_filter)) {
-    if ($fine_status_filter === 'reported') {
-        $query .= " AND f.is_reported = 1";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("i", $police_station_id);
-    } else {
-        $query .= " AND f.fine_status = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("is", $police_station_id, $fine_status_filter);
-    }
+if (isset($_GET['is_reported']) && !empty($_GET['is_reported'])) {
+    $whereClauses[] = "f.is_reported = ?";
+    $params[] = $_GET['is_reported'];
+    $types .= 'i';
+}
+
+// Base query
+$query = "
+    SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
+           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported, f.fine_amount
+    FROM fines f
+    INNER JOIN officers o ON f.police_id = o.id
+    WHERE o.police_station = ?
+";
+
+// Append dynamic WHERE clauses
+if (!empty($whereClauses)) {
+    $query .= " AND " . implode(" AND ", $whereClauses);
+}
+
+// Prepare and execute the query
+$stmt = $conn->prepare($query);
+
+// Bind parameters dynamically
+if (!empty($params)) {
+    $stmt->bind_param("i" . $types, $police_station_id, ...$params);
 } else {
-    $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $police_station_id);
 }
 
@@ -166,6 +183,7 @@ $conn->close();
                     <th>OFFENCE</th>
                     <th>Is Reported</th>
                     <th>FINE STATUS</th>
+                    <th>Amount</th>
                     <th>ACTION</th>
                 </tr>
             </thead>
@@ -181,15 +199,15 @@ $conn->close();
                             <td><?= htmlspecialchars($fine['offence']) ?></td>
                             <td><?= $fine['is_reported'] ? 'Yes' : 'No' ?></td>
                             <td><?= htmlspecialchars($fine['fine_status']) ?></td>
+                            <td><?= htmlspecialchars($fine['fine_amount']) ?></td>
                             <td>
-                                <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>"
-                                    class="btn">View</a>
+                                <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>" class="btn">View</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="7">No fines found for the selected filters.</td>
+                        <td colspan="10">No fines found for the selected filters.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
