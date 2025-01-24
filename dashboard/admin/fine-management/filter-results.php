@@ -29,7 +29,15 @@
                     <input type="date" name="date-to" id="date-to" value="<?= htmlspecialchars($_GET['date-to'] ?? '') ?>">
                 </div>
 
+                <div class="filter-field">
+                    <label for="price-from">Price From:</label>
+                    <input type="number" name="price-from" id="price-from" placeholder="Price From" value="<?= htmlspecialchars($_GET['price-from'] ?? '') ?>">
+                </div>
 
+                <div class="filter-field">
+                    <label for="price-to">Price To:</label>
+                    <input type="number" name="price-to" id="price-to" placeholder="Price To" value="<?= htmlspecialchars($_GET['price-to'] ?? '') ?>">
+                </div>
 
                 <div class="filter-field">
                     <label for="offence_type">Offence Type:</label>
