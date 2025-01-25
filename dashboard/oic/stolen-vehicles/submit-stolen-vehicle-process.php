@@ -2,7 +2,7 @@
 require_once "../../../db/connect.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $vehicleNumber = $_POST['vehicle_number'] ?? '';
+    $license_plate_number = $_POST['license_plate_number'] ?? '';
     $absoluteOwner = $_POST['absolute_owner'] ?? '';
     $engineNo = $_POST['engine_no'] ?? '';
     $make = $_POST['make'] ?? '';
@@ -20,21 +20,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Check if vehicle_number exists in dmt_vehicles
-    $checkSql = "SELECT vehicle_number FROM dmt_vehicles WHERE vehicle_number = ?";
+    $checkSql = "SELECT * FROM dmt_vehicles WHERE license_plate_number = ?";
     $checkStmt = $conn->prepare($checkSql);
-    $checkStmt->bind_param("s", $vehicleNumber);
+    $checkStmt->bind_param("s", $license_plate_number);
     $checkStmt->execute();
     $checkResult = $checkStmt->get_result();
 
     if ($checkResult->num_rows === 0) {
-        die("Error: The vehicle number does not exist in the registered vehicles database.");
+        die("Error: The license plate number does not exist in the registered vehicles database.");
     }
 
     $checkStmt->close();
 
     // Insert data into stolen_vehicles
     $sql = "INSERT INTO stolen_vehicles 
-            (vehicle_number, absolute_owner, engine_no, make, model, colour, date_of_registration, 
+            (license_plate_number, absolute_owner, engine_no, make, model, colour, date_of_registration, 
             status, date_reported_stolen, location_last_seen, last_seen_date) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
@@ -44,16 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Error preparing statement: " . $conn->error);
     }
 
-    $stmt->bind_param("sssssssssss", $vehicleNumber, $absoluteOwner, $engineNo, $make, $model, $colour, 
+    $stmt->bind_param("sssssssssss", $license_plate_number, $absoluteOwner, $engineNo, $make, $model, $colour, 
                       $dateOfRegistration, $status, $dateReportedStolen, $locationLastSeen, $lastSeenDate);
 
     if ($stmt->execute()) {
         // Update the is_stolen column in dmt_vehicles
-        $updateSql = "UPDATE dmt_vehicles SET is_stolen = 1 WHERE vehicle_number = ?";
+        $updateSql = "UPDATE dmt_vehicles SET is_stolen = 1 WHERE license_plate_number = ?";
         $updateStmt = $conn->prepare($updateSql);
 
         if ($updateStmt) {
-            $updateStmt->bind_param("s", $vehicleNumber);
+            $updateStmt->bind_param("s", $license_plate_number);
             if ($updateStmt->execute()) {
                 echo "Stolen vehicle reported successfully and status updated!";
             } else {

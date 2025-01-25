@@ -282,6 +282,8 @@ function renderLink(string $title, string $link)
       <?php renderLink("Duty Submissions", "/digifine/dashboard/oic/duty-submissions/index.php") ?>
       <?php renderLink("Assign Duties", "/digifine/dashboard/oic/assign-duties/index.php") ?>
       <?php renderLink("Stolen Vehicle", "/digifine/dashboard/oic/stolen-vehicles/index.php") ?>
+      <?php renderLink("Duty History", "/digifine/dashboard/oic/duty-history/index.php") ?>
+
 
     <?php endif ?>
 
