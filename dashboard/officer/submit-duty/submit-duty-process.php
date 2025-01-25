@@ -5,8 +5,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $police_id = htmlspecialchars($_POST['police_id']);
     $assigned_duty_id = htmlspecialchars($_POST['assigned_duty_id']);
     $patrol_location = htmlspecialchars($_POST['patrol_location']);
-    $patrol_time_start = htmlspecialchars($_POST['patrol_time_start']);
-    $patrol_time_end = htmlspecialchars($_POST['patrol_time_end']);
+    $patrol_time_started = htmlspecialchars($_POST['patrol_time_started']);
+    $patrol_time_ended = htmlspecialchars($_POST['patrol_time_ended']);
     $patrol_information = htmlspecialchars($_POST['patrol_information']);
 
     $check_stmt = $conn->prepare("SELECT id FROM assigned_duties WHERE id = ?");
@@ -19,14 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert into duty_submissions table
-    $sql = "INSERT INTO duty_submissions (police_id, assigned_duty_id, patrol_location, patrol_time_start, patrol_time_end, patrol_information) 
+    $sql = "INSERT INTO duty_submissions (police_id, assigned_duty_id, patrol_location, patrol_time_started, patrol_time_ended, patrol_information) 
             VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die("Error preparing statement: " . $conn->error);
     }
 
-    $stmt->bind_param("iissss", $police_id, $assigned_duty_id, $patrol_location, $patrol_time_start, $patrol_time_end, $patrol_information);
+    $stmt->bind_param("iissss", $police_id, $assigned_duty_id, $patrol_location, $patrol_time_started, $patrol_time_ended, $patrol_information);
 
     if ($stmt->execute()) {
         // Update 'submitted' column in assigned_duties table

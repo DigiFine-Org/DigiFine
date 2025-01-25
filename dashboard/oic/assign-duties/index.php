@@ -39,6 +39,14 @@ if (isset($_GET)) {
                         <input type="date" name="dutyDate" class="input" id="dutyDate" min="<?= date('Y-m-d') ?>" required>
                     </div>
                     <div class="field">
+                        <label for="">Duty Time (Start):</label>
+                        <input type="time" class="input" name="duty_time_start" required>
+                    </div>
+                    <div class="field">
+                        <label for="">Duty Time (End):</label>
+                        <input type="time" class="input" name="duty_time_end" required>
+                    </div>
+                    <div class="field">
                         <label for="notes">Additional Notes:</label>
                         <textarea name="notes" id="notes"></textarea>
                     </div>

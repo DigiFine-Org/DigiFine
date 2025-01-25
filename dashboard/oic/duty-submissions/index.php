@@ -31,11 +31,11 @@ try {
 
     // Query to fetch duty submissions for officers under the OIC's police station
     $query = "
-        SELECT ds.id AS submission_id, ds.police_id, ds.patrol_location, ds.patrol_time_start, ds.patrol_time_end, ds.patrol_information
+        SELECT ds.id AS submission_id, ds.police_id, ds.patrol_location, a.duty_time_start, ds.patrol_time_started, a.duty_time_end, ds.patrol_time_ended, ds.patrol_information
         FROM duty_submissions ds
         INNER JOIN officers o ON ds.police_id = o.id
-        WHERE  o.police_station = ?
-        ORDER BY ds.patrol_time_start DESC";
+        INNER JOIN assigned_duties a ON ds.assigned_duty_id = a.id
+        WHERE  o.police_station = ?";
 
     $stmt = $conn->prepare($query);
     if (!$stmt) {
@@ -69,8 +69,10 @@ try {
                             <tr>
                                 <th>Police ID</th>
                                 <th>Patrol Location</th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
+                                <th>Duty assigned to start at</th>
+                                <th>Duty started by the officer at</th>
+                                <th>Duty assigned to end at</th>
+                                <th>Duty ended by the officer at</th>
                                 <th>Additional Information</th>
                             </tr>
                         </thead>
@@ -84,8 +86,10 @@ try {
                                     <tr>
                                         <td><?= htmlspecialchars($duty['police_id']) ?></td>
                                         <td><?= htmlspecialchars($duty['patrol_location']) ?></td>
-                                        <td><?= htmlspecialchars($duty['patrol_time_start']) ?></td>
-                                        <td><?= htmlspecialchars($duty['patrol_time_end']) ?></td>
+                                        <td><?= htmlspecialchars($duty['duty_time_start']) ?></td>
+                                        <td><?= htmlspecialchars($duty['patrol_time_started']) ?></td>
+                                        <td><?= htmlspecialchars($duty['duty_time_end']) ?></td>
+                                        <td><?= htmlspecialchars($duty['patrol_time_ended']) ?></td>
                                         <td><?= htmlspecialchars($duty['patrol_information'] ?? 'N/A') ?></td>
                                     </tr>
                                 <?php endforeach; ?>
