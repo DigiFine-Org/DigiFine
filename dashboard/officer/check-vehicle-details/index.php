@@ -108,11 +108,11 @@ if ($id) {
                             <span>Number of Seats:</span>
                             <p><?= htmlspecialchars($result['no_of_seats']); ?></p>
                         </div>
-                        
-                        <form action="../report-stolen-vehicle/index.php" method="POST">
+                        <form action="./caught_stolen_vehicle.php" method="GET">
                             <input type="hidden" name="license_plate_number" value="<?= htmlspecialchars($result['license_plate_number']); ?>">
-                            <button class="btn margintop" type="submit">Report to Authorities</button>
+                            <button class="btn margintop" type="submit">Seize</button>
                         </form>
+
 
                     
                     <?php else: ?>

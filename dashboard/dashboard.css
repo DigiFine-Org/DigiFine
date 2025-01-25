@@ -622,3 +622,18 @@ table td.centered {
     grid-template-columns: 1fr; /* 1 column in very small screens */
   }
 }
+
+
+.tile1 {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  margin-top: 20px;
+  width: 400px;
+}
+.tile1 h2 {
+  margin: 0 0 10px;
+  color: #333;
+}
