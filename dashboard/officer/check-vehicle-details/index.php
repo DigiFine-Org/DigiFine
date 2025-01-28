@@ -157,8 +157,8 @@ if ($id) {
                             <span>Number of Seats:</span>
                             <p><?= htmlspecialchars($result['no_of_seats']); ?></p>
                         </div>
-                        <a href="../generate-e-ticket/index.php?id=<?= htmlspecialchars($id); ?>" class="btn margintop">Issue Fine</a>
-                        <a href="../generate-e-ticket/index.php?nic=<?= htmlspecialchars($result['nic']); ?>" class="btn margintop">Issue Fine to Vehicle Owner</a>
+                        <a href="../generate-e-ticket/index.php?license_plate_number=<?= htmlspecialchars($result['license_plate_number']); ?>" class="btn margintop">Issue Fine</a>
+                        <a href="../generate-e-ticket/index.php?nic=<?= htmlspecialchars($result['nic']); ?>&license_plate_number=<?= htmlspecialchars($result['license_plate_number']); ?>" class="btn margintop">Issue Fine to Vehicle Owner</a>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>

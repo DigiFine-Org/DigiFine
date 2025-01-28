@@ -48,6 +48,10 @@ if (isset($_GET['nic'])) {
     if ($result->num_rows > 0) {
         $data = $result->fetch_assoc();
         $driverId = $data['id'];
+    } else {
+        $_SESSION['message'] = 'NIC Mismatch or Driver not found for the provided NIC in this System.';
+        header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php");
+        exit();
     }
 }
 
@@ -99,7 +103,10 @@ if ($_SESSION['message'] ?? null) {
                     </div>
                     <div class="field">
                         <label for="">Vehicle License Number:</label>
-                        <input type="text" class="input" placeholder="CAD-6264" name="license_plate_number" required>
+                        <?php
+                        $licensePlateNumber = $_GET['license_plate_number'] ?? '';
+                        ?>
+                        <input type="text" class="input" placeholder="CAD-6264" name="license_plate_number" value="<?php echo htmlspecialchars($licensePlateNumber); ?>" required>
                     </div>
                     <div class="field">
                         <label for="">Offence Type:</label>
