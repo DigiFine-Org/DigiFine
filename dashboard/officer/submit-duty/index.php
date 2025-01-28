@@ -19,7 +19,7 @@ $officer_id = $_SESSION['user']['id'];
 
 $duties = [];
 $stmt = $conn->prepare("
-    SELECT ad.id, ad.duty, ad.notes, ad.assigned_by, ad.assigned_at
+    SELECT ad.id, ad.duty, ad.notes, ad.duty_date, ad.duty_time_start, ad.duty_time_end
     FROM assigned_duties AS ad
     WHERE ad.police_id = ? AND ad.submitted = 0
 ");
@@ -53,16 +53,20 @@ $stmt->close();
                             <p><?= htmlspecialchars($duty['duty']) ?></p>
                         </div>
                         <div class="data-line">
+                            <div class="label">Duty Date:</div>
+                            <p><?= htmlspecialchars($duty['duty_date']) ?></p>
+                        </div>
+                        <div class="data-line">
+                            <div class="label">Duty starts at:</div>
+                            <p><?= htmlspecialchars($duty['duty_time_start']) ?></p>
+                        </div>
+                        <div class="data-line">
+                            <div class="label">Duty ends at:</div>
+                            <p><?= htmlspecialchars($duty['duty_time_end']) ?></p>
+                        </div>
+                        <div class="data-line">
                             <div class="label">Notes:</div>
                             <p><?= htmlspecialchars($duty['notes'] ?? "N/A") ?></p>
-                        </div>
-                        <div class="data-line">
-                            <div class="label">Assigned By:</div>
-                            <p><?= htmlspecialchars($duty['assigned_by']) ?></p>
-                        </div>
-                        <div class="data-line">
-                            <div class="label">Assigned At:</div>
-                            <p><?= htmlspecialchars($duty['assigned_at']) ?></p>
                         </div>
                         <div class="bottom-bar">
                             <div class="actions">

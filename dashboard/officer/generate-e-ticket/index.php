@@ -133,7 +133,7 @@ if ($_SESSION['message'] ?? null) {
     const offenceType = document.getElementById("offence_type");
     const offenceSelectField = document.getElementById("offence_select_field");
 
-    offenceType.addEventListener("change", function() {
+    offenceType.addEventListener("change", function () {
         if (this.value === "fine") {
             offenceSelectField.style.display = "flex";
         } else {
@@ -145,7 +145,7 @@ if ($_SESSION['message'] ?? null) {
     const offenceDropdown = document.getElementById("offence");
     const fineAmountInput = document.getElementById("fine_amount");
 
-    offenceDropdown.addEventListener("change", function() {
+    offenceDropdown.addEventListener("change", function () {
         const selectedOption = offenceDropdown.options[offenceDropdown.selectedIndex];
         const fineAmount = selectedOption.getAttribute("data-fine") || 0;
         fineAmountInput.value = fineAmount;

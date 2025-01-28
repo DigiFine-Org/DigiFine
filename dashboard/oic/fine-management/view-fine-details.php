@@ -87,7 +87,6 @@ $conn->close();
                     <p><?= htmlspecialchars($fine['fine_status']) ?></p>
                 </div>
 
-                <!-- This shows if it is a reported fine -->
                 <?php if ($fine['is_reported'] == 1): ?>
                     <div class="data-line">
                         <span>Reported Description:</span>
@@ -101,7 +100,7 @@ $conn->close();
                             <?php if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $fine['evidence'])): ?>
                                 <img src="<?= htmlspecialchars($fine['evidence']) ?>" alt="Uploaded Evidence" style="max-width: 100%; height: auto; margin-top: 10px;">
                             <?php else: ?>
-                                <a href="<?= htmlspecialchars($fine['evidence_path']) ?>" target="_blank">View Uploaded Evidence</a>
+                                <a href="<?= htmlspecialchars($fine['evidence']) ?>" target="_blank">View Uploaded Evidence</a>
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>
@@ -113,27 +112,25 @@ $conn->close();
                             <textarea type="text" class="input" name="oic_action" id="oic_action"
                                 placeholder="Provide your comment here..." required></textarea>
                         </div>
-                <?php if ($fine['offence_type'] !== 'court'): ?>
-    <div class="wrapper" style="margin-top: 10px;">
-        <!-- Button to Discard Fine -->
-        <button type="submit" name="action_type" value="discard" class="deletebtn" style="margin-right: 10px;">
-            Discard Fine (Unfair)
-        </button>
 
-        <!-- Button to Mark Fine as Fair -->
-        <button type="submit" name="action_type" value="fair" class="btn" style="margin-right: 10px;">
-            Submit (Fair)
-        </button>
-    </div>
-<?php endif; ?>
+                        <div class="wrapper" style="margin-top: 10px;">
+                            <!-- Button to Discard Fine -->
+                            <button type="submit" name="action_type" value="discard" class="deletebtn"
+                                style="margin-right: 10px;">
+                                Discard Fine (Unfair)
+                            </button>
 
+                            <!-- Button to Mark Fine as Fair -->
+                            <button type="submit" name="action_type" value="fair" class="btn" style="margin-right: 10px;">
+                                Submit (Fair)
+                            </button>
+                        </div>
 
                         <!-- Hidden input for the Fine ID -->
                         <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['id']) ?>">
                     </form>
 
                 <?php endif; ?>
-                <!-- <a href="index.php" class="btn" style="margin-top: 20px;">Back to Fines</a> -->
             </div>
         </div>
     </div>

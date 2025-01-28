@@ -1,12 +1,27 @@
 <?php
+$pageConfig = [
+	'title' => 'Login',
+	'styles' => ['../login/login.css'],
+	'authRequired' => false
+];
+
+// if ($_SESSION['message'] ?? null) {
+
+//     $message = $_SESSION['message']; // Store the message
+//     unset($_SESSION['message']); // Clear the session message
+
+//     // Include the alert.php file to display the message
+//     include '../includes/alerts/failed.php';
+// }
+
 session_start();
 $error = array();
 
 require "mail.php";
+require_once "../db/connect.php";
 
-if (!$conn = mysqli_connect("mysql-digifine.alwaysdata.net", "digifine_db", "Digifine1234#", "digifine_db")) {
-
-	die("could not connect");
+if (!$conn) {
+	die("Couldn't connect to the database.");
 }
 
 $mode = "enter_email";
@@ -14,8 +29,9 @@ if (isset($_GET['mode'])) {
 	$mode = $_GET['mode'];
 }
 
-// Handle form submissions
+//something is posted
 if (count($_POST) > 0) {
+
 	switch ($mode) {
 		case 'enter_email':
 			// code...
@@ -60,13 +76,13 @@ if (count($_POST) > 0) {
 				header("Location: forgot.php");
 				die;
 			} else {
-				// 
+
 				save_password($password);
 				if (isset($_SESSION['forgot'])) {
 					unset($_SESSION['forgot']);
 				}
 
-				header("Location: login.php");
+				header("Location: digifine/login/index.php");
 				die;
 			}
 			break;
@@ -77,7 +93,6 @@ if (count($_POST) > 0) {
 	}
 }
 
-//Send mail with reset code
 function send_email($email)
 {
 
@@ -90,9 +105,10 @@ function send_email($email)
 	$query = "insert into codes (email,code,expire) value ('$email','$code','$expire')";
 	mysqli_query($conn, $query);
 
-	//send email here
+	// send email here
 	send_mail($email, 'Password reset', "Your code is " . $code);
 }
+
 
 // Save the new password in the appropriate table
 function save_password($password)
@@ -121,23 +137,6 @@ function save_password($password)
 
 }
 
-// function valid_email($email)
-// {
-// 	global $conn;
-
-// 	$email = addslashes($email);
-
-// 	$query = "select * from users where email = '$email' limit 1";
-// 	$result = mysqli_query($conn, $query);
-// 	if ($result) {
-// 		if (mysqli_num_rows($result) > 0) {
-// 			return true;
-// 		}
-// 	}
-
-// 	return false;
-
-// }
 
 function valid_email($email)
 {
@@ -165,6 +164,7 @@ function valid_email($email)
 
 	return false;
 }
+
 
 // Determine user type based on email
 function get_user_type($email)
@@ -218,115 +218,108 @@ function is_code_correct($code)
 }
 
 
-?>
 
-<!DOCTYPE html>
-<html>
 
-<head>
-	<meta charset="utf-8">
-	<title>Forgot</title>
-</head>
-
-<body>
-	<style type="text/css">
-		* {
-			font-family: tahoma;
-			font-size: 13px;
-		}
-
-		form {
-			width: 100%;
-			max-width: 200px;
-			margin: auto;
-			border: solid thin #ccc;
-			padding: 10px;
-		}
-
-		.textbox {
-			padding: 5px;
-			width: 180px;
-		}
-	</style>
+include_once "../includes/header.php" ?>
+<main>
 
 	<?php
-
 	switch ($mode) {
 		case 'enter_email':
 			// code...
 			?>
-			<form method="post" action="forgot.php?mode=enter_email">
-				<h1>Forgot Password</h1>
-				<h3>Enter your email below</h3>
-				<span style="font-size: 12px;color:red;">
-					<?php
-					foreach ($error as $err) {
-						// code...
-						echo $err . "<br>";
-					}
-					?>
-				</span>
-				<input class="textbox" type="email" name="email" placeholder="Email"><br>
-				<br style="clear: both;">
-				<input type="submit" value="Next">
-				<br><br>
-				<div><a href="login.php">Login</a></div>
-			</form>
+
+			<div class="login-container">
+				<img src="/digifine/assets/logo.svg" alt="Logo">
+				<h2>Find your password</h2>
+				<form action="forgot.php?mode=enter_email" method="POST">
+					<div class="field">
+						<label for="">Email Address: </label>
+						<span style="font-size: 12px;color:red;">
+							<?php
+							foreach ($error as $err) {
+								// code...
+								echo $err . "<br>";
+							}
+							?>
+						</span>
+						<input type="email" id="" name="email" required class="input" placeholder="Enter your email">
+						<br style="clear: both;">
+					</div>
+					<!-- <button type="submit" class="btn">Reset Password</button> -->
+					<input type="submit" value="Reset Password" class="btn">
+					<div class="link-wrap">
+						<p class="p"><a href="/digifine/login/index.php" class="link">Back to login</a></p>
+					</div>
+					<!-- updated the path -->
+				</form>
+			</div>
 			<?php
 			break;
 
 		case 'enter_code':
 			// code...
 			?>
-			<form method="post" action="forgot.php?mode=enter_code">
-				<h1>Forgot Password</h1>
-				<h3>Enter your the code sent to your email</h3>
-				<span style="font-size: 12px;color:red;">
-					<?php
-					foreach ($error as $err) {
-						// code...
-						echo $err . "<br>";
-					}
-					?>
-				</span>
 
-				<input class="textbox" type="text" name="code" placeholder="12345"><br>
-				<br style="clear: both;">
-				<input type="submit" value="Next" style="float: right;">
-				<a href="forgot.php">
-					<input type="button" value="Start Over">
-				</a>
-				<br><br>
-				<div><a href="login.php">Login</a></div>
-			</form>
+			<div class="login-container">
+				<img src="/digifine/assets/logo.svg" alt="Logo">
+				<h2>Enter Code</h2>
+				<form action="forgot.php?mode=enter_code" method="POST">
+					<div class="field">
+						<label for="">Enter the code that sent to your email: </label>
+						<span style="font-size: 12px;color:red;">
+							<?php
+							foreach ($error as $err) {
+								// code...
+								echo $err . "<br>";
+							}
+							?>
+						</span>
+						<input type="text" id="" name="code" required class="input" placeholder="12345">
+						<br style="clear: both;">
+					</div>
+					<!-- <button type="submit" class="btn">Submit</button> -->
+					<input type="submit" class="btn" value="Submit">
+					<div class="link-wrap">
+						<p class="p"><a href="/digifine/login/index.php" class="link">Back to login</a></p>
+					</div>
+					<!-- updated the path -->
+				</form>
+			</div>
 			<?php
 			break;
 
 		case 'enter_password':
 			// code...
 			?>
-			<form method="post" action="forgot.php?mode=enter_password">
-				<h1>Forgot Password</h1>
-				<h3>Enter your new password</h3>
-				<span style="font-size: 12px;color:red;">
-					<?php
-					foreach ($error as $err) {
-						// code...
-						echo $err . "<br>";
-					}
-					?>
-				</span>
 
-				<input class="textbox" type="text" name="password" placeholder="Password"><br>
-				<input class="textbox" type="text" name="password2" placeholder="Retype Password"><br>
-				<br style="clear: both;">
-				<input type="submit" value="Next" style="float: right;">
-				<a href="forgot.php">
-					<input type="button" value="Start Over">
-				</a>
-				<br><br>
-				<div><a href="login.php">Login</a></div>
-			</form>
+			<div class="login-container">
+				<img src="/digifine/assets/logo.svg" alt="Logo">
+				<h2>Enter Code</h2>
+				<form action="forgot.php?mode=enter_password" method="POST">
+					<div class="field">
+						<label for="" style="margin-bottom: 8px;">Enter your new password: </label>
+						<span style="font-size: 12px;color:red;">
+							<?php
+							foreach ($error as $err) {
+								// code...
+								echo $err . "<br>";
+							}
+							?>
+						</span>
+						<input type="password" id="" name="password" required class="input" placeholder="password">
+						<label for="" style="margin-top:7px;">Retype your new password: </label>
+						<input type="password" id="" name="password2" required class="input" placeholder="Retype Password">
+						<br style="clear: both;">
+					</div>
+					<!-- <button type="submit" class="btn">Submit</button> -->
+					<input type="submit" class="btn" value="Submit">
+					<div class="link-wrap">
+						<p class="p"><a href="../../digifine/login/index.php" class="link">Back to login</a></p>
+					</div>
+					<!-- updated the path -->
+				</form>
+			</div>
 			<?php
 			break;
 
@@ -335,9 +328,8 @@ function is_code_correct($code)
 			break;
 	}
 
+
 	?>
 
-
-</body>
-
-</html>
+</main>
+<?php include_once "../includes/footer.php" ?>

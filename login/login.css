@@ -118,3 +118,8 @@ h2 {
   cursor: pointer;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
 }
+
+.link-wrap {
+  display: flex;
+  gap: 20px;
+}

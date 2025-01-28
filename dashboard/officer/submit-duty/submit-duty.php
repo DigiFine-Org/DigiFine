@@ -59,11 +59,11 @@ $stmt->close();
                     </div>
                     <div class="field">
                         <label for="">Patrol Time (Start):</label>
-                        <input type="time" class="input" name="patrol_time_start" required>
+                        <input type="time" class="input" name="patrol_time_started" required>
                     </div>
                     <div class="field">
                         <label for="">Patrol Time (End):</label>
-                        <input type="time" class="input" name="patrol_time_end" required>
+                        <input type="time" class="input" name="patrol_time_ended" required>
                     </div>
                     <div class="field" required>
                         <label for="">Patrol Information:</label>

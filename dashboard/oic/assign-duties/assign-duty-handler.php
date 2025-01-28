@@ -1,13 +1,17 @@
 <?php
 session_start();
-include_once "../../../db/connect.php"; 
+include_once "../../../db/connect.php";
 
 if ($_SESSION['user']['role'] !== 'oic' && $_SESSION['user']['is_oic'] != 1) {
     die("Unauthorized access!");
 }
 
+// Retrieve form inputs
 $policeId = trim($_POST['policeId'] ?? "");
 $duty = trim($_POST['duty'] ?? "");
+$dutyDate = trim($_POST['dutyDate'] ?? "");
+$dutyTimeStart = trim($_POST['duty_time_start'] ?? "");
+$dutyTimeEnd = trim($_POST['duty_time_end'] ?? "");
 $notes = trim($_POST['notes'] ?? "");
 
 // Validate inputs
@@ -17,6 +21,19 @@ if (empty($policeId)) {
 }
 if (empty($duty)) {
     $errors[] = "Duty is required.";
+}
+if (empty($dutyDate)) {
+    $errors[] = "Duty Date is required.";
+} elseif (strtotime($dutyDate) < strtotime(date('Y-m-d'))) {
+    $errors[] = "Duty Date cannot be in the past.";
+}
+if (empty($dutyTimeStart)) {
+    $errors[] = "Duty start time is required.";
+}
+if (empty($dutyTimeEnd)) {
+    $errors[] = "Duty end time is required.";
+} elseif (strtotime($dutyTimeEnd) <= strtotime($dutyTimeStart)) {
+    $errors[] = "Duty end time must be after the start time.";
 }
 
 if (!empty($errors)) {
@@ -62,12 +79,14 @@ try {
         exit;
     }
 
-    $query = "INSERT INTO assigned_duties (police_id, duty, notes, assigned_by) VALUES (?, ?, ?, ?)";
+    // Insert the duty assignment into the database
+    $query = "INSERT INTO assigned_duties (police_id, duty, duty_date, duty_time_start, duty_time_end, notes, assigned_by) 
+              VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
     $assignedBy = $_SESSION['user']['id'];
-    $stmt->bind_param("issi", $policeId, $duty, $notes, $assignedBy);
-    
+    $stmt->bind_param("isssssi", $policeId, $duty, $dutyDate, $dutyTimeStart, $dutyTimeEnd, $notes, $assignedBy);
+
     if ($stmt->execute()) {
         $_SESSION['success'] = "Duty assigned successfully to Police ID: {$policeId}.";
     } else {
