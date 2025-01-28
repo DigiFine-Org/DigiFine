@@ -22,7 +22,6 @@ if ($result && $result->num_rows > 0) {
 // Fetch current user
 $policeId = $_SESSION['user']['id'] ?? '';
 
-$conn->close();
 
 include_once "../../../includes/header.php";
 
@@ -32,6 +31,32 @@ if ($_SESSION['user']['role'] !== 'officer') {
     echo "<script>setTimeout(() => window.location.href = '/digifine/dashboard/officer/login.php', 3000);</script>";
     exit();
 }
+
+$driverId = ""; // Default empty
+
+if (isset($_GET['nic'])) {
+    $nic = $conn->real_escape_string($_GET['nic']);
+
+    // Fetch Driver ID from NIC
+    $query = "SELECT id FROM drivers WHERE nic = '$nic'";
+    $result = $conn->query($query);
+
+    if (!$result) {
+        die("SQL Error: " . $conn->error); // Print SQL error message
+    }
+
+    if ($result->num_rows > 0) {
+        $data = $result->fetch_assoc();
+        $driverId = $data['id'];
+    } else {
+        $_SESSION['message'] = 'NIC Mismatch or Driver not found for the provided NIC in this System.';
+        header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php");
+        exit();
+    }
+}
+
+
+$conn->close();
 
 if ($_SESSION['message'] ?? null) {
     if ($_SESSION['message'] === 'success') {
@@ -72,12 +97,16 @@ if ($_SESSION['message'] ?? null) {
                         <input type="hidden" name="issued_time" id="hidden_clock">
                     </div>
                     <div class="field">
-                        <label for="">Driver License ID:</label>
-                        <input type="text" class="input" name="driver_id" placeholder="B5767089" required>
+                        <label for="driver_id">Driver License ID:</label>
+                        <input type="text" class="input" id="driver_id" name="driver_id"
+                            value="<?php echo htmlspecialchars($driverId); ?>" placeholder="B5767089" required>
                     </div>
                     <div class="field">
                         <label for="">Vehicle License Number:</label>
-                        <input type="text" class="input" placeholder="CAD-6264" name="license_plate_number" required>
+                        <?php
+                        $licensePlateNumber = $_GET['license_plate_number'] ?? '';
+                        ?>
+                        <input type="text" class="input" placeholder="CAD-6264" name="license_plate_number" value="<?php echo htmlspecialchars($licensePlateNumber); ?>" required>
                     </div>
                     <div class="field">
                         <label for="">Offence Type:</label>
@@ -133,7 +162,7 @@ if ($_SESSION['message'] ?? null) {
     const offenceType = document.getElementById("offence_type");
     const offenceSelectField = document.getElementById("offence_select_field");
 
-    offenceType.addEventListener("change", function () {
+    offenceType.addEventListener("change", function() {
         if (this.value === "fine") {
             offenceSelectField.style.display = "flex";
         } else {
@@ -145,7 +174,7 @@ if ($_SESSION['message'] ?? null) {
     const offenceDropdown = document.getElementById("offence");
     const fineAmountInput = document.getElementById("fine_amount");
 
-    offenceDropdown.addEventListener("change", function () {
+    offenceDropdown.addEventListener("change", function() {
         const selectedOption = offenceDropdown.options[offenceDropdown.selectedIndex];
         const fineAmount = selectedOption.getAttribute("data-fine") || 0;
         fineAmountInput.value = fineAmount;
