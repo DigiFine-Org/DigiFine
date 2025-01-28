@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $issued_date = htmlspecialchars($_POST['issued_date']);
     $issued_time = htmlspecialchars($_POST['issued_time']);
+    $expire_date = date('Y-m-d', strtotime($issued_date . ' + 14 days'));
     $driver_id = htmlspecialchars($_POST['driver_id']);
     $license_plate_number = htmlspecialchars($_POST['license_plate_number']);
     $offence_type = htmlspecialchars($_POST['offence_type']);
@@ -66,13 +67,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $offence_number = $offence_type === "court" ? null : $offence_number;
 
     // Insert the fine into the database
-    $sql = "INSERT INTO fines (police_id, driver_id, license_plate_number, issued_date, issued_time, offence_type, nature_of_offence, offence, fine_amount) VALUES (?, ?, ?, CURRENT_DATE, CURRENT_TIME, ?, ?, ?, ?)";
+    $sql = "INSERT INTO fines (police_id, driver_id, license_plate_number, issued_date, issued_time, expire_date, offence_type, nature_of_offence, offence, fine_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die("Error preparing statement: " . $conn->error);
     }
 
-    $stmt->bind_param("issssss", $policeId, $driver_id, $license_plate_number, $offence_type, $nature_of_offence, $offence, $fine_amount);
+    $stmt->bind_param("issssssssi", $policeId, $driver_id, $license_plate_number, $issued_date, $issued_time, $expire_date, $offence_type, $nature_of_offence, $offence, $fine_amount);
 
     if ($stmt->execute()) {
         // Set the success message in the session
