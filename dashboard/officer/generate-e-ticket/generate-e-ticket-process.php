@@ -2,8 +2,6 @@
 session_start();
 
 include '../../../db/connect.php';
-require_once "send-fine-mail.php";
-
 
 // Check if user is logged in as police officer
 $policeId = $_SESSION['user']['id'] ?? null;
@@ -69,40 +67,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $offence_number = $offence_type === "court" ? null : $offence_number;
 
     // Insert the fine into the database
-    $sql = "INSERT INTO fines (police_id, driver_id, license_plate_number, issued_date, issued_time, expire_date, offence_type, nature_of_offence, offence, fine_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO fines (police_id, driver_id, license_plate_number, issued_date, issued_time, expire_date, offence_type, nature_of_offence, offence, fine_amount) VALUES (?, ?, ?, CURRENT_DATE, CURRENT_TIME, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die("Error preparing statement: " . $conn->error);
     }
 
-    $stmt->bind_param("issssssssi", $policeId, $driver_id, $license_plate_number, $issued_date, $issued_time, $expire_date, $offence_type, $nature_of_offence, $offence, $fine_amount);
+    $stmt->bind_param("issssss", $policeId, $driver_id, $license_plate_number, $offence_type, $nature_of_offence, $offence, $fine_amount);
 
     if ($stmt->execute()) {
-
-        // Prepare fine details for email
-
-        $fineDetails = [
-            'police_id' => $policeId,
-            'issued_date' => $issued_date,
-            'issued_time' => $issued_time,
-            'offence_type' => $offence_type,
-            'fine_amount' => $fine_amount,
-            'nature_of_offence' => $nature_of_offence,
-
-        ];
-
-        // Fetch the driver's email
-        $driverEmailSql = "SELECT email FROM drivers WHERE id = ?";
-        $driverEmailStmt = $conn->prepare($driverEmailSql);
-        $driverEmailStmt->bind_param("s", $driver_id);
-        $driverEmailStmt->execute();
-        $driverEmailResult = $driverEmailStmt->get_result();
-
-        if ($driverEmailResult->num_rows > 0) {
-            $driverEmail = $driverEmailResult->fetch_assoc()['email'];
-            sendFineEmail($driverEmail, $fineDetails); // Send email
-        }
-
         // Set the success message in the session
         $_SESSION["message"] = "success";
         header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php");
