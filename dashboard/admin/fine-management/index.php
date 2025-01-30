@@ -17,13 +17,14 @@ if ($_SESSION['user']['role'] !== 'admin') {
 $offenceTypes = [];
 $offences = [];
 $fineStatuses = ['Paid', 'Overdue', 'Pending'];
+$is_reported = ['1', '0'];
 
-$stmt = $conn->prepare("SELECT DISTINCT offence_type FROM fines");
+$stmt = $conn->prepare("SELECT DISTINCT offence_type FROM fines WHERE offence_type IS NOT NULL AND offence_type != ''");
 $stmt->execute();
 $result = $stmt->get_result();
 $offenceTypes = $result->fetch_all(MYSQLI_ASSOC);
 
-$stmt = $conn->prepare("SELECT DISTINCT offence FROM fines");
+$stmt = $conn->prepare("SELECT DISTINCT offence FROM fines WHERE offence IS NOT NULL AND offence != ''");
 $stmt->execute();
 $result = $stmt->get_result();
 $offences = $result->fetch_all(MYSQLI_ASSOC);
@@ -65,9 +66,27 @@ if (isset($_GET['date-to']) && !empty($_GET['date-to'])) {
     $types .= 's';
 }
 
+if (isset($_GET['price-from']) && !empty($_GET['price-from'])) {
+    $whereClauses[] = "fine_amount >= ?";
+    $params[] = $_GET['price-from'];
+    $types .= 'd';
+}
+
+if (isset($_GET['price-to']) && !empty($_GET['price-to'])) {
+    $whereClauses[] = "fine_amount <= ?";
+    $params[] = $_GET['price-to'];
+    $types .= 'd';
+}
+
 if (isset($_GET['offence_type']) && !empty($_GET['offence_type'])) {
     $whereClauses[] = "offence_type = ?";
     $params[] = $_GET['offence_type'];
+    $types .= 's';
+}
+
+if (isset($_GET['is_reported']) && !empty($_GET['is_reported'])) {
+    $whereClauses[] = "is_reported = ?";
+    $params[] = $_GET['is_reported'];
     $types .= 's';
 }
 
@@ -84,7 +103,7 @@ if (isset($_GET['fine_status']) && !empty($_GET['fine_status'])) {
 }
 
 $query = "SELECT id, police_id, driver_id, license_plate_number, issued_date, issued_time,
-          offence_type, nature_of_offence, offence, fine_status FROM fines";
+          offence_type, nature_of_offence, offence, is_reported, fine_status, fine_amount FROM fines";
 if (!empty($whereClauses)) {
     $query .= " WHERE " . implode(' AND ', $whereClauses);
 }
@@ -134,7 +153,9 @@ $stmt->close();
                     <th>ISSUED DATE</th>
                     <th>OFFENCE TYPE</th>
                     <th>OFFENCE</th>
+                    <th>Is Reported</th>
                     <th>FINE STATUS</th>
+                    <th>Amount</th>
                     <th>ACTION</th>
                 </tr>
             </thead>
@@ -148,7 +169,9 @@ $stmt->close();
                             <td><?= htmlspecialchars($fine['issued_date']) ?></td>
                             <td><?= htmlspecialchars($fine['offence_type']) ?></td>
                             <td><?= htmlspecialchars($fine['offence']) ?></td>
+                            <td><?= $fine['is_reported'] ? 'Yes' : 'No' ?></td>
                             <td><?= htmlspecialchars($fine['fine_status']) ?></td>
+                            <td><?= htmlspecialchars($fine['fine_amount']) ?></td>
                             <td>
                                 <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>"
                                     class="btn">View</a>

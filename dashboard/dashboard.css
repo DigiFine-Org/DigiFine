@@ -531,24 +531,96 @@ table td.centered {
 
 .buttons {
   display: flex;
+  margin: auto;
+  margin-top: 10px;
+  padding: 5px 10px;
   flex-direction: row;
-  gap: 30px;
+  gap: 56px;
 }
 
 /* filter form */
 
 .filter-form-container {
-  border: 1px var(--color-gray) solid;
-  border-radius: 5px;
-  margin: 0 auto;
-  margin-bottom: 20px;
-  width: 100%;
-  max-width: 420px;
+  border: 1px solid var(--color-gray);
+  border-radius: 8px;
   padding: 20px;
+  background-color: var(--color-white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.filter-form-container h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.filter-form-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 3 columns in one row */
+  gap: 5px; /* Space between fields */
+}
+
+.filter-field {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-white);
-  position: relative;
+  align-items: flex-start;
+  justify-content: center;
+  /* min-width: 300px; */
+}
+
+.filter-sub-field {
+  display: grid;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.filter-field label {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.filter-field input,
+.filter-field select {
+  padding: 5px 10px;
+  border: 1px solid var(--color-gray);
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.filter-form-button {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.filter-form-button .btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: var(--color-white);
+  background-color: var(--color-green);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-form-button .btn:hover {
+  background-color: var(--color-dark-green);
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .filter-form-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns in smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-form-grid {
+    grid-template-columns: 1fr; /* 1 column in very small screens */
+  }
 }
 
 

@@ -17,7 +17,7 @@ $pageConfig = [
 session_start();
 $error = array();
 
-require "mail.php";
+require "../PHPMailer/mail.php";
 require_once "../db/connect.php";
 
 if (!$conn) {
@@ -95,19 +95,105 @@ if (count($_POST) > 0) {
 
 function send_email($email)
 {
-
 	global $conn;
 
-	$expire = time() + (60 * 1);
-	$code = rand(10000, 99999);
+	$expire = time() + (60 * 1); // Expiration time: 1 minute
+	$code = rand(10000, 99999); // Generate random code
 	$email = addslashes($email);
 
-	$query = "insert into codes (email,code,expire) value ('$email','$code','$expire')";
+	$query = "INSERT INTO codes (email, code, expire) VALUES ('$email', '$code', '$expire')";
 	mysqli_query($conn, $query);
 
-	// send email here
-	send_mail($email, 'Password reset', "Your code is " . $code);
+	// Construct the email content
+	$subject = 'Password Reset Request';
+	$message = "
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                background-color: #f8f9fa;
+                color: #333;
+                padding: 20px;
+                margin: 0;
+            }
+            .email-container {
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                overflow: hidden;
+            }
+            .email-header {
+                background-color: #007bff;
+                color: #ffffff;
+                padding: 20px;
+                text-align: center;
+            }
+            .email-header h1 {
+                margin: 0;
+                font-size: 24px;
+            }
+            .email-body {
+                padding: 20px;
+                font-size: 16px;
+                color: #555;
+            }
+            .email-body p {
+                margin: 10px 0;
+            }
+            .email-body .code {
+                display: inline-block;
+                background-color: #f8f9fa;
+                color: #007bff;
+                padding: 10px 20px;
+                border: 1px solid #007bff;
+                border-radius: 5px;
+                font-size: 18px;
+                font-weight: bold;
+            }
+            .email-footer {
+                background-color: #f1f1f1;
+                text-align: center;
+                padding: 10px;
+                font-size: 14px;
+                color: #777;
+            }
+            .email-footer a {
+                color: #007bff;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='email-container'>
+            <div class='email-header'>
+                <h1>Password Reset Request</h1>
+            </div>
+            <div class='email-body'>
+                <p>Hello,</p>
+                <p>We received a request to reset your password for your account. Please use the verification code below to reset your password:</p>
+                <p class='code'>$code</p>
+                <p>This code will expire in 1 minute.</p>
+                <p>If you did not request a password reset, please ignore this email or contact support.</p>
+                <p>Thank you,<br>The Digifine Team</p>
+            </div>
+            <div class='email-footer'>
+                <p>If you need further assistance, please visit our <a href='#'>Help Center</a> or contact <a href='mailto:support@digifine.com'>support@digifine.com</a>.</p>
+                <p>&copy; 2025 Digifine. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    ";
+
+	// Send the email
+	send_mail($email, $subject, $message);
 }
+
 
 
 // Save the new password in the appropriate table

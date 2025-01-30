@@ -56,9 +56,9 @@ if ($id) {
                 <h1>Check Vehicle Details</h1>
                 <?php if ($_SESSION['message'] ?? null): ?>
                     <div class="alert alert-danger">
-                        <?php 
-                            echo htmlspecialchars($_SESSION['message']);
-                            unset($_SESSION['message']); 
+                        <?php
+                        echo htmlspecialchars($_SESSION['message']);
+                        unset($_SESSION['message']);
                         ?>
                     </div>
                 <?php endif; ?>
@@ -97,6 +97,10 @@ if ($id) {
                             <p><?= htmlspecialchars($result['vehicle_owner_fname'] . " " . $result['vehicle_owner_lname']); ?></p>
                         </div>
                         <div class="data-line">
+                            <span>Vehicle Owner’s NIC:</span>
+                            <p><?= htmlspecialchars($result['nic']); ?></p>
+                        </div>
+                        <div class="data-line">
                             <span>Vehicle Owner’s Address:</span>
                             <p><?= htmlspecialchars($result['address']); ?></p>
                         </div>
@@ -114,7 +118,7 @@ if ($id) {
                         </form>
 
 
-                    
+
                     <?php else: ?>
                         <h3>Vehicle Revenue Licence</h3>
                         <div class="data-line">
@@ -134,6 +138,10 @@ if ($id) {
                             <p><?= htmlspecialchars($result['license_plate_number']); ?></p>
                         </div>
                         <div class="data-line">
+                            <span>Vehicle Owner’s NIC:</span>
+                            <p><?= htmlspecialchars($result['nic']); ?></p>
+                        </div>
+                        <div class="data-line">
                             <span>Vehicle Owner’s Name:</span>
                             <p><?= htmlspecialchars($result['vehicle_owner_fname'] . " " . $result['vehicle_owner_lname']); ?></p>
                         </div>
@@ -149,7 +157,8 @@ if ($id) {
                             <span>Number of Seats:</span>
                             <p><?= htmlspecialchars($result['no_of_seats']); ?></p>
                         </div>
-                        <a href="../generate-e-ticket/index.php?id=<?= htmlspecialchars($id); ?>" class="btn margintop">Issue Fine</a>
+                        <a href="../generate-e-ticket/index.php?license_plate_number=<?= htmlspecialchars($result['license_plate_number']); ?>" class="btn margintop">Issue Fine</a>
+                        <a href="../generate-e-ticket/index.php?nic=<?= htmlspecialchars($result['nic']); ?>&license_plate_number=<?= htmlspecialchars($result['license_plate_number']); ?>" class="btn margintop">Issue Fine to Vehicle Owner</a>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>

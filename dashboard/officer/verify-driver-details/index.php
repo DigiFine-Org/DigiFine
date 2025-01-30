@@ -192,8 +192,7 @@ if ($id) {
                             </tbody>
                         </table>
                         <br>
-                        <a href="../generate-e-ticket/index.php?id=<?= $id ?>" class="btn margintop">Issue
-                            Fine</a>
+                        <a href="../generate-e-ticket/index.php?id=<?= $id ?>&nic=<?= $result['nic'] ?>" class="btn margintop">Issue Fine</a>
                     </div>
                 <?php endif ?>
             </div>
