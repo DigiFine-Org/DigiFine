@@ -1,11 +1,11 @@
 <?php
 
-$servername = "mysql-digifine.alwaysdata.net";
+$hostname = "mysql-digifine.alwaysdata.net";
 $username = "digifine_db";
 $password = "Digifine1234#";
 $dbname = "digifine_db";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($hostname, $username, $password, $dbname);
 mysqli_report(MYSQLI_REPORT_OFF);
 
 if ($conn->connect_error) {

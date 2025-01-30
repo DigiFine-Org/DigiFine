@@ -138,8 +138,6 @@ $conn->close();
                         <h3>20</h3>
                     </div>
                 </div>
-<<<<<<< HEAD
-=======
             </div>
             <div>
                 <h3>Today Duties of Police Officers</h3>
@@ -212,85 +210,7 @@ $conn->close();
                     </table>
                 </div>
                 <button class="btn" id="show-form">Add Duty Location</button>
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
-            </div>
-            <div>
-                <h3>Today Duties of Police Officers</h3>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>officer id</th>
-                                <th>officer name</th>
-                                <th>duty</th>
-                                <th>location</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>15364</td>
-                                <td>Pubuditha Walgampaya</td>
-                                <td>Cross Line Handling</td>
-                                <td>Kada Panaha Junction</td>
-                            </tr>
-                            <tr>
-                                <td>12675</td>
-                                <td>Wendt Edmund</td>
-                                <td>Traffic Control</td>
-                                <td>Abhayagiri Stupa Area</td>
-                            </tr>
-                            <tr>
-                                <td>14567</td>
-                                <td>Thihansa Sanjunie</td>
-                                <td>Event Security</td>
-                                <td>Sea Line</td>
-                            </tr>
-                            <tr>
-                                <td>18934</td>
-                                <td>John Manuel</td>
-                                <td>VIP Escort</td>
-                                <td>Election Meeting</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div style="margin-top:10px;">
-                <h3>Duty Locations</h3>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Location</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($locations as $location): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($location['location_name']) ?></td>
-                                    <td>
-                                        <div class="wrapper">
-                                            <!-- <a href="" class="btn marginbottom">Edit</a> -->
-                                            <form action="delete-location-process.php" method="POST" style="display:inline;">
-                                                <input type="hidden" name="offence_number"
-                                                    value="<?php echo htmlspecialchars($offence['offence_number']); ?>">
-                                                <button type="submit" class="deletebtn">Delete</button>
-                                            </form>
-
-<<<<<<< HEAD
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <form action="/digifine/dashboard/oic/add-location.php" method="get">
-                    <input type="submit" class="btn margintop marginbottom" value="Add Duty Location">
-                </form>
-            </div>
-=======
+            
             
 
             <!-- Popup for Adding Duty Location -->
@@ -302,7 +222,6 @@ $conn->close();
             <label for="location_name">Location</label>
             <input type="text" class="input" placeholder="Enter location name" name="location_name" required>
             <input type="hidden" name="police_station_id" value="<?= htmlspecialchars($oic['police_station']) ?>">
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
         </div>
         <button class="btn" type="submit">Add</button>
     </form>

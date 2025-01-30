@@ -1,0 +1,698 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+  /* padding-bottom: 60px; */
+}
+
+/* transition */
+/* Full-Screen Overlay */
+#welcome-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000d1a; /* Dark background */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Stack items vertically */
+  z-index: 1000; /* Ensure it's above all content */
+  animation: fadeOut 2s ease-in-out 2s forwards; /* Fade out after 2 seconds */
+}
+
+/* Logo Styling */
+#welcome-logo {
+  width: 250px; /* Adjust as needed */
+  height: auto;
+  margin-bottom: 20px; /* Space between logo and motto */
+  animation: fadeInLogo 2s ease-out 0s forwards; /* Logo fade-in animation */
+}
+
+/* Motto Styling */
+#motto {
+  font-size: 1.5rem; /* Default font size */
+  font-weight: bold;
+  margin-bottom: 20px; /* Space between motto and welcome text */
+  animation: fadeInMotto 2s ease-out 0s forwards; /* Motto fade-in animation */
+  text-align: center; /* Center the motto text */
+}
+
+/* Welcome Text Styling */
+#welcome-overlay h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-top: 10px;
+  animation: fadeInText 2s ease-out 2s forwards; /* Welcome text fade-in animation */
+  text-align: center; /* Center the welcome text */
+}
+
+/* Main Content (Initially Hidden) */
+#main-content {
+  display: none; /* Hidden until the animation ends */
+  animation: fadeIn 1s ease-in forwards; /* Fade in after the overlay fades out */
+}
+
+/* Keyframes for Fade-Out Animation */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Keyframes for Logo Fade-In */
+@keyframes fadeInLogo {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Keyframes for Motto Fade-In */
+@keyframes fadeInMotto {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Keyframes for Welcome Text Fade-In */
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Keyframes for Fade-In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Media Query for Small Screens (Mobile Devices) */
+@media (max-width: 768px) {
+  /* Adjusting Motto Font Size */
+  #motto {
+    font-size: 1.2rem; /* Smaller font size for tablets and mobile */
+    margin-bottom: 15px; /* Reduce space between motto and welcome text */
+  }
+
+  /* Adjusting Welcome Text Font Size */
+  #welcome-overlay h1 {
+    font-size: 2rem; /* Slightly smaller welcome text on smaller screens */
+  }
+}
+
+/* Media Query for Extra Small Screens (Very Small Devices) */
+@media (max-width: 480px) {
+  /* Further adjust Motto Font Size */
+  #motto {
+    font-size: 1rem; /* Even smaller font size for very small devices */
+    margin-bottom: 10px; /* Adjust spacing for smaller devices */
+  }
+
+  /* Further adjust Welcome Text Font Size */
+  #welcome-overlay h1 {
+    font-size: 1.5rem; /* Smaller font size for very small devices */
+  }
+}
+
+/* General Header Styling */
+.overlay-header {
+  position: absolute; /* Position it above the hero image */
+  /* top: 100; */
+  left: 0;
+  width: 100%;
+  z-index: 10; /* Ensures it appears above other elements */
+  background: rgb(0 0 0 / 25%);
+  color: white;
+}
+
+.overlay-header .header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 20px 40px; */
+  padding: 7px 19px;
+}
+
+.overlay-header .logo {
+  width: 130px;
+  height: 40px;
+}
+
+.overlay-header nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.overlay-header nav ul li {
+  margin: 0 10px;
+}
+
+.overlay-header nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 1.1rem; /* Increased font size */
+}
+
+.overlay-header nav ul li a:hover {
+  background: rgba(255, 255, 255, 0.2); /* Adds a hover effect */
+  transition: background 0.5s ease;
+}
+
+/* Hero Section Styling */
+.hero {
+  position: relative;
+  background: linear-gradient(180deg, #60aeff, #fff);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  height: 350px;
+  overflow: hidden;
+  /* box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.2); */
+}
+
+.hero img {
+  width: 200px; /* Adjusted size */
+  height: auto;
+  object-fit: contain;
+  /* transform: scale(0.6); */
+  /* animation: logoScaleUp 4s ease forwards; */
+}
+
+/* .hero img:hover {
+  transform: scale(1.1);
+} */
+
+.hamburger {
+  display: none; /* Hide by default */
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  position: fixed; /* Fix it at the top-right corner */
+  top: 2px; /* Adjust top position */
+  right: 13px; /* Adjust right position */
+  z-index: 100; /* Ensure it stays above other content */
+}
+
+/* Mobile Navigation */
+/* Mobile Navigation */
+/* Mobile Styles (max-width: 768px) */
+@media (max-width: 768px) {
+  /* Hamburger icon styles */
+  .hamburger {
+    display: block; /* Show hamburger menu on smaller screens */
+  }
+
+  /* Navigation links */
+  nav ul.nav-links {
+    display: none !important; /* Initially hidden */
+    flex-direction: column; /* Stack links vertically */
+    position: absolute;
+    top: 60px; /* Adjust to match header height */
+    right: 20px;
+    background: rgb(20, 92, 160); /* Semi-transparent background */
+    border-radius: 5px;
+    width: 175px;
+    height: auto;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    /* Add a transition for smooth toggle effect */
+    transition: transform 0.3s ease-in-out;
+  }
+
+  /* Menu items */
+  nav ul.nav-links li {
+    text-align: center;
+    margin: 5px 0;
+  }
+
+  /* Links inside menu */
+  nav ul.nav-links li a {
+    color: white;
+    font-weight: normal;
+    font-size: 1rem;
+    text-decoration: none; /* Optional: Remove underline from links */
+    display: block;
+    padding: 10px;
+    transition: background-color 0.3s;
+  }
+
+  /* Link hover effect */
+  nav ul.nav-links li a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Slight hover effect */
+  }
+
+  /* Toggle menu when .open class is added */
+  nav ul.nav-links.open {
+    display: flex !important; /* Show links when menu is toggled */
+    transform: translateY(0); /* Default position of menu when visible */
+  }
+
+  /* Add transition for smooth visibility toggle */
+  nav ul.nav-links.open {
+    transform: translateY(0); /* When the menu is open, move to visible state */
+  }
+
+  /* Optional: Add a close button or icon inside the menu */
+  .close-btn {
+    font-size: 30px;
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+}
+.features,
+  /* .info-cards,
+  .info-section, */
+  .chief-message,
+  .statistics {
+  padding: 20px;
+  text-align: center;
+}
+
+.features {
+  /* background: url("../../assets/landingPage/spenser-h-OxJxV4qakx0-unsplash.jpg")
+    no-repeat center center; */
+  /* background: #145ca036; */
+  background-size: cover; /* Ensures the image fills the section while maintaining aspect ratio */
+  color: rgb(0, 0, 0);
+  min-height: 61vh;
+
+  /* display: grid; */
+  grid-template-columns: repeat(2, 1fr); /* Two items per row */
+  gap: 20px; /* Add space between tiles */
+  padding: 20px; /* Add padding around the container */
+}
+
+.features .feature {
+  background: #60aeff9c;
+  /* background: #91abc577; */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  margin: 17px;
+  /* height: 195px; */
+
+  width: calc(33.33% - 20px); /* Ensures three tiles per row with equal width */
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+.feature {
+  text-shadow: 53px 40px 60 #f40, 15px 15px 0 #fff, -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+}
+
+.feature:hover {
+  /* background: rgba(255, 255, 255, 0.782); */
+  background: rgba(96, 173, 255, 0.862);
+
+  transition: background 0.7s ease;
+}
+
+.info-cards .card {
+  background-color: #145da0;
+  color: white;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 5px;
+  display: inline-block;
+  width: 30%;
+}
+
+.features .feature .icon,
+.info-cards .card .card-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.icon img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.info-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: #f9f9f9;
+  margin-top: 20px;
+}
+
+.info-column {
+  width: 48%;
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-column h2 {
+  color: #145da0;
+  margin-bottom: 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: #f1f1f1;
+  color: #333;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tabs button:hover {
+  background: #e6e6e6;
+}
+
+.fact-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.fact-icon {
+  font-size: 2.5rem;
+  color: #145da0;
+}
+
+.fact-content p {
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.news-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.news-item:last-child {
+  margin-bottom: 0;
+}
+
+.date {
+  background: #145da0;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.date p {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.date span {
+  font-size: 0.9rem;
+}
+
+.news-content h3 {
+  font-size: 1rem;
+  margin: 0 0 5px;
+  color: #145da0;
+}
+
+.news-content p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.chief-message {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f9f9f9;
+}
+
+.chief-message h2 {
+  color: #145da0;
+  margin-bottom: 20px;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.chief-photo {
+  object-position: top;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+.message-content p {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.statistics .stat {
+  width: 22%;
+  display: inline-block;
+}
+.stat h3 {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.stat p {
+  font-size: 1.5rem;
+  color: #145da0;
+  margin: 0;
+}
+
+.stat span {
+  font-size: 0.9rem;
+  color: #555;
+  display: block;
+  margin-top: 5px;
+}
+
+.statistics .stat .icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+.statistics .stat h3 {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .features .feature,
+  .info-cards .card,
+  .statistics .stat {
+    width: 80%;
+  }
+
+  .info-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .info-column {
+    width: 90%;
+    margin-bottom: 20px;
+  }
+
+  .chief-message .message-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chief-message .chief-photo {
+    margin-bottom: 20px;
+  }
+}
+
+/* About Us CSS */
+.about {
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 20px auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.about h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  letter-spacing: 1px;
+}
+
+.about p {
+  margin-bottom: 20px;
+  text-align: justify;
+  line-height: 1.6;
+  color: #555;
+}
+
+.about ul {
+  margin: 20px 0;
+  padding-left: 30px;
+  list-style-type: disc;
+  color: #444;
+}
+
+.about ul li {
+  margin-bottom: 15px;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding-left: 10px;
+  position: relative;
+}
+
+.about ul li:before {
+  position: absolute;
+  left: -25px;
+  color: #3498db;
+  font-size: 1.2rem;
+}
+
+.btn-primary {
+  display: inline-block;
+  text-align: center;
+  background-color: #3498db;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+}
+
+.about p:last-of-type {
+  text-align: center;
+  font-style: italic;
+  color: #7f8c8d;
+  margin-top: 20px;
+}
+
+/* Contacts Section CSS */
+.contacts {
+  background-color: #f9f9f9;
+  padding: 30px;
+  max-width: 900px;
+  margin: 30px auto;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contacts h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.contacts p {
+  text-align: center;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.contact-card {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.contact-card h3 {
+  color: #3498db;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.contact-card p {
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.contact-card a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+.contact-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer Styling */
+footer {
+  text-align: center;
+  padding: 5px 0;
+  background: #145da0; /* Adds a semi-transparent background */
+  color: #fff;
+  width: 100%;
+  /* position: fixed; */
+  bottom: 0;
+  height: 60px; /* Define a fixed height for the footer */
+}
