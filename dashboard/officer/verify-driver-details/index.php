@@ -62,6 +62,10 @@ if ($id) {
                         <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>
+                    <div class="data-line" style="background-color:rgb(0, 0, 0); padding: 5px; border-radius: 10px;">
+                        <span>NO OF FINES ISSUED IN [MONTH]:</span>
+                        <!-- <p><?= $result['fname'] . " " . $result['lname'] ?></p> -->
+                    </div>
                     <h3>Driver License</h3>
                     <div class="data-line">
                         <span>FULL NAME:</span>
