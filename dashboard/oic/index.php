@@ -212,6 +212,9 @@ $conn->close();
                 </div>
                 <button class="btn" id="show-form">Add Duty Location</button>
 
+            
+
+
             </div>
             <div>
                 <h3>Today Duties of Police Officers</h3>
@@ -289,6 +292,7 @@ $conn->close();
                     <input type="submit" class="btn margintop marginbottom" value="Add Duty Location">
                 </form>
             </div>
+
 
             
 
