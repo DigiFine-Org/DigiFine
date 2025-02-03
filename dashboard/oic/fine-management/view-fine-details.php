@@ -22,8 +22,8 @@ $fine_id = intval($_GET['id']);
 
 // Ensure the fine belongs to the OIC's police station
 $sql = "
-    SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
-           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported, f.reported_description, 
+    SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, expire_date, 
+           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.fine_amount, f.is_reported, f.reported_description, 
            f.evidence
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
@@ -71,6 +71,10 @@ $conn->close();
                     <p><?= htmlspecialchars($fine['issued_time']) ?></p>
                 </div>
                 <div class="data-line">
+                    <span>Expiry Date:</span>
+                    <p><?= htmlspecialchars($fine['expire_date']) ?></p>
+                </div>
+                <div class="data-line">
                     <span>Offence Type:</span>
                     <p><?= htmlspecialchars($fine['offence_type']) ?></p>
                 </div>
@@ -85,6 +89,10 @@ $conn->close();
                 <div class="data-line">
                     <span>Fine Status:</span>
                     <p><?= htmlspecialchars($fine['fine_status']) ?></p>
+                </div>
+                <div class="data-line">
+                    <span>Fine Amount:</span>
+                    <p><?= htmlspecialchars($fine['fine_amount']) ?></p>
                 </div>
 
                 <?php if ($fine['is_reported'] == 1): ?>
