@@ -58,8 +58,6 @@ if($fine['fine_status'] === 'paid') {
     // Update fine statud in db
     $updateSql = "UPDATE fines SET fine_status = 'paid' WHERE id = ?";
     $updateStmt = $conn->prepare($updateSql);
-    var_dump($updateStmt);
-    exit();
     if(!$updateStmt) {
         die("Error preparing update statement: " .$conn->error);
     }
@@ -73,7 +71,7 @@ if($fine['fine_status'] === 'paid') {
 }
 
 $stmt->close();
-$updateStmt->close();
+// $updateStmt->close();
 $conn->close();
 
 

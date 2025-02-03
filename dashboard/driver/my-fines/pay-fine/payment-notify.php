@@ -42,6 +42,16 @@ if ($status_code == 2) {
     }
     $fine_id = intval($matches[1]);
 
+    // Fetch payer details
+    $payer_first_name = htmlspecialchars($_POST['first_name'] ?? '');
+    $payer_last_name = htmlspecialchars($_POST['last_name'] ?? '');
+    $payer_email = htmlspecialchars($_POST['email'] ?? '');
+    $payer_phone = htmlspecialchars($_POST['phone'] ?? '');
+    $payer_address = htmlspecialchars($_POST['address'] ?? '');
+    $payer_city = htmlspecialchars($_POST['city'] ?? '');
+    $payer_country = htmlspecialchars($_POST['country'] ?? '');
+    $hash = htmlspecialchars($_POST['hash'] ?? '');
+
     // Start a transaction for atomic updates
     $conn->begin_transaction();
 
@@ -76,26 +86,38 @@ if ($status_code == 2) {
         $stmt->close();
 
         // Insert into 'payments' table if not exists (prevents duplicates)
-        $insertPaymentsSql = "INSERT INTO payments (order_id, fine_id, amount, currency, status, payment_date)
-                              VALUES (?, ?, ?, ?, 'completed', NOW())
-                              ON DUPLICATE KEY UPDATE status = 'completed', payment_date = NOW()";
-        $stmt = $conn->prepare($insertPaymentsSql);
-        if (!$stmt) {
-            throw new Exception("Database error: " . $conn->error);
-        }
-        $stmt->bind_param("sids", $order_id, $fine_id, $payhere_amount, $payhere_currency);
-        $stmt->execute();
-        $stmt->close();
+        $insertPaymentsSql = "INSERT INTO payments (fine_id, merchant_id, order_id, amount, currency, payer_first_name, payer_last_name, payer_email, payer_phone, 
+            payer_address, payer_city, payer_country, status, hash, created_at) 
+            VALUES 
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'success', ?, NOW()) 
+            ON DUPLICATE KEY UPDATE 
+            status = 'success', updated_at = NOW()";
 
-        // Commit the transaction
+        $stmt = $conn->prepare($insertPaymentsSql);
+
+        if (!$stmt) {
+            file_put_contents("ipn_error.log", "[" . date("Y-m-d H:i:s") . "] SQL Prepare Error: " . $conn->error . "\n", FILE_APPEND);
+            die("SQL Prepare Error: " . $conn->error);
+        }
+
+        $stmt->bind_param("issdsssssssss", 
+            $fine_id, $merchant_id, $order_id, $payhere_amount, $payhere_currency, 
+            $payer_first_name, $payer_last_name, $payer_email, $payer_phone, 
+            $payer_address, $payer_city, $payer_country, $hash
+        );
+
+        if (!$stmt->execute()) {
+            file_put_contents("ipn_error.log", "[" . date("Y-m-d H:i:s") . "] SQL Execution Error: " . $stmt->error . "\n", FILE_APPEND);
+            die("SQL Execution Error: " . $stmt->error);
+        }
+
         $conn->commit();
 
-        // Log successful transaction
-        file_put_contents("ipn_success.log", "[" . date("Y-m-d H:i:s") . "] Fine ID: $fine_id marked as PAID.\n", FILE_APPEND);
-
-        // Send HTTP 200 response
         http_response_code(200);
-        echo "Payment successfully processed for Fine ID: " . $fine_id;
+        echo "Payment successfully recorded for Fine ID: " . $fine_id;
+        
+
+
     } catch (Exception $e) {
         // Rollback on error
         $conn->rollback();
@@ -110,8 +132,6 @@ if ($status_code == 2) {
     http_response_code(400);
     die("Payment failed or canceled!");
 }
-
-$conn->close();
 
 
 // Fetch the driver's email
@@ -152,3 +172,7 @@ if ($driverEmailResult->num_rows > 0) {
     require "../../../PHPMailer/mail.php";
     send_mail($driverEmail, $subject, $message);
 }
+
+
+$conn->close();
+
