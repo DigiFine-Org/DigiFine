@@ -84,7 +84,6 @@ if ($asPolice) {
 } else {
     $sql = "INSERT INTO update_driver_profile_requests (id, fname, lname, email, phone_no, nic, password) VALUES ('$userid', '$fname', '$lname', '$email', '$phoneNo', '$nic', NULLIF('$hashedPassword',''))";
 }
-var_dump($sql);
 $ok = $conn->query($sql);
 if (!$ok) {
     die("Error: " . $conn->error);

@@ -1,28 +1,4 @@
 <?php
-<<<<<<< HEAD
-include '../../../db/connect.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = htmlspecialchars($_POST['id']);
-    $police_station_id = htmlspecialchars($_POST['police_station_id']);
-    $location_name = htmlspecialchars($_POST['location_name']);
-
-
-    $sql = "INSERT INTO offences (id, police_station_id)
-            VALUES (?, ?)";
-
-    $stmt = $conn->prepare($sql);
-    if ($stmt === false) {
-        die("Error preparing statement: " . $conn->error);
-    }
-
-
-    $stmt->bind_param("is", $id, $police_station_id);
-
-
-    if ($stmt->execute()) {
-        echo "Offence added successfully!";
-=======
 include '../../db/connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -49,24 +25,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Execute query
     if ($stmt->execute()) {
         echo "Duty location added successfully!";
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
         header("Location: /digifine/dashboard/oic/index.php");
         exit();
     } else {
         echo "Error: " . $stmt->error;
     }
 
-<<<<<<< HEAD
 
-=======
     // Close resources
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
     $stmt->close();
     $conn->close();
 } else {
     echo "Invalid request method.";
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3

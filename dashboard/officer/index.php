@@ -9,10 +9,8 @@ $pageConfig = [
 include_once "../../includes/header.php";
 require_once "../../db/connect.php";
 
-
-
 if ($_SESSION['user']['role'] !== 'officer') {
-    die("unauthorized user!");
+    die("Unauthorized user!");
 }
 
 $policeId = $_SESSION['user']['id'] ?? null;
@@ -21,17 +19,21 @@ if (!$policeId) {
     die("Unauthorized access.");
 }
 
-// fetch officer's nameS
+// Fetch officers name
 $sql = "SELECT o.fname, o.lname, ps.name AS police_station_name 
-    FROM officers o 
-    INNER JOIN police_stations ps ON o.police_station = ps.id 
-    WHERE o.id = ? ";
+        FROM officers o 
+        INNER JOIN police_stations ps ON o.police_station = ps.id 
+        WHERE o.id = ? ";
 
 $stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Error preparing statement: " . $conn->error);
+}
+
 $stmt->bind_param("i", $policeId);
 
 if (!$stmt->execute()) {
-    die("Error fetching officer details " . $stmt->error);
+    die("Error fetching officer details: " . $stmt->error);
 }
 
 $result = $stmt->get_result();
@@ -40,6 +42,75 @@ if ($result->num_rows === 0) {
 }
 
 $officer = $result->fetch_assoc();
+$stmt->close();
+
+// Fetch upcoming duties
+$sql_future_duties = "SELECT police_id, duty, duty_date, duty_time_start 
+                      FROM assigned_duties 
+                      WHERE duty_date > CURDATE() 
+                      AND submitted = 0 
+                      AND police_id = ?";
+
+
+
+$stmt = $conn->prepare($sql_future_duties);
+if (!$stmt) {
+    die("Error preparing duties query: " . $conn->error);
+}
+
+$stmt->bind_param("i", $policeId);
+$stmt->execute();
+$result_future = $stmt->get_result();
+
+
+
+$dutiesHTML = "";
+
+if ($result_future->num_rows > 0) {
+    while ($row = $result_future->fetch_assoc()) {
+        $dutiesHTML .= "<div class='duty_item' style='margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 10px;'>";
+        $dutiesHTML .= "<p><strong>Duty: </strong>" . htmlspecialchars($row["duty"]) . "</p>";
+        $dutiesHTML .= "<p><strong>Date: </strong>" . htmlspecialchars($row["duty_date"]) . "</p>";
+        $dutiesHTML .= "<p><strong>Time: </strong>" . htmlspecialchars($row["duty_time_start"]) . "</p>";
+        $dutiesHTML .= "</div>";
+    }
+} else {
+    $dutiesHTML = "<p>No newly assigned duties.</p>";
+}
+
+$stmt->close();
+
+// Last duty query corrected
+$sql_last_duty = "SELECT police_id, duty, duty_date, duty_time_start 
+                  FROM assigned_duties 
+                  WHERE submitted = 1 
+                  AND police_id = ? 
+                  ORDER BY duty_date DESC, duty_time_start DESC 
+                  LIMIT 1";
+
+$stmt = $conn->prepare($sql_last_duty);
+if (!$stmt) {
+    die("Error in preparing duty queries: " . $conn->error);
+}
+
+$stmt->bind_param("i", $policeId);
+$stmt->execute();
+$result_last = $stmt->get_result();
+
+$lastDutyHTML = "";
+
+if ($result_last->num_rows > 0) {
+    while ($row = $result_last->fetch_assoc()) {
+        $lastDutyHTML .= "<div class='duty_item' style='margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 10px;'>";
+        $lastDutyHTML .= "<p><strong>Duty: </strong>" . htmlspecialchars($row["duty"]) . "</p>";
+        $lastDutyHTML .= "<p><strong>Date: </strong>" . htmlspecialchars($row["duty_date"]) . "</p>";
+        $lastDutyHTML .= "<p><strong>Time: </strong>" . htmlspecialchars($row["duty_time_start"]) . "</p>";
+        $lastDutyHTML .= "</div>";
+    }
+} else {
+    $lastDutyHTML = "<p>No previous duties found.</p>";
+}
+
 $stmt->close();
 $conn->close();
 
@@ -92,31 +163,26 @@ $conn->close();
                     </div>
                 </div>
             </div>
-            <div class="navigation-tile-grid">
-                <div class="tile offence-list">
-                    <span>Offence List</span>
+            <div class="tile1">
+                <h2>New Duty</h2>
+                <div id="new-duty">
+                    <img id="duty-image" src="/digifine/assets/tell-igp.jpg" style="width:350px; height: 100px; border-radius:10px;">
+                    <div class="duty-details">
+                        <?= $dutiesHTML ?>
+                    </div>
                 </div>
-                <div class="tile resources">
-                    <span>Resources</span>
-                </div>
-                <div class="tile training">
-                    <span>Training & Notices</span>
-                </div>
-                <div class="tile stolen-vehicles">
-                    <span>Stolen Vehicles</span>
-                </div>
-                <div class="tile fines-issued">
-                    <span>Fines Issued</span>
-                </div>
-                <div class="tile duty">
-                    <span>Duty Assignments</span>
+            </div>
+            <div class="tile1">
+                <h2>Last Duty</h2>
+                <div id="last-duty">
+                    <img id="duty-image" src="/digifine/assets/tell-igp.jpg" style="width:350px; height: 100px; border-radius:10px;">
+                    <div class="duty-details">
+                        <?= $lastDutyHTML ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
-
-
-
 
 <?php include_once "../../includes/footer.php"; ?>

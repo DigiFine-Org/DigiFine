@@ -24,8 +24,8 @@ if ($_SESSION['user']['role'] !== 'oic') {
                 <form action="submit-stolen-vehicle-process.php" method="post" enctype="multipart/form-data">
                     <p><b>Vehicle Details</b></p>
                     <div class="field">
-                        <label for="vehicle_number">Vehicle Number:</label>
-                        <input type="text" class="input" name="vehicle_number" id="vehicle_number" required>
+                        <label for="license_plate_number">License Plate Number:</label>
+                        <input type="text" class="input" name="license_plate_number" id="license_plate_number" required>
                     </div>
                     <div class="field">
                         <label for="absolute_owner">Absolute Owner:</label>
