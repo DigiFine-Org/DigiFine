@@ -19,16 +19,6 @@ $driver_id = $_SESSION['user']['id'] ?? null;
 
 // Validate the fine ID
 $fine_id = isset($_GET['fine_id']) ? intval($_GET['fine_id']) : 0;
-<<<<<<< HEAD
-if ($fine_id <= 0 || !$driver_id) {
-    die("Invalid fine ID or unauthorized access.");
-}
-
-// Fetch fine details
-$sql = "
-    SELECT f.id AS fine_id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, 
-           f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status 
-=======
 if ($fine_id <= 0) {
     die("Invalid fine ID.");
 }
@@ -45,17 +35,12 @@ if ($fine_id <= 0 || !$driver_id) {
 $sql = "
     SELECT f.id AS fine_id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, 
     f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status 
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
     FROM fines AS f 
     INNER JOIN drivers AS d ON f.driver_id = d.id 
     WHERE f.id = ? AND d.id = ?;
 ";
 
 $stmt = $conn->prepare($sql);
-<<<<<<< HEAD
-=======
-
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
 $stmt->bind_param("ii", $fine_id, $driver_id);
 
 if (!$stmt->execute()) {
@@ -121,27 +106,6 @@ $conn->close();
                     <?php if ($fine['offence_type'] === 'court'): ?>
                         <p class="court-violation">This is a court violation. Reporting or paying is not allowed online.</p>
                     <?php else: ?>
-<<<<<<< HEAD
-                        <button class="btn" id="reportFineButton">Report</button>
-                        <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']); ?>" 
-                           class="btn" id="payFineButton">Pay</a>
-                    <?php endif; ?>
-                </div>
-                <?php if ($fine['offence_type'] !== 'court'): ?>
-                    <form action="report-fine-process.php" method="post" id="reportFineForm" style="display: none; margin-top: 20px;">
-                        <div class="field">
-                            <label for="evidence">Upload Evidence:</label>
-                            <input type="file" name="evidence" id="evidence" accept="image/*,application/pdf" required>
-                        </div>
-                        <div class="field">
-                            <label for="reported_description">Reason for Reporting:</label>
-                            <textarea name="reported_description" id="reported_description" class="input" required></textarea>
-                        </div>
-                        <button class="btn" style="margin-top: 10px;">Submit</button>
-                        <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['fine_id']); ?>">
-                    </form>
-                <?php endif; ?>
-=======
                         <button class="btn" id="reportFineButton" style="margin-right: 10px;">Report</button>
                         <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']); ?>"
                             class="btn" id="payFineButton">Pay</a>
@@ -177,7 +141,6 @@ $conn->close();
                     <button class="btn" style="margin-top: 12px; margin-right: 10px">Submit</button>
                     <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['fine_id']) ?>">
                 </form> -->
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
             </div>
         </div>
     </div>
@@ -185,11 +148,7 @@ $conn->close();
 
 <script>
     // Toggle visibility for the report form and hide other buttons
-<<<<<<< HEAD
-    document.getElementById('reportFineButton')?.addEventListener('click', function () {
-=======
     document.getElementById('reportFineButton').addEventListener('click', function () {
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
         const reportForm = document.getElementById('reportFineForm');
         const payFineButton = document.getElementById('payFineButton');
 
@@ -199,8 +158,4 @@ $conn->close();
     });
 </script>
 
-<<<<<<< HEAD
 <?php include_once "../../../includes/footer.php"; ?>
-=======
-<?php include_once "../../../includes/footer.php"; ?>
->>>>>>> 4035893fb72d6cee2accb82ad812e8d242fd64c3
