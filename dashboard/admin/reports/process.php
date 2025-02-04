@@ -1,52 +1,65 @@
 <?php
-// Database connection
-require_once "../../../db/connect.php";
-
-// Set default filter to "lifetime"
-$filter = $_GET['filter'] ?? 'lifetime';
-
-// Prepare SQL queries based on the selected filter
-$query = "";
-switch ($filter) {
-    case 'year':
-        $query = "SELECT YEAR(issued_date) AS period, COUNT(*) AS count FROM fines GROUP BY YEAR(issued_date)";
-        break;
-    case 'month':
-        $query = "SELECT DATE_FORMAT(issued_date, '%Y-%m') AS period, COUNT(*) AS count FROM fines GROUP BY DATE_FORMAT(issued_date, '%Y-%m')";
-        break;
-    case 'week':
-        $query = "SELECT CONCAT(YEAR(issued_date), '-W', WEEK(issued_date)) AS period, COUNT(*) AS count FROM fines GROUP BY YEAR(issued_date), WEEK(issued_date)";
-        break;
-    case 'day':
-        $query = "SELECT DATE(issued_date) AS period, COUNT(*) AS count FROM fines GROUP BY DATE(issued_date)";
-        break;
-    case 'lifetime':
-    default:
-        $query = "SELECT 'Lifetime' AS period, COUNT(*) AS count FROM fines";
-        break;
-}
-
-// Check if the query is valid
-if (!$query) {
-    die("No query generated for filter: $filter");
-}
-
-// Execute the query
-$result = $conn->query($query);
-if (!$result) {
-    die("Error executing query: " . $conn->error); // Debug SQL errors
-}
-
-// Prepare data for JSON response
-$data = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $data[] = $row;
-    }
-} else {
-    $data = ["message" => "No data found for filter: $filter"];
-}
-
-// Return data as JSON
 header('Content-Type: application/json');
+require_once "../../../db/connect.php";
+session_start();
+
+// Validate officer ID and period selection
+if (!isset($_GET['police_id']) || !is_numeric($_GET['police_id'])) {
+    echo json_encode(["error" => "Invalid Officer ID"]);
+    exit;
+}
+$police_id = intval($_GET['police_id']);
+
+// Validate the time period
+if (!isset($_GET['period'])) {
+    echo json_encode(["error" => "No time period selected"]);
+    exit;
+}
+$period = $_GET['period'];
+
+// Query to fetch data based on time period
+switch ($period) {
+    case 'monthly':
+        $query = "SELECT MONTH(issued_date) AS label, COUNT(*) AS value
+                  FROM fines
+                  WHERE police_id = ? 
+                  GROUP BY MONTH(issued_date)
+                  ORDER BY MONTH(issued_date)";
+        break;
+
+    case 'weekly':
+        $query = "SELECT WEEK(issued_date) AS label, COUNT(*) AS value
+                  FROM fines
+                  WHERE police_id = ? 
+                  GROUP BY WEEK(issued_date)
+                  ORDER BY WEEK(issued_date)";
+        break;
+
+    case 'yearly':
+        $query = "SELECT YEAR(issued_date) AS label, COUNT(*) AS value
+                  FROM fines
+                  WHERE police_id = ? 
+                  GROUP BY YEAR(issued_date)
+                  ORDER BY YEAR(issued_date)";
+        break;
+
+    case 'lifetime':
+        $query = "SELECT 'Lifetime' AS label, COUNT(*) AS value
+                  FROM fines
+                  WHERE police_id = ?";
+        break;
+
+    default:
+        echo json_encode(["error" => "Invalid time period"]);
+        exit;
+}
+
+// Prepare and execute the query
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $police_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Fetch and return the data
+$data = $result->fetch_all(MYSQLI_ASSOC);
 echo json_encode($data);

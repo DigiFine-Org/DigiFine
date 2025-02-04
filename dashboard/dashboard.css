@@ -561,6 +561,7 @@ table td.centered {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 3 columns in one row */
   gap: 5px; /* Space between fields */
+  margin: 10px;
 }
 
 .filter-field {
@@ -623,10 +624,9 @@ table td.centered {
   }
 }
 
-
 .main-content {
   display: flex;
-  gap:10px;
+  gap: 10px;
 }
 
 .tile1 {
@@ -653,7 +653,7 @@ table td.centered {
   color: #333;
   font-size: 18px;
   font-weight: bold;
-  padding-bottom: 10px; 
+  padding-bottom: 10px;
   text-transform: uppercase;
 }
 
@@ -694,7 +694,6 @@ table td.centered {
   flex-direction: column;
   gap: 1px;
 }
-
 
 /* Responsive Layout */
 @media (max-width: 768px) {
@@ -738,4 +737,3 @@ table td.centered {
     line-height: 1.8; /* Adjust spacing */
   }
 }
-
