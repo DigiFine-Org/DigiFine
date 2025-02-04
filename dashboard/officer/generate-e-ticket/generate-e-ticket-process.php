@@ -4,7 +4,6 @@ session_start();
 include '../../../db/connect.php';
 require_once "send-fine-mail.php";
 
-
 // Check if user is logged in as police officer
 $policeId = $_SESSION['user']['id'] ?? null;
 
@@ -20,11 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $license_plate_number = htmlspecialchars($_POST['license_plate_number']);
     $offence_type = htmlspecialchars($_POST['offence_type']);
     $nature_of_offence = htmlspecialchars($_POST['nature_of_offence']);
-    $offence_number = htmlspecialchars($_POST['offence'] ?? null); // Offence number from dropdown
+    $offence_number = htmlspecialchars($_POST['offence'] ?? null);
     $fine_amount = htmlspecialchars($_POST['fine_amount'] ?? 0);
 
     // Validate if the driver exists in the system
-    $driverCheckSql = "SELECT * FROM drivers WHERE id = ?";
+    $driverCheckSql = "SELECT points FROM drivers WHERE id = ?";
     $driverCheckStmt = $conn->prepare($driverCheckSql);
     if (!$driverCheckStmt) {
         die("Error preparing driver check stmt: " . $conn->error);
@@ -35,16 +34,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $driverResult = $driverCheckStmt->get_result();
 
     if ($driverResult->num_rows === 0) {
-        // Set the session message and redirect
         $_SESSION["message"] = "Driver not found.";
         header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php");
         exit();
     }
 
-    $offence = null;
+    $driverData = $driverResult->fetch_assoc();
+    $current_points = $driverData['points'];
+
+    $points_deducted = 0;
     if ($offence_type !== 'court') {
-        // Fetch the English description for the offence
-        $offenceSql = "SELECT description_english FROM offences WHERE offence_number = ?";
+        // Fetch the English description and points deducted for the offence
+        $offenceSql = "SELECT description_english, points_deducted FROM offences WHERE offence_number = ?";
         $offenceStmt = $conn->prepare($offenceSql);
         if (!$offenceStmt) {
             die("Error preparing offence stmt: " . $conn->error);
@@ -55,20 +56,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $offenceResult = $offenceStmt->get_result();
 
         if ($offenceResult->num_rows === 0) {
-            // Set the session message and redirect
             $_SESSION["message"] = "Invalid offence selected.";
             header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php");
             exit();
         }
 
-        $offence = $offenceResult->fetch_assoc()['description_english']; // Get English description
+        $offenceData = $offenceResult->fetch_assoc();
+        $offence = $offenceData['description_english'];
+        $points_deducted = $offenceData['points_deducted'];
     }
 
     // Handle offence for court
     $offence_number = $offence_type === "court" ? null : $offence_number;
 
     // Insert the fine into the database
-    $sql = "INSERT INTO fines (police_id, driver_id, license_plate_number, issued_date, issued_time, offence_type, nature_of_offence, offence, fine_amount) VALUES (?, ?, ?, CURRENT_DATE, CURRENT_TIME, ?, ?, ?, ?)";
+    $sql = "INSERT INTO fines (police_id, driver_id, license_plate_number, issued_date, issued_time, offence_type, nature_of_offence, offence, fine_amount) 
+            VALUES (?, ?, ?, CURRENT_DATE, CURRENT_TIME, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die("Error preparing statement: " . $conn->error);
@@ -78,8 +81,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($stmt->execute()) {
 
-        // Prepare fine details for email
+        // Deduct points from the driver's total
+        if ($points_deducted > 0) {
+            $new_points = max(0, $current_points - $points_deducted); // Ensure points don't go negative
 
+            $updatePointsSql = "UPDATE drivers SET points = ? WHERE id = ?";
+            $updatePointsStmt = $conn->prepare($updatePointsSql);
+            if ($updatePointsStmt) {
+                $updatePointsStmt->bind_param("is", $new_points, $driver_id);
+                $updatePointsStmt->execute();
+                $updatePointsStmt->close();
+            } else {
+                die("Error preparing update points stmt: " . $conn->error);
+            }
+        }
+
+        // Prepare fine details for email
         $fineDetails = [
             'police_id' => $policeId,
             'issued_date' => $issued_date,
@@ -87,7 +104,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             'offence_type' => $offence_type,
             'fine_amount' => $fine_amount,
             'nature_of_offence' => $nature_of_offence,
-
         ];
 
         // Fetch the driver's email
@@ -99,10 +115,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($driverEmailResult->num_rows > 0) {
             $driverEmail = $driverEmailResult->fetch_assoc()['email'];
-            sendFineEmail($driverEmail, $fineDetails); // Send email
+            sendFineEmail($driverEmail, $fineDetails);
         }
 
-        // Set the success message in the session
         $_SESSION["message"] = "success";
         header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php");
         exit();
