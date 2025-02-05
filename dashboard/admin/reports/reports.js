@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Function to fetch fine data
   function fetchFineData() {
     const officerId = document.getElementById("officerId").value;
     const timePeriod = document.getElementById("timePeriod").value;
@@ -8,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Please enter a valid Officer ID.");
       return;
     }
-
     fetch(`fines-by-officer.php?police_id=${officerId}&period=${timePeriod}`)
       .then((response) => response.json())
       .then((data) => {
@@ -24,16 +22,13 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // Function to update the chart with new data
   function updateChart(data, period) {
     const ctx = document.getElementById("fineChart").getContext("2d");
 
-    // Destroy the previous chart to avoid overlap
     if (window.myChart) {
       window.myChart.destroy();
     }
 
-    // Format labels and data based on the time period
     let labels = [];
     let values = [];
 
@@ -42,20 +37,15 @@ document.addEventListener("DOMContentLoaded", function () {
       values = labels.map((label) => {
         const found = data.find((d) => {
           const date = new Date(d.label);
-          const formattedDate = date.toLocaleString("en-GB", {
-            hour: "2-digit",
-            hour12: false,
-          });
+          const formattedDate = `${date.getDate()} ${date.toLocaleString(
+            "en-GB",
+            { month: "short" }
+          )}, ${date.getHours().toString().padStart(2, "0")}:00`;
           return formattedDate === label;
         });
         return found ? found.value : 0;
       });
-    } else if (
-      period === "7days" ||
-      period === "14days" ||
-      period === "30days" ||
-      period === "90days"
-    ) {
+    } else if (["7days", "14days", "30days", "90days"].includes(period)) {
       labels = getLastDays(
         period === "7days"
           ? 7
@@ -68,10 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
       values = labels.map((label) => {
         const found = data.find((d) => {
           const date = new Date(d.label);
-          const formattedDate = date.toLocaleString("en-GB", {
-            day: "numeric",
-            month: "short",
-          });
+          const formattedDate = `${date.getDate()} ${date.toLocaleString(
+            "en-GB",
+            { month: "short" }
+          )}`;
           return formattedDate === label;
         });
         return found ? found.value : 0;
@@ -81,25 +71,23 @@ document.addEventListener("DOMContentLoaded", function () {
       values = labels.map((label) => {
         const found = data.find((d) => {
           const date = new Date(d.label);
-          const formattedDate = date.toLocaleString("en-GB", {
+          const formattedDate = `${date.toLocaleString("en-GB", {
             month: "short",
-            year: "numeric",
-          });
+          })} ${date.getFullYear()}`;
           return formattedDate === label;
         });
         return found ? found.value : 0;
       });
     } else if (period === "lifetime") {
-      labels = ["Lifetime"];
-      values = [data[0]?.value || 0];
+      labels = getLifetimeLabels(data);
+      values = data.map((d) => d.value);
     }
 
-    console.log("Labels:", labels); // Debugging
-    console.log("Values:", values); // Debugging
+    console.log("Labels:", labels);
+    console.log("Values:", values);
 
-    // Create a new chart with the fetched data
     window.myChart = new Chart(ctx, {
-      type: "bar",
+      type: "line", // Other types: 'bar', 'pie', 'doughnut', 'radar', 'polarArea', 'bubble', 'scatter'
       data: {
         labels: labels,
         datasets: [
@@ -142,57 +130,61 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Helper function to get the last X hours
   function getLastHours(hours) {
     const labels = [];
-    const date = new Date();
+    const now = new Date();
     for (let i = hours - 1; i >= 0; i--) {
-      const tempDate = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        date.getHours() - i
-      );
+      const tempDate = new Date(now);
+      tempDate.setHours(now.getHours() - i);
       labels.push(
-        tempDate.toLocaleString("en-GB", {
-          hour: "2-digit",
-          hour12: false,
-        })
+        `${tempDate.getDate()} ${tempDate.toLocaleString("en-GB", {
+          month: "short",
+        })}, ${tempDate.getHours().toString().padStart(2, "0")}:00`
       );
     }
     return labels;
   }
 
-  // Helper function to get the last X days
   function getLastDays(days) {
     const labels = [];
-    const date = new Date();
+    const now = new Date();
     for (let i = days - 1; i >= 0; i--) {
-      const tempDate = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate() - i
-      );
+      const tempDate = new Date(now);
+      tempDate.setDate(now.getDate() - i);
       labels.push(
-        tempDate.toLocaleString("en-GB", { day: "numeric", month: "short" })
+        `${tempDate.getDate()} ${tempDate.toLocaleString("en-GB", {
+          month: "short",
+        })}`
       );
     }
     return labels;
   }
 
-  // Helper function to get the last 12 months
   function getLast12Months() {
     const months = [];
-    const date = new Date();
+    const now = new Date();
     for (let i = 11; i >= 0; i--) {
-      const tempDate = new Date(date.getFullYear(), date.getMonth() - i, 1);
+      const tempDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
       months.push(
-        tempDate.toLocaleString("en-GB", { month: "short", year: "numeric" })
+        `${tempDate.toLocaleString("en-GB", {
+          month: "short",
+        })} ${tempDate.getFullYear()}`
       );
     }
     return months;
   }
 
-  // Expose fetchFineData to the global scope for onclick
+  function getLifetimeLabels(data) {
+    const labels = [];
+    const now = new Date();
+    for (let i = 0; i < data.length; i++) {
+      const date = new Date(data[i].label);
+      labels.push(
+        `${date.getDate()} ${date.toLocaleString("en-GB", {
+          month: "short",
+        })} ${date.getFullYear()}`
+      );
+    }
+  }
   window.fetchFineData = fetchFineData;
 });

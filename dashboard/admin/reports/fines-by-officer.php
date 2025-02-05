@@ -24,11 +24,11 @@ $currentDate = date('Y-m-d H:i:s');
 switch ($period) {
     case '24h':
         // Fetch data for the last 24 hours, grouped by the exact hour
-        $query = "SELECT DATE_FORMAT(issued_date, '%Y-%m-%d %H:00') AS label, COUNT(*) AS value
-                  FROM fines
-                  WHERE police_id = ? AND issued_date >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
-                  GROUP BY DATE_FORMAT(issued_date, '%Y-%m-%d %H')
-                  ORDER BY issued_date ASC"; // Ensure chronological order
+        $query = "SELECT DATE_FORMAT(CONCAT(issued_date, ' ', issued_time), '%Y-%m-%d %H:00') AS label, COUNT(*) AS value
+              FROM fines
+              WHERE police_id = ? AND CONCAT(issued_date, ' ', issued_time) >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+              GROUP BY DATE_FORMAT(CONCAT(issued_date, ' ', issued_time), '%Y-%m-%d %H')
+              ORDER BY CONCAT(issued_date, ' ', issued_time) ASC"; // Ensure chronological order
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $police_id); // Bind only police_id as the first parameter
         break;
@@ -36,11 +36,11 @@ switch ($period) {
 
     case '72h':
         // Fetch data for the last 72 hours
-        $query = "SELECT DATE_FORMAT(issued_date, '%Y-%m-%d %H:00') AS label, COUNT(*) AS value
-                  FROM fines
-                  WHERE police_id = ? AND issued_date >= DATE_SUB(?, INTERVAL 3 DAY)
-                  GROUP BY DATE_FORMAT(issued_date, '%Y-%m-%d %H')
-                  ORDER BY issued_date";
+        $query = "SELECT DATE_FORMAT(CONCAT(issued_date, ' ', issued_time), '%Y-%m-%d %H:00') AS label, COUNT(*) AS value
+              FROM fines
+              WHERE police_id = ? AND CONCAT(issued_date, ' ', issued_time) >= DATE_SUB(?, INTERVAL 3 DAY)
+              GROUP BY DATE_FORMAT(CONCAT(issued_date, ' ', issued_time), '%Y-%m-%d %H')
+              ORDER BY CONCAT(issued_date, ' ', issued_time)";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("is", $police_id, $currentDate);
         break;
@@ -102,9 +102,11 @@ switch ($period) {
 
     case 'lifetime':
         // Fetch lifetime data
-        $query = "SELECT 'Lifetime' AS label, COUNT(*) AS value
-                  FROM fines
-                  WHERE police_id = ?";
+        $query = "SELECT DATE_FORMAT(issued_date, '%Y-%m') AS label, COUNT(*) AS value
+              FROM fines
+              WHERE police_id = ?
+              GROUP BY DATE_FORMAT(issued_date, '%Y-%m')
+              ORDER BY issued_date";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $police_id);
         break;
