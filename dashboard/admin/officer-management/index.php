@@ -1,6 +1,6 @@
 <?php
 $pageConfig = [
-    'title' => 'Assign OIC',
+    'title' => 'Register Police Officer',
     'styles' => ["../../dashboard.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
@@ -42,12 +42,11 @@ $policeStations = $result->fetch_all(MYSQLI_ASSOC);
         <div class="content">
             <div class="container-large">
             <h2 style="margin-bottom: 10px;">Register Police Officer</h2>
-                <form action="signup_process.php" method="POST">
+                <form action="register-officer-process.php" method="POST">
                     <div class="field">
                         <label for="fname">First Name:<span style="color: red;">*</span> </label>
                         <input type="text" id="fname" name="fname" required class="input" placeholder="John">
                     </div>
-
                     <div class="field">
                         <label for="fname">Last Name:<span style="color: red;">*</span> </label>
                         <input type="text" id="lname" name="lname" required class="input" placeholder="Doe">
@@ -88,16 +87,16 @@ $policeStations = $result->fetch_all(MYSQLI_ASSOC);
                         <input type="tel" id="phoneno" name="phoneno" required class="input" placeholder="0766743755"
                             pattern="\d{10}">
                     </div>
-                    <div class="field">
+                    <!-- <div class="field">
                         <label for="password">Password:<span style="color: red;">*</span> </label>
                         <input type="password" id="password" minlength="6" name="password" required class="input">
                     </div>
                     <div class="field">
-                        <label for="cpassword">Confirm Password:<span style="color: red;">*</span> </label>
+                        <label for="cpassword">Confirm Passwords:<span style="color: red;">*</span> </label>
                         <input type="password" id="cpassword" name="cpassword" required class="input">
                     </div>
-                    <input type="hidden" name="aspolice" value="true">
-                    <button type="submit" class="btn">Sign Up</button>
+                    <input type="hidden" name="aspolice" value="true"> -->
+                    <button type="submit" class="btn">Register Officer</button>
                 </form>
             </div>
         </div>
@@ -105,7 +104,7 @@ $policeStations = $result->fetch_all(MYSQLI_ASSOC);
 </main>
 
 <script>
-    const POLICE_STATIONS = <?php echo json_encode($policeStations)?>;
+    const POLICE_STATIONS = <?php echo json_encode($policeStations) ?>;
 
     const provinceSelecter = document.getElementById('province');
     const policeStationSelecter = document.getElementById('policestation');
@@ -118,15 +117,15 @@ $policeStations = $result->fetch_all(MYSQLI_ASSOC);
             const option = document.createElement('option');
             option.value = station.id;
             option.innerText = station.name;
-            currentPoliceStations.appendChild(option);
+            policeStationSelecter.appendChild(option);
         });
-
-        provinceSelecter.addEventListener("change", (e) => {
-            filterProvinces(e);
-        })
-
-        filterProvinces(null);
     }
+
+    provinceSelecter.addEventListener("change", (e) => {
+        filterProvinces(e);
+    })
+
+    filterProvinces(null);
 </script>
 
 <?php include_once "../../../includes/footer.php"; ?>
