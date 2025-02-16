@@ -2,7 +2,7 @@
 $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../dashboard.css", "./reports.css"],
-    'scripts' => ["./reports.js"],
+    'scripts' => ["../reports.js"],
     'authRequired' => true
 ];
 
@@ -15,18 +15,6 @@ if ($_SESSION['user']['role'] !== 'admin') {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $pageConfig['title']; ?></title>
-    <?php foreach ($pageConfig['styles'] as $style): ?>
-        <link rel="stylesheet" href="<?php echo $style; ?>">
-    <?php endforeach; ?>
-</head>
-
 <body>
     <main>
         <!-- Navbar -->
@@ -38,51 +26,11 @@ if ($_SESSION['user']['role'] !== 'admin') {
 
             <!-- Main Content -->
             <div class="content">
-                <h1>Fines Issued Per Officer</h1>
-                <p class="description">View and analyze fines issued by officers over different time periods.</p>
+                <h1>Statistics</h1>
+                <p class="description">View and analyze statistics for different time periods.</p>
 
-                <div class="table-container">
-                    <!-- Input Section -->
-                    <div class="filter-form-grid">
-                        <div class="filter-field">
-                            <label for="officerId">Officer ID:</label>
-                            <input type="text" id="officerId" placeholder="Enter Officer ID" required>
-                        </div>
-
-                        <div class="filter-field">
-                            <label for="offence_type">Offence Type:</label>
-                            <select id="timePeriod">
-                                <option value="24h">Last 24 Hours</option>
-                                <option value="72h">Last 72 Hours</option>
-                                <option value="7days">Last 7 Days</option>
-                                <option value="14days">Last 14 Days</option>
-                                <option value="30days">Last 30 Days</option>
-                                <option value="90days">Last 90 Days</option>
-                                <option value="365days">Last 365 Days</option>
-                                <option value="lifetime">Lifetime</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
                 <div class="filter-field">
-                    <button class="btn" onclick="fetchFineData()">Generate Report</button>
+                    <a href="officer-reports/issued-fines/index.php" class="btn">analyze by officer</a>
                 </div>
 
-
-                <div class="table-container">
-                    <!-- Chart Section -->
-                    <div class="chart-section">
-                        <canvas id="fineChart" width="800" height="400"></canvas>
-                    </div>
-                </div>
-            </div>
-    </main>
-
-    <!-- Include Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <?php foreach ($pageConfig['scripts'] as $script): ?>
-        <script src="<?php echo $script; ?>"></script>
-    <?php endforeach; ?>
 </body>
-
-</html>

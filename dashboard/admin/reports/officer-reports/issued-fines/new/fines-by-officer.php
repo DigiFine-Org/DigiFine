@@ -1,18 +1,33 @@
 <?php
-header('Content-Type: application/json');
-require_once "../../../db/connect.php";
+// header('Content-Type: application/json');
+require_once "../../../../../db/connect.php";
 session_start();
 
 // Validate officer ID and period selection
-if (!isset($_GET['police_id']) || !is_numeric($_GET['police_id'])) {
-    echo json_encode(["error" => "Invalid Officer ID"]);
+
+$police_id = intval($_GET['police_id']);
+
+// Check if the police_id exists in the database
+$checkQuery = "SELECT COUNT(*) as count FROM officers WHERE id = ?";
+$checkStmt = $conn->prepare($checkQuery);
+$checkStmt->bind_param("i", $police_id);
+$checkStmt->execute();
+$checkResult = $checkStmt->get_result();
+$checkData = $checkResult->fetch_assoc();
+
+if ($checkData['count'] == 0) {
+    $_SESSION['message'] = "Officer ID not found";
+    header("Location: /digifine/dashboard/admin/reports/officer-reports/issued-fines/index.php");
+    // echo json_encode(["error" => "Officer ID not found"]);
     exit;
 }
 $police_id = intval($_GET['police_id']);
 
 // Validate the time period
 if (!isset($_GET['period'])) {
-    echo json_encode(["error" => "No time period selected"]);
+    $_SESSION['message'] = "No time period selected";
+    header("Location: /digifine/dashboard/admin/reports/officer-reports/issued-fines/index.php");
+    // echo json_encode(["error" => "No time period selected"]);
     exit;
 }
 $period = $_GET['period'];
@@ -104,7 +119,7 @@ switch ($period) {
         // Fetch lifetime data
         $query = "SELECT DATE_FORMAT(issued_date, '%Y-%m') AS label, COUNT(*) AS value
               FROM fines
-              WHERE police_id = ?
+              WHERE police_id = ? AND issued_date >= DATE_SUB(?, INTERVAL 3650 DAY)
               GROUP BY DATE_FORMAT(issued_date, '%Y-%m')
               ORDER BY issued_date";
         $stmt = $conn->prepare($query);

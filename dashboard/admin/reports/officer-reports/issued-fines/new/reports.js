@@ -174,17 +174,31 @@ document.addEventListener("DOMContentLoaded", function () {
     return months;
   }
 
-  function getLifetimeLabels(data) {
-    const labels = [];
+  function getLifetimeLabels() {
+    const months = [];
     const now = new Date();
-    for (let i = 0; i < data.length; i++) {
-      const date = new Date(data[i].label);
-      labels.push(
-        `${date.getDate()} ${date.toLocaleString("en-GB", {
+    for (let i = 11; i >= 0; i--) {
+      const tempDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      months.push(
+        `${tempDate.toLocaleString("en-GB", {
           month: "short",
-        })} ${date.getFullYear()}`
+        })} ${tempDate.getFullYear()}`
       );
     }
+    return months;
   }
-  window.fetchFineData = fetchFineData;
+
+  //   function getLifetimeLabels(data) {
+  //     const labels = [];
+  //     const now = new Date();
+  //     for (let i = 0; i < data.length; i++) {
+  //       const date = new Date(data[i].label);
+  //       labels.push(
+  //         `${date.getDate()} ${date.toLocaleString("en-GB", {
+  //           month: "short",
+  //         })} ${date.getFullYear()}`
+  //       );
+  //     }
+  //   }
+  //   window.fetchFineData = fetchFineData;
 });
