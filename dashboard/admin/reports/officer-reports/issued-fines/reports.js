@@ -37,30 +37,26 @@ document.addEventListener("DOMContentLoaded", function () {
     let labels = [];
     let values = [];
 
-    // Ensure that the labels are formatted consistently
     console.log("Updating chart for period:", period);
 
-    if (["24h", "72h"].includes(period)) {
-      // For 24h and 72h, generate the last X hours with time
+    if (period === "24h" || period === "72h") {
+      // For 24h and 72h, generate hourly labels in local time.
       labels = getLastHours(period === "24h" ? 24 : 72);
     } else if (["7days", "14days", "30days", "90days"].includes(period)) {
-      // For days, generate labels based on the last N days
+      // For these day ranges, generate daily labels in "YYYY-MM-DD" format.
       labels = getLastDays(Number(period.replace("days", "")));
-    } else if (period === "365days") {
-      // For 365days, just use the fetched data directly
-      labels = data.map((d) => formatLabel(d.label));
-    } else if (period === "lifetime") {
-      // For lifetime, map labels and values directly from data
-      labels = data.map((d) => formatLabel(d.label));
+    } else if (period === "365days" || period === "lifetime") {
+      // For lifetime, assume the backend returns data aggregated by month.
+      labels = data.map((d) => d.label);
     }
 
-    // Map values to match the fetched data based on the period
+    // Map the fetched data to our generated labels.
+    // (If a label isn’t found in the data, default its count to 0.)
     values = labels.map((label) => {
-      const found = data.find((d) => formatLabel(d.label) === label);
+      const found = data.find((d) => d.label === label);
       return found ? found.count : 0;
     });
 
-    // Log the labels and values for debugging
     console.log("Labels:", labels);
     console.log("Values:", values);
 
@@ -94,53 +90,53 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Function to generate labels for the last N hours
+  // Revised function to generate hourly labels for the last N hours.
+  // • Aligns the current time to the start of the current hour.
+  // • Then generates labels from (now - (hours-1)) to now.
   function getLastHours(hours) {
     const labels = [];
     const now = new Date();
     for (let i = hours - 1; i >= 0; i--) {
       let tempDate = new Date(now);
       tempDate.setHours(now.getHours() - i);
-      // Format label to include date and hour (e.g., 2025-02-17 01:00:00)
-      labels.push(
-        tempDate.toISOString().split("T")[0] +
-          " " +
-          tempDate.getHours().toString().padStart(2, "0") +
-          ":00:00"
-      );
+      const year = tempDate.getFullYear();
+      const month = String(tempDate.getMonth() + 1).padStart(2, "0");
+      const day = String(tempDate.getDate()).padStart(2, "0");
+      const hour = String(tempDate.getHours()).padStart(2, "0");
+      labels.push(`${year}-${month}-${day} ${hour}:00`);
     }
     return labels;
   }
 
-  // Function to generate labels for the last N days
+  // Function to generate daily labels for the last N days in "YYYY-MM-DD" format.
   function getLastDays(days) {
     const labels = [];
     const now = new Date();
     for (let i = days - 1; i >= 0; i--) {
       let tempDate = new Date(now);
       tempDate.setDate(now.getDate() - i);
-      labels.push(tempDate.toLocaleDateString("en-GB"));
+      const year = tempDate.getFullYear();
+      const month = String(tempDate.getMonth() + 1).padStart(2, "0");
+      const day = String(tempDate.getDate()).padStart(2, "0");
+      labels.push(`${year}-${month}-${day}`);
     }
     return labels;
   }
 
-  // Function to generate labels for the last 12 months
-  function getLast12Months() {
-    const labels = [];
-    const now = new Date();
-    for (let i = 11; i >= 0; i--) {
-      let tempDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      labels.push(
-        tempDate.toLocaleString("en-GB", { month: "short", year: "numeric" })
-      );
-    }
-    return labels;
-  }
-
-  // Helper function to format label to YYYY-MM-DD for consistency
-  function formatLabel(label) {
-    const date = new Date(label);
-    // If it's a timestamp with time, return the full date-time (e.g., 2025-02-17 01:00:00)
-    return label.includes(":") ? label : date.toLocaleDateString("en-GB"); // Formats as 'YYYY-MM-DD' or 'YYYY-MM-DD HH:00:00'
-  }
+  // Function to generate labels for the last 12 months (for 365 days representation).
+  // This returns an array of month labels (e.g. "Feb 2025") for the past 12 months.
+  // function getLast12Months() {
+  //   const labels = [];
+  //   const now = new Date();
+  //   // Generate 12 months including the current month.
+  //   for (let i = 11; i >= 0; i--) {
+  //     const tempDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
+  //     const monthStr = tempDate.toLocaleString("en-GB", {
+  //       month: "short",
+  //       year: "numeric",
+  //     });
+  //     labels.push(monthStr);
+  //   }
+  //   return labels;
+  // }
 });
