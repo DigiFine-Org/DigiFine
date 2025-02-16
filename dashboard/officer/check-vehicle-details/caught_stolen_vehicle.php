@@ -11,6 +11,8 @@ session_start();
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
+
+
 // Check user authentication and role
 if ($_SESSION['user']['role'] !== 'officer') {
     die("Unauthorized user!");
@@ -18,9 +20,23 @@ if ($_SESSION['user']['role'] !== 'officer') {
 
 $license_plate_number = $_GET['license_plate_number'] ?? null;
 
+$officerID = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : null;
+
 if (!$license_plate_number) {
     die("No license plate number provided!");
 }
+
+$sqlOfficer= "SELECT id , CONCAT(fname, ' ', lname) AS full_name FROM officers WHERE id=?";
+$stmt=$conn->prepare($sqlOfficer);
+$stmt->bind_param("i",$officerID);
+$stmt->execute();
+$result=$stmt->get_result();
+
+$officer =$result->fetch_assoc();
+
+$stmt->close();
+
+
 
 $sql = "SELECT sv.* ,CONCAT(dv.vehicle_owner_fname, ' ', dv.vehicle_owner_lname) AS full_name FROM stolen_vehicles sv JOIN dmt_vehicles dv ON dv.license_plate_number= sv.license_plate_number WHERE sv.license_plate_number=?";
 $stmt = $conn->prepare($sql);
@@ -38,6 +54,8 @@ $vehicle = $result->fetch_assoc();
         <div class="content">
                 <div class="container">
                 <h1>Seizing the Vehicle <?php echo htmlspecialchars($vehicle['license_plate_number']); ?></h1>
+
+                
                 
                 <form method="POST" action="process_seizure.php">
                     <div class="field">
@@ -54,11 +72,11 @@ $vehicle = $result->fetch_assoc();
                     </div>
                     <div class="field">
                         <label for="officer_id">Officer ID:</label>
-                        <input type="text" id="officer_id" name="officer_id" placeholder="PO12004" required>
+                        <input type="text" id="officer_id" name="officer_id" value="<?= htmlspecialchars($officer['id']); ?>" readonly>
                     </div>
                     <div class="field">
                         <label for="officer_name">Officer Name:</label>
-                        <input type="text" id="officer_name" name="officer_name" placeholder="Your Name" required>
+                        <input type="text" id="officer_name" name="officer_name" value="<?= htmlspecialchars($officer['full_name']); ?>" readonly>
                     </div>
                     <div class="field">
                         <label for="police_station">Police Station:</label>
