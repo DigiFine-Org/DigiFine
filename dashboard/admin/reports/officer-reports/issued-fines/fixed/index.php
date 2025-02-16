@@ -17,13 +17,11 @@ if ($_SESSION['user']['role'] !== 'admin') {
 if ($_SESSION['message'] ?? null) {
     if ($_SESSION['message'] === 'success') {
         $message = "E-Ticket generated successfully!";
-        unset($_SESSION['message']); // Clear the session message
+        unset($_SESSION['message']);
         include '../../../../../includes/alerts/success.php';
     } else {
-        $message = $_SESSION['message']; // Store the message
-        unset($_SESSION['message']); // Clear the session message
-
-        // Include the alert.php file to display the message
+        $message = $_SESSION['message'];
+        unset($_SESSION['message']);
         include '../../../../../includes/alerts/failed.php';
     }
 }
@@ -52,7 +50,7 @@ if ($_SESSION['message'] ?? null) {
                         </div>
 
                         <div class="filter-field">
-                            <label for="offence_type">Offence Type:</label>
+                            <label for="timePeriod">Time Period:</label>
                             <select id="timePeriod">
                                 <option value="24h">Last 24 Hours</option>
                                 <option value="72h">Last 72 Hours</option>
@@ -66,10 +64,10 @@ if ($_SESSION['message'] ?? null) {
                         </div>
                     </div>
                 </div>
+
                 <div class="filter-field">
                     <button class="btn" onclick="fetchFineData()">Generate Report</button>
                 </div>
-
 
                 <div class="table-container">
                     <!-- Chart Section -->
@@ -86,5 +84,3 @@ if ($_SESSION['message'] ?? null) {
         <script src="<?php echo $script; ?>"></script>
     <?php endforeach; ?>
 </body>
-
-</html>

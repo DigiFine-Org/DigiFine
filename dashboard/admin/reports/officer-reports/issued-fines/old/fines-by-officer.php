@@ -1,33 +1,18 @@
 <?php
-// header('Content-Type: application/json');
+header('Content-Type: application/json');
 require_once "../../../../../db/connect.php";
 session_start();
 
 // Validate officer ID and period selection
-
-$police_id = intval($_GET['police_id']);
-
-// Check if the police_id exists in the database
-$checkQuery = "SELECT COUNT(*) as count FROM officers WHERE id = ?";
-$checkStmt = $conn->prepare($checkQuery);
-$checkStmt->bind_param("i", $police_id);
-$checkStmt->execute();
-$checkResult = $checkStmt->get_result();
-$checkData = $checkResult->fetch_assoc();
-
-if ($checkData['count'] == 0) {
-    $_SESSION['message'] = "Officer ID not found";
-    header("Location: /digifine/dashboard/admin/reports/officer-reports/issued-fines/index.php");
-    // echo json_encode(["error" => "Officer ID not found"]);
+if (!isset($_GET['police_id']) || !is_numeric($_GET['police_id'])) {
+    echo json_encode(["error" => "Invalid Officer ID"]);
     exit;
 }
 $police_id = intval($_GET['police_id']);
 
 // Validate the time period
 if (!isset($_GET['period'])) {
-    $_SESSION['message'] = "No time period selected";
-    header("Location: /digifine/dashboard/admin/reports/officer-reports/issued-fines/index.php");
-    // echo json_encode(["error" => "No time period selected"]);
+    echo json_encode(["error" => "No time period selected"]);
     exit;
 }
 $period = $_GET['period'];
@@ -39,11 +24,11 @@ $currentDate = date('Y-m-d H:i:s');
 switch ($period) {
     case '24h':
         // Fetch data for the last 24 hours, grouped by the exact hour
-        $query = "SELECT DATE_FORMAT(CONCAT(issued_date, ' ', issued_time), '%Y-%m-%d %H:00') AS label, COUNT(*) AS value
-              FROM fines
-              WHERE police_id = ? AND CONCAT(issued_date, ' ', issued_time) >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
-              GROUP BY DATE_FORMAT(CONCAT(issued_date, ' ', issued_time), '%Y-%m-%d %H')
-              ORDER BY CONCAT(issued_date, ' ', issued_time) ASC"; // Ensure chronological order
+        $query = "SELECT DATE_FORMAT(issued_date, '%Y-%m-%d %H:00') AS label, COUNT(*) AS value
+                  FROM fines
+                  WHERE police_id = ? AND issued_date >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+                  GROUP BY DATE_FORMAT(issued_date, '%Y-%m-%d %H')
+                  ORDER BY issued_date ASC"; // Ensure chronological order
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $police_id); // Bind only police_id as the first parameter
         break;
@@ -51,11 +36,11 @@ switch ($period) {
 
     case '72h':
         // Fetch data for the last 72 hours
-        $query = "SELECT DATE_FORMAT(CONCAT(issued_date, ' ', issued_time), '%Y-%m-%d %H:00') AS label, COUNT(*) AS value
-              FROM fines
-              WHERE police_id = ? AND CONCAT(issued_date, ' ', issued_time) >= DATE_SUB(?, INTERVAL 3 DAY)
-              GROUP BY DATE_FORMAT(CONCAT(issued_date, ' ', issued_time), '%Y-%m-%d %H')
-              ORDER BY CONCAT(issued_date, ' ', issued_time)";
+        $query = "SELECT DATE_FORMAT(issued_date, '%Y-%m-%d %H:00') AS label, COUNT(*) AS value
+                  FROM fines
+                  WHERE police_id = ? AND issued_date >= DATE_SUB(?, INTERVAL 3 DAY)
+                  GROUP BY DATE_FORMAT(issued_date, '%Y-%m-%d %H')
+                  ORDER BY issued_date";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("is", $police_id, $currentDate);
         break;
@@ -117,11 +102,9 @@ switch ($period) {
 
     case 'lifetime':
         // Fetch lifetime data
-        $query = "SELECT DATE_FORMAT(issued_date, '%Y-%m') AS label, COUNT(*) AS value
-              FROM fines
-              WHERE police_id = ? AND issued_date >= DATE_SUB(?, INTERVAL 3650 DAY)
-              GROUP BY DATE_FORMAT(issued_date, '%Y-%m')
-              ORDER BY issued_date";
+        $query = "SELECT 'Lifetime' AS label, COUNT(*) AS value
+                  FROM fines
+                  WHERE police_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $police_id);
         break;

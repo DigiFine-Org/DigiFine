@@ -14,23 +14,6 @@ if ($police_id == 0) {
     exit;
 }
 
-// Check if police ID exists in the database
-$check_query = "SELECT COUNT(*) AS count FROM fines WHERE police_id = ?";
-$check_stmt = $conn->prepare($check_query);
-if (!$check_stmt) {
-    echo json_encode(["error" => "SQL prepare failed: " . $conn->error]);
-    exit;
-}
-$check_stmt->bind_param("i", $police_id);
-$check_stmt->execute();
-$check_result = $check_stmt->get_result();
-$check_data = $check_result->fetch_assoc();
-
-if ($check_data['count'] == 0) {
-    echo json_encode(["error" => "Officer ID Not Found"]);
-    exit;
-}
-
 // Set interval dynamically based on period
 $interval = match ($period) {
     "24h" => "INTERVAL 24 HOUR",
@@ -45,7 +28,7 @@ $interval = match ($period) {
 
 // Adjust grouping for hours in 24h and 72h cases
 if ($period === "24h" || $period === "72h") {
-    $group_by = "DATE_FORMAT(CONCAT(issued_date, ' ', issued_time), '%Y-%m-%d %H:00')"; // Group by hour
+    $group_by = "DATE_FORMAT(CONCAT(issued_date, ' ', issued_time), '%Y-%m-%d %H:00:00')"; // Group by hour
 } else {
     $group_by = "DATE(issued_date)"; // Group by day
 }
