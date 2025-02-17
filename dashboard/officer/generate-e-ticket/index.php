@@ -2,7 +2,7 @@
 $pageConfig = [
     'title' => 'Generate E-ticket',
     'styles' => ["../../dashboard.css"], // Includes alert styles
-    'scripts' => ["../../dashboard.js",], // Includes alert scripts
+    'scripts' => ["../../dashboard.js"],   // Includes alert scripts
     'authRequired' => true
 ];
 
@@ -19,10 +19,38 @@ if ($result && $result->num_rows > 0) {
     $offences = [];
 }
 
+// Retrieve the current officer's police station id from the session
+
+// Fetch duty locations for this police station from the duty_locations table
+
 // Fetch current user
 $policeId = $_SESSION['user']['id'] ?? '';
 
+$policeStationId = null;
 
+if ($policeId) {
+    $sqlStation = "SELECT police_station FROM officers WHERE id = '$policeId'";
+    $resultStation = $conn->query($sqlStation);
+    if ($resultStation && $resultStation->num_rows > 0) {
+        $dataStation = $resultStation->fetch_assoc();
+        $policeStationId = $dataStation['police_station'];
+    }
+}
+
+echo "Police staion ID: " . htmlspecialchars($policeStationId);
+
+$locations = [];
+if ($policeStationId) {
+    $sqlLocations = "SELECT location_name FROM duty_locations WHERE police_station_id = '$policeStationId' ORDER BY location_name ASC";
+    $resultLocations = $conn->query($sqlLocations);
+    if ($resultLocations && $resultLocations->num_rows > 0) {
+        $locations = $resultLocations->fetch_all(MYSQLI_ASSOC);
+    }
+}
+
+echo "Locations: " . htmlspecialchars(print_r($locations, true));
+
+// Include header
 include_once "../../../includes/header.php";
 
 // Check if the user is authorized as an officer
@@ -42,7 +70,7 @@ if (isset($_GET['nic'])) {
     $result = $conn->query($query);
 
     if (!$result) {
-        die("SQL Error: " . $conn->error); // Print SQL error message
+        die("SQL Error: " . $conn->error);
     }
 
     if ($result->num_rows > 0) {
@@ -55,7 +83,6 @@ if (isset($_GET['nic'])) {
     }
 }
 
-
 $conn->close();
 
 if ($_SESSION['message'] ?? null) {
@@ -66,8 +93,6 @@ if ($_SESSION['message'] ?? null) {
     } else {
         $message = $_SESSION['message']; // Store the message
         unset($_SESSION['message']); // Clear the session message
-
-        // Include the alert.php file to display the message
         include '../../../includes/alerts/failed.php';
     }
 }
@@ -128,14 +153,26 @@ if ($_SESSION['message'] ?? null) {
                             <?php endforeach; ?>
                         </select>
                     </div>
+                    <!-- Updated Location field with a search bar (datalist) -->
+                    <div class="field">
+                        <label for="location">Location:</label>
+                        <select name="location" class="input" required>
+                            <option value="">Select a location</option>
+                            <?php foreach ($locations as $loc): ?>
+                                <option value="<?= htmlspecialchars($loc['location_name']); ?>">
+                                    <?= htmlspecialchars($loc['location_name']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
                     <div class="field">
                         <label for="fine_amount">Fine Amount:</label>
                         <input type="text" class="input" id="fine_amount" name="fine_amount" value="0" readonly>
                     </div>
                     <div class="field">
                         <label for="">Nature of Offence:</label>
-                        <textarea class="input" name="nature_of_offence"
-                            placeholder="Describe the nature of the offence" required></textarea>
+                        <textarea class="input" name="nature_of_offence" placeholder="Describe the nature of the offence" required></textarea>
                     </div>
                     <button class="btn">Generate</button>
                 </form>
@@ -145,6 +182,7 @@ if ($_SESSION['message'] ?? null) {
 </main>
 
 <script>
+    // Clock update
     function updateClock() {
         const now = new Date();
         const hours = String(now.getHours()).padStart(2, '0');
@@ -153,15 +191,12 @@ if ($_SESSION['message'] ?? null) {
         document.getElementById("clock").value = `${hours}:${minutes}:${seconds}`;
         document.getElementById("hidden_clock").value = `${hours}:${minutes}:${seconds}`;
     }
-
-    // Update the clock every second
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Handle Offence Type field visibility
+    // Toggle Offence select field based on Offence Type
     const offenceType = document.getElementById("offence_type");
     const offenceSelectField = document.getElementById("offence_select_field");
-
     offenceType.addEventListener("change", function() {
         if (this.value === "fine") {
             offenceSelectField.style.display = "flex";
@@ -170,10 +205,9 @@ if ($_SESSION['message'] ?? null) {
         }
     });
 
-    // Get fine amount when selecting offence
+    // Update fine amount when an offence is selected
     const offenceDropdown = document.getElementById("offence");
     const fineAmountInput = document.getElementById("fine_amount");
-
     offenceDropdown.addEventListener("change", function() {
         const selectedOption = offenceDropdown.options[offenceDropdown.selectedIndex];
         const fineAmount = selectedOption.getAttribute("data-fine") || 0;

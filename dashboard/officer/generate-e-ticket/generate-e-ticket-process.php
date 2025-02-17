@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $license_plate_number = htmlspecialchars($_POST['license_plate_number']);
     $offence_type = htmlspecialchars($_POST['offence_type']);
     $nature_of_offence = htmlspecialchars($_POST['nature_of_offence']);
+    $location = htmlspecialchars($_POST['location']);
     $offence_number = htmlspecialchars($_POST['offence'] ?? null);
     $fine_amount = htmlspecialchars($_POST['fine_amount'] ?? 0);
 
@@ -71,15 +72,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $offence_number = $offence_type === "court" ? null : $offence_number;
 
     // Insert the fine into the database
-    $sql = "INSERT INTO fines (police_id, driver_id, license_plate_number, issued_date, issued_time, offence_type, nature_of_offence, offence, fine_amount) 
-            VALUES (?, ?, ?, CURRENT_DATE, CURRENT_TIME, ?, ?, ?, ?)";
+    $sql = "INSERT INTO fines (
+        police_id, driver_id, license_plate_number, issued_date, issued_time, expire_date, offence_type, nature_of_offence, location, offence, fine_amount
+    ) VALUES (
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+    )";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die("Error preparing statement: " . $conn->error);
     }
 
-    $stmt->bind_param("isssssssss", $policeId, $driver_id, $license_plate_number, $issued_date, $issued_time, $expire_date, $offence_type, $nature_of_offence, $offence, $fine_amount);
-
+    $stmt->bind_param("isssssssssd", $policeId, $driver_id, $license_plate_number, $issued_date, $issued_time, $expire_date, $offence_type, $nature_of_offence, $location, $offence_number, $fine_amount);
     if ($stmt->execute()) {
 
         // Deduct points from the driver's total
@@ -103,6 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             'issued_date' => $issued_date,
             'issued_time' => $issued_time,
             'offence_type' => $offence_type,
+            'location' => $location,
             'fine_amount' => $fine_amount,
             'nature_of_offence' => $nature_of_offence,
         ];
