@@ -39,9 +39,6 @@ if (!$stmt->execute()) {
     
     die("Error executing query: " . $stmt->error);
 }
-
-
-
 $result = $stmt->get_result();
 if ($result->num_rows === 0) {
     die("No matching fine found or unathorized access.");
@@ -53,6 +50,7 @@ $fine = $result->fetch_assoc();
 if($fine['fine_status'] === 'paid') {
     $message = "Your payment has already been recorded.";
 } else {
+
     // Update fine statud in db
     $updateSql = "UPDATE fines SET fine_status = 'paid' WHERE id = ?";
     $updateStmt = $conn->prepare($updateSql);

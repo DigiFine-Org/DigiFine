@@ -35,8 +35,7 @@ $police_station_id = $oic_data['police_station'];
 $fine_status_filter = isset($_GET['fine_status']) ? htmlspecialchars($_GET['fine_status']) : null;
 
 // Fetch fines related to the OIC's police station and where offence_type is court
-$fines_sql = "
-    SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
+$fines_sql = "SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
            f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
@@ -45,7 +44,7 @@ $fines_sql = "
 
 if (!empty($fine_status_filter)) {
     if ($fine_status_filter === 'reported') {
-        $fines_sql .= " AND f.is_reported = 1";
+        $fines_sql = " AND f.is_reported = 1";
         $fines_stmt = $conn->prepare($fines_sql);
         $fines_stmt->bind_param("i", $police_station_id);
     } else {
@@ -74,7 +73,7 @@ $conn->close();
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container x-large no-border">
-                <h1>All Fines (Court Offences)</h1>
+                <h1>Court Offences</h1>
                 <!-- FILTER FINES -->
                 <form method="get" action="" style="margin-bottom: 10px;">
                     <div class="wrapper">
@@ -91,22 +90,60 @@ $conn->close();
                 </form>
 
                 <div class="tiles-container">
-                    <?php foreach ($fines as $fine): ?>
-                        <div class="fine-tile <?= $fine['offence_type'] === 'court' ? 'court-violation' : '' ?>">
-                            <h2>Police ID: <?= htmlspecialchars($fine['police_id']) ?></h2>
-                            <p><strong>Driver ID:</strong> <?= htmlspecialchars($fine['driver_id']) ?></p>
-                            <p><strong>Issued Date:</strong> <?= htmlspecialchars($fine['issued_date']) ?></p>
-                            <p><strong>Offence Type:</strong> <?= htmlspecialchars($fine['offence_type']) ?></p>
-                            <p><strong>Offence:</strong> <?= htmlspecialchars($fine['offence']) ?></p>
-                            <p><strong>Fine Status:</strong> <?= htmlspecialchars($fine['fine_status']) ?></p>
-                            <p><strong>Reported:</strong> <?= $fine['is_reported'] == 1 ? 'Yes' : 'No' ?></p>
-                            <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>" class="btn">View Details</a>
-                        </div>
-                    <?php endforeach ?>
+                    <?php if (!empty($fines)): ?>
+                        <?php foreach ($fines as $fine): ?>
+                            <div class="fine-tile <?= $fine['offence_type'] === 'court' ? 'court-violation' : '' ?>">
+                                <h2>Police ID: <?= htmlspecialchars($fine['police_id']) ?></h2>
+                                <p><strong>Driver ID:</strong> <?= htmlspecialchars($fine['driver_id']) ?></p>
+                                <p><strong>Issued Date:</strong> <?= htmlspecialchars($fine['issued_date']) ?></p>
+                                <p><strong>Offence Type:</strong> <?= htmlspecialchars($fine['offence_type']) ?></p>
+                                <p><strong>Offence:</strong> <?= htmlspecialchars($fine['offence']) ?></p>
+                                <p><strong>Fine Status:</strong> <?= htmlspecialchars($fine['fine_status']) ?></p>
+                                <p><strong>Reported:</strong> <?= $fine['is_reported'] == 1 ? 'Yes' : 'No' ?></p>
+                                <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>" class="btn">View Details</a>
+                                <a href="#" class="btn delete-fine" data-id="<?= htmlspecialchars($fine['id']) ?>">Remove</a>
+
+                            </div>
+                            
+                        <?php endforeach ?>
+                    <?php else: ?>
+                        <p>"No Court Violations to show"</p>
+                    <?php endif ?> 
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>//study this code
+    $(document).on('click', '.delete-fine', function (e) {
+        e.preventDefault();
+
+        var fineId = $(this).data('id');
+        var $row = $(this).closest('tr'); // Adjust selector if not in a table
+
+        if (confirm("Are you sure you want to delete this fine?")) {
+            $.ajax({
+                url: 'remove-fine-details.php',
+                type: 'POST',
+                data: { id: fineId },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        alert(response.message);
+                        $row.remove(); // Remove the row from the table
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert('Failed to delete the fine. Please try again.');
+                }
+            });
+        }
+    });
+</script>
 
 <?php include_once "../../../includes/footer.php"; ?>

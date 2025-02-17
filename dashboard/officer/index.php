@@ -75,7 +75,7 @@ if ($result_future->num_rows > 0) {
         $dutiesHTML .= "</div>";
     }
 } else {
-    $dutiesHTML = "<p>No newly assigned duties.</p>";
+    $dutiesHTML = "<p>No Newly Assigned Duties.</p>";
 }
 
 $stmt->close();
@@ -112,9 +112,27 @@ if ($result_last->num_rows > 0) {
 }
 
 $stmt->close();
-$conn->close();
 
+
+$sql = "SELECT * FROM fines 
+        WHERE police_id = ? 
+        AND issued_date >= DATE_SUB(CURDATE(), INTERVAL 100 DAY) 
+        ORDER BY issued_date DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $policeId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$fines = [];
+while ($row = $result->fetch_assoc()) {
+    $fines[] = $row;
+}
+
+$stmt->close();
+$conn->close();
 ?>
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -163,23 +181,74 @@ $conn->close();
                     </div>
                 </div>
             </div>
-            <div class="tile1">
-                <h2>New Duty</h2>
-                <div id="new-duty">
-                    <img id="duty-image" src="/digifine/assets/tell-igp.jpg" style="width:350px; height: 100px; border-radius:10px;">
-                    <div class="duty-details">
-                        <?= $dutiesHTML ?>
+
+            <div class="main-content">
+                <div class="duties">
+                    <div class="tile1 tile-green">
+                        <h2>New Duty</h2>
+                        <div id="new-duty">
+                         <!-- <img id="duty-image" src="/digifine/assets/image 1.png" style="width:350px; height: 100px; border-radius:10px;"> -->
+                            <div class="duty-details">
+                              <?= $dutiesHTML ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tile1 tile-yellow">
+                        <h2>Last Duty</h2>
+                        <div id="last-duty">
+                            <!-- <img id="duty-image" src="/digifine/assets/image 2.png" style="width:350px; height: 100px; border-radius:10px;"> -->
+                            <div class="duty-details">
+                                <?= $lastDutyHTML ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                <div class="table-section" style="margin-top:20px;">
+                <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                <th>Driver ID</th>
+                                <th>License Number</th>
+                                <th>Issued Date</th>
+                                <th>Expire Date</th>
+                                <th>Fine Status</th>
+                                <th>Reported</th>
+                                <th>Fine Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php if (empty($fines)) : ?>
+                                <tr>
+                                    <td colspan="7" >No fines for the last week qwdnsc</td>
+                                </tr>
+
+                            <?php else : ?>
+                                <?php foreach($fines as $fine):?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($fine['driver_id']) ?></td>
+                                        <td><?= htmlspecialchars($fine['license_plate_number'])?></td>
+                                        <td><?= htmlspecialchars($fine['issued_date'])?></td>
+                                        <td><?= htmlspecialchars($fine['expire_date'])?></td>
+                                        <td><?= htmlspecialchars($fine['fine_status'])?></td>
+                                        <td><?=$fine['is_reported']== 1 ?'Yes' : "No "?></td>
+                                        <td><?= htmlspecialchars($fine['fine_amount'])?></td>
+
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php endif;?>
+
+
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
-            </div>
-            <div class="tile1">
-                <h2>Last Duty</h2>
-                <div id="last-duty">
-                    <img id="duty-image" src="/digifine/assets/tell-igp.jpg" style="width:350px; height: 100px; border-radius:10px;">
-                    <div class="duty-details">
-                        <?= $lastDutyHTML ?>
-                    </div>
-                </div>
+                    
+
             </div>
         </div>
     </div>
