@@ -37,7 +37,7 @@ if ($policeId) {
     }
 }
 
-echo "Police staion ID: " . htmlspecialchars($policeStationId);
+// echo "Police staion ID: " . htmlspecialchars($policeStationId);
 
 $locations = [];
 if ($policeStationId) {
@@ -61,7 +61,7 @@ if ($policeId) {
     }
 }
 
-echo "Locations: " . htmlspecialchars(print_r($locations, true));
+// echo "Locations: " . htmlspecialchars(print_r($locations));
 
 // Include header
 include_once "../../../includes/header.php";
