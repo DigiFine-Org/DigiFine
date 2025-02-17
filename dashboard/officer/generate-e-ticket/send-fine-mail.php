@@ -68,6 +68,7 @@ function sendFineEmail($recipient, $fineDetails)
                         <li><strong>Issued Date:</strong> {$fineDetails['issued_date']}</li>
                         <li><strong>Issued Time:</strong> {$fineDetails['issued_time']}</li>
                         <li><strong>Offence Type:</strong> {$fineDetails['offence_type']}</li>
+                        <li><strong>Location:</strong> {$fineDetails['location']}</li>
                         <li><strong>Fine Amount:</strong> LKR {$fineDetails['fine_amount']}</li>
                         <li><strong>Nature of Offence:</strong> {$fineDetails['nature_of_offence']}</li>
                     </ul>
@@ -85,4 +86,3 @@ function sendFineEmail($recipient, $fineDetails)
     // Send the email using the reusable `send_mail` function
     return send_mail($recipient, $subject, $message);
 }
-?>
