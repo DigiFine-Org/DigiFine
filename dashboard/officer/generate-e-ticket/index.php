@@ -48,6 +48,19 @@ if ($policeStationId) {
     }
 }
 
+$lastLocation = ""; // Default empty
+
+// Ensure the officer is identified
+if ($policeId) {
+    $sqlLastLocation = "SELECT location FROM fines WHERE police_id = '$policeId' ORDER BY issued_date DESC, issued_time DESC LIMIT 1";
+    $resultLastLocation = $conn->query($sqlLastLocation);
+
+    if ($resultLastLocation && $resultLastLocation->num_rows > 0) {
+        $dataLastLocation = $resultLastLocation->fetch_assoc();
+        $lastLocation = $dataLastLocation['location'];
+    }
+}
+
 echo "Locations: " . htmlspecialchars(print_r($locations, true));
 
 // Include header
@@ -157,14 +170,26 @@ if ($_SESSION['message'] ?? null) {
                     <div class="field">
                         <label for="location">Location:</label>
                         <select name="location" class="input" required>
-                            <option value="">Select a location</option>
-                            <?php foreach ($locations as $loc): ?>
-                                <option value="<?= htmlspecialchars($loc['location_name']); ?>">
-                                    <?= htmlspecialchars($loc['location_name']); ?>
+                            <!-- Default selection is the last location, but the officer can change it -->
+                            <?php if (!empty($lastLocation)): ?>
+                                <option value="<?php echo htmlspecialchars($lastLocation); ?>" selected>
+                                    <?php echo htmlspecialchars($lastLocation); ?> (Last Used)
                                 </option>
+                            <?php else: ?>
+                                <option value="" selected disabled>Select a location</option>
+                            <?php endif; ?>
+
+                            <?php foreach ($locations as $loc): ?>
+                                <!-- Prevent duplicate entry of the last location in the dropdown -->
+                                <?php if ($loc['location_name'] !== $lastLocation): ?>
+                                    <option value="<?php echo htmlspecialchars($loc['location_name']); ?>">
+                                        <?php echo htmlspecialchars($loc['location_name']); ?>
+                                    </option>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </select>
                     </div>
+
 
                     <div class="field">
                         <label for="fine_amount">Fine Amount:</label>
