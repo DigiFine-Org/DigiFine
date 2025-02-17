@@ -32,8 +32,6 @@ if(!$stmt) {
     die("Query preparation failed: " . $conn->error);
 }
 
-
-
 $stmt->bind_param("ii", $fine_id, $driver_id);
 // var_dump($stmt);
 // exit();
