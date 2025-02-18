@@ -4,8 +4,6 @@ include '../../../db/connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fine_id = isset($_POST['fine_id']) ? intval($_POST['fine_id']) : null;
-    $reported_description = isset($_POST['reported_description']) ? htmlspecialchars($_POST['reported_description']) : '';
-
     $reported_description = isset($_POST['reported_description']) ? htmlspecialchars($_POST['reported_description'], ENT_QUOTES, 'UTF-8') : '';
     $evidence_path = null;
 
@@ -14,22 +12,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Error: Missing required fields.");
     }
 
-    // Check the offence type
-    $sql = "SELECT offence_type FROM fines WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $fine_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $fine = $result->fetch_assoc();
-    $offence_type = $fine['offence_type'];
+    // Debugging: Check if the fine_id exists in the database
+    $check_sql = "SELECT id, evidence FROM fines WHERE id = ?";
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("i", $fine_id);
+    $check_stmt->execute();
+    $result = $check_stmt->get_result();
+    $fine_data = $result->fetch_assoc();
+    $check_stmt->close();
 
-    if ($offence_type === 'court') {
-        // If the offence type is 'court', prevent reporting or paying
-        die("This fine cannot be reported or paid because the offence type is 'court'.");
+    if (!$fine_data) {
+        die("Error: Fine ID does not exist in the database.");
     }
 
-    // Proceed to update if the offence type is not 'court'
-    $sql = "UPDATE fines SET is_reported = 1, reported_description = ? WHERE id = ?";
+    // File Upload Process
     if (!empty($_FILES['evidence']['name'])) {
         $upload_dir = '../../../uploads/evidence/';
         if (!is_dir($upload_dir)) {
@@ -43,13 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $target_file = $upload_dir . $unique_file_name;
         $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        // Check allowed file types
+        // Allowed file types
         $allowed_types = ['jpg', 'jpeg', 'png', 'pdf'];
         if (!in_array($file_type, $allowed_types)) {
             die("Error: Only JPG, JPEG, PNG, and PDF files are allowed.");
         }
 
-        // Check file size (limit: 5MB)
+        // File size check (limit: 5MB)
         if ($_FILES['evidence']['size'] > 5 * 1024 * 1024) {
             die("Error: File size exceeds 5MB.");
         }
@@ -60,13 +56,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             die("Error: Failed to upload file.");
         }
+    } else {
+        // If no new file is uploaded, retain the existing evidence path
+        $evidence_path = $fine_data['evidence'];
     }
 
-    // Debugging: Verify file upload path
+    // Debugging: Check final evidence path
     if ($evidence_path) {
-        echo "File successfully uploaded: " . $evidence_path . "<br>";
+        echo "Evidence Path: " . $evidence_path . "<br>";
     } else {
-        echo "No file uploaded.<br>";
+        echo "No evidence provided or retained.<br>";
     }
 
     // Update the fines table
@@ -86,7 +85,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         die("Error updating fine: " . $stmt->error);
     }
-
 
     // Close statement and connection
     $stmt->close();
