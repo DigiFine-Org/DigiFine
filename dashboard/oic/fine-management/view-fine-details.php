@@ -22,8 +22,8 @@ $fine_id = intval($_GET['id']);
 
 // Ensure the fine belongs to the OIC's police station
 $sql = "
-    SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
-           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported, f.reported_description, 
+    SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, expire_date, 
+           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.fine_amount, f.is_reported, f.reported_description, 
            f.evidence
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
@@ -71,6 +71,10 @@ $conn->close();
                     <p><?= htmlspecialchars($fine['issued_time']) ?></p>
                 </div>
                 <div class="data-line">
+                    <span>Expiry Date:</span>
+                    <p><?= htmlspecialchars($fine['expire_date']) ?></p>
+                </div>
+                <div class="data-line">
                     <span>Offence Type:</span>
                     <p><?= htmlspecialchars($fine['offence_type']) ?></p>
                 </div>
@@ -86,6 +90,10 @@ $conn->close();
                     <span>Fine Status:</span>
                     <p><?= htmlspecialchars($fine['fine_status']) ?></p>
                 </div>
+                <div class="data-line">
+                    <span>Fine Amount:</span>
+                    <p><?= htmlspecialchars($fine['fine_amount']) ?></p>
+                </div>
 
                 <?php if ($fine['is_reported'] == 1): ?>
                     <div class="data-line">
@@ -96,12 +104,27 @@ $conn->close();
                     <?php if (!empty($fine['evidence'])): ?>
                         <div class="data-line">
                             <span>Evidence:</span>
-                            <!-- Display image or link to the file -->
-                            <?php if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $fine['evidence'])): ?>
-                                <img src="<?= htmlspecialchars($fine['evidence']) ?>" alt="Uploaded Evidence" style="max-width: 100%; height: auto; margin-top: 10px;">
-                            <?php else: ?>
-                                <a href="<?= htmlspecialchars($fine['evidence']) ?>" target="_blank">View Uploaded Evidence</a>
-                            <?php endif; ?>
+                            <div class="evidence-container">
+                                <?php
+                                $evidence_path = "../../../" . $fine['evidence'];
+                                $file_extension = strtolower(pathinfo($evidence_path, PATHINFO_EXTENSION));
+                                if (in_array($file_extension, ['jpg', 'jpeg', 'png', 'gif'])): ?>
+                                    <img src="<?= htmlspecialchars($evidence_path) ?>" 
+                                         alt="Evidence Image" 
+                                         style="max-width: 500px; height: auto; margin-top: 10px; border: 1px solid #ddd; border-radius: 4px;"
+                                         onclick="window.open(this.src, '_blank')"
+                                    >
+                                <?php elseif ($file_extension === 'pdf'): ?>
+                                    <div class="pdf-preview">
+                                        <a href="<?= htmlspecialchars($evidence_path) ?>" 
+                                           target="_blank" 
+                                           class="pdf-link"
+                                        >
+                                            View PDF Evidence
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     <?php endif; ?>
 
@@ -129,7 +152,6 @@ $conn->close();
                         <!-- Hidden input for the Fine ID -->
                         <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['id']) ?>">
                     </form>
-
                 <?php endif; ?>
             </div>
         </div>
@@ -137,3 +159,36 @@ $conn->close();
 </main>
 
 <?php include_once "../../../includes/footer.php"; ?>
+
+<style>
+.evidence-container {
+    margin: 10px 0;
+}
+
+.evidence-container img {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.evidence-container img:hover {
+    transform: scale(1.02);
+}
+
+.pdf-preview {
+    margin: 10px 0;
+}
+
+.pdf-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    text-decoration: none;
+}
+
+.pdf-link:hover {
+    background-color: #e0e0e0;
+}
+</style>

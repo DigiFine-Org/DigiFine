@@ -1,4 +1,5 @@
 <?php
+
 $pageConfig = [
     'title' => 'View Update Request Details',
     'styles' => ["../../dashboard.css"],

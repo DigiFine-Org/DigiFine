@@ -561,6 +561,7 @@ table td.centered {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 3 columns in one row */
   gap: 5px; /* Space between fields */
+  margin: 10px;
 }
 
 .filter-field {
@@ -623,17 +624,116 @@ table td.centered {
   }
 }
 
+.main-content {
+  display: flex;
+  gap: 10px;
+}
 
 .tile1 {
   background: #fff;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  width: 400px; /* Consistent width */
+  min-height: 200px; /* Enough space for content */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   margin-top: 20px;
-  width: 400px;
+  transition: transform 0.2s ease-in-out;
 }
+.tile1:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Heading Styling */
 .tile1 h2 {
-  margin: 0 0 10px;
+  margin-bottom: 12px;
   color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+}
+
+/* Underline Effect */
+.tile1 h2::after {
+  content: "";
+  display: block;
+  height: 4px; /* Underline thickness */
+  width: 80%; /* Adjust length */
+  position: absolute;
+  bottom: -6px;
+  left: 40%;
+  transform: translateX(-50%);
+  position: relative;
+  border-radius: 5px;
+}
+
+/* Different colors for each tile */
+.tile-green h2::after {
+  background: linear-gradient(to right, #0aaf0a, #0c7b0c);
+}
+
+.tile-yellow h2::after {
+  background: linear-gradient(to right, #ff9900, #cc7700);
+}
+
+.duty-details {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #1f1c1c;
+  line-height: 2;
+  margin-top: 1px;
+}
+
+.duties {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column; /* Stack elements vertically */
+    gap: 15px; /* More spacing for better readability */
+  }
+
+  .tile1 {
+    width: 100%; /* Full width on smaller screens */
+    min-height: auto; /* Adjust height based on content */
+  }
+
+  .duties {
+    gap: 10px; /* Better spacing between duties */
+  }
+
+  .tile1 h2::after {
+    width: 60%; /* Shorter underline on small screens */
+  }
+}
+
+/* Even smaller screens (phones) */
+@media (max-width: 480px) {
+  .tile1 {
+    padding: 15px; /* Reduce padding for smaller screens */
+    border-radius: 8px;
+  }
+
+  .tile1 h2 {
+    font-size: 16px; /* Slightly smaller heading */
+    text-align: center; /* Center headings */
+  }
+
+  .tile1 h2::after {
+    width: 50%; /* Adjust underline */
+  }
+
+  .duty-details {
+    font-size: 13px; /* Smaller text for readability */
+    line-height: 1.8; /* Adjust spacing */
+  }
 }

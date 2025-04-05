@@ -54,9 +54,6 @@ $locations = $location_result->fetch_all(MYSQLI_ASSOC);
 
 $location_stmt->close();
 
-
-
-
 $stmt->close();
 
 
@@ -83,11 +80,62 @@ $locations = $location_result->fetch_all(MYSQLI_ASSOC);
 $location_stmt->close();
 
 
+$query = "SELECT COUNT(*) AS report_fine_count
+          FROM fines f
+          INNER JOIN officers o ON f.police_id = o.id
+          WHERE o.police_station = ? AND f.is_reported = 1 ";
+$stmt_report = $conn->prepare($query);
+$stmt_report->bind_param("i", $police_station_id);
+$stmt_report->execute();
+$result = $stmt_report->get_result();
+$row = $result->fetch_assoc();
+$reportFineCount = $row ? $row['report_fine_count'] : 0;
+$stmt_report->close();
+
+// Fetch officer count (excluding OIC)
+$sql = "SELECT COUNT(*) AS officer_count FROM officers WHERE police_station = ? AND is_oic = 0";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $police_station_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$officerCount = $row ? $row['officer_count'] :0; // Assign count to a variable
+$stmt->close();
 
 
-// $stmt->close();
-$conn->close();
+$query = "SELECT COUNT(*) AS court_fine_count
+          FROM fines f
+          INNER JOIN officers o ON f.police_id = o.id
+          WHERE o.police_station = ?  AND f.offence_type = 'court'";
+$stmt_court = $conn->prepare($query);
+$stmt_court->bind_param("i", $police_station_id);
+$stmt_court->execute();
+$result = $stmt_court->get_result();
+$row = $result->fetch_assoc();
+$courtFineCount = $row ? $row['court_fine_count'] : 0;
+$stmt_court->close();
 
+
+$query = "
+    SELECT COUNT(DISTINCT s.id) AS seized_vehicle_count
+    FROM seized_vehicle s
+    INNER JOIN police_stations ps ON ps.name = s.police_station
+    INNER JOIN officers o ON o.police_station = ps.id
+    WHERE o.police_station = ?";
+
+$stmt = $conn->prepare($query);
+
+if (!$stmt) {
+    die("Query preparation failed: " . $conn->error);
+}
+
+$stmt->bind_param("i", $police_station_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$seizedVehicleCount = $row ? $row['seized_vehicle_count'] : 0;
+$stmt->close();
+ $conn->close();
 ?>
 
 <main>
@@ -102,22 +150,26 @@ $conn->close();
                 <p>Police Station ID: <?= htmlspecialchars($oic['police_station']) ?></p>
             </div>
             <div class="insights-bar" style="margin-bottom:20px">
-                <div class="inner-tile">
-                    <div class="icon" style="background-color: #FFEFB4;">
-                        <!-- <img src="driver-icon.svg" alt="Driver Icon"> -->
-                    </div>
-                    <div class="info">
-                        <p>Station Police Officers</p>
-                        <h3>248</h3>
-                    </div>
+                        <div class="inner-tile">
+                <div class="icon" style="background-color: #FFEFB4;">
+                    <!-- <img src="driver-icon.svg" alt="Driver Icon"> -->
                 </div>
+                <div class="info">
+                    <?php renderLink("Station Officers", "/digifine/dashboard/oic/officer-management/index.php"); ?>
+                    <h3><?php echo htmlspecialchars($officerCount, ENT_QUOTES, 'UTF-8'); ?></h3>
+
+                </div>
+            </div>
+
                 <div class="inner-tile">
                     <div class="icon" style="background-color: #CDE4FF;">
                         <!-- <img src="officer-icon.svg" alt="Officer Icon"> -->
                     </div>
                     <div class="info">
-                        <p>Pending Fines</p>
-                        <h3>56</h3>
+                    <?php renderLink("Court-violations", "/digifine/dashboard/oic/court-violations/index.php") ?>
+                    <h3><?php echo htmlspecialchars($courtFineCount, ENT_QUOTES, 'UTF-8'); ?></h3>
+
+
                     </div>
                 </div>
                 <div class="inner-tile">
@@ -125,8 +177,11 @@ $conn->close();
                         <!-- <img src="report-icon.svg" alt="Report Icon"> -->
                     </div>
                     <div class="info">
-                        <p>Reported Fines</p>
-                        <h3>15</h3>
+                    <?php renderLink("Reported Fines", "/digifine/dashboard/oic/reported-fines/index.php") ?>
+                    <h3><?php echo htmlspecialchars($reportFineCount, ENT_QUOTES, 'UTF-8'); ?></h3>
+
+
+
                     </div>
                 </div>
                 <div class="inner-tile">
@@ -134,8 +189,10 @@ $conn->close();
                         <!-- <img src="fines-icon.svg" alt="Fines Icon"> -->
                     </div>
                     <div class="info">
-                        <p>Overdue Fines</p>
-                        <h3>20</h3>
+                    <?php renderLink("Seized Vehicles", "/digifine/dashboard/oic/seized_vehicle/index.php") ?>
+                    <h3><?php echo htmlspecialchars($seizedVehicleCount, ENT_QUOTES, 'UTF-8'); ?></h3>
+
+
                     </div>
                 </div>
 
@@ -214,19 +271,19 @@ $conn->close();
             </div>
             <!-- Popup for Adding Duty Location -->
             <div class="popup-new-overlay" id="popupNewOverlay" onclick="closeAddLocationPopup()"></div>
-<div class="popup-new" id="addLocationPopupNew">
-    <h3>Add Duty Location</h3>
-    <form action="add-location-process.php" method="post">
-        <div class="field">
-            <label for="location_name">Location</label>
-            <input type="text" class="input" placeholder="Enter location name" name="location_name" required>
-            <input type="hidden" name="police_station_id" value="<?= htmlspecialchars($oic['police_station']) ?>">
+            <div class="popup-new" id="addLocationPopupNew">
+                <h3>Add Duty Location</h3>
+                <form action="add-location-process.php" method="post">
+                    <div class="field">
+                        <label for="location_name">Location</label>
+                        <input type="text" class="input" placeholder="Enter location name" name="location_name" required>
+                        <input type="hidden" name="police_station_id" value="<?= htmlspecialchars($oic['police_station']) ?>">
 
-        </div>
-        <button class="btn" type="submit">Add</button>
-    </form>
-    <button class="close-btn" onclick="closeAddLocationPopup()">Cancel</button>
-</div>
+                    </div>
+                    <button class="btn" type="submit">Add</button>
+                </form>
+                <button class="close-btn" onclick="closeAddLocationPopup()">Cancel</button>
+            </div>
 
 </main>
 

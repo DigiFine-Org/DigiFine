@@ -14,7 +14,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 }
 
 $id = intval($_GET['id']);
-$sql = "SELECT id, police_id, driver_id, license_plate_number, issued_date, issued_time, offence_type, nature_of_offence, offence, fine_status FROM fines WHERE id = ?";
+$sql = "SELECT id, police_id, driver_id, license_plate_number, issued_date, issued_time,expire_date, offence_type, nature_of_offence, offence, fine_status, fine_amount FROM fines WHERE id = ?";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
@@ -62,6 +62,10 @@ $conn->close();
                     <p><?= htmlspecialchars($fine['issued_time']) ?></p>
                 </div>
                 <div class="data-line">
+                    <span>Expiry Date:</span>
+                    <p><?= htmlspecialchars($fine['expire_date']) ?></p>
+                </div>
+                <div class="data-line">
                     <span>Offence Type:</span>
                     <p><?= htmlspecialchars($fine['offence_type']) ?></p>
                 </div>
@@ -76,6 +80,10 @@ $conn->close();
                 <div class="data-line">
                     <span>Fine Status:</span>
                     <p><?= htmlspecialchars($fine['fine_status']) ?></p>
+                </div>
+                <div class="data-line">
+                    <span>Fine Amount:</span>
+                    <p><?= htmlspecialchars($fine['fine_amount']) ?></p>
                 </div>
                 <a href="index.php" class="btn" style="margin-top: 20px;">Back to Fines</a>
             </div>
