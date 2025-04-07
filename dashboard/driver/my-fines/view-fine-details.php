@@ -113,16 +113,20 @@ $conn->close();
 
                 </div>
                 <?php if ($fine['offence_type'] !== 'court'): ?>
-                    <form action="report-fine-process.php" method="post" id="reportFineForm"
-                        style="display: none; margin-top: 20px;">
+                    <form action="report-fine-process.php" method="post" id="reportFineForm" enctype="multipart/form-data"
+                        style="display: none; margin-top: 20px; flex-direction: column;">
                         <div class="field">
-                            <input type="file" style="margin-bottom: 10px;">
+                            <label for="evidence">Upload Evidence:</label>
+                            <input type="file" name="evidence" id="evidence" accept=".jpg,.jpeg,.png,.pdf" required>
+                        </div>
+                        <div class="field">
                             <label for="reported_description">Reason for Reporting:</label>
                             <textarea name="reported_description" id="reported_description" class="input"
                                 required></textarea>
-                            <button class="btn" style="margin-top: 10px;">Submit</button>
-                            <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['fine_id']); ?>">
+                            <span style="margin-bottom:10px;"></span>
                         </div>
+                        <button class="btn" style="margin-top: 12px; margin-right: 10px">Submit</button>
+                        <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['fine_id']) ?>">
                     </form>
                 <?php endif; ?>
                 <!-- Hidden report form
