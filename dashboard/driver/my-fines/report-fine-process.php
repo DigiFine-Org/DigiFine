@@ -27,7 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // File Upload Process
     if (!empty($_FILES['evidence']['name'])) {
-        $upload_dir = '../../../uploads/evidence/';
+        $upload_dir = __DIR__ . '/../../../uploads/evidence/';
+        $relative_path = 'uploads/evidence/'; // this will be stored in DB
+
         if (!is_dir($upload_dir)) {
             if (!mkdir($upload_dir, 0777, true)) {
                 die("Error: Failed to create upload directory.");
@@ -35,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $file_name = basename($_FILES['evidence']['name']);
-        $unique_file_name = uniqid() . '_' . $file_name; 
+        $unique_file_name = uniqid() . '_' . $file_name;
         $target_file = $upload_dir . $unique_file_name;
         $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
@@ -50,17 +52,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Error: File size exceeds 5MB.");
         }
 
-        // Move the uploaded file
+        // Move file
         if (move_uploaded_file($_FILES['evidence']['tmp_name'], $target_file)) {
-            $evidence_path = 'uploads/evidence/' . $unique_file_name;
+            $evidence_path = $relative_path . $unique_file_name;
         } else {
             die("Error: Failed to upload file.");
         }
     } else {
-        // If no new file is uploaded, retain the existing evidence path
-        $evidence_path = $fine_data['evidence'];
+        $evidence_path = $fine_data['evidence']; // fallback
     }
-
+    
+    
     // Debugging: Check final evidence path
     if ($evidence_path) {
         echo "Evidence Path: " . $evidence_path . "<br>";
