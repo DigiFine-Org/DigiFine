@@ -116,7 +116,7 @@ $stmt->close();
 
 $sql = "SELECT * FROM fines 
         WHERE police_id = ? 
-        AND issued_date >= DATE_SUB(CURDATE(), INTERVAL 100 DAY) 
+        AND issued_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) 
         ORDER BY issued_date DESC";
 
 $stmt = $conn->prepare($sql);
