@@ -7,6 +7,8 @@ require_once "send-fine-mail.php";
 // Check if user is logged in as police officer
 $policeId = $_SESSION['user']['id'] ?? null;
 
+
+
 if (!$policeId) {
     die("Unauthorized access. Police ID not found.");
 }
@@ -21,6 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $offence_type = htmlspecialchars($_POST['offence_type']);
     $nature_of_offence = htmlspecialchars($_POST['nature_of_offence']);
     $location = htmlspecialchars($_POST['location']);
+    if ($location === 'other') {
+        $location = htmlspecialchars(trim($_POST['other_location'] ?? ''));
+    }
     $offence_number = htmlspecialchars($_POST['offence'] ?? null);
     $fine_amount = htmlspecialchars($_POST['fine_amount'] ?? 0);
 

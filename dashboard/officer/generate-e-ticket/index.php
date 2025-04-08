@@ -144,28 +144,10 @@ if ($_SESSION['message'] ?? null) {
                         <?php
                         $licensePlateNumber = $_GET['license_plate_number'] ?? '';
                         ?>
-                        <input type="text" class="input" placeholder="CAD-6264" name="license_plate_number" value="<?php echo htmlspecialchars($licensePlateNumber); ?>" required>
+                        <input type="text" class="input" placeholder="CAD-6264" name="license_plate_number"
+                            value="<?php echo htmlspecialchars($licensePlateNumber); ?>" required>
                     </div>
-                    <div class="field">
-                        <label for="">Offence Type:</label>
-                        <select id="offence_type" class="input" name="offence_type" required>
-                            <option value="">Select Type</option>
-                            <option value="fine">Fine</option>
-                            <option value="court">Court</option>
-                        </select>
-                    </div>
-                    <div class="field" id="offence_select_field" style="display: none;">
-                        <label for="offence">Select Offence:</label>
-                        <select name="offence" id="offence" class="input">
-                            <option value="">Select Offence</option>
-                            <?php foreach ($offences as $offence): ?>
-                                <option value="<?php echo htmlspecialchars($offence['offence_number']); ?>"
-                                    data-fine="<?= htmlspecialchars($offence['fine_amount'] ?? 0); ?>">
-                                    <?php echo htmlspecialchars($offence['description_english']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+
                     <!-- Updated Location field with a search bar (datalist) -->
                     <div class="field">
                         <label for="location">Location:</label>
@@ -187,8 +169,33 @@ if ($_SESSION['message'] ?? null) {
                                     </option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
+                            <option value="other">Other</option>
+                        </select>
+                        <input type="text" name="other_location" id="other-location" class="input mt-2"
+                            placeholder="Enter location" style="display: none; margin-top: 10px;">
+                    </div>
+
+                    <div class="field">
+                        <label for="">Offence Type:</label>
+                        <select id="offence_type" class="input" name="offence_type" required>
+                            <option value="">Select Type</option>
+                            <option value="fine">Fine</option>
+                            <option value="court">Court</option>
                         </select>
                     </div>
+                    <div class="field" id="offence_select_field" style="display: none;">
+                        <label for="offence">Select Offence:</label>
+                        <select name="offence" id="offence" class="input">
+                            <option value="">Select Offence</option>
+                            <?php foreach ($offences as $offence): ?>
+                                <option value="<?php echo htmlspecialchars($offence['offence_number']); ?>"
+                                    data-fine="<?= htmlspecialchars($offence['fine_amount'] ?? 0); ?>">
+                                    <?php echo htmlspecialchars($offence['description_english']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
 
 
                     <div class="field">
@@ -197,7 +204,8 @@ if ($_SESSION['message'] ?? null) {
                     </div>
                     <div class="field">
                         <label for="">Nature of Offence:</label>
-                        <textarea class="input" name="nature_of_offence" placeholder="Describe the nature of the offence" required></textarea>
+                        <textarea class="input" name="nature_of_offence"
+                            placeholder="Describe the nature of the offence" required></textarea>
                     </div>
                     <button class="btn">Generate</button>
                 </form>
@@ -205,6 +213,21 @@ if ($_SESSION['message'] ?? null) {
         </div>
     </div>
 </main>
+
+<script>
+    const select = document.querySelector('select[name="location"]');
+    const otherInput = document.getElementById('other-location');
+
+    select.addEventListener('change', function () {
+        if (this.value === 'other') {
+            otherInput.style.display = 'block';
+            otherInput.setAttribute('required', 'required');
+        } else {
+            otherInput.style.display = 'none';
+            otherInput.removeAttribute('required');
+        }
+    });
+</script>
 
 <script>
     // Clock update
@@ -222,7 +245,7 @@ if ($_SESSION['message'] ?? null) {
     // Toggle Offence select field based on Offence Type
     const offenceType = document.getElementById("offence_type");
     const offenceSelectField = document.getElementById("offence_select_field");
-    offenceType.addEventListener("change", function() {
+    offenceType.addEventListener("change", function () {
         if (this.value === "fine") {
             offenceSelectField.style.display = "flex";
         } else {
@@ -233,7 +256,7 @@ if ($_SESSION['message'] ?? null) {
     // Update fine amount when an offence is selected
     const offenceDropdown = document.getElementById("offence");
     const fineAmountInput = document.getElementById("fine_amount");
-    offenceDropdown.addEventListener("change", function() {
+    offenceDropdown.addEventListener("change", function () {
         const selectedOption = offenceDropdown.options[offenceDropdown.selectedIndex];
         const fineAmount = selectedOption.getAttribute("data-fine") || 0;
         fineAmountInput.value = fineAmount;
