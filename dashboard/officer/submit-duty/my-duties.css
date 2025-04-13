@@ -75,3 +75,64 @@
     gap: 6px;
   }
   
+  /* Main content area styling */
+.content {
+  flex: 1;
+  position: relative;
+  height: calc(100vh - 60px); /* Adjust based on your header height */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Home grid styling for empty state */
+.home-grid {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Empty state container */
+.no-duty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 400px;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Empty state image */
+.no-duty-image {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.1;
+  object-fit: contain;
+}
+
+/* Empty state heading */
+.no-duty-container h2 {
+  font-size: 20px;
+  color: #333;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+/* Empty state text */
+.no-duty-container p {
+  font-size: 14px;
+  color: #5f6368;
+  margin: 0;
+}
