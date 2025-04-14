@@ -187,9 +187,9 @@ $conn->close();
                     <div class="tile1 tile-green">
                         <h2>New Duty</h2>
                         <div id="new-duty">
-                         <!-- <img id="duty-image" src="/digifine/assets/image 1.png" style="width:350px; height: 100px; border-radius:10px;"> -->
+                            <!-- <img id="duty-image" src="/digifine/assets/image 1.png" style="width:350px; height: 100px; border-radius:10px;"> -->
                             <div class="duty-details">
-                              <?= $dutiesHTML ?>
+                                <?= $dutiesHTML ?>
                             </div>
                         </div>
                     </div>
@@ -203,43 +203,43 @@ $conn->close();
                         </div>
                     </div>
 
-                    
+
                 </div>
 
                 <div class="table-section" style="margin-top:20px;">
-                <div class="table-container">
+                    <div class="table-container">
                         <table>
                             <thead>
                                 <tr>
-                                <th>Driver ID</th>
-                                <th>License Number</th>
-                                <th>Issued Date</th>
-                                <th>Expire Date</th>
-                                <th>Fine Status</th>
-                                <th>Reported</th>
-                                <th>Fine Amount</th>
+                                    <th>Driver ID</th>
+                                    <th>License Number</th>
+                                    <th>Issued Date</th>
+                                    <th>Expire Date</th>
+                                    <th>Fine Status</th>
+                                    <th>Reported</th>
+                                    <th>Fine Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php if (empty($fines)) : ?>
-                                <tr>
-                                    <td colspan="7" >No fines for the last week qwdnsc</td>
-                                </tr>
-
-                            <?php else : ?>
-                                <?php foreach($fines as $fine):?>
+                                <?php if (empty($fines)): ?>
                                     <tr>
-                                        <td><?= htmlspecialchars($fine['driver_id']) ?></td>
-                                        <td><?= htmlspecialchars($fine['license_plate_number'])?></td>
-                                        <td><?= htmlspecialchars($fine['issued_date'])?></td>
-                                        <td><?= htmlspecialchars($fine['expire_date'])?></td>
-                                        <td><?= htmlspecialchars($fine['fine_status'])?></td>
-                                        <td><?=$fine['is_reported']== 1 ?'Yes' : "No "?></td>
-                                        <td><?= htmlspecialchars($fine['fine_amount'])?></td>
-
+                                        <td colspan="7">No fines for the last week qwdnsc</td>
                                     </tr>
+
+                                <?php else: ?>
+                                    <?php foreach ($fines as $fine): ?>
+                                        <tr>
+                                            <td><?= htmlspecialchars($fine['driver_id']) ?></td>
+                                            <td><?= htmlspecialchars($fine['license_plate_number']) ?></td>
+                                            <td><?= htmlspecialchars($fine['issued_date']) ?></td>
+                                            <td><?= htmlspecialchars($fine['expire_date']) ?></td>
+                                            <td><?= htmlspecialchars($fine['fine_status']) ?></td>
+                                            <td><?= $fine['is_reported'] == 1 ? 'Yes' : "No " ?></td>
+                                            <td><?= htmlspecialchars($fine['fine_amount']) ?></td>
+
+                                        </tr>
                                     <?php endforeach; ?>
-                                <?php endif;?>
+                                <?php endif; ?>
 
 
                             </tbody>
@@ -247,7 +247,7 @@ $conn->close();
 
                     </div>
                 </div>
-                    
+
 
             </div>
         </div>
