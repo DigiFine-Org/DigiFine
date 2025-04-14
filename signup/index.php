@@ -13,8 +13,8 @@ include_once "../includes/header.php" ?>
         <br>
         <a href="/digifine/signup/driver.php" class="link">Register as Driver</a>
         <br>
-        <br>
-        <a href="/digifine/signup/police.php" class="link">Register as Police Officer</a>
+        <!-- <br>
+        <a href="/digifine/signup/police.php" class="link">Register as Police Officer</a> -->
     </div>
 </main>
 <?php include_once "../includes/footer.php" ?>

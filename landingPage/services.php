@@ -37,7 +37,7 @@
                     while simplifying processes through digital innovation. With an intuitive interface and secure
                     platform, DigiFine ensures that managing traffic-related issues is hassle-free for everyone.
                 </p>
-                <a href="../../login/index.php" class="btn-primary">Get Started</a>
+                <a href="../../digifine/login/index.php" class="btn-primary">Get Started</a>
             </div>
         </section>
     </main>
