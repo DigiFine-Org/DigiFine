@@ -31,10 +31,10 @@ if ($fine_id <= 0 || !$driver_id) {
     die("Invalid fine ID or unauthorized access.");
 }
 
-// Fetch fine details
+// Fetch fine details - added is_reported to the query
 $sql = "
     SELECT f.id AS fine_id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, 
-    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status 
+    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported 
     FROM fines AS f 
     INNER JOIN drivers AS d ON f.driver_id = d.id 
     WHERE f.id = ? AND d.id = ?;
@@ -106,13 +106,21 @@ $conn->close();
                     <?php if ($fine['offence_type'] === 'court'): ?>
                         <p class="court-violation">This is a court violation. Reporting or paying is not allowed online.</p>
                     <?php else: ?>
-                        <button class="btn" id="reportFineButton" style="margin-right: 10px;">Report</button>
+                        <?php if ($fine['is_reported'] == 0): ?>
+                            <button class="btn" id="reportFineButton" style="margin-right: 10px;">Report</button>
+                        <?php endif; ?>
                         <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']); ?>"
                             class="btn" id="payFineButton">Pay</a>
                     <?php endif; ?>
-
                 </div>
-                <?php if ($fine['offence_type'] !== 'court'): ?>
+                
+                <?php if ($fine['is_reported'] == 1): ?>
+                    <div style="margin-top: 15px;">
+                        <p class="reported-message" style="color:rgb(209, 87, 101); font-weight: bold;">This fine has already been reported.</p>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($fine['offence_type'] !== 'court' && $fine['is_reported'] == 0): ?>
                     <form action="report-fine-process.php" method="post" id="reportFineForm" enctype="multipart/form-data"
                         style="display: none; margin-top: 20px; flex-direction: column;">
                         <div class="field">
@@ -129,22 +137,6 @@ $conn->close();
                         <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['fine_id']) ?>">
                     </form>
                 <?php endif; ?>
-                <!-- Hidden report form
-                <form action="report-fine-process.php" method="post" id="reportFineForm" enctype="multipart/form-data"
-                    style="display: none; margin-top: 20px; flex-direction: column;">
-                    <div class="field">
-                        <label for="evidence">Upload Evidence:</label>
-                        <input type="file" name="evidence" id="evidence" accept="image/*,application/pdf" required>
-                    </div>
-                    <div class="field">
-                        <label for="reported_description">Reason for Reporting:</label>
-                        <textarea name="reported_description" id="reported_description" class="input"
-                            required></textarea>
-                        <span style="margin-bottom:10px;"></span>
-                    </div>
-                    <button class="btn" style="margin-top: 12px; margin-right: 10px">Submit</button>
-                    <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['fine_id']) ?>">
-                </form> -->
             </div>
         </div>
     </div>
@@ -152,14 +144,17 @@ $conn->close();
 
 <script>
     // Toggle visibility for the report form and hide other buttons
-    document.getElementById('reportFineButton').addEventListener('click', function () {
-        const reportForm = document.getElementById('reportFineForm');
-        const payFineButton = document.getElementById('payFineButton');
+    const reportButton = document.getElementById('reportFineButton');
+    if (reportButton) {
+        reportButton.addEventListener('click', function () {
+            const reportForm = document.getElementById('reportFineForm');
+            const payFineButton = document.getElementById('payFineButton');
 
-        reportForm.style.display = 'flex'; // Show the report form
-        this.style.display = 'none'; // Hide the Report button
-        if (payFineButton) payFineButton.style.display = 'none'; // Hide the Pay button
-    });
+            reportForm.style.display = 'flex'; // Show the report form
+            this.style.display = 'none'; // Hide the Report button
+            if (payFineButton) payFineButton.style.display = 'none'; // Hide the Pay button
+        });
+    }
 </script>
 
 <?php include_once "../../../includes/footer.php"; ?>
