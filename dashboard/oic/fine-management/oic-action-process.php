@@ -20,15 +20,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $fine = $result->fetch_assoc();
     $is_reported = $fine['is_reported'];
 
-    if ($is_reported == 1) {
-        // Fine has been reported, display the "Go Back" button and prevent further actions
-        echo "<p>This fine has already been reported. You cannot perform any actions on it.</p>";
-        echo '<a href="index.php" class="btn">Go Back to Fines</a>';
-        exit();
-    }
-
     // Proceed with action if fine is not reported
     if ($action_type === 'discard') {
+        // First, get the points deducted for this fine by joining with the offences table
+        $points_sql = "SELECT o.points_deducted, f.driver_id 
+                      FROM fines f
+                      INNER JOIN offences o ON f.offence = o.description_english
+                      WHERE f.id = ?";
+        $points_stmt = $conn->prepare($points_sql);
+        $points_stmt->bind_param("i", $fine_id);
+        $points_stmt->execute();
+        $points_result = $points_stmt->get_result();
+        $fine_data = $points_result->fetch_assoc();
+        
+        if ($fine_data && isset($fine_data['points_deducted']) && $fine_data['points_deducted'] > 0) {
+            // Restore the points to the driver
+            $driver_id = $fine_data['driver_id'];
+            $points_to_restore = $fine_data['points_deducted'];
+            
+            $update_points_sql = "UPDATE drivers SET points = points + ? WHERE id = ?";
+            $update_stmt = $conn->prepare($update_points_sql);
+            $update_stmt->bind_param("is", $points_to_restore, $driver_id);
+            $update_stmt->execute();
+            $update_stmt->close();
+        }
+        $points_stmt->close();
+        
         // Update the fine as discarded and add OIC action
         $sql = "UPDATE fines SET is_discarded = 1, oics_action = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);

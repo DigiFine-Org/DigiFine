@@ -77,7 +77,11 @@ $stmt->close();
                 <?php endforeach; ?>
                 
                 <?php if (empty($duties)): ?>
-                    <p>No duties assigned to you yet.</p>
+                    <div class="no-duty-container">
+                        <img src="../../../assets/note.png" alt="No duties illustration" class="no-duty-image">
+                        <h2>No Duties Assigned</h2>
+                        <p>You haven’t received any duties yet. Please check back later.</p>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
@@ -85,4 +89,3 @@ $stmt->close();
 </main>
 
 <?php include_once "../../../includes/footer.php"; ?>
- 

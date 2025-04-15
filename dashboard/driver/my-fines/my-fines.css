@@ -92,3 +92,29 @@
   display: flex;
   gap: 6px;
 }
+
+.no-fines-container {
+  width: 100%;
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  margin: 20px 0;
+}
+
+.no-fines-image {
+  max-width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.no-fines-container h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.no-fines-container p {
+  color: #666;
+  font-size: 16px;
+}
