@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Debugging: Check if the fine_id exists in the database
-    $check_sql = "SELECT id, evidence FROM fines WHERE id = ?";
+    $check_sql = "SELECT id,evidence FROM fines WHERE id = ?";
     $check_stmt = $conn->prepare($check_sql);
     $check_stmt->bind_param("i", $fine_id);
     $check_stmt->execute();

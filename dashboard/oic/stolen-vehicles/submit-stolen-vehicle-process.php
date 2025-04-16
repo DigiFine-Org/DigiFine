@@ -72,3 +72,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $conn->close();
 ?>
+
+
+.popupRis {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.popup-contentRis {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;zz
+    width: 300px;
+    text-align: center;
+}
+.popup-closeRis {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
