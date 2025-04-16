@@ -1,6 +1,6 @@
 <?php
 $pageConfig = [
-    'title' => 'Add Offence',
+    'title' => 'Edit Offence',
     'styles' => ["../../dashboard.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
@@ -13,12 +13,11 @@ if ($_SESSION['user']['role'] !== 'admin') {
     die("unauthorized user!");
 }
 
-
 $offence = null;
 if (isset($_GET['offence_number']) && is_numeric($_GET['offence_number'])) {
     $offence_number = $_GET['offence_number'];
 
-    $stmt = $conn->prepare("SELECT *FROM offences WHERE offence_number = ?");
+    $stmt = $conn->prepare("SELECT * FROM offences WHERE offence_number = ?");
     if($stmt) {
         $stmt->bind_param("i", $offence_number);
         $stmt->execute();
@@ -45,13 +44,13 @@ if(!$offence) {
             <div class="container">
                 <h1>Edit Offence</h1>
                 <form action="edit-offence-process.php" method="post">
-                ...<div class="field">
+                    <div class="field">
                         <label for="">Offence Number</label>
                         <input type="text" class="input" placeholder="001" name="offence_number" value="<?= htmlspecialchars($offence['offence_number']) ?>" readonly required>
                     </div>
                     <div class="field">
                         <label for="">Offence Description (Sinhala):</label>
-                        <input type="text" class="input" placeholder="හඳුනාගැනීමේ තහඩු" name="description_sinhala" value="<?= htmlspecialchars($offence['description_sinhala']) ?>"  required>
+                        <input type="text" class="input" placeholder="හඳුනාගැනීමේ තහඩු" name="description_sinhala" value="<?= htmlspecialchars($offence['description_sinhala']) ?>" required>
                     </div>
                     <div class="field">
                         <label for="">Offence Description (Tamil):</label>
@@ -63,11 +62,11 @@ if(!$offence) {
                     </div>
                     <div class="field">
                         <label for="">Points Deducted:</label>
-                        <input type="text" class="input" placeholder="4" name="points_deducted" value="<?= htmlspecialchars($offence['points_deducted']) ?>" required>
+                        <input type="text" class="input" placeholder="4" name="points_deducted" value="<?= htmlspecialchars($offence['points_deducted'] ?? '') ?>" required>
                     </div>
                     <div class="field">
                         <label for="">Fine Amount(RS):</label>
-                        <input type="text" class="input" placeholder="1000.00" name="fine" value="<?= htmlspecialchars($offence['fine']) ?>" required>
+                        <input type="text" class="input" placeholder="1000.00" name="fine_amount" value="<?= htmlspecialchars($offence['fine_amount'] ?? '') ?>" required>
                     </div>
                     <button class="btn">Update</button>
                 </form>
@@ -75,6 +74,5 @@ if(!$offence) {
         </div>
     </div>
 </main>
-
 
 <?php include_once "../../../includes/footer.php" ?>
