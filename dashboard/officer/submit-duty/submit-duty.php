@@ -61,7 +61,7 @@ if ($duty_submitted) {
 } elseif ($current_datetime < $duty_start_datetime) {
     $status_message = "You can not submit this duty until " . date('Y-m-d H:i:s', strtotime($duty_start_datetime));
     $status_class = "error-message";
-} elseif (($current_datetime < $duty_end_datetime)) {
+} elseif ($current_datetime > $duty_end_datetime) {  // FIXED: Changed < to > to correctly identify expired duties
     $status_message = "This duty has expired. The submission period ended on " . date('Y-m-d H:i:s', strtotime($duty_end_datetime));
     $status_class = "error-message";
 }
