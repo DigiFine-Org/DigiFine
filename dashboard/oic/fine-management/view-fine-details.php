@@ -23,7 +23,7 @@ $fine_id = intval($_GET['id']);
 // Ensure the fine belongs to the OIC's police station
 $sql = "
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, expire_date, 
-           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.fine_amount, f.is_reported, f.reported_description, 
+           f.offence_type,f.location, f.nature_of_offence, f.offence, f.fine_status, f.fine_amount, f.is_reported, f.reported_description, 
            f.evidence
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
@@ -87,6 +87,10 @@ $conn->close();
                     <p><?= htmlspecialchars($fine['nature_of_offence']) ?></p>
                 </div>
                 <div class="data-line">
+                    <span>Location:</span>
+                    <p><?= htmlspecialchars($fine['location']) ?></p>
+                </div>
+                <div class="data-line">
                     <span>Fine Status:</span>
                     <p><?= htmlspecialchars($fine['fine_status']) ?></p>
                 </div>
@@ -109,17 +113,15 @@ $conn->close();
                                 $evidence_path = "../../../" . $fine['evidence'];
                                 $file_extension = strtolower(pathinfo($evidence_path, PATHINFO_EXTENSION));
                                 if (in_array($file_extension, ['jpg', 'jpeg', 'png', 'gif'])): ?>
-                                    <img src="<?= htmlspecialchars($evidence_path) ?>" 
-                                         alt="Evidence Image" 
-                                         style="max-width: 500px; height: auto; margin-top: 10px; border: 1px solid #ddd; border-radius: 4px;"
-                                         onclick="window.open(this.src, '_blank')"
-                                    >
+                                    <img src="<?= htmlspecialchars($evidence_path) ?>"
+                                        alt="Evidence Image"
+                                        style="max-width: 500px; height: auto; margin-top: 10px; border: 1px solid #ddd; border-radius: 4px;"
+                                        onclick="window.open(this.src, '_blank')">
                                 <?php elseif ($file_extension === 'pdf'): ?>
                                     <div class="pdf-preview">
-                                        <a href="<?= htmlspecialchars($evidence_path) ?>" 
-                                           target="_blank" 
-                                           class="pdf-link"
-                                        >
+                                        <a href="<?= htmlspecialchars($evidence_path) ?>"
+                                            target="_blank"
+                                            class="pdf-link">
                                             View PDF Evidence
                                         </a>
                                     </div>
@@ -161,34 +163,34 @@ $conn->close();
 <?php include_once "../../../includes/footer.php"; ?>
 
 <style>
-.evidence-container {
-    margin: 10px 0;
-}
+    .evidence-container {
+        margin: 10px 0;
+    }
 
-.evidence-container img {
-    cursor: pointer;
-    transition: transform 0.2s;
-}
+    .evidence-container img {
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
 
-.evidence-container img:hover {
-    transform: scale(1.02);
-}
+    .evidence-container img:hover {
+        transform: scale(1.02);
+    }
 
-.pdf-preview {
-    margin: 10px 0;
-}
+    .pdf-preview {
+        margin: 10px 0;
+    }
 
-.pdf-link {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    color: #333;
-    text-decoration: none;
-}
+    .pdf-link {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        color: #333;
+        text-decoration: none;
+    }
 
-.pdf-link:hover {
-    background-color: #e0e0e0;
-}
+    .pdf-link:hover {
+        background-color: #e0e0e0;
+    }
 </style>
