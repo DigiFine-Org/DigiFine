@@ -99,19 +99,18 @@ $result_last = $stmt->get_result();
 
 $lastDutyHTML = "";
 
-if ($result_last->num_rows > 0) {
-    while ($row = $result_last->fetch_assoc()) {
-        $lastDutyHTML .= "<div class='duty_item' style='margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 10px;'>";
-        $lastDutyHTML .= "<p><strong>Duty: </strong>" . htmlspecialchars($row["duty"]) . "</p>";
-        $lastDutyHTML .= "<p><strong>Date: </strong>" . htmlspecialchars($row["duty_date"]) . "</p>";
-        $lastDutyHTML .= "<p><strong>Time: </strong>" . htmlspecialchars($row["duty_time_start"]) . "</p>";
-        $lastDutyHTML .= "</div>";
-    }
+if ($row = $result_last->fetch_assoc()) {
+    $lastDutyHTML .= "<div class='duty_item' style='margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 10px;'>";
+    $lastDutyHTML .= "<p><strong>Duty: </strong>" . htmlspecialchars($row["duty"]) . "</p>";
+    $lastDutyHTML .= "<p><strong>Date: </strong>" . htmlspecialchars($row["duty_date"]) . "</p>";
+    $lastDutyHTML .= "<p><strong>Time: </strong>" . htmlspecialchars($row["duty_time_start"]) . "</p>";
+    $lastDutyHTML .= "</div>";
 } else {
     $lastDutyHTML = "<p>No previous duties found.</p>";
 }
 
 $stmt->close();
+
 
 
 $sql = "SELECT * FROM fines 
@@ -193,6 +192,9 @@ $conn->close();
                             </div>
                         </div>
                     </div>
+                    <?php
+?>
+
                     <div class="tile1 tile-yellow">
                         <h2>Last Duty</h2>
                         <div id="last-duty">

@@ -111,7 +111,7 @@ $conn->close();
                                 if (in_array($file_extension, ['jpg', 'jpeg', 'png', 'gif'])): ?>
                                     <img src="<?= htmlspecialchars($evidence_path) ?>" 
                                          alt="Evidence Image" 
-                                         style="max-width: 500px; height: auto; margin-top: 10px; border: 1px solid #ddd; border-radius: 4px;"
+                                         style="max-width: 300px; height: auto; margin-top: 10px; border: 1px solid #ddd; border-radius: 4px;"
                                          onclick="window.open(this.src, '_blank')"
                                     >
                                 <?php elseif ($file_extension === 'pdf'): ?>
