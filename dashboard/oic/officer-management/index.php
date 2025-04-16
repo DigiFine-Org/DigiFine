@@ -67,7 +67,11 @@ $conn->close();
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container x-large no-border">
+                <div class="field">
                 <h1>Station Officers</h1>
+                </div>
+            </div>
+
                 <div class="table-container">
                     <table>
                         <thead>
@@ -97,7 +101,7 @@ $conn->close();
                         </tbody>
                     </table>
                 </div>
-            </div>
+            
         </div>
     </div>
 </main>

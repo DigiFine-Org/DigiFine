@@ -120,6 +120,9 @@ $stmt->close();
                     </tbody>
                 </table>
             </div>
+        
+        </div>
+    </div>
 </main>
 
 <?php include_once "../../../includes/footer.php"; ?>
