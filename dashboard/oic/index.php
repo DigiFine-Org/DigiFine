@@ -146,7 +146,9 @@ $sql = "SELECT
             po.id AS officer_id,
             CONCAT(po.fname, ' ', po.lname) AS officer_name,
             ad.duty,
-            ad.notes AS location
+            ad.notes AS location, 
+            ad.duty_time_start,
+            ad.duty_time_end
         FROM 
             assigned_duties ad
         JOIN  
@@ -238,6 +240,8 @@ $conn->close();
                                 <th>officer name</th>
                                 <th>duty</th>
                                 <th>location</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -248,6 +252,8 @@ $conn->close();
                                         <td><?= htmlspecialchars($duty['officer_name']) ?></td>
                                         <td><?= htmlspecialchars($duty['duty']) ?></td>
                                         <td><?= htmlspecialchars($duty['location']) ?></td>
+                                        <td><?= htmlspecialchars($duty['duty_time_start']) ?></td>
+                                        <td><?= htmlspecialchars($duty['duty_time_end']) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
