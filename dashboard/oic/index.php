@@ -99,7 +99,7 @@ $stmt->bind_param("i", $police_station_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
-$officerCount = $row ? $row['officer_count'] :0; // Assign count to a variable
+$officerCount = $row ? $row['officer_count'] : 0; // Assign count to a variable
 $stmt->close();
 
 
@@ -135,7 +135,38 @@ $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $seizedVehicleCount = $row ? $row['seized_vehicle_count'] : 0;
 $stmt->close();
- $conn->close();
+
+
+
+//GET POLICE OFFICERS TODAY DUTIES
+// Fetch today's duties assigned by this OIC
+$today = date('Y-m-d');
+
+$sql = "SELECT 
+            po.id AS officer_id,
+            CONCAT(po.fname, ' ', po.lname) AS officer_name,
+            ad.duty,
+            ad.notes AS location
+        FROM 
+            assigned_duties ad
+        JOIN git 
+            officers po ON ad.police_id = po.id
+        WHERE 
+            ad.assigned_by = ? AND ad.duty_date = ?";
+
+$stmt_duties = $conn->prepare($sql);
+if (!$stmt_duties) {
+    die("Failed to prepare duties query: " . $conn->error);
+}
+
+$stmt_duties->bind_param("is", $oicId, $today);
+$stmt_duties->execute();
+$result_duties = $stmt_duties->get_result();
+$dutiesToday = $result_duties->fetch_all(MYSQLI_ASSOC);
+$stmt_duties->close();
+
+
+$conn->close();
 ?>
 
 <main>
@@ -150,24 +181,24 @@ $stmt->close();
                 <p>Police Station ID: <?= htmlspecialchars($oic['police_station']) ?></p>
             </div>
             <div class="insights-bar" style="margin-bottom:20px">
-                        <div class="inner-tile">
-                <div class="icon" style="background-color: #FFEFB4;">
-                    <!-- <img src="driver-icon.svg" alt="Driver Icon"> -->
-                </div>
-                <div class="info">
-                    <?php renderLink("Station Officers", "/digifine/dashboard/oic/officer-management/index.php"); ?>
-                    <h3><?php echo htmlspecialchars($officerCount, ENT_QUOTES, 'UTF-8'); ?></h3>
+                <div class="inner-tile">
+                    <div class="icon" style="background-color: #FFEFB4;">
+                        <!-- <img src="driver-icon.svg" alt="Driver Icon"> -->
+                    </div>
+                    <div class="info">
+                        <?php renderLink("Station Officers", "/digifine/dashboard/oic/officer-management/index.php"); ?>
+                        <h3><?php echo htmlspecialchars($officerCount, ENT_QUOTES, 'UTF-8'); ?></h3>
 
+                    </div>
                 </div>
-            </div>
 
                 <div class="inner-tile">
                     <div class="icon" style="background-color: #CDE4FF;">
                         <!-- <img src="officer-icon.svg" alt="Officer Icon"> -->
                     </div>
                     <div class="info">
-                    <?php renderLink("Court-violations", "/digifine/dashboard/oic/court-violations/index.php") ?>
-                    <h3><?php echo htmlspecialchars($courtFineCount, ENT_QUOTES, 'UTF-8'); ?></h3>
+                        <?php renderLink("Court-violations", "/digifine/dashboard/oic/court-violations/index.php") ?>
+                        <h3><?php echo htmlspecialchars($courtFineCount, ENT_QUOTES, 'UTF-8'); ?></h3>
 
 
                     </div>
@@ -177,8 +208,8 @@ $stmt->close();
                         <!-- <img src="report-icon.svg" alt="Report Icon"> -->
                     </div>
                     <div class="info">
-                    <?php renderLink("Reported Fines", "/digifine/dashboard/oic/reported-fines/index.php") ?>
-                    <h3><?php echo htmlspecialchars($reportFineCount, ENT_QUOTES, 'UTF-8'); ?></h3>
+                        <?php renderLink("Reported Fines", "/digifine/dashboard/oic/reported-fines/index.php") ?>
+                        <h3><?php echo htmlspecialchars($reportFineCount, ENT_QUOTES, 'UTF-8'); ?></h3>
 
 
 
@@ -189,8 +220,8 @@ $stmt->close();
                         <!-- <img src="fines-icon.svg" alt="Fines Icon"> -->
                     </div>
                     <div class="info">
-                    <?php renderLink("Seized Vehicles", "/digifine/dashboard/oic/seized_vehicle/index.php") ?>
-                    <h3><?php echo htmlspecialchars($seizedVehicleCount, ENT_QUOTES, 'UTF-8'); ?></h3>
+                        <?php renderLink("Seized Vehicles", "/digifine/dashboard/oic/seized_vehicle/index.php") ?>
+                        <h3><?php echo htmlspecialchars($seizedVehicleCount, ENT_QUOTES, 'UTF-8'); ?></h3>
 
 
                     </div>
@@ -210,30 +241,20 @@ $stmt->close();
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>15364</td>
-                                <td>Pubuditha Walgampaya</td>
-                                <td>Cross Line Handling</td>
-                                <td>Kada Panaha Junction</td>
-                            </tr>
-                            <tr>
-                                <td>12675</td>
-                                <td>Wendt Edmund</td>
-                                <td>Traffic Control</td>
-                                <td>Abhayagiri Stupa Area</td>
-                            </tr>
-                            <tr>
-                                <td>14567</td>
-                                <td>Thihansa Sanjunie</td>
-                                <td>Event Security</td>
-                                <td>Sea Line</td>
-                            </tr>
-                            <tr>
-                                <td>18934</td>
-                                <td>John Manuel</td>
-                                <td>VIP Escort</td>
-                                <td>Election Meeting</td>
-                            </tr>
+                            <?php if (!empty($dutiesToday)): ?>
+                                <?php foreach ($dutiesToday as $duty): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($duty['officer_id']) ?></td>
+                                        <td><?= htmlspecialchars($duty['officer_name']) ?></td>
+                                        <td><?= htmlspecialchars($duty['duty']) ?></td>
+                                        <td><?= htmlspecialchars($duty['location']) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="4" style="text-align:center;">No duties assigned today.</td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -276,8 +297,10 @@ $stmt->close();
                 <form action="add-location-process.php" method="post">
                     <div class="field">
                         <label for="location_name">Location</label>
-                        <input type="text" class="input" placeholder="Enter location name" name="location_name" required>
-                        <input type="hidden" name="police_station_id" value="<?= htmlspecialchars($oic['police_station']) ?>">
+                        <input type="text" class="input" placeholder="Enter location name" name="location_name"
+                            required>
+                        <input type="hidden" name="police_station_id"
+                            value="<?= htmlspecialchars($oic['police_station']) ?>">
 
                     </div>
                     <button class="btn" type="submit">Add</button>
