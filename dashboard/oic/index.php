@@ -139,7 +139,7 @@ $stmt->close();
 
 
 //GET POLICE OFFICERS TODAY DUTIES
-// Fetch today's duties assigned by this OIC
+
 $today = date('Y-m-d');
 
 $sql = "SELECT 
