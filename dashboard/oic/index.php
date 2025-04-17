@@ -149,7 +149,7 @@ $sql = "SELECT
             ad.notes AS location
         FROM 
             assigned_duties ad
-        JOIN git 
+        JOIN  
             officers po ON ad.police_id = po.id
         WHERE 
             ad.assigned_by = ? AND ad.duty_date = ?";
