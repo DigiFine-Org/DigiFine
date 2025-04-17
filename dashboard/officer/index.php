@@ -130,6 +130,64 @@ while ($row = $result->fetch_assoc()) {
 }
 
 $stmt->close();
+
+
+
+//SELECT TOTAL FINES ISSUED BY OFFICER
+$sql_total_fines = "SELECT COUNT(*) as total_fines FROM fines WHERE police_id = ?";
+$stmt = $conn->prepare($sql_total_fines);
+$stmt->bind_param("i", $policeId);
+$stmt->execute();
+$result_total = $stmt->get_result();
+$totalFines = 0;
+
+if ($row = $result_total->fetch_assoc()) {
+    $totalFines = $row['total_fines'];
+}
+
+$stmt->close();
+
+//SELECT DUTY SUBMISSIONS DONE BY OFFICER
+$sql_total_duty_submissions = "SELECT COUNT(*) as total_duty_submissions FROM duty_submissions WHERE police_id = ?";
+$stmt = $conn->prepare($sql_total_duty_submissions);
+$stmt->bind_param("i", $policeId);
+$stmt->execute();
+$result_duty_submissions = $stmt->get_result();
+$totalDutySubmissions = 0;
+
+if ($row = $result_duty_submissions->fetch_assoc()) {
+    $totalDutySubmissions = $row['total_duty_submissions'];
+}
+
+$stmt->close();
+
+// SELECT REPORTED FINES ISSUED BY OFFICER
+$sql_reported_fines = "SELECT COUNT(*) as reported_fines FROM fines WHERE police_id = ? AND is_reported = 1";
+$stmt = $conn->prepare($sql_reported_fines);
+$stmt->bind_param("i", $policeId);
+$stmt->execute();
+$result_reported = $stmt->get_result();
+$reportedFines = 0;
+
+if ($row = $result_reported->fetch_assoc()) {
+    $reportedFines = $row['reported_fines'];
+}
+
+$stmt->close();
+
+// SELECT UPCOMING UNSUBMITTED DUTY ASSIGNMENTS
+$sql_pending_duties = "SELECT COUNT(*) as pending_duties FROM assigned_duties WHERE police_id = ? AND submitted = 0";
+$stmt = $conn->prepare($sql_pending_duties);
+$stmt->bind_param("i", $policeId);
+$stmt->execute();
+$result_pending_duties = $stmt->get_result();
+$pendingDuties = 0;
+
+if ($row = $result_pending_duties->fetch_assoc()) {
+    $pendingDuties = $row['pending_duties'];
+}
+
+
 $conn->close();
 ?>
 
@@ -150,7 +208,7 @@ $conn->close();
                     </div>
                     <div class="info">
                         <p>Duty Submissions</p>
-                        <h3>248</h3>
+                        <h3><?= $totalDutySubmissions ?></h3>
                     </div>
                 </div>
                 <div class="inner-tile">
@@ -159,7 +217,7 @@ $conn->close();
                     </div>
                     <div class="info">
                         <p>Fines Issued</p>
-                        <h3>56</h3>
+                        <h3><?= $totalFines ?></h3>
                     </div>
                 </div>
                 <div class="inner-tile">
@@ -168,7 +226,7 @@ $conn->close();
                     </div>
                     <div class="info">
                         <p>Reported Fines</p>
-                        <h3>15</h3>
+                        <h3><?= $reportedFines ?></h3>
                     </div>
                 </div>
                 <div class="inner-tile">
@@ -177,7 +235,7 @@ $conn->close();
                     </div>
                     <div class="info">
                         <p>Duty Assignments</p>
-                        <h3>3</h3>
+                        <h3><?= $pendingDuties ?></h3>
                     </div>
                 </div>
             </div>
@@ -223,7 +281,7 @@ $conn->close();
                             <tbody>
                                 <?php if (empty($fines)): ?>
                                     <tr>
-                                        <td colspan="7">No fines for the last week qwdnsc</td>
+                                        <td colspan="7">No fines for the last week </td>
                                     </tr>
 
                                 <?php else: ?>
