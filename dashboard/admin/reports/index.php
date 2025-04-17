@@ -31,11 +31,18 @@ if ($_SESSION['user']['role'] !== 'admin') {
 
 
                 <div class="filter-field">
-                    <a href="officer-reports/issued-fines/index.php" class="btn">analyze by officer</a>
+                    <a href="all-fines/issued-fines/index.php" class="btn">analyze all fines</a>
+                </div>
+                <div class="filter-field">
+                    <a href="officer-reports/issued-fines/index.php" class="btn">analyze by location</a>
                 </div>
                 <br>
                 <div class="filter-field">
-                    <a href="officer-reports/reported/index.php" class="btn">analyze by location</a>
+                    <a href="officer-reports/issued-reported/index.php" class="btn">analyze by officer</a>
                 </div>
+                <div class="filter-field">
+                    <a href="all-fines\fine-status\index.php" class="btn">analyze by fine status</a>
+                </div>
+
 
 </body>

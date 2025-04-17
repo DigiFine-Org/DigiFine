@@ -2,7 +2,7 @@
 $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../../../dashboard.css", "../../reports.css"],
-    'scripts' => ["./reported-fine-chart.js"],
+    'scripts' => ["./chart.js", "analytics.js"],
     'authRequired' => true
 ];
 
@@ -16,7 +16,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
 
 if ($_SESSION['message'] ?? null) {
     if ($_SESSION['message'] === 'success') {
-        $message = "E-Ticket generated successfully!";
+        $message = "Chart generated successfully!";
         unset($_SESSION['message']);
         include '../../../../../includes/alerts/success.php';
     } else {
@@ -38,17 +38,12 @@ if ($_SESSION['message'] ?? null) {
 
             <!-- Main Content -->
             <div class="content">
-                <h1>Fines Issued Per Officer</h1>
-                <p class="description">View and analyze fines issued by officers over different time periods.</p>
+                <h1>Status of All Fines Issued</h1>
+                <p class="description">View and analyze status of fines over different time periods.</p>
 
                 <div class="table-container">
                     <!-- Input Section -->
                     <div class="filter-form-grid">
-                        <div class="filter-field">
-                            <label for="officerId">Officer ID:</label>
-                            <input type="text" id="officerId" placeholder="Enter Officer ID" required>
-                        </div>
-
                         <div class="filter-field">
                             <label for="timePeriod">Time Period:</label>
                             <select id="timePeriod">
@@ -75,6 +70,9 @@ if ($_SESSION['message'] ?? null) {
                         <canvas id="fineChart" width="800" height="400"></canvas>
                     </div>
                 </div>
+
+                <div class="fine-summary mt-4" id="fineSummary"></div>
+
             </div>
     </main>
 
