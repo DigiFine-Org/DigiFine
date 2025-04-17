@@ -13,6 +13,61 @@ if ($_SESSION['user']['role'] !== 'admin') {
     die("unauthorized user!");
 }
 
+// SELECT TOTAL DRIVERS
+$sql_total_drivers = "SELECT COUNT(*) as total_drivers FROM drivers ";
+$stmt = $conn->prepare($sql_total_drivers);
+$stmt->execute();
+$result_drivers = $stmt->get_result();
+
+$totalDrivers = 0;
+if ($row = $result_drivers->fetch_assoc()) {
+    $totalDrivers = $row['total_drivers'];
+}
+
+$stmt->close();
+
+// SELECT TOTAL POLICE OFFICERS
+$sql_total_officers = "SELECT COUNT(*) as total_officers FROM officers ";
+$stmt = $conn->prepare($sql_total_officers);
+$stmt->execute();
+$result_officers = $stmt->get_result();
+
+$totalOfficers = 0;
+if ($row = $result_officers->fetch_assoc()) {
+    $totalOfficers = $row['total_officers'];
+}
+
+$stmt->close();
+
+// SELECT TOTAL STOLEN VEHICLES
+$sql_total_stolen_vehicles = "SELECT COUNT(*) as total_stolen_vehicles FROM stolen_vehicles ";
+$stmt = $conn->prepare($sql_total_stolen_vehicles);
+$stmt->execute();
+$result_stolen_vehicles = $stmt->get_result();
+
+$totalStolenVehicles = 0;
+if ($row = $result_stolen_vehicles->fetch_assoc()) {
+    $totalStolenVehicles = $row['total_stolen_vehicles'];
+}
+
+$stmt->close();
+
+
+// SELECT TOTAL FINES
+
+$sql_total_fine_amount = "SELECT SUM(fine_amount) as total_fine_amount FROM fines WHERE is_discarded = 0";
+$stmt = $conn->prepare($sql_total_fine_amount);
+$stmt->execute();
+$result_fine_amount = $stmt->get_result();
+
+$totalFineAmount = 0;
+if ($row = $result_fine_amount->fetch_assoc()) {
+    $totalFineAmount = $row['total_fine_amount'] ?? 0;
+}
+
+$stmt->close();
+
+
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -32,7 +87,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
                     </div>
                     <div class="info">
                         <p>Drivers</p>
-                        <h3>5484</h3>
+                        <h3><?= $totalDrivers ?></h3>
                     </div>
                 </div>
                 <div class="inner-tile">
@@ -41,7 +96,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
                     </div>
                     <div class="info">
                         <p>Police Officers</p>
-                        <h3>2489</h3>
+                        <h3><?= $totalOfficers ?></h3>
                     </div>
                 </div>
                 <div class="inner-tile">
@@ -50,7 +105,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
                     </div>
                     <div class="info">
                         <p>Stolen Vehicles</p>
-                        <h3>15</h3>
+                        <h3><?= $totalStolenVehicles ?></h3>
                     </div>
                 </div>
                 <div class="inner-tile">
@@ -59,7 +114,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
                     </div>
                     <div class="info">
                         <p>Total Fines</p>
-                        <h3>Rs 164,920</h3>
+                        <h3>Rs <?= number_format($totalFineAmount, 2) ?></h3>
                     </div>
                 </div>
             </div>
