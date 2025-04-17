@@ -1,7 +1,7 @@
 <body>
     <header class="overlay-header">
         <div class="header-container">
-            <img src="../assets/logo-white.svg" alt="Logo" class="logo">
+            <a href="/digifine/landingPage/index.php"><img src="../assets/logo-white.svg" alt="Logo" class="logo"></a>
             <button class="hamburger" aria-label="Toggle navigation">&#9776;</button>
             <nav>
                 <ul class="nav-links">
