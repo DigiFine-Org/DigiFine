@@ -1,6 +1,6 @@
 <?php
 $pageConfig = [
-    'title' => 'Tips for Drivers',
+    'title' => 'Driving Tips For Sri Lankan Roads',
     'styles' => ["../../dashboard.css", "./driver-dashboard.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
@@ -8,7 +8,6 @@ $pageConfig = [
 
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
-
 
 if ($_SESSION['user']['role'] !== 'driver') {
     die("unauthorized user!");
@@ -26,132 +25,282 @@ if (!$driverId) {
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
-            <div class="container large">
-                <h2 style="margin-bottom:12px;">15 driving test tips to help you pass first time</h2>
-                <img src="../../../assets/dr1.jpg" alt="">
-                <div>
-                    <h3>Ease those learning to drive nerves with our top tips to help you pass your driving test first
-                        time.</h3>
-                    <p>
-                        <span>Each year, there are around 1.6 million driving tests in England, Scotland and Wales; yet,
-                            according to official statistics, more than half of all learners will fail. <br></span>
-                        <br><span style="margin-bottom: 8px;">You can avoid becoming part of this statistic by ensuring
-                            you are as prepared as you can possibly be for the practical test. <br></span>
-                        <br>That's why we have put together the top 15 expert driving test tips to help you pass on the
-                        big day.
-                    </p>
-                    <br>
-                    <h3>How to pass your driving test quickly</h3>
-                    <h4>1. Be on time</h4>
-                    <p>
-                        It's an obvious one to start with but turning up in good time for your test will start you off
-                        on the right foot. <br><br>
-                        Arriving late puts you at risk of missing it entirely, while rushing to get there in time will
-                        leave you feeling flustered, even if you do make it. <br><br>
-                        Arrive at your test centre 10-20 minutes beforehand so you have long enough to prepare, but
-                        won’t be waiting around too long. <br><br>
-                        Ensuring you get a good night’s sleep is also important to avoid unnecessary stress or anxiety.
-                    </p>
-                    <br>
-                    <h4>2. Have a lesson beforehand</h4>
-                    <p>
-                        We’d also recommend fitting in a driving lesson on the day of your test if possible – that way
-                        you can go over any manoeuvres or ask for clarification on last-minute questions you may have.
-                        <br><br>
-                        A lesson beforehand will help calm your nerves and put you in the right frame of mind for
-                        driving, especially if you have been receiving two-hour lessons in the weeks building up to your
-                        test, which we'd also recommend. <br>
-                    </p>
-                    <br>
-                    <ul>
-                        <li>Road crossings - do you know your pelicans from your toucans?</li>
-                        <li>Young drivers warned over fake insurance policies</li>
-                        <li>Did you know that we offer specialist learner driver insurance?</li>
-                    </ul>
-                    <br>
-                    <h4>3. Check you have everything you need</h4>
-                    <p>
-                        Thousands of driving tests each year don’t go ahead because the candidate fails to turn up with
-                        everything needed on the day. <br><br>
-                        Make sure you have all the required documents and that your car is properly equipped and up to
-                        the test standard. <br><br>
-                        You can double check what you need to take with the RAC's how to pass your driving test guide.
-                        <br><br>
-                    </p>
-                    <br><br>
-                    <h4>4. Use your instructor’s car</h4>
-                    <p>
-                        Being in a car you know well and feel comfortable in can maximise the chances of passing your
-                        driving test first time. <br><br>
-                        Not only will it definitely be up to the examiners’ standard (there are certain requirements
-                        like having additional mirrors that test cars have to meet) but you’ll also have an advantage
-                        when it comes to the ‘Show Me, Tell Me’ section of the test – knowing precisely where and how to
-                        activate controls such as the air-con or fog lights, for example. <br><br>
-                        Ask your instructor to talk you through the mechanics of the car as many times as you need. This
-                        will help you to sail through the beginning part of your test, so you can start it off feeling
-                        confident before you’ve even got out on the road.
-                    </p>
-                    <br>
-                    <h4>5. Take your instructor along for reassurance</h4>
-                    <p>
-                        It’s by no means compulsory to take anyone along with you but be aware you have the option to
-                        take your instructor in the car for the duration of the test. It may put you at ease and help
-                        you to feel more comfortable. <br><br>
-                        They’ll also provide another pair of eyes – so if you do happen to fail, they’ll have additional
-                        constructive feedback. In fact, you can take anyone you want along for reassurance, providing
-                        they are over 16. <br>
-                    </p>
-                    <br>
-                    <h4>6. Ask your examiner to repeat, if you need</h4>
-                    <p>
-                        If you don’t hear an instruction properly during your test, stay calm and just ask the examiner
-                        to repeat it. Panicking will only cause you to lose focus and slip up. <br>
-                    </p>
-                    <br>
-                    <h4>7. Don’t assume you’ve failed</h4>
-                    <p>
-                        One of the most important tips to pass your driving test is to never assume you've already
-                        failed. If you do make a mistake, remember you’re allowed up to 15 minors during your test so
-                        try not to dwell on them and always assume you’re still going to pass. <br><br>
-                        Don’t let minor mistakes play on your mind, or you run the risk of making even more. <br>
-                    </p>
-                    <br>
-                    <h4>8. Choose where you want to take your test</h4>
-                    <!-- <img src="../../../assets/dr2.jpg" alt="" style="width:auto;"> -->
-                    <p>
-                        It’s natural that driving test centres located in congested areas with lots of complicated
-                        roundabouts have lower pass rates than those in rural areas with nothing but a few tractors and
-                        stray livestock to worry about. <br><br>
-                        While taking your test on the Isle of Mull - where there’s a pass rate of more than 90% - is
-                        unreasonable for most of us, compare the test pass rates of your local test centres. <br><br>
-                        It’s not cheating to take your test somewhere with a higher pass rate - but do ask yourself
-                        whether doing so will properly prepare you for driving after taking the test. <br>
-                    </p>
-                    <br>
-                    <h4>9. Get to know your test routes</h4>
-                    <p>
-                        Once you’ve selected your test centre, you can always get to know the area and test routes
-                        beforehand. <br><br>
-                        Make sure you’ve practiced on a variety of roads. A mixture of major and minor roads, country
-                        lanes and dual carriageways is important if you want to avoid any nasty surprises on test day.
-                        <br>
-                    </p>
-                    <br>
-                    <h4>10. Exaggerate those mirror checks</h4>
-                    <!-- <img src="../../../assets/dr3.jpg" alt=""> -->
-
-                    <p>
-                        One of the biggest causes of minor faults for many learner drivers in their test is a lack of
-                        observation. <br><br>
-                        Check your mirrors regularly - especially when setting off, approaching hazards, changing road
-                        position and changing gears. Move your head when checking your mirrors and your examiner is less
-                        likely to give you a minor fault than if you give the mirror a quick glance. <br>
-                    </p>
+                <h2 class="page-title">12 Essential Driving Tips for Sri Lankan Roads</h2>
+                <p class="page-subtitle">Master the unique challenges of driving in Sri Lanka with our expert advice</p>
+                
+                <div class="intro-box">
+                    <h3>Driving in Sri Lanka: What You Need to Know</h3>
+                    <p>Sri Lanka presents unique driving challenges with its bustling urban centers, narrow rural roads, and diverse traffic conditions. According to the Sri Lanka Transport Board, over 200,000 new drivers join our roads each year, but many struggle to adapt to real-world driving conditions.</p>
+                    <p>These expert tips will help you navigate Sri Lankan roads safely and confidently, whether you're a new driver or looking to improve your skills.</p>
                 </div>
-            </div>
+                
+                <!-- First row of tips - 4 cards -->
+                <div class="tips-row">
+                    <!-- Tip 1 -->
+                    <div class="card">
+                        <div class="card-badge">1</div>
+                        <div class="card-content">
+                            <h4>Master Sri Lanka's Roundabout Rules</h4>
+                            <p>Sri Lankan roundabouts can be challenging for new drivers. Always give way to vehicles already in the roundabout and signal your intentions clearly. In Colombo's busy roundabouts like Lipton Circus or Bambalapitiya Junction, be extra vigilant and maintain proper lane discipline.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tip 2 -->
+                    <div class="card">
+                        <div class="card-badge">2</div>
+                        <div class="card-content">
+                            <h4>Prepare for Monsoon Driving</h4>
+                            <p>Sri Lanka's monsoon seasons bring heavy rainfall that creates hazardous driving conditions. Ensure your vehicle has good quality tires with sufficient tread depth, functioning windshield wipers, and working headlights. Reduce your speed during heavy rain and avoid driving through flooded areas, particularly in low-lying regions of Colombo and coastal areas.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tip 3 -->
+                    <div class="card">
+                        <div class="card-badge">3</div>
+                        <div class="card-content">
+                            <h4>Navigate Urban Traffic Effectively</h4>
+                            <p>In busy cities like Colombo, Kandy, and Galle, traffic congestion is common during peak hours. Plan your journeys to avoid rush hours (7:30-9:30 AM and 4:30-7:00 PM). Use navigation apps like PickMe or Google Maps that provide real-time traffic updates specific to Sri Lankan roads.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tip 4 -->
+                    <div class="card">
+                        <div class="card-badge">4</div>
+                        <div class="card-content">
+                            <h4>Be Cautious on Mountain Roads</h4>
+                            <p>When driving in hill country areas like Nuwara Eliya, Ella, or Haputale, be prepared for narrow, winding roads with limited visibility. Use your horn gently when approaching blind corners, maintain a lower gear when descending steep roads, and be aware of potential landslides during rainy seasons.</p>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="section-divider">
+                    <h3>Safe Driving Practices</h3>
+                    <p>Following these essential practices will help you navigate both urban and rural roads with confidence.</p>
+                </div>
+                
+                <!-- Second row of tips - 4 cards -->
+                <div class="tips-row">
+                    <!-- Tip 5 -->
+                    <div class="card">
+                        <div class="card-badge">5</div>
+                        <div class="card-content">
+                            <h4>Understand Local Driving Etiquette</h4>
+                            <p>Sri Lankan drivers often use headlight flashes and horn signals to communicate. A quick flash may indicate "I'm letting you go" or "I'm coming through" depending on context. Learn these unwritten rules to better integrate with local traffic flow and reduce stress while driving.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tip 6 -->
+                    <div class="card">
+                        <div class="card-badge">6</div>
+                        <div class="card-content">
+                            <h4>Know Your Documents</h4>
+                            <p>Always carry your valid Sri Lankan driving license, vehicle registration book (revenue license), insurance certificate, and emission test certificate. Police checkpoints are common, especially on weekends and holidays, and failure to produce these documents can result in fines.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tip 7 -->
+                    <div class="card">
+                        <div class="card-badge">7</div>
+                        <div class="card-content">
+                            <h4>Be Mindful of Three-wheelers and Motorcycles</h4>
+                            <p>Three-wheelers (tuk-tuks) and motorcycles make up a significant portion of Sri Lankan traffic and often maneuver unpredictably. Always check your blind spots, especially when changing lanes or turning at intersections in urban areas.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tip 8 -->
+                    <div class="card">
+                        <div class="card-badge">8</div>
+                        <div class="card-content">
+                            <h4>Navigate Highway Driving</h4>
+                            <p>Sri Lanka's expressways (E01, E02, E03, E04) have specific rules including strict speed limits (100 km/h for cars, 70 km/h for vans and small trucks). Always keep to the left except when overtaking, and be aware that stopping on expressways is prohibited except in emergencies.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-divider">
+                    <h3>Special Considerations</h3>
+                    <p>These additional tips will help you handle unique situations on Sri Lankan roads.</p>
+                </div>
+                
+                <!-- Third row of tips - 4 cards -->
+                <div class="tips-row">
+                    <!-- Tip 9 -->
+                    <div class="card">
+                        <div class="card-badge">9</div>
+                        <div class="card-content">
+                            <h4>Watch for Wildlife</h4>
+                            <p>When driving through areas near national parks or wildlife sanctuaries (Yala, Udawalawe, Wilpattu), be alert for animals crossing the road, especially during dawn and dusk. Elephants, monkeys, and wild boar can suddenly appear on rural roads.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tip 10 -->
+                    <div class="card">
+                        <div class="card-badge">10</div>
+                        <div class="card-content">
+                            <h4>Follow Fuel-Efficient Driving Practices</h4>
+                            <p>With fluctuating fuel prices in Sri Lanka, adopt fuel-efficient driving habits such as maintaining steady speeds, avoiding aggressive acceleration, and proper tire inflation. This is particularly important when planning long journeys along the coastal routes or to the central highlands.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tip 11 -->
+                    <div class="card">
+                        <div class="card-badge">11</div>
+                        <div class="card-content">
+                            <h4>Know Emergency Numbers</h4>
+                            <p>Save important emergency contacts: Police Emergency - 119, Ambulance Service - 110, Breakdown assistance from Automobile Association - 112. In case of accidents, contact the nearest police station immediately and take photographs of the scene for insurance purposes.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tip 12 -->
+                    <div class="card">
+                        <div class="card-badge">12</div>
+                        <div class="card-content">
+                            <h4>Understand Parking Regulations</h4>
+                            <p>In major cities, particularly Colombo, parking is regulated with designated zones and payment requirements. Watch for "no parking" signs and be aware that some areas implement a park-and-ride system. Using registered parking facilities can help avoid fines or vehicle clamping.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="final-note">
+                    <h3>Stay Safe on Sri Lankan Roads</h3>
+                    <p>Remember that defensive driving is key to navigating Sri Lanka's diverse road conditions. Always prioritize safety over speed, and be respectful of all road users.</p>
+                    <p>For more detailed driving guides and resources, visit the Driver Resources section in your dashboard.</p>
+                </div>
         </div>
     </div>
 </main>
+
+<style>
+/* Essential styling for the tips page */
+.page-title {
+    color: var(--color-dark-blue);
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.page-subtitle {
+    color: #555;
+    margin-bottom: 30px;
+    text-align: center;
+    font-style: italic;
+}
+
+.intro-box {
+    background-color: #f0f8ff;
+    border-left: 5px solid var(--color-light-blue);
+    padding: 20px;
+    margin-bottom: 40px;
+    border-radius: 5px;
+}
+
+.intro-box h3 {
+    color: var(--color-dark-blue);
+    margin-bottom: 15px;
+}
+
+.intro-box p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+/* New row-based layout with 4 cards per row */
+.tips-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 4px solid var(--color-light-blue);
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.card-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: var(--color-light-blue);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.card-content {
+    padding: 20px;
+    padding-top: 35px;
+}
+
+.card-content h4 {
+    color: var(--color-dark-blue);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.card-content p {
+    color: #444;
+    line-height: 1.5;
+}
+
+/* Section dividers for better organization */
+.section-divider {
+    margin: 30px 0;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.section-divider h3 {
+    color: var(--color-dark-blue);
+    margin-bottom: 10px;
+}
+
+.final-note {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.final-note h3 {
+    color: var(--color-dark-blue);
+    margin-bottom: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .tips-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .tips-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+}
+</style>
 
 <?php include_once "../../../includes/footer.php" ?>
