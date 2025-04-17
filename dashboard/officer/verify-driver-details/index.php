@@ -14,16 +14,25 @@ if ($_SESSION['user']['role'] !== 'officer') {
 }
 
 $result = null;
-$id = $_GET['query'] ?? null;
-if ($id) {
-    $sql = "SELECT * FROM dmt_drivers WHERE license_id=?";
+$searchId = $_GET['query'] ?? null;
+$searchType = $_GET['search_type'] ?? 'license';
+
+if ($searchId) {
+    // Determine which field to search based on search type
+    if ($searchType === 'license') {
+        $searchField = "license_id";
+    } else {
+        $searchField = "nic";
+    }
+    
+    $sql = "SELECT * FROM dmt_drivers WHERE $searchField=?";
     $stmt = $conn->prepare($sql);
 
     if (!$stmt) {
         die("Database error: " . $conn->error);
     }
 
-    $stmt->bind_param("s", $id);
+    $stmt->bind_param("s", $searchId);
 
     if (!$stmt->execute()) {
         die("Query execution error: " . $stmt->error);
@@ -57,8 +66,19 @@ if ($id) {
                 <?php endif; ?>
                 <?php if (!$result): ?>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-                        <input name="query" required type="search" class="input"
-                            placeholder="Enter Driver License ID (B1234567)">
+                        <div style="margin-bottom: 15px;">
+                            <label>Search By:</label>
+                            <div style="display: flex; gap: 15px; margin-top: 5px;">
+                                <label>
+                                    <input type="radio" name="search_type" value="license" checked> Driver License ID
+                                </label>
+                                <label>
+                                    <input type="radio" name="search_type" value="nic"> NIC
+                                </label>
+                            </div>
+                        </div>
+                        <input name="query" required type="search" class="input" 
+                               placeholder="Enter Driver License ID (B1234567) or NIC Number">
                         <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>
@@ -196,7 +216,7 @@ if ($id) {
                             </tbody>
                         </table>
                         <br>
-                        <a href="../generate-e-ticket/index.php?id=<?= $id ?>&nic=<?= $result['nic'] ?>" class="btn margintop">Issue Fine</a>
+                        <a href="../generate-e-ticket/index.php?id=<?= $result['license_id'] ?>&nic=<?= $result['nic'] ?>" class="btn margintop">Issue Fine</a>
                     </div>
                 <?php endif ?>
             </div>

@@ -1,1 +1,2 @@
 Error inserting officer: Duplicate entry '15256' for key 'PRIMARY'
+Error inserting officer: Duplicate entry 'imazja22@gmail.com' for key 'unique_email'
