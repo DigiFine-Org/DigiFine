@@ -38,7 +38,7 @@ $query = "
            f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
-    WHERE o.police_station = ? AND f.is_reported = 1 AND f.is_discarded = 0
+    WHERE o.police_station = ? AND f.is_reported = 1 AND f.is_discarded = 0 AND f.is_fair=1
     ORDER BY f.issued_date DESC, f.issued_time DESC
 ";
 
