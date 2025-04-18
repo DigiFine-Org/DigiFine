@@ -34,7 +34,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
                     <a href="all-fines/issued-fines/index.php" class="btn">analyze all fines</a>
                 </div>
                 <div class="filter-field">
-                    <a href="officer-reports/issued-fines/index.php" class="btn">analyze by location</a>
+                    <a href="location-reports\issued-place\index.php" class="btn">analyze by location</a>
                 </div>
                 <br>
                 <div class="filter-field">
@@ -42,6 +42,9 @@ if ($_SESSION['user']['role'] !== 'admin') {
                 </div>
                 <div class="filter-field">
                     <a href="all-fines\fine-status\index.php" class="btn">analyze by fine status</a>
+                </div>
+                <div class="filter-field">
+                    <a href="location-reports/issued-police-station/index.php" class="btn">analyze by police station</a>
                 </div>
 
 

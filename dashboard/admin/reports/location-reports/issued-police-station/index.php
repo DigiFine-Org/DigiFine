@@ -2,7 +2,7 @@
 $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../../../dashboard.css", "../../reports.css"],
-    'scripts' => ["./chart.js", "analytics.js"],
+    'scripts' => ["/issued_location/chart.js", "/issued_location/analytics.js"],
     'authRequired' => true
 ];
 
