@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once "../../../db/connect.php";
-require "../../../PHPMailer/mail.php";
+require_once "../../../../db/connect.php";
+require "../../../../PHPMailer/mail.php";
 
 
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
@@ -70,10 +70,10 @@ if ($stmt->execute()) {
     send_mail($email, $subject, $message);
 
     $_SESSION["message"] = "Officer registered successfully! Email sent.";
-    header("Location: /digifine/dashboard/admin/index.php");
+    header("Location: /digifine/dashboard/admin/officer-management/register-officer/index.php");
     exit();
 
-}   else {
+} else {
     file_put_contents("error_log.txt", "Error inserting officer: " . $conn->error . "\n", FILE_APPEND);
     die("Error inserting officer. Check logs.");
 }
