@@ -7,19 +7,19 @@ $currentUser = $_SESSION['user'];
 $asPolice = $currentUser['role'] === 'officer';
 $userid = $currentUser['id'];
 
-if ($asPolice) {
-    $sql = "SELECT * FROM update_officer_profile_requests WHERE id = '$userid'";
-} else {
-    $sql = "SELECT * FROM update_driver_profile_requests WHERE id = '$userid'";
-}
-$result = $conn->query($sql);
-if (!$result) {
-    die("Error: " . $conn->error);
-}
+// if ($asPolice) {
+//     $sql = "SELECT * FROM update_officer_profile_requests WHERE id = '$userid'";
+// } else {
+//     $sql = "SELECT * FROM update_driver_profile_requests WHERE id = '$userid'";
+// }
+// $result = $conn->query($sql);
+// if (!$result) {
+//     die("Error: " . $conn->error);
+// }
 
-if ($result->num_rows > 0) {
-    die("You have already requested to update your profile. Please wait until the request is approved.");
-}
+// if ($result->num_rows > 0) {
+//     die("You have already requested to update your profile. Please wait until the request is approved.");
+// }
 
 if ($asPolice) {
     $sql = "SELECT fname, lname, email, nic, phone_no, police_station FROM officers WHERE id = '$userid'";
@@ -73,30 +73,40 @@ include_once "../../../includes/header.php";
                 </h1>
                 <div class="field">
                     <label for="fname">First Name:<span style="color: red;">*</span> </label>
-                    <input type="text" value="<?php echo $user['fname'] ?>" id="fname" name="fname" required class="input" placeholder="<?php echo $user['fname'] ?>">
+                    <input type="text" value="<?php echo $user['fname'] ?>" id="fname" name="fname" required
+                        class="input" placeholder="<?php echo $user['fname'] ?>" readonly>
                 </div>
                 <div class="field">
                     <label for="fname">Last Name:<span style="color: red;">*</span> </label>
-                    <input type="text" value="<?php echo $user['lname'] ?>" id="lname" name="lname" required class="input" placeholder="<?php echo $user['lname'] ?>">
+                    <input type="text" value="<?php echo $user['lname'] ?>" id="lname" name="lname" required
+                        class="input" placeholder="<?php echo $user['lname'] ?>" readonly>
                 </div>
                 <div class="field">
                     <label for="email">Email:<span style="color: red;">*</span></label>
-                    <input type="email" id="email" name="email" value="<?php echo $user['email'] ?>" placeholder="<?php echo $user['email'] ?>" required class="input">
+                    <input type="email" id="email" name="email" value="<?php echo $user['email'] ?>"
+                        placeholder="<?php echo $user['email'] ?>" required class="input">
                 </div>
                 <div class="field">
                     <label for="phoneno">Phone No:<span style="color: red;">*</span></label>
-                    <input type="tel" id="phoneno" pattern="\d{10}" name="phoneno" value="<?php echo $user['phone_no'] ?>" placeholder="<?php echo $user['phone_no'] ?>" required class="input">
+                    <input type="tel" id="phoneno" pattern="\d{10}" name="phoneno"
+                        value="<?php echo $user['phone_no'] ?>" placeholder="<?php echo $user['phone_no'] ?>" required
+                        class="input">
                 </div>
                 <div class="field">
                     <label for="nic">NIC:<span style="color: red;">*</span></label>
-                    <input type="text" id="nic" name="nic" value="<?php echo $user['nic'] ?>" placeholder="<?php echo $user['nic'] ?>" required class="input">
+                    <input type="text" id="nic" name="nic" value="<?php echo $user['nic'] ?>"
+                        placeholder="<?php echo $user['nic'] ?>" required class="input" readonly>
                 </div>
                 <?php if ($asPolice): ?>
                     <div class="field">
                         <label for="policestation">Police Station:<span style="color: red;">*</span></label>
-                        <select type="text" id="policestation" name="policestation" value="<?php echo $user['police_station'] ?>" required class="input">
+                        <select type="text" id="policestation" name="policestation"
+                            value="<?php echo $user['police_station'] ?>" required class="input">
                             <?php foreach ($policeStations as $station): ?>
-                                <option <?php echo ($user['police_station'] === $station['id'] ? 'selected' : '') ?> value="<?php echo $station['id'] ?>"><?php echo $station['name'] ?>, <?php echo $station['address'] ?></option>
+                                <option <?php echo ($user['police_station'] === $station['id'] ? 'selected' : '') ?>
+                                    value="<?php echo $station['id'] ?>"><?php echo $station['name'] ?>,
+                                    <?php echo $station['address'] ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
