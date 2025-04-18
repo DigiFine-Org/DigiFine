@@ -63,7 +63,8 @@ try {
         <div class="content">
             <div class="container x-large no-border">
                 <h1>Duty Submissions</h1>
-                <div class="table-container">
+            </div>
+            <div class="table-container">
                     <table>
                         <thead>
                             <tr>
@@ -97,7 +98,6 @@ try {
                         </tbody>
                     </table>
                 </div>
-            </div>
         </div>
     </div>
 </main>
