@@ -17,7 +17,8 @@ include_once "../../../includes/header.php";
         <div class="content">
             <div class="container x-large no-border">
                 <h1>Payments</h1>
-                <div class="table-container">
+            </div>
+            <div class="table-container">
                     <table>
                         <thead>
                             <tr>
@@ -41,12 +42,7 @@ include_once "../../../includes/header.php";
                             
                         </tbody>
                     </table>
-
-
-
                 </div>
-
-            </div>
         </div>
 </main>
 
