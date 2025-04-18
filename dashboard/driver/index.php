@@ -90,20 +90,20 @@ $conn->close();
             <p class="subtitle">A responsible driver is a true road hero.</p>
             
             <!-- Stats Cards -->
-            <div class="insights-bar" style="margin-bottom:20px">
-            <div class="inner-tile">
-                    <div class="icon" style="background-color: #FFEFB4;">
-                        <!-- <i class="fas fa-star"></i> -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #FFEFB4;">
+                        <i class="fas fa-star"></i>
                     </div>
-                    <div class="info">
+                    <div class="stat-info">
                         <h3><?= htmlspecialchars($driver['points']) ?></h3>
                         <p>Driving Points</p>
                     </div>
                 </div>
                 
-                <div class="inner-tile">
-                    <div class="icon" style="background-color: #CDE4FF;">
-                        <!-- <i class="fas fa-exclamation-circle"></i> -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #CDE4FF;">
+                        <i class="fas fa-exclamation-circle"></i>
                     </div>
                     <div class="stat-info">
                         <h3><?= $active_fines; ?></h3>
@@ -111,21 +111,21 @@ $conn->close();
                     </div>
                 </div>
                 
-                <div class="inner-tile">
-                    <div class="icon" style="background-color: #F8C8D8;">
-                        <!-- <i class="fas fa-flag"></i> -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #F8C8D8;">
+                        <i class="fas fa-flag"></i>
                     </div>
-                    <div class="info">
+                    <div class="stat-info">
                         <h3><?= $reported_fines; ?></h3>
                         <p>Reported Fines</p>
                     </div>
                 </div>
                 
-                <div class="inner-tile">
-                    <div class="icon" style="background-color: #D5F2EA;">
-                        <!-- <i class="fas fa-check-circle"></i> -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #D5F2EA;">
+                        <i class="fas fa-check-circle"></i>
                     </div>
-                    <div class="info">
+                    <div class="stat-info">
                         <h3><?= $cleared_fines; ?></h3>
                         <p>Cleared Fines</p>
                     </div>
@@ -233,11 +233,52 @@ $conn->close();
     height:90px;
 }
    
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 20px;
+    color: #333;
+}
+.stat-info h3 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.stat-info p {
+    margin: 5px 0 0;
+    color: #666;
+    font-size: 14px;
+}
 
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
     .about-image, .description {
         order: initial; /* Reset order for mobile */
     }
