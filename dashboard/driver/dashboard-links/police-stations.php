@@ -20,20 +20,18 @@ include_once "../../../includes/header.php";
             <h1>Police Stations</h1>
             <div class="description-section">
                 <div class="english">
-                <h3 >Find Police Stations in Your Province</h2>
-                <p>This directory provides contact information for all police stations across Sri Lanka's provinces. 
-                Click on your province to view the complete list of police stations with their telephone numbers 
-                and locations. You can search for specific stations using the search box in the popup window.</p>
+                    <h3 >Find Police Stations in Your Province</h2>
+                    <p>This directory provides contact information for all police stations across Sri Lanka's provinces. 
+                    Click on your province to view the complete list of police stations with their telephone numbers 
+                    and locations. You can search for specific stations using the search box in the popup window.</p>
                 </div>
 
                 <div class="sinhala">
-                <h3 >ඔබගේ පළාතේ පොලිස් ස්ථාන සොයා ගන්න</h2>
-                <p>මෙම නාමාවලිය ශ්‍රී ලංකාවේ සියලුම පළාත්වල පොලිස් ස්ථානවල සම්බන්ධතා තොරතුරු ලබා දෙයි. 
-                ඔබගේ පළාත තෝරන්න එම පළාතේ පොලිස් ස්ථානවල දුරකථන අංක සහ ස්ථාන පිළිබඳ සම්පූර්ණ ලැයිස්තුව 
-                බැලීමට. පොප් අප් වින්ඩෝවේ ඇති සෙවුම් කොටුව භාවිතයෙන් නිශ්චිත පොලිස් ස්ථාන සොයා ගත හැකිය.</p>
-                </div>
-                
-                
+                    <h3 >ඔබගේ පළාතේ පොලිස් ස්ථාන සොයා ගන්න</h2>
+                    <p>මෙම නාමාවලිය ශ්‍රී ලංකාවේ සියලුම පළාත්වල පොලිස් ස්ථානවල සම්බන්ධතා තොරතුරු ලබා දෙයි. 
+                    ඔබගේ පළාත තෝරන්න එම පළාතේ පොලිස් ස්ථානවල දුරකථන අංක සහ ස්ථාන පිළිබඳ සම්පූර්ණ ලැයිස්තුව 
+                    බැලීමට. පොප් අප් වින්ඩෝවේ ඇති සෙවුම් කොටුව භාවිතයෙන් නිශ්චිත පොලිස් ස්ථාන සොයා ගත හැකිය.</p>
+                </div>               
             </div>
             <div class="navigation-tileNew-grid">
                 <div class="tile-container" onclick="showPopup(1)">
