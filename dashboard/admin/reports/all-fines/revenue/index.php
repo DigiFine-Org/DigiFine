@@ -2,7 +2,7 @@
 $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../../../dashboard.css", "../../reports.css"],
-    'scripts' => ["./chart.js", "analytics.js", "growth-chart.js"],
+    'scripts' => ["./chart.js", "analytics.js", "growth-chart.js", "police-stations/station-chart.js", "police-stations/station-analytics.js"],
     'authRequired' => true
 ];
 
@@ -61,7 +61,9 @@ if ($_SESSION['message'] ?? null) {
                 </div>
 
                 <div class="filter-field">
-                    <button class="btn" onclick="fetchFineData();">Generate Report</button>
+                    <button class="btn" id="generateReportBtn">
+                        Generate Report
+                    </button>
                 </div>
 
                 <div class="table-container">
@@ -76,8 +78,20 @@ if ($_SESSION['message'] ?? null) {
                     <div class="chart-section">
                         <canvas id="fineGrowthChart" width="400" height="200"></canvas>
                     </div>
+                </div>
+                <div class="table-container">
                     <div class="fine-summary mt-4" id="fineSummary"></div>
+                </div>
 
+                <div class="table-container">
+                    <!-- Chart Section -->
+                    <div class="chart-section">
+                        <canvas id="policeStationFineChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="fine-summary mt-4" id="fineSummary2"></div>
                 </div>
     </main>
 
@@ -87,3 +101,16 @@ if ($_SESSION['message'] ?? null) {
         <script src="<?php echo $script; ?>"></script>
     <?php endforeach; ?>
 </body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Attach one event listener to the button
+        const generateBtn = document.getElementById("generateReportBtn");
+
+        generateBtn.addEventListener("click", function(e) {
+            e.preventDefault(); // prevent form submission or reload
+            fetchFineData();
+            fetchStationFineData();
+        });
+    }); // Close the DOMContentLoaded event listener
+</script>

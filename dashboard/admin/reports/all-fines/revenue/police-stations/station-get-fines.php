@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 header("Content-Type: application/json");
 
-require_once "../../../../../db/connect.php";
+require_once "../../../../../../db/connect.php";
 session_start();
 
 $period = $_GET['time_period'] ?? '';
@@ -24,7 +24,7 @@ $interval = match ($period) {
 $query = "
     SELECT 
     COALESCE(ps.name, 'Unknown') AS label,
-    COUNT(*) AS count
+    SUM(f.fine_amount) AS count
     FROM fines f
     LEFT JOIN police_stations ps ON f.police_station = ps.id
     WHERE CONCAT(f.issued_date, ' ', f.issued_time) >= NOW() - $interval

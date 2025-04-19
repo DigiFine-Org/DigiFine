@@ -38,7 +38,7 @@ if ($_SESSION['message'] ?? null) {
 
             <!-- Main Content -->
             <div class="content">
-                <h1>Analize Fines by Issued Place</h1>
+                <h1>Analize Fines by Issued police station</h1>
                 <p class="description">View and analyze fines by issued location over different time periods.</p>
 
                 <div class="table-container">

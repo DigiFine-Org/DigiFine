@@ -36,6 +36,9 @@ if ($_SESSION['user']['role'] !== 'admin') {
                 <div class="filter-field">
                     <a href="location-reports\issued-place\index.php" class="btn">analyze by location</a>
                 </div>
+                <div class="filter-field">
+                    <a href="location-reports\issued-police-station\index.php" class="btn">issued police station</a>
+                </div>
                 <br>
                 <div class="filter-field">
                     <a href="officer-reports/issued-reported/index.php" class="btn">analyze by officer</a>
@@ -48,6 +51,9 @@ if ($_SESSION['user']['role'] !== 'admin') {
                 </div>
                 <div class="filter-field">
                     <a href="all-fines\revenue\index.php" class="btn">analyze Revenue</a>
+                </div>
+                <div class="filter-field">
+                    <a href="all-fines\revenue\police-stations\index.php" class="btn">analyze Revenue by police station</a>
                 </div>
 
 
