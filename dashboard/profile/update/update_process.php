@@ -78,16 +78,32 @@ if ($result->num_rows > 0) {
 }
 
 
-// insert into update requests table
-if ($asPolice) {
-    $sql = "INSERT INTO update_officer_profile_requests (id, fname, lname, email, phone_no, police_station, nic, password) VALUES ('$userid', '$fname', '$lname', '$email', '$phoneNo', '$policeStation', '$nic', NULLIF('$hashedPassword',''))";
-} else {
-    $sql = "INSERT INTO update_driver_profile_requests (id, fname, lname, email, phone_no, nic, password) VALUES ('$userid', '$fname', '$lname', '$email', '$phoneNo', '$nic', NULLIF('$hashedPassword',''))";
+// // insert into update requests table
+// if ($asPolice) {
+//     $sql = "INSERT INTO update_officer_profile_requests (id, fname, lname, email, phone_no, police_station, nic, password) VALUES ('$userid', '$fname', '$lname', '$email', '$phoneNo', '$policeStation', '$nic', NULLIF('$hashedPassword',''))";
+// } else {
+//     $sql = "INSERT INTO update_driver_profile_requests (id, fname, lname, email, phone_no, nic, password) VALUES ('$userid', '$fname', '$lname', '$email', '$phoneNo', '$nic', NULLIF('$hashedPassword',''))";
+// }
+// $ok = $conn->query($sql);
+// if (!$ok) {
+//     die("Error: " . $conn->error);
+// }
+
+
+if (!$asPolice) {
+    $updateQuery = "UPDATE drivers 
+                    SET email = '$email', phone_no = '$phoneNo'";
+    if ($hashedPassword !== '') {
+        $updateQuery .= ", password = '$hashedPassword'";
+    }
+    $updateQuery .= " WHERE id = '$userid'";
+
+    $ok = $conn->query($updateQuery);
+    if (!$ok) {
+        die("Error updating driver profile: " . $conn->error);
+    }
 }
-$ok = $conn->query($sql);
-if (!$ok) {
-    die("Error: " . $conn->error);
-}
+
 
 //this should be change
 echo "<script>

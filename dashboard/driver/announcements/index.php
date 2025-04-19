@@ -58,13 +58,16 @@ $result = $stmt->get_result();
             <div class="description-section">
                 <div class="english">
                     <h3>Urgent announcements, payment reminders, and policy changes...</h3>
-                    <p>View important updates, traffic alerts, and notices from authorities. Stay informed about road closures, new regulations, and other essential information.</p>
+                    <p>View important updates, traffic alerts, and notices from authorities. Stay informed about road
+                        closures, new regulations, and other essential information.</p>
                 </div>
 
                 <div class="sinhala">
-                    <h3 >ඔබගේ රියදුරු බලපත්‍රය හෝ දඩ ගෙවීම් බලපාන ජරුරතම දැන්වීම්, ගෙවීම් අභිචේතන සහ ප්රතිපත්ති වෙනස්කම්...</h2>
-                    <p>වැදගත් යාවත්කාලීන කිරීම්, ගමනාගමන ඇඟවීම් සහ අධිකාරින්ගේ දැන්වීම් බලන්න. පාර වසාදැමීම්, නව නීතිරීති සහ අනෙකුත් අත්යවශ්ය තොරතුරු සඳහා යාවත්කාලීනව රැඳෙන්න.</p>
-                </div>               
+                    <h3>ඔබගේ රියදුරු බලපත්‍රය හෝ දඩ ගෙවීම් බලපාන ජරුරතම දැන්වීම්, ගෙවීම් අභිචේතන සහ ප්රතිපත්ති
+                        වෙනස්කම්...</h2>
+                        <p>වැදගත් යාවත්කාලීන කිරීම්, ගමනාගමන ඇඟවීම් සහ අධිකාරින්ගේ දැන්වීම් බලන්න. පාර වසාදැමීම්, නව
+                            නීතිරීති සහ අනෙකුත් අත්යවශ්ය තොරතුරු සඳහා යාවත්කාලීනව රැඳෙන්න.</p>
+                </div>
             </div>
             <div class="content">
 
@@ -95,28 +98,7 @@ $result = $stmt->get_result();
 
 <style>
     
-.description-section {
-  margin: 20px 0;
-  padding: 12px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border-left: 4px solid #003366;
-  
-}
-.description-section h3 {
-  color: #003366;
-  margin-bottom: 10px;
-}
-.english, .sinhala {
-  margin-bottom: 20px;
-}
-
-.description-section p {
-  line-height: 1.6;
-}
-
-
-  </style>
+</style>
 
 <?php include_once "../../../includes/footer.php"; ?>
 
