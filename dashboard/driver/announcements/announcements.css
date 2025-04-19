@@ -18,3 +18,25 @@
   font-size: 0.9em;
   color: #666;
 }
+
+.description-section {
+  margin: 20px 0;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #003366;
+}
+
+.description-section h3 {
+  color: #003366;
+  margin-bottom: 10px;
+}
+
+.english,
+.sinhala {
+  margin-bottom: 20px;
+}
+
+.description-section p {
+  line-height: 1.6;
+}
