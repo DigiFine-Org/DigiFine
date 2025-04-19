@@ -36,7 +36,7 @@ $fine_status_filter = isset($_GET['fine_status']) ? htmlspecialchars($_GET['fine
 
 // Fetch fines related to the OIC's police station and where offence_type is court
 $fines_sql = "SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
-           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported
+           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported,f.is_solved
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
     WHERE o.police_station = ? AND f.offence_type = 'court'
@@ -72,78 +72,303 @@ $conn->close();
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
-            <div class="container x-large no-border">
+            <div class="page-header">
                 <h1>Court Offences</h1>
-                <!-- FILTER FINES -->
-                <form method="get" action="" style="margin-bottom: 10px;">
-                    <div class="wrapper">
-                        <select name="fine_status" id="filter"
-                            style="padding: 4px 6px; width:100px; margin-right:10px;">
-                            <option value="">All</option>
-                            <option value="reported" <?= isset($_GET['fine_status']) && $_GET['fine_status'] === 'reported' ? 'selected' : '' ?>>Reported</option>
-                            <option value="overdue" <?= isset($_GET['fine_status']) && $_GET['fine_status'] === 'overdue' ? 'selected' : '' ?>>Overdue</option>
-                            <option value="pending" <?= isset($_GET['fine_status']) && $_GET['fine_status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
-                            <option value="paid" <?= isset($_GET['fine_status']) && $_GET['fine_status'] === 'paid' ? 'selected' : '' ?>>Paid</option>
-                        </select>
-                        <button type="submit" class="btn">Apply</button>
-                    </div>
-                </form>
+                
+            </div>
 
-                <div class="tiles-container">
-                    <?php if (!empty($fines)): ?>
-                        <?php foreach ($fines as $fine): ?>
-                            <div class="fine-tile <?= $fine['offence_type'] === 'court' ? 'court-violation' : '' ?>">
-                                <h2>Police ID: <?= htmlspecialchars($fine['police_id']) ?></h2>
-                                <p><strong>Driver ID:</strong> <?= htmlspecialchars($fine['driver_id']) ?></p>
-                                <p><strong>Issued Date:</strong> <?= htmlspecialchars($fine['issued_date']) ?></p>
-                                <p><strong>Offence Type:</strong> <?= htmlspecialchars($fine['offence_type']) ?></p>
-                                <p><strong>Offence:</strong> <?= htmlspecialchars($fine['offence']) ?></p>
-                                <p><strong>Fine Status:</strong> <?= htmlspecialchars($fine['fine_status']) ?></p>
-                                <p><strong>Reported:</strong> <?= $fine['is_reported'] == 1 ? 'Yes' : 'No' ?></p>
-                                <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>" class="btn">View Details</a>
-                                <a href="#" class="btn delete-fine" data-id="<?= htmlspecialchars($fine['id']) ?>">Remove</a>
-
+            <div class="cards-container">
+                <?php if (!empty($fines)): ?>
+                    <?php foreach ($fines as $fine): ?>
+                        <div class="case-card <?= $fine['fine_status'] ?> <?= $fine['is_reported'] ? 'reported' : '' ?>">
+                            <div class="card-header">
+                                <span class="case-id">Case #CR-<?= htmlspecialchars($fine['id']) ?></span>
+                                <!-- <span class="status-badge <?= $fine['fine_status'] ?>">
+                                    <?= ucfirst(htmlspecialchars($fine['fine_status'])) ?>
+                                    <?= $fine['is_reported'] ? ' | Reported' : '' ?>
+                                </span> -->
                             </div>
                             
-                        <?php endforeach ?>
-                    <?php else: ?>
-                        <p>"No Court Violations to show"</p>
-                    <?php endif ?> 
-                </div>
+                            <div class="card-body">
+                                <div class="case-detail">
+                                    <span class="detail-label">Driver ID</span>
+                                    <span class="detail-value"><?= htmlspecialchars($fine['driver_id']) ?></span>
+                                </div>
+                                
+                                <div class="case-detail">
+                                    <span class="detail-label">Vehicle No.</span>
+                                    <span class="detail-value"><?= htmlspecialchars($fine['license_plate_number']) ?></span>
+                                </div>
+                                
+                                <div class="case-detail">
+                                    <span class="detail-label">Issued On</span>
+                                    <span class="detail-value">
+                                        <?= date('d M Y', strtotime($fine['issued_date'])) ?>
+                                         <?= date('h:i A', strtotime($fine['issued_time'])) ?>
+                                    </span>
+                                </div>
+                                
+                                <div class="case-detail full-width">
+                                    <span class="detail-label">Offence</span>
+                                    <span class="detail-value"><?= htmlspecialchars($fine['offence']) ?></span>
+                                </div>
+                                
+                                <div class="case-actions">
+                                    <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>" 
+                                       class="btn btn-view" 
+                                       title="View Full Details">
+                                       <i class="fas fa-eye"></i> Details
+                                    </a>
+                                    
+                                    <?php if ($fine['is_solved'] == 1): ?>
+                                        <button class="btn btn-remove" disabled>
+                                            Resolved
+                                        </button>
+                                    <?php else: ?>
+                                        <button class="btn btn-remove" 
+                                                data-case-id="<?= htmlspecialchars($fine['id']) ?>">
+                                            Remove
+                                        </button>
+                                    <?php endif; ?>
+
+                               </div>
+                               
+                            </div>
+                        </div>
+                    <?php endforeach ?>
+                <?php else: ?>
+                    <div class="empty-state">
+                        <img src="../../../assets/no-cases.png" alt="No cases found">
+                        <h3>No Court Cases Found</h3>
+                        <p>There are currently no court offence records matching your criteria.</p>
+                    </div>
+                <?php endif ?> 
             </div>
         </div>
     </div>
 </main>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-<script>//study this code
-    $(document).on('click', '.delete-fine', function (e) {
-        e.preventDefault();
+<style>
 
-        var fineId = $(this).data('id');
-        var $row = $(this).closest('tr'); // Adjust selector if not in a table
 
-        if (confirm("Are you sure you want to delete this fine?")) {
-            $.ajax({
-                url: 'remove-fine-details.php',
-                type: 'POST',
-                data: { id: fineId },
-                success: function (response) {
-                    if (response.status === 'success') {
-                        alert(response.message);
-                        $row.remove(); // Remove the row from the table
-                    } else {
-                        alert(response.message);
-                    }
+
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.page-header h1 {
+    font-size: 24px;
+    color: #1e293b;
+    margin: 0;
+}
+
+
+
+.form-select {
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 14px;
+    min-width: 180px;
+}
+
+
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.case-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border-left: 4px solid #94a3b8;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-left-color:var(--color-dark-blue);
+}
+
+.case-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+/* Card Header */
+.card-header {
+    padding: 16px;
+    background: #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.case-id {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 15px;
+}
+
+.card-body {
+    padding: 0;
+}
+
+.case-detail {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.case-detail:last-child {
+    border-bottom: none;
+}
+
+.case-detail.full-width {
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-label {
+    font-weight: 500;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.detail-value {
+    color: #1e293b;
+    text-align: right;
+    font-size: 14px;
+}
+
+.case-detail.full-width .detail-value {
+    text-align: left;
+}
+
+/* Card Actions */
+.case-actions {
+    padding: 12px 16px;
+    display: flex;
+    gap: 8px;
+    background-color: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-view {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.btn-view:hover {
+    background-color: #bae6fd;
+}
+
+
+
+.btn-remove {
+    background-color: #f0fdf4;
+    color: #15803d;
+    margin-left: auto;
+    
+}
+
+.btn-remove:hover {
+    background-color: #dcfce7;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    grid-column: 1 / -1;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .cards-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .filter-actions {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .filter-controls {
+        width: 100%;
+    }
+    
+    .form-select {
+        flex: 1;
+    }
+}
+
+/* Icons */
+.fas {
+    font-size: 13px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const removeButtons = document.querySelectorAll('.btn-remove');
+
+    removeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const caseId = button.dataset.caseId;
+            if (!caseId) return;
+
+            fetch('remove-fine-details.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                error: function () {
-                    alert('Failed to delete the fine. Please try again.');
+                body: `case_id=${encodeURIComponent(caseId)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    button.textContent = 'Resolved';
+                    button.disabled = true;
+                    button.classList.add('resolved');
+                } else {
+                    alert('Failed to resolve case');
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
-        }
+        });
     });
+});
 </script>
+
+
 
 <?php include_once "../../../includes/footer.php"; ?>
