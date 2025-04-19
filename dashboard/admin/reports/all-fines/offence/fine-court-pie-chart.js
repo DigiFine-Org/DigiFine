@@ -48,7 +48,7 @@ function updateChart(data, period) {
       labels: labels,
       datasets: [
         {
-          label: `All Fines (${period})`,
+          label: `Fines (${period})`,
           data: fines,
           backgroundColor: "rgba(158, 194, 220, 0.16)", // lighter fill
           borderColor: "rgba(54, 162, 235, 1)",
@@ -57,7 +57,7 @@ function updateChart(data, period) {
           fill: true,
         },
         {
-          label: `Reported Fines (${period})`,
+          label: `Court Cases (${period})`,
           data: court,
           backgroundColor: "rgba(249, 189, 202, 0.35)", // no fill
           borderColor: "rgba(255, 99, 132, 1)",
