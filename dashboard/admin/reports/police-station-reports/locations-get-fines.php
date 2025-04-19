@@ -1,12 +1,19 @@
 <?php
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 header("Content-Type: application/json");
 
-require_once "../../../../../db/connect.php";
+require_once "../../../../db/connect.php";
 session_start();
 
-$period = $_GET['time_period'] ?? '';
+$police_station_id = intval($_GET['policeStation'] ?? 0);
+$period = $_GET['period'] ?? '';
+
+if ($police_station_id == 0) {
+    echo json_encode(["error" => "Invalid police station ID"]);
+    exit;
+}
 
 // Set time interval
 $interval = match ($period) {
@@ -25,18 +32,24 @@ $query = "
         SELECT 
         CASE 
             WHEN f.location = '' OR f.location IS NULL THEN 'Unknown'
-            WHEN dl.location_name IS NOT NULL THEN CONCAT('(', dl.police_station_id, ') ', dl.location_name)
-            ELSE CONCAT('(', COALESCE(f.police_station, 'N/A'), ') ', COALESCE(f.location, 'N/A'))
+            WHEN dl.location_name IS NOT NULL THEN dl.location_name
+            ELSE f.location
         END AS label,
         COUNT(*) AS count
         FROM fines f
         LEFT JOIN duty_locations dl ON f.location = dl.id
-        WHERE CONCAT(f.issued_date, ' ', f.issued_time) >= NOW() - $interval
+        WHERE CONCAT(f.issued_date, ' ', f.issued_time) >= NOW() - $interval and f.police_station = $police_station_id
         GROUP BY label
         ORDER BY count DESC;
-";
+        ";
 
 $result = $conn->query($query);
+
+if (!$result) {
+    echo json_encode(["error" => "Database query failed", "details" => $conn->error]);
+    exit;
+}
+
 $data = $result->fetch_all(MYSQLI_ASSOC);
 
 // Return JSON

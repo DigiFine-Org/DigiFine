@@ -2,7 +2,7 @@
 $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../../../dashboard.css", "../../reports.css"],
-    'scripts' => ["./chart.js", "analytics.js"],
+    'scripts' => ["./chart.js", "analytics.js", "growth-chart.js"],
     'authRequired' => true
 ];
 
@@ -38,8 +38,8 @@ if ($_SESSION['message'] ?? null) {
 
             <!-- Main Content -->
             <div class="content">
-                <h1>Analize Fines by Issued Place</h1>
-                <p class="description">View and analyze fines by issued location over different time periods.</p>
+                <h1>Revenue of All Fines Issued</h1>
+                <p class="description">View and analyze status of fines over different time periods.</p>
 
                 <div class="table-container">
                     <!-- Input Section -->
@@ -61,7 +61,7 @@ if ($_SESSION['message'] ?? null) {
                 </div>
 
                 <div class="filter-field">
-                    <button class="btn" onclick="fetchFineData()">Generate Report</button>
+                    <button class="btn" onclick="fetchFineData();">Generate Report</button>
                 </div>
 
                 <div class="table-container">
@@ -71,9 +71,14 @@ if ($_SESSION['message'] ?? null) {
                     </div>
                 </div>
 
-                <div class="fine-summary mt-4" id="fineSummary"></div>
+                <div class="table-container">
+                    <!-- Chart Section -->
+                    <div class="chart-section">
+                        <canvas id="fineGrowthChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="fine-summary mt-4" id="fineSummary"></div>
 
-            </div>
+                </div>
     </main>
 
     <!-- Include Chart.js -->

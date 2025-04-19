@@ -1,14 +1,14 @@
 <?php
 $pageConfig = [
     'title' => 'Reports Dashboard',
-    'styles' => ["../../../../dashboard.css", "../../reports.css"],
-    'scripts' => ["./chart.js", "analytics.js"],
+    'styles' => ["../../../dashboard.css", "../reports.css"],
+    'scripts' => ["./locations-chart.js", "locations-analytics.js"],
     'authRequired' => true
 ];
 
 session_start();
-include_once "../../../../../includes/header.php";
-require_once "../../../../../db/connect.php";
+include_once "../../../../includes/header.php";
+require_once "../../../../db/connect.php";
 
 if ($_SESSION['user']['role'] !== 'admin') {
     die("Unauthorized user!");
@@ -30,23 +30,40 @@ if ($_SESSION['message'] ?? null) {
 <body>
     <main>
         <!-- Navbar -->
-        <?php include_once "../../../../includes/navbar.php"; ?>
+        <?php include_once "../../../includes/navbar.php"; ?>
 
         <div class="dashboard-layout">
             <!-- Sidebar -->
-            <?php include_once "../../../../includes/sidebar.php"; ?>
+            <?php include_once "../../../includes/sidebar.php"; ?>
 
             <!-- Main Content -->
             <div class="content">
-                <h1>Analize Fines by Issued Place</h1>
-                <p class="description">View and analyze fines by issued location over different time periods.</p>
+                <h1>Fines Issued form Police Stations</h1>
+                <p class="description">View and analyze fines issued by police stations over different time periods.</p>
 
                 <div class="table-container">
                     <!-- Input Section -->
                     <div class="filter-form-grid">
                         <div class="filter-field">
+                            <label for="policeStation">Police Station</label>
+                            <select id="policeStation" name="policeStation" required>
+                                <option value="">Select police station</option>
+                                <?php
+                                $stationsSql = "SELECT id, name FROM police_stations ORDER BY name ASC";
+                                $stationsResult = $conn->query($stationsSql);
+                                if ($stationsResult->num_rows > 0):
+                                    while ($row = $stationsResult->fetch_assoc()):
+                                ?>
+                                        <option value="<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['name']) ?></option>
+                                <?php endwhile;
+                                endif; ?>
+                            </select>
+                        </div>
+
+
+                        <div class="filter-field">
                             <label for="timePeriod">Time Period:</label>
-                            <select id="timePeriod">
+                            <select id="timePeriod" required>
                                 <option value="24h">Last 24 Hours</option>
                                 <option value="72h">Last 72 Hours</option>
                                 <option value="7days">Last 7 Days</option>
@@ -70,9 +87,7 @@ if ($_SESSION['message'] ?? null) {
                         <canvas id="fineChart" width="800" height="400"></canvas>
                     </div>
                 </div>
-
                 <div class="fine-summary mt-4" id="fineSummary"></div>
-
             </div>
     </main>
 

@@ -44,8 +44,12 @@ if ($_SESSION['user']['role'] !== 'admin') {
                     <a href="all-fines\fine-status\index.php" class="btn">analyze by fine status</a>
                 </div>
                 <div class="filter-field">
-                    <a href="location-reports/issued-police-station/index.php" class="btn">analyze by police station</a>
+                    <a href="police-station-reports/index.php" class="btn">analyze by police station</a>
                 </div>
+                <div class="filter-field">
+                    <a href="all-fines\revenue\index.php" class="btn">analyze Revenue</a>
+                </div>
+
 
 
 </body>
