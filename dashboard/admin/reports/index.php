@@ -52,10 +52,8 @@ if ($_SESSION['user']['role'] !== 'admin') {
                 <div class="filter-field">
                     <a href="all-fines\revenue\index.php" class="btn">analyze Revenue</a>
                 </div>
+
                 <div class="filter-field">
-                    <a href="all-fines\revenue\police-stations\index.php" class="btn">analyze Revenue by police station</a>
+                    <a href="all-fines\offence\index.php" class="btn">analyze by Offence</a>
                 </div>
-
-
-
 </body>

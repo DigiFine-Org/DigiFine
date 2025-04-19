@@ -38,7 +38,7 @@ function updateLocationChart(data, period) {
       labels: labels,
       datasets: [
         {
-          label: `Fines by Location (${period})`,
+          label: `Fines by police station (${period})`,
           data: counts,
           backgroundColor: "rgba(54, 162, 235, 0.6)",
           borderColor: "rgba(54, 162, 235, 1)",
@@ -53,20 +53,20 @@ function updateLocationChart(data, period) {
           beginAtZero: true,
           title: {
             display: true,
-            text: "Number of Fines",
+            text: "total fine amount (Rs.)",
           },
         },
         x: {
           title: {
             display: true,
-            text: "Location",
+            text: "Police Station",
           },
         },
       },
       plugins: {
         title: {
           display: true,
-          text: `Fine Distribution by Location (${period})`,
+          text: `Revenue Distribution by Police Station (${period})`,
         },
         legend: {
           display: false,
