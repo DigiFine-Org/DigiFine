@@ -6,8 +6,13 @@ header("Content-Type: application/json");
 require_once "../../../../../db/connect.php";
 session_start();
 
-$period = $_GET['time_period'] ?? '';
+$police_station_id = intval($_GET['policeStation'] ?? 0);
+$period = $_GET['period'] ?? '';
 
+if ($police_station_id == 0) {
+    echo json_encode(["error" => "Invalid police station ID"]);
+    exit;
+}
 // Set time interval
 $interval = match ($period) {
     "24h" => "INTERVAL 24 HOUR",
@@ -22,11 +27,15 @@ $interval = match ($period) {
 
 // Fetch total fines grouped by location
 $query = "
-    SELECT offence_type AS label,
-    COUNT(*) AS count
-    FROM fines
-    WHERE CONCAT(issued_date, ' ', issued_time) >= NOW() - $interval
-    GROUP BY label
+    SELECT o.offence_number, o.description_english AS label,
+    COUNT(f.id) AS count
+    FROM fines f
+    LEFT JOIN offences o ON f.offence = o.offence_number
+    WHERE CONCAT(f.issued_date, ' ', f.issued_time) >= NOW() - $interval 
+    AND f.police_station = $police_station_id
+    AND f.offence IS NOT NULL
+    AND o.offence_number IS NOT NULL
+    GROUP BY o.offence_number
     ORDER BY count DESC;
 ";
 

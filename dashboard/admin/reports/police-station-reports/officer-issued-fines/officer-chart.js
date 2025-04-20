@@ -1,8 +1,10 @@
-// Fetch fine data by location
-window.fetchStationFineData = function () {
+window.fetchOfficerIssuedFineData = function () {
   const timePeriod = document.getElementById("timePeriod").value;
+  const policeStationId = document.getElementById("policeStation").value;
 
-  fetch(`police-stations/station-get-fines.php?time_period=${timePeriod}`)
+  fetch(
+    `officer-issued-fines/officer-get-fines.php?policeStation=${policeStationId}&time_period=${timePeriod}`
+  )
     .then((response) => response.json())
     .then((data) => {
       console.log("Fetched location data:", data);
@@ -10,9 +12,9 @@ window.fetchStationFineData = function () {
         s;
         alert(data.error);
       } else {
-        const top30Data = data.slice(0, 30); // Use only the top 30 locations for the chart
-        updateStationChart(top30Data, timePeriod);
-        updateFineSummary2(data, timePeriod);
+        const top30Data = data.slice(0, 30); // Use only the top 30
+        updateOfficerIssuedChart(top30Data, timePeriod);
+        updateFineSummary4(data, timePeriod);
       }
     })
     .catch((error) => {
@@ -20,25 +22,25 @@ window.fetchStationFineData = function () {
     });
 };
 
-function updateStationChart(data, period) {
+function updateOfficerIssuedChart(data, period) {
   const ctx = document
-    .getElementById("policeStationFineChart")
+    .getElementById("officerIssuedFineChart")
     .getContext("2d");
 
-  if (window.fineChart2) {
-    window.fineChart2.destroy();
+  if (window.officerIssuedFineChart3) {
+    window.officerIssuedFineChart3.destroy();
   }
 
   const labels = data.map((item) => item.label);
   const counts = data.map((item) => item.count);
 
-  window.fineChart2 = new Chart(ctx, {
+  window.officerIssuedFineChart3 = new Chart(ctx, {
     type: "bar",
     data: {
       labels: labels,
       datasets: [
         {
-          label: `Fines by police station (${period})`,
+          label: `Fines by police officer (${period})`,
           data: counts,
           backgroundColor: "rgba(54, 162, 235, 0.6)",
           borderColor: "rgba(54, 162, 235, 1)",
@@ -53,20 +55,20 @@ function updateStationChart(data, period) {
           beginAtZero: true,
           title: {
             display: true,
-            text: "total fine amount (Rs.)",
+            text: "Number of fines",
           },
         },
         x: {
           title: {
             display: true,
-            text: "Police Station",
+            text: "Police Officer",
           },
         },
       },
       plugins: {
         title: {
           display: true,
-          text: `Revenue Distribution by Police Station (${period})`,
+          text: `Number of Fines by Police Officer (${period})`,
         },
         legend: {
           display: false,

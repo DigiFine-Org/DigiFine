@@ -1,5 +1,5 @@
-function updateFineSummary2(data, period) {
-  const summaryDiv = document.getElementById("stationFineSummary");
+function updateFineSummary6(data, period) {
+  const summaryDiv = document.getElementById("offencesRevenueSummary");
 
   if (!data || data.length === 0) {
     summaryDiv.innerHTML =
@@ -14,11 +14,13 @@ function updateFineSummary2(data, period) {
 
   // Create summary list items
   const summaryHTML = `
-        <h3>Fine Amount Analytics (${period})</h3>
+        <h3>Offence Analytics (${period})</h3>
   <ul>
-    <li><strong>Top location:</strong> ${topLocation.label} (Rs.${topLocation.count})</li>
+    <li><strong>Top offence:</strong> ${topLocation.label} (Rs.${topLocation.count})</li>
     <li><strong>Time period:</strong> ${period}</li>
-    <li><strong>Number of locations:</strong> ${data.length}</li>
+    <li><strong>Total fines issued:</strong> ${totalAll}</li>
+    <li><strong>Number offences:</strong> ${data.length}</li>
+    
   </ul>
   `;
 

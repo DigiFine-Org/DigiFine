@@ -1,8 +1,10 @@
-// Fetch fine data by location
-window.fetchStationFineData = function () {
+window.fetchOfficerFineData = function () {
   const timePeriod = document.getElementById("timePeriod").value;
+  const policeStationId = document.getElementById("policeStation").value;
 
-  fetch(`police-stations/station-get-fines.php?time_period=${timePeriod}`)
+  fetch(
+    `officer-revenue/officer-get-fines.php?policeStation=${policeStationId}&time_period=${timePeriod}`
+  )
     .then((response) => response.json())
     .then((data) => {
       console.log("Fetched location data:", data);
@@ -10,9 +12,9 @@ window.fetchStationFineData = function () {
         s;
         alert(data.error);
       } else {
-        const top30Data = data.slice(0, 30); // Use only the top 30 locations for the chart
-        updateStationChart(top30Data, timePeriod);
-        updateFineSummary2(data, timePeriod);
+        const top30Data = data.slice(0, 30); // Use only the top 30
+        updateOfficerChart(top30Data, timePeriod);
+        updateFineSummary3(data, timePeriod);
       }
     })
     .catch((error) => {
@@ -20,25 +22,23 @@ window.fetchStationFineData = function () {
     });
 };
 
-function updateStationChart(data, period) {
-  const ctx = document
-    .getElementById("policeStationFineChart")
-    .getContext("2d");
+function updateOfficerChart(data, period) {
+  const ctx = document.getElementById("officerFineChart").getContext("2d");
 
-  if (window.fineChart2) {
-    window.fineChart2.destroy();
+  if (window.officerFineChart3) {
+    window.officerFineChart3.destroy();
   }
 
   const labels = data.map((item) => item.label);
   const counts = data.map((item) => item.count);
 
-  window.fineChart2 = new Chart(ctx, {
+  window.officerFineChart3 = new Chart(ctx, {
     type: "bar",
     data: {
       labels: labels,
       datasets: [
         {
-          label: `Fines by police station (${period})`,
+          label: `Fines by police officer (${period})`,
           data: counts,
           backgroundColor: "rgba(54, 162, 235, 0.6)",
           borderColor: "rgba(54, 162, 235, 1)",
@@ -59,14 +59,14 @@ function updateStationChart(data, period) {
         x: {
           title: {
             display: true,
-            text: "Police Station",
+            text: "Police Officer",
           },
         },
       },
       plugins: {
         title: {
           display: true,
-          text: `Revenue Distribution by Police Station (${period})`,
+          text: `Revenue Distribution by Police Officer (${period})`,
         },
         legend: {
           display: false,

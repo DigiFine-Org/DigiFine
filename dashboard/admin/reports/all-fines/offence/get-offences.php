@@ -22,7 +22,7 @@ $interval = match ($period) {
 
 // Fetch total fines grouped by location
 $query = "
-    SELECT o.description_english AS label,
+    SELECT o.offence_number, o.description_english AS label,
     COUNT(*) AS count
     FROM fines f
     LEFT JOIN offences o ON f.offence = o.offence_number

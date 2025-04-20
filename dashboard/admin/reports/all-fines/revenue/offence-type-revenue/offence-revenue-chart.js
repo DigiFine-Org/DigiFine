@@ -1,16 +1,19 @@
-window.fetchFineData = function () {
+window.fetchOffencesRevenueFineData = function () {
   const timePeriod = document.getElementById("timePeriod").value;
 
-  fetch(`get-offences.php?time_period=${timePeriod}`)
+  fetch(
+    `offence-type-revenue/get-offences-revenue.php?time_period=${timePeriod}`
+  )
     .then((response) => response.json())
     .then((data) => {
-      console.log("Fetched fine data:", data);
+      console.log("Fetched location data:", data);
       if (data.error) {
+        s;
         alert(data.error);
       } else {
         const top30Data = data.slice(0, 30); // Use only the top 30
-        updateOffencesChart(top30Data, timePeriod);
-        updateFineSummary(data, timePeriod);
+        updateOffencesRevenueChart(top30Data, timePeriod);
+        updateFineSummary6(data, timePeriod);
       }
     })
     .catch((error) => {
@@ -18,24 +21,24 @@ window.fetchFineData = function () {
     });
 };
 
-function updateOffencesChart(data, period) {
-  const ctx = document.getElementById("offenceChart").getContext("2d");
+function updateOffencesRevenueChart(data, period) {
+  const ctx = document.getElementById("OffenesRevenueChart").getContext("2d");
 
-  if (window.chart1) {
-    window.chart1.destroy();
+  if (window.offenceRevenueChart) {
+    window.offenceRevenueChart.destroy();
   }
 
   const offenceNumber = data.map((item) => item.offence_number);
-  const labels = data.map((item) => item.label);
+  const offenceName = data.map((item) => item.label);
   const counts = data.map((item) => item.count);
 
-  window.chart1 = new Chart(ctx, {
+  window.offenceRevenueChart = new Chart(ctx, {
     type: "bar",
     data: {
-      labels: offenceNumber,
+      labels: offenceNumber, // X-axis will show offenceNumber (like V001)
       datasets: [
         {
-          label: `Fines by offence (${period})`,
+          label: `Fines by Offence Revenue(${period})`,
           data: counts,
           backgroundColor: "rgba(54, 162, 235, 0.6)",
           borderColor: "rgba(54, 162, 235, 1)",
@@ -50,7 +53,7 @@ function updateOffencesChart(data, period) {
           beginAtZero: true,
           title: {
             display: true,
-            text: "Number of Fines",
+            text: "Revenue of Offence type (Rs.)",
           },
         },
         x: {
@@ -63,7 +66,7 @@ function updateOffencesChart(data, period) {
       plugins: {
         title: {
           display: true,
-          text: `Fine Distribution by Offence (${period})`,
+          text: `Revenue of Fines by Offence (${period})`,
         },
         legend: {
           display: false,
@@ -73,7 +76,7 @@ function updateOffencesChart(data, period) {
             title: function (tooltipItems) {
               const index = tooltipItems[0].dataIndex;
               const number = offenceNumber[index];
-              const name = labels[index];
+              const name = offenceName[index];
               return `${name} (${number})`; // e.g., Speeding (V001)
             },
             label: function (tooltipItem) {

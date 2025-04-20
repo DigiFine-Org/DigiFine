@@ -2,7 +2,14 @@
 $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../../../dashboard.css", "../../reports.css"],
-    'scripts' => ["./chart.js", "analytics.js", "fine-court-chart.js", "pie-chart.js"],
+    'scripts' => [
+        "./chart.js",
+        "analytics.js",
+        "fine-court-chart.js",
+        "pie-chart.js",
+        "offence-type-revenue/offence-revenue-analytics.js",
+        "offence-type-revenue/offence-revenue-chart.js",
+    ],
     'authRequired' => true
 ];
 
@@ -66,7 +73,7 @@ if ($_SESSION['message'] ?? null) {
                 <div class="table-container">
                     <!-- Chart Section -->
                     <div class="chart-section">
-                        <canvas id="pieChart" width="200" height="200"></canvas>
+                        <canvas class="pie-chart" id="pieChart"></canvas>
                     </div>
                 </div>
 
@@ -82,11 +89,21 @@ if ($_SESSION['message'] ?? null) {
                 <div class="table-container">
                     <!-- Chart Section -->
                     <div class="chart-section">
-                        <canvas id="fineChart" width="800" height="400"></canvas>
+                        <canvas id="offenceChart" width="800" height="400"></canvas>
                     </div>
                 </div>
 
                 <div class="fine-summary mt-4" id="fineSummary"></div>
+
+                <div class="table-container">
+                    <div class="chart-section">
+                        <canvas id="OffenesRevenueChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="fine-summary mt-4" id="offencesRevenueSummary"></div>
+                </div>
 
             </div>
     </main>
@@ -110,6 +127,7 @@ if ($_SESSION['message'] ?? null) {
             fetchFineData();
             fetchFineCourtData();
             fetchPieChartData();
+            fetchOffencesRevenueFineData();
         });
     }); // Close the DOMContentLoaded event listener
 </script>

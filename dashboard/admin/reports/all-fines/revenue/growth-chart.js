@@ -3,12 +3,23 @@ function drawFineAmountGrowthChart(data, timePeriod) {
   const pendingData = data.pending || [];
   const overdueData = data.overdue || [];
 
-  // Combine all labels and sort them
-  const labelsSet = new Set();
-  [...paidData, ...pendingData, ...overdueData].forEach((entry) =>
-    labelsSet.add(entry.label)
-  );
-  const sortedLabels = Array.from(labelsSet).sort();
+  // Determine labels based on time period
+  let sortedLabels = [];
+
+  if (timePeriod === "24h" || timePeriod === "72h") {
+    sortedLabels = getLastHours(timePeriod === "24h" ? 24 : 72);
+  } else if (
+    ["7days", "14days", "30days", "90days", "365days"].includes(timePeriod)
+  ) {
+    sortedLabels = getLastDays(Number(timePeriod.replace("days", "")));
+  } else {
+    // fallback
+    const allLabels = new Set();
+    [...paidData, ...pendingData, ...overdueData].forEach((entry) =>
+      allLabels.add(entry.label)
+    );
+    sortedLabels = Array.from(allLabels).sort();
+  }
 
   // Helper to map data into a dictionary
   function mapData(dataArray) {
@@ -60,6 +71,7 @@ function drawFineAmountGrowthChart(data, timePeriod) {
           borderWidth: 2,
           tension: 0.1,
           fill: true,
+          pointRadius: 0,
         },
         {
           label: `Pending Fines (${timePeriod})`,
@@ -69,15 +81,17 @@ function drawFineAmountGrowthChart(data, timePeriod) {
           borderWidth: 2,
           tension: 0.2,
           fill: true,
+          pointRadius: 0,
         },
         {
           label: `Overdue Fines (${timePeriod})`,
           data: cumulativeOverdue,
           backgroundColor: "rgba(255, 99, 132, 0.2)",
           borderColor: "rgba(255, 99, 132, 1)",
-          borderWidth: 2,
+          borderWidth: 3,
           tension: 0.3,
           fill: true,
+          pointRadius: 0,
         },
       ],
     },
@@ -95,7 +109,7 @@ function drawFineAmountGrowthChart(data, timePeriod) {
       plugins: {
         title: {
           display: true,
-          text: `Fine Amount Overview (${timePeriod})`,
+          text: `Fine Amount Growth (${timePeriod})`,
         },
         legend: {
           display: true,

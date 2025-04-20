@@ -1,5 +1,5 @@
-function updateFineSummary2(data, period) {
-  const summaryDiv = document.getElementById("stationFineSummary");
+function updateFineSummary5(data, period) {
+  const summaryDiv = document.getElementById("issuedPlaceSummary");
 
   if (!data || data.length === 0) {
     summaryDiv.innerHTML =
