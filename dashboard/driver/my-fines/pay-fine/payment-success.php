@@ -9,7 +9,6 @@ $pageConfig = [
 require_once "../../../../db/connect.php";
 include_once "../../../../includes/header.php";
 
-// Jan 29 Update 16:22
 
 // Ensure the user is a driver
 if ($_SESSION['user']['role'] !== 'driver') {
@@ -52,13 +51,14 @@ if ($fine['fine_status'] === 'paid') {
 } else {
 
     // Update fine statud in db
-    $updateSql = "UPDATE fines SET fine_status = 'paid' WHERE id = ?";
+    $now = date("Y-m-d H:i:s");
+    $updateSql = "UPDATE fines SET fine_status = 'paid', paid_at = ? WHERE id = ?";
     $updateStmt = $conn->prepare($updateSql);
     if (!$updateStmt) {
         die("Error preparing update statement: " . $conn->error);
     }
 
-    $updateStmt->bind_param("i", $fine_id);
+    $updateStmt->bind_param("si", $now, $fine_id);
     if (!$updateStmt->execute()) {
         die("Error updating fine status: " . $updateStmt->error);
     }

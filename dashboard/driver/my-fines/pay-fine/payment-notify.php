@@ -100,10 +100,21 @@ if ($status_code == 2) {
             die("SQL Prepare Error: " . $conn->error);
         }
 
-        $stmt->bind_param("issdsssssssss", 
-            $fine_id, $merchant_id, $order_id, $payhere_amount, $payhere_currency, 
-            $payer_first_name, $payer_last_name, $payer_email, $payer_phone, 
-            $payer_address, $payer_city, $payer_country, $hash
+        $stmt->bind_param(
+            "issdsssssssss",
+            $fine_id,
+            $merchant_id,
+            $order_id,
+            $payhere_amount,
+            $payhere_currency,
+            $payer_first_name,
+            $payer_last_name,
+            $payer_email,
+            $payer_phone,
+            $payer_address,
+            $payer_city,
+            $payer_country,
+            $hash
         );
 
         if (!$stmt->execute()) {
@@ -115,7 +126,7 @@ if ($status_code == 2) {
 
         http_response_code(200);
         echo "Payment successfully recorded for Fine ID: " . $fine_id;
-        
+
 
 
     } catch (Exception $e) {
@@ -144,7 +155,7 @@ $stmt->close();
 
 if ($driverEmailResult->num_rows > 0) {
     $driverEmail = $driverEmailResult->fetch_assoc()['email'];
-    
+
     // Email content
     $subject = "Payment Confirmation for Fine ID: " . $fine_id;
     $message = "

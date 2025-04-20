@@ -7,6 +7,26 @@ $pageConfig = [
 ];
 
 include_once "../../../includes/header.php";
+require_once "../../../db/connect.php";
+
+if ($_SESSION['user']['role'] !== 'driver') {
+    die("unathorized author!");
+}
+
+$driver_id = $_SESSION['user']['id'];
+
+
+$payments = [];
+$stmt = $conn->prepare("SELECT id AS fine_id, fine_amount, paid_at FROM fines WHERE driver_id = ? AND fine_status = 'paid' ORDER BY paid_at DESC");
+$stmt->bind_param("s", $driver_id);
+
+if ($stmt->execute()) {
+    $result = $stmt->get_result();
+    $payments = $result->fetch_all(MYSQLI_ASSOC);
+} else {
+    die("Query failed!");
+}
+$stmt->close();
 ?>
 
 
@@ -15,34 +35,36 @@ include_once "../../../includes/header.php";
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
-            <div class="container x-large no-border">
-                <h1>Payments</h1>
-            </div>
+            <h1>Payments</h1>
             <div class="table-container">
-                    <table>
-                        <thead>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fine ID</th>
+                            <th>Payment Date/Time</th>
+                            <th>Amount Paid</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (count($payments) === 0): ?>
                             <tr>
-                                <th>Payment ID</th>
-                                <th>Payment Date</th>
-                                <th>Payment Time</th>
-                                <th>Amount Paid</th>
-                                <th>Transaction Status</th>
-                                <th>Action</th>
+                                <td colspan="4">No payments found.</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>23000125</td>
-                                <td>2024-11-29</td>
-                                <td>09:15 AM</td>
-                                <td>Rs. 1000.00</td>
-                                <td>Successful</td>
-                                <td><button class="btn">View</button></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                </div>
+                        <?php else: ?>
+                            <?php foreach ($payments as $payment): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($payment['fine_id']) ?></td>
+                                    <td><?= htmlspecialchars($payment['paid_at']) ?></td>
+                                    <td><?= htmlspecialchars(number_format($payment['fine_amount'], 2)) ?>LKR</td>
+                                    <td><a href="view.php?fine_id=<?= $payment['fine_id'] ?>"><button
+                                                class="btn">View</button></a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
 </main>
 
