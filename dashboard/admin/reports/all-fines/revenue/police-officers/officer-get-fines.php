@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 header("Content-Type: application/json");
 
-require_once "../../../../../db/connect.php";
+require_once "../../../../../../db/connect.php";
 session_start();
 
 $period = $_GET['time_period'] ?? '';
@@ -22,10 +22,12 @@ $interval = match ($period) {
 
 // Fetch total fines grouped by location
 $query = "
-    SELECT offence_type AS label,
-    COUNT(*) AS count
-    FROM fines
-    WHERE CONCAT(issued_date, ' ', issued_time) >= NOW() - $interval
+    SELECT 
+    COALESCE(po.id, 'Unknown') AS label,
+    SUM(f.fine_amount) AS count
+    FROM fines f
+    LEFT JOIN officers po ON f.police_id = po.id
+    WHERE CONCAT(f.issued_date, ' ', f.issued_time) >= NOW() - $interval
     GROUP BY label
     ORDER BY count DESC;
 ";

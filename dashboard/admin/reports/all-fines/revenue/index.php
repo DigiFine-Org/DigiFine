@@ -2,7 +2,15 @@
 $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../../../dashboard.css", "../../reports.css"],
-    'scripts' => ["./chart.js", "analytics.js", "growth-chart.js", "police-stations/station-chart.js", "police-stations/station-analytics.js"],
+    'scripts' => [
+        "./chart.js",
+        "analytics.js",
+        "growth-chart.js",
+        "police-stations/station-chart.js",
+        "police-stations/station-analytics.js",
+        "police-officers/officer-chart.js",
+        "police-officers/officer-analytics.js"
+    ],
     'authRequired' => true
 ];
 
@@ -84,15 +92,24 @@ if ($_SESSION['message'] ?? null) {
                 </div>
 
                 <div class="table-container">
-                    <!-- Chart Section -->
                     <div class="chart-section">
                         <canvas id="policeStationFineChart" width="800" height="400"></canvas>
                     </div>
                 </div>
-
                 <div class="table-container">
-                    <div class="fine-summary mt-4" id="fineSummary2"></div>
+                    <div class="fine-summary mt-4" id="stationFineSummary"></div>
+
+                    <div class="table-container">
+                        <div class="chart-section">
+                            <canvas id="officerFineChart" width="800" height="400"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="fine-summary mt-4" id="officerSummary"></div>
+                    </div>
                 </div>
+            </div>
     </main>
 
     <!-- Include Chart.js -->
@@ -111,6 +128,7 @@ if ($_SESSION['message'] ?? null) {
             e.preventDefault(); // prevent form submission or reload
             fetchFineData();
             fetchStationFineData();
+            fetchOfficerFineData();
         });
     }); // Close the DOMContentLoaded event listener
 </script>
