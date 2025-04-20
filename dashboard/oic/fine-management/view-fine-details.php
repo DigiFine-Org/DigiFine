@@ -24,7 +24,7 @@ $fine_id = intval($_GET['id']);
 $sql = "
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, expire_date, 
            f.offence_type,f.location, f.nature_of_offence, f.offence, f.fine_status, f.fine_amount, f.is_reported, f.reported_description, 
-           f.evidence
+           f.evidence, f.oics_action, f.is_discarded
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
     WHERE f.id = ? AND o.police_station = (SELECT police_station FROM officers WHERE id = ?)
