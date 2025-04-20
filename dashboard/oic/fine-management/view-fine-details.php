@@ -30,7 +30,7 @@ $sql = "
     WHERE f.id = ? AND o.police_station = (SELECT police_station FROM officers WHERE id = ?)
 ";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("is", $fine_id, $oic_id);
+$stmt->bind_param("ii", $fine_id, $oic_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -115,7 +115,7 @@ $conn->close();
                                 if (in_array($file_extension, ['jpg', 'jpeg', 'png', 'gif'])): ?>
                                     <img src="<?= htmlspecialchars($evidence_path) ?>"
                                         alt="Evidence Image"
-                                        style="max-width: 500px; height: auto; margin-top: 10px; border: 1px solid #ddd; border-radius: 4px;"
+                                        style="max-width: 300px; height: auto; margin-top: 10px; border: 1px solid #ddd; border-radius: 4px;"
                                         onclick="window.open(this.src, '_blank')">
                                 <?php elseif ($file_extension === 'pdf'): ?>
                                     <div class="pdf-preview">
@@ -130,30 +130,50 @@ $conn->close();
                         </div>
                     <?php endif; ?>
 
-                    <!-- OIC Comment Form -->
-                    <form action="oic-action-process.php" method="post" id="oicActionForm" style="margin-top: 20px;">
-                        <div class="field">
-                            <label for="oic_action">OIC Action (Comment):</label>
-                            <textarea type="text" class="input" name="oic_action" id="oic_action"
-                                placeholder="Provide your comment here..." required></textarea>
+                    <?php if (!empty($fine['oics_action'])): ?>
+                        <!-- Display OIC's action if already taken -->
+                        <div class="data-line">
+                            <span>OIC's Action:</span>
+                            <p><?= htmlspecialchars($fine['oics_action']) ?></p>
+                        </div>
+
+                        <div class="alert <?= $fine['is_discarded'] ? 'alert-danger' : 'alert-success' ?>">
+                            <?php if ($fine['is_discarded']): ?>
+                                <p>This reported Fine has been marked as unfair (discarded).</p>
+                            <?php else: ?>
+                                <p>This reported Fine has been marked as fair.</p>
+                            <?php endif; ?>
                         </div>
 
                         <div class="wrapper" style="margin-top: 10px;">
-                            <!-- Button to Discard Fine -->
-                            <button type="submit" name="action_type" value="discard" class="deletebtn"
-                                style="margin-right: 10px;">
-                                Discard Fine (Unfair)
-                            </button>
-
-                            <!-- Button to Mark Fine as Fair -->
-                            <button type="submit" name="action_type" value="fair" class="btn" style="margin-right: 10px;">
-                                Submit (Fair)
-                            </button>
+                            <a href="index.php" class="btn">Back to Fines</a>
                         </div>
+                    <?php else: ?>
+                        <!-- OIC Comment Form if action not yet taken -->
+                        <form action="oic-action-process.php" method="post" id="oicActionForm" style="margin-top: 20px;">
+                            <div class="field">
+                                <label for="oic_action">OIC Action (Comment):</label>
+                                <textarea type="text" class="input" name="oic_action" id="oic_action"
+                                    placeholder="Provide your comment here..." required></textarea>
+                            </div>
 
-                        <!-- Hidden input for the Fine ID -->
-                        <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['id']) ?>">
-                    </form>
+                            <div class="wrapper" style="margin-top: 10px;">
+                                <!-- Button to Discard Fine -->
+                                <button type="submit" name="action_type" value="discard" class="deletebtn"
+                                    style="margin-right: 10px;">
+                                    Discard Fine (Unfair)
+                                </button>
+
+                                <!-- Button to Mark Fine as Fair -->
+                                <button type="submit" name="action_type" value="fair" class="btn" style="margin-right: 10px;">
+                                    Submit (Fair)
+                                </button>
+                            </div>
+
+                            <!-- Hidden input for the Fine ID -->
+                            <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['id']) ?>">
+                        </form>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -161,36 +181,3 @@ $conn->close();
 </main>
 
 <?php include_once "../../../includes/footer.php"; ?>
-
-<style>
-    .evidence-container {
-        margin: 10px 0;
-    }
-
-    .evidence-container img {
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
-
-    .evidence-container img:hover {
-        transform: scale(1.02);
-    }
-
-    .pdf-preview {
-        margin: 10px 0;
-    }
-
-    .pdf-link {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #f0f0f0;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        color: #333;
-        text-decoration: none;
-    }
-
-    .pdf-link:hover {
-        background-color: #e0e0e0;
-    }
-</style>

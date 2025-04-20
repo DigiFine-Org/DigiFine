@@ -20,7 +20,7 @@ if (!$assignedDutyId) {
     die("No duty ID provided.");
 }
 
-// Fetch assigned duty details for validation or additional display (optional)
+// Fetch assigned duty details for validation or additional display
 $stmt = $conn->prepare("SELECT * FROM assigned_duties WHERE id = ? AND police_id = ?");
 if (!$stmt) {
     die("Error preparing statement: " . $conn->error);
@@ -35,8 +35,38 @@ if ($result->num_rows === 0) {
 
 $duty = $result->fetch_assoc();
 $stmt->close();
-?>
 
+// Get current date and time in digital format
+$current_date = date('Y-m-d');
+$current_time = date('H:i:s');
+$current_datetime = date('Y-m-d H:i:s');
+
+// Create datetime objects for comparison
+$duty_start_datetime = $duty['duty_date'] . ' ' . $duty['duty_time_start'];
+$duty_end_datetime = $duty['duty_date'] . ' ' . $duty['duty_time_end'];
+
+// Check if duty is already submitted
+$duty_submitted = $duty['submitted'] == 1;
+
+// Determine if the duty can be submitted (after start time and before end time)
+$can_submit = !$duty_submitted && ($current_datetime >= $duty_start_datetime) && ($current_datetime <= $duty_end_datetime);
+
+// Determine status message
+$status_message = "";
+$status_class = "";
+
+if ($duty_submitted) {
+    $status_message = "This duty has already been submitted.";
+    $status_class = "success-message";
+} elseif ($current_datetime < $duty_start_datetime) {
+    $status_message = "You can not submit this duty until " . date('Y-m-d H:i:s', strtotime($duty_start_datetime));
+    $status_class = "error-message";
+} elseif ($current_datetime > $duty_end_datetime) {  // FIXED: Changed < to > to correctly identify expired duties
+    $status_message = "This duty has expired. The submission period ended on " . date('Y-m-d H:i:s', strtotime($duty_end_datetime));
+    $status_class = "error-message";
+}
+?>
+ 
 <main>
     <?php include_once "../../includes/navbar.php" ?>
     <div class="dashboard-layout">
@@ -44,6 +74,19 @@ $stmt->close();
         <div class="content">
             <div class="container">
                 <h1>Submit Duty</h1>
+                
+                <?php if (!empty($status_message)): ?>
+                <div class="<?php echo $status_class; ?>"><?php echo $status_message; ?></div>
+                <?php endif; ?>
+                
+                <div class="duty-details">
+                    <h3>Duty Details</h3>
+                    <p><strong>Date:</strong> <?php echo date('Y-m-d', strtotime($duty['duty_date'])); ?></p>
+                    <p><strong>Time:</strong> <?php echo date('H:i:s', strtotime($duty['duty_time_start'])); ?> - <?php echo date('H:i:s', strtotime($duty['duty_time_end'])); ?></p>
+                    <p><strong>Status:</strong> <?php echo $duty['submitted'] ? 'Submitted' : 'Pending Submission'; ?></p>
+                </div>
+                
+                <?php if ($can_submit): ?>
                 <form action="submit-duty-process.php" method="post">
                     <p><b>Police Officer Details</b></p>
                     <div class="field">
@@ -65,12 +108,15 @@ $stmt->close();
                         <label for="">Patrol Time (End):</label>
                         <input type="time" class="input" name="patrol_time_ended" required>
                     </div>
-                    <div class="field" required>
+                    <div class="field">
                         <label for="">Patrol Information:</label>
-                        <textarea type="text" class="input" name="patrol_information"></textarea>
+                        <textarea type="text" class="input" name="patrol_information" required></textarea>
                     </div>
                     <button class="btn">Submit</button>
                 </form>
+                <?php else: ?>
+                <p>The submission form is not available at this time.</p>
+                <?php endif; ?>
             </div>
         </div>
     </div>

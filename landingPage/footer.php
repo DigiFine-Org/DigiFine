@@ -1,3 +1,5 @@
 <footer>
-    <p>&copy; 2024 Digi-Fine. All rights reserved.</p>
+    <div class="container">
+        <p>&copy; 2025 Digi-Fine. All rights reserved. | Sri Lanka Police</p>
+    </div>
 </footer>

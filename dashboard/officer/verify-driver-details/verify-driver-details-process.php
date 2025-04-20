@@ -1,13 +1,21 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     session_start(); // Ensure session is started
-    // Get the driver license ID from the query parameter
-    $license_id = isset($_GET['query']) ? htmlspecialchars($_GET['query']) : '';
+    // Get the search ID and type from the query parameters
+    $searchId = isset($_GET['query']) ? htmlspecialchars($_GET['query']) : '';
+    $searchType = isset($_GET['search_type']) ? htmlspecialchars($_GET['search_type']) : 'license';
 
-    if (!$license_id) {
-        $_SESSION['message'] = "License ID is required!";
+    if (!$searchId) {
+        $_SESSION['message'] = "Search ID is required!";
         header("Location: /digifine/dashboard/officer/verify-driver-details/index.php");
         exit();
+    }
+
+    // Determine which field to search based on search type
+    if ($searchType === 'license') {
+        $searchField = "license_id";
+    } else {
+        $searchField = "nic";
     }
 
     // Fetch driver details
@@ -17,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 license_id,
                 nic,
                 address,
+                birth_date,
                 license_issue_date,
                 license_expiry_date,
                 restrictions,
@@ -35,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 G_issue_date, G_expiry_date,
                 J_issue_date, J_expiry_date
             FROM dmt_drivers
-            WHERE license_id = ?";
+            WHERE $searchField = ?";
 
     $stmt = $conn->prepare($sql);
 
@@ -43,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         die("Database error: " . $conn->error);
     }
 
-    $stmt->bind_param("s", $license_id);
+    $stmt->bind_param("s", $searchId);
 
     if (!$stmt->execute()) {
         die("Query execution error: " . $stmt->error);
@@ -78,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     ];
 
     // Redirect with driver details
-    header("Location: verify-driver-details.php?query=$license_id&driver=" . urlencode(json_encode($driver)) . "&categories=" . urlencode(json_encode($vehicleCategories)));
+    header("Location: verify-driver-details.php?query=$searchId&search_type=$searchType&driver=" . urlencode(json_encode($driver)) . "&categories=" . urlencode(json_encode($vehicleCategories)));
     exit();
 } else {
     die("Invalid request method!");

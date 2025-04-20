@@ -7,15 +7,33 @@ $pageConfig = [
 ];
 
 include_once "../../../includes/header.php";
+include_once "../../../db/connect.php";
+
 if ($_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized user!");
 }
 
 $result = "";
-
 if (isset($_GET)) {
     $result = $_GET['query'] ?? "";
 }
+
+// Fetch OIC's station
+$oicId = $_SESSION['user']['id'];
+$stationQuery = "SELECT police_station FROM officers WHERE id = ? AND is_oic = 1";
+$stationStmt = $conn->prepare($stationQuery);
+$stationStmt->bind_param("i", $oicId);
+$stationStmt->execute();
+$stationResult = $stationStmt->get_result();
+$stationData = $stationResult->fetch_assoc();
+$stationId = $stationData['police_station'];
+
+// Fetch all officers under this station who are not OICs
+$officersQuery = "SELECT id, fname, lname FROM officers WHERE police_station = ? AND is_oic = 0 ORDER BY lname, fname";
+$officersStmt = $conn->prepare($officersQuery);
+$officersStmt->bind_param("i", $stationId);
+$officersStmt->execute();
+$officersResult = $officersStmt->get_result();
 ?>
 
 <main>
@@ -23,12 +41,19 @@ if (isset($_GET)) {
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
-            <div class="container  ">
+            <div class="container">
                 <h1>Assign Duty</h1>
                 <form action="assign-duty-handler.php" method="POST">
                     <div class="field">
-                        <label for="policeId">Police ID:</label>
-                        <input type="text" name="policeId" class="input" required>
+                        <label for="policeId">Select Officer:</label>
+                        <select name="policeId" class="input" required>
+                            <option value="">Select Officer</option>
+                            <?php while ($officer = $officersResult->fetch_assoc()): ?>
+                                <option value="<?php echo $officer['id']; ?>">
+                                    <?php echo $officer['fname'] . ' ' . $officer['lname'] . ' - ' . $officer['id']; ?>
+                                </option>
+                            <?php endwhile; ?>
+                        </select>
                     </div>
                     <div class="field">
                         <label for="duty">Duty:</label>
@@ -68,4 +93,10 @@ if (isset($_GET)) {
     </div>
 </main>
 
-<?php include_once "../../../includes/footer.php"; ?>
+<?php 
+// Close statements and connection
+if (isset($stationStmt)) $stationStmt->close();
+if (isset($officersStmt)) $officersStmt->close();
+
+include_once "../../../includes/footer.php"; 
+?>

@@ -32,12 +32,14 @@ $oic_data = $result->fetch_assoc();
 $police_station_id = $oic_data['police_station'];
 
 // Fetch fines related to the OIC's police station
+// Modified query to order by issued_date and issued_time in descending order (latest first)
 $query = "
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
            f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
-    WHERE o.police_station = ? AND f.is_reported = 1
+    WHERE o.police_station = ? AND f.is_reported = 1 AND f.is_discarded = 0 AND f.is_fair=1
+    ORDER BY f.issued_date DESC, f.issued_time DESC
 ";
 
 $fines = [];
@@ -105,7 +107,7 @@ $stmt->close();
                                     <td><?= $fine['is_reported'] ? 'Yes' : 'No' ?></td>
                                     <td><?= htmlspecialchars($fine['fine_status']) ?></td>
                                     <td>
-                                        <a href="view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>"
+                                        <a href="../fine-management/view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>"
                                             class="btn">Solve Now</a>
                                     </td>
                                 </tr>
@@ -118,6 +120,9 @@ $stmt->close();
                     </tbody>
                 </table>
             </div>
+        
+        </div>
+    </div>
 </main>
 
 <?php include_once "../../../includes/footer.php"; ?>

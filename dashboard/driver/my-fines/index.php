@@ -50,38 +50,46 @@ $stmt->close();
         <div class="content">
             <h1 style="margin-bottom: 10px;">Fines to be Paid</h1>
             <div class="home-grid">
-                <?php foreach ($fines as $fine): ?>
-                    <div class="ticket <?= $fine['fine_status'] === 'overdue' ? 'danger' : '' ?>">
-                        <span class="id">Ticket: 3456<?= htmlspecialchars($fine['id']) ?></span>
-                        <div class="data-line">
-                            <div class="label">Offence Type:</div>
-                            <p><?= htmlspecialchars($fine['offence_type']) ?></p>
-                        </div>
-                        <div class="data-line">
-                            <div class="label">Offence:</div>
-                            <p><?= htmlspecialchars($fine['offence']) ?></p>
-                        </div>
-                        <div class="data-line">
-                            <div class="label">Date:</div>
-                            <p><?= htmlspecialchars($fine['issued_date']) ?></p>
-                        </div>
-                        <div class="bottom-bar">
-                            <div class="actions">
-                                <?php if ($fine['offence_type'] !== 'court'): ?>
-                                    <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>" class="btn">View</a>
-                                    <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['id']) ?>" class="btn">Pay</a>
-                                <?php else: ?>
-                                    <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>" class="btn">View</a>
-                                <?php endif; ?>
+                <?php if (count($fines) > 0): ?>
+                    <?php foreach ($fines as $fine): ?>
+                        <div class="ticket <?= $fine['fine_status'] === 'overdue' ? 'danger' : '' ?>">
+                            <span class="id">Ticket: 3456<?= htmlspecialchars($fine['id']) ?></span>
+                            <div class="data-line">
+                                <div class="label">Offence Type:</div>
+                                <p><?= htmlspecialchars($fine['offence_type']) ?></p>
                             </div>
-                            <div class="status-list">
-                                <span class="status <?= $fine['fine_status'] === 'overdue' ? 'danger' : '' ?>">
-                                    <?= htmlspecialchars($fine['fine_status']) ?>
-                                </span>
+                            <div class="data-line">
+                                <div class="label">Offence:</div>
+                                <p><?= htmlspecialchars($fine['offence']) ?></p>
+                            </div>
+                            <div class="data-line">
+                                <div class="label">Date:</div>
+                                <p><?= htmlspecialchars($fine['issued_date']) ?></p>
+                            </div>
+                            <div class="bottom-bar">
+                                <div class="actions">
+                                    <?php if ($fine['offence_type'] !== 'court'): ?>
+                                        <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>" class="btn">View</a>
+                                        <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['id']) ?>" class="btn">Pay</a>
+                                    <?php else: ?>
+                                        <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>" class="btn">View</a>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="status-list">
+                                    <span class="status <?= $fine['fine_status'] === 'overdue' ? 'danger' : '' ?>">
+                                        <?= htmlspecialchars($fine['fine_status']) ?>
+                                    </span>
+                                </div>
                             </div>
                         </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="no-fines-container">
+                        <img src="../../../assets/no-fines.png" alt="No fines" class="no-fines-image">
+                        <h2>No Fines Found</h2>
+                        <p>You don't have any outstanding fines to pay. Keep up the good driving!</p>
                     </div>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

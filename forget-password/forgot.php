@@ -82,7 +82,7 @@ if (count($_POST) > 0) {
 					unset($_SESSION['forgot']);
 				}
 
-				header("Location: digifine/login/index.php");
+				header("Location: /digifine/login/index.php");
 				die;
 			}
 			break;

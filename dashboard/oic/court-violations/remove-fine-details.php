@@ -1,34 +1,25 @@
 <?php
 require_once "../../../db/connect.php";
-
-// Check if user is authenticated
 session_start();
-$oic_id = $_SESSION['user']['id'] ?? null;
-if (!$oic_id) {
-    echo "unauthorized";
+
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'oic') {
+    http_response_code(403);
+    echo json_encode(['error' => 'Unauthorized']);
     exit;
 }
 
-// Check if ID is sent and is numeric
-if (!isset($_POST['id']) || !is_numeric($_POST['id'])) {
-    echo "invalid_id";
-    exit;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $caseId = intval($_POST['case_id']);
+
+    $stmt = $conn->prepare("UPDATE fines SET is_solved = 1 WHERE id = ?");
+    $stmt->bind_param("i", $caseId);
+    
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['error' => 'Database error']);
+    }
+
+    $stmt->close();
+    $conn->close();
 }
-
-$fine_id = intval($_POST['id']);
-
-$sql = "DELETE FROM fines WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $fine_id);
-$stmt->execute();
-
-if ($stmt->affected_rows > 0) {
-    echo "deleted successfully";
-} else {
-    echo "couldnt delete";
-}
-
-$stmt->close();
-$conn->close();
-exit;
-?>
