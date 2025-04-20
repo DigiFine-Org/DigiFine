@@ -2,7 +2,7 @@
 $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../../../dashboard.css", "../../reports.css"],
-    'scripts' => ["./chart.js", "analytics.js", "fine-court-pie-chart.js"],
+    'scripts' => ["./chart.js", "analytics.js", "fine-court-chart.js", "pie-chart.js"],
     'authRequired' => true
 ];
 
@@ -63,6 +63,12 @@ if ($_SESSION['message'] ?? null) {
                 <div class="filter-field">
                     <button class="btn" id="generateReportBtn">Generate Report</button>
                 </div>
+                <div class="table-container">
+                    <!-- Chart Section -->
+                    <div class="chart-section">
+                        <canvas id="pieChart" width="200" height="200"></canvas>
+                    </div>
+                </div>
 
                 <div class="table-container">
                     <!-- Chart Section -->
@@ -87,6 +93,8 @@ if ($_SESSION['message'] ?? null) {
 
     <!-- Include Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
     <?php foreach ($pageConfig['scripts'] as $script): ?>
         <script src="<?php echo $script; ?>"></script>
     <?php endforeach; ?>
@@ -101,6 +109,7 @@ if ($_SESSION['message'] ?? null) {
             e.preventDefault(); // prevent form submission or reload
             fetchFineData();
             fetchFineCourtData();
+            fetchPieChartData();
         });
     }); // Close the DOMContentLoaded event listener
 </script>
