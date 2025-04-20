@@ -7,10 +7,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description_tamil = htmlspecialchars($_POST['description_tamil']);
     $description_english = htmlspecialchars($_POST['description_english']);
     $points_deducted = htmlspecialchars($_POST['points_deducted']);
-    $fine = floatval($_POST['fine']);
+    $fine_amount = floatval($_POST['fine_amount']);
 
 
-    $sql = "INSERT INTO offences (offence_number, description_sinhala, description_tamil, description_english, points_deducted, fine)
+    $sql = "INSERT INTO offences (offence_number, description_sinhala, description_tamil, description_english, points_deducted, fine_amount)
             VALUES (?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-    $stmt->bind_param("ssssid", $offence_number, $description_sinhala, $description_tamil, $description_english, $points_deducted, $fine);
+    $stmt->bind_param("ssssid", $offence_number, $description_sinhala, $description_tamil, $description_english, $points_deducted, $fine_amount);
 
 
     if ($stmt->execute()) {
