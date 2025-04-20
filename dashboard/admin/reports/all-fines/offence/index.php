@@ -66,7 +66,7 @@ if ($_SESSION['message'] ?? null) {
                 <div class="table-container">
                     <!-- Chart Section -->
                     <div class="chart-section">
-                        <canvas id="pieChart" width="200" height="200"></canvas>
+                        <canvas class="pie-chart" id="pieChart"></canvas>
                     </div>
                 </div>
 
@@ -82,7 +82,7 @@ if ($_SESSION['message'] ?? null) {
                 <div class="table-container">
                     <!-- Chart Section -->
                     <div class="chart-section">
-                        <canvas id="fineChart" width="800" height="400"></canvas>
+                        <canvas id="offenceChart" width="800" height="400"></canvas>
                     </div>
                 </div>
 

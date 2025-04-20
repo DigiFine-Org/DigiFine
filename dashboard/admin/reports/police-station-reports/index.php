@@ -2,7 +2,16 @@
 $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../../dashboard.css", "../reports.css"],
-    'scripts' => ["./locations-chart.js", "locations-analytics.js"],
+    'scripts' => [
+        "./locations-chart.js",
+        "locations-analytics.js",
+        "officer-revenue/officer-chart.js",
+        "officer-revenue/officer-analytics.js",
+        "officer-issued-fines/officer-chart.js",
+        "officer-issued-fines/officer-analytics.js",
+        "offence-type/offence-chart.js",
+        "offence-type/offence-analytics.js"
+    ],
     'authRequired' => true
 ];
 
@@ -78,7 +87,7 @@ if ($_SESSION['message'] ?? null) {
                 </div>
 
                 <div class="filter-field">
-                    <button class="btn" onclick="fetchFineData()">Generate Report</button>
+                    <button class="btn" id="generateReportBtn">Generate Report</button>
                 </div>
 
                 <div class="table-container">
@@ -87,7 +96,40 @@ if ($_SESSION['message'] ?? null) {
                         <canvas id="fineChart" width="800" height="400"></canvas>
                     </div>
                 </div>
-                <div class="fine-summary mt-4" id="fineSummary"></div>
+                <div class="table-container">
+                    <div class="fine-summary mt-4" id="fineSummary"></div>
+                </div>
+
+                <div class="table-container">
+                    <!-- Chart Section -->
+                    <div class="chart-section">
+                        <canvas id="officerFineChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="fine-summary mt-4" id="officerSummary"></div>
+                </div>
+
+                <div class="table-container">
+                    <!-- Chart Section -->
+                    <div class="chart-section">
+                        <canvas id="officerIssuedFineChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="fine-summary mt-4" id="officerIssuedSummary"></div>
+                </div>
+
+                <div class="table-container">
+                    <!-- Chart Section -->
+                    <div class="chart-section">
+                        <canvas id="OffenesChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="fine-summary mt-4" id="offencesSummary"></div>
+                </div>
+
             </div>
     </main>
 
@@ -97,3 +139,18 @@ if ($_SESSION['message'] ?? null) {
         <script src="<?php echo $script; ?>"></script>
     <?php endforeach; ?>
 </body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Attach one event listener to the button
+        const generateBtn = document.getElementById("generateReportBtn");
+
+        generateBtn.addEventListener("click", function(e) {
+            e.preventDefault(); // prevent form submission or reload
+            fetchFineData();
+            fetchOfficerFineData();
+            fetchOfficerIssuedFineData();
+            fetchOffencesFineData();
+        });
+    }); // Close the DOMContentLoaded event listener
+</script>
