@@ -24,7 +24,7 @@ if ($searchId) {
     } else {
         $searchField = "nic";
     }
-    
+
     $sql = "SELECT * FROM dmt_drivers WHERE $searchField=?";
     $stmt = $conn->prepare($sql);
 
@@ -46,6 +46,19 @@ if ($searchId) {
     }
 
     $result = $result->fetch_assoc();
+
+    // fetch previous fine count
+    $fineCount = 0;
+
+    $fineSql = "SELECT COUNT(*) as total FROM fines WHERE driver_id = ?";
+    $fineStmt = $conn->prepare($fineSql);
+    $fineStmt->bind_param("s", $result['license_id']);
+    $fineStmt->execute();
+    $fineResult = $fineStmt->get_result();
+
+    if ($fineRow = $fineResult->fetch_assoc()) {
+        $fineCount = $fineRow['total'];
+    }
 }
 
 ?>
@@ -77,14 +90,18 @@ if ($searchId) {
                                 </label>
                             </div>
                         </div>
-                        <input name="query" required type="search" class="input" 
-                               placeholder="Enter Driver License ID (B1234567) or NIC Number">
+                        <input name="query" required type="search" class="input"
+                            placeholder="Enter Driver License ID (B1234567) or NIC Number">
                         <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>
-                    <div class="data-line" style="background-color:rgb(0, 0, 0); padding: 5px; border-radius: 10px;">
-                        <span>NO OF FINES ISSUED IN [MONTH]:</span>
-                        <!-- <p><?= $result['fname'] . " " . $result['lname'] ?></p> -->
+                    <div class="data-line" style="">
+                        <span>Number OF past violations of this driver: </span>
+                        <p><?= $fineCount ?></p>
+                        <?php if ($fineCount > 0): ?>
+                            <a href="past-violations.php?license_id=<?= $result['license_id'] ?>" class="btn" style="">View
+                                Violations</a>
+                        <?php endif; ?>
                     </div>
                     <h3>Driver License</h3>
                     <div class="data-line">
@@ -216,7 +233,8 @@ if ($searchId) {
                             </tbody>
                         </table>
                         <br>
-                        <a href="../generate-e-ticket/index.php?id=<?= $result['license_id'] ?>&nic=<?= $result['nic'] ?>" class="btn margintop">Issue Fine</a>
+                        <a href="../generate-e-ticket/index.php?id=<?= $result['license_id'] ?>&nic=<?= $result['nic'] ?>"
+                            class="btn margintop">Issue Fine</a>
                     </div>
                 <?php endif ?>
             </div>
