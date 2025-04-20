@@ -7,14 +7,16 @@ require_once "send-fine-mail.php";
 // Check if user is logged in as police officer
 $policeId = $_SESSION['user']['id'] ?? null;
 
-
-
 if (!$policeId) {
     die("Unauthorized access. Police ID not found.");
 }
 
+// Fetch the police station for the logged-in officer
+// $policeStation = "SELECT police_station FROM officers WHERE id = '$policeId'";
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
+    $policeStation = $_SESSION['police_station_id'];
     $issued_date = htmlspecialchars($_POST['issued_date']);
     $issued_time = htmlspecialchars($_POST['issued_time']);
     $expire_date = date('Y-m-d', strtotime($issued_date . ' + 14 days'));
@@ -78,16 +80,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Insert the fine into the database
     $sql = "INSERT INTO fines (
-        police_id, driver_id, license_plate_number, issued_date, issued_time, expire_date, offence_type, nature_of_offence, location, offence, fine_amount
+        police_id, driver_id, police_station, license_plate_number, issued_date, issued_time, expire_date, offence_type, nature_of_offence, location, offence, fine_amount
     ) VALUES (
-        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
     )";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die("Error preparing statement: " . $conn->error);
     }
 
-    $stmt->bind_param("isssssssssd", $policeId, $driver_id, $license_plate_number, $issued_date, $issued_time, $expire_date, $offence_type, $nature_of_offence, $location, $offence_number, $fine_amount);
+    $stmt->bind_param("isissssssssd", $policeId, $driver_id, $policeStation, $license_plate_number, $issued_date, $issued_time, $expire_date, $offence_type, $nature_of_offence, $location, $offence_number, $fine_amount);
     if ($stmt->execute()) {
 
         // Deduct points from the driver's total

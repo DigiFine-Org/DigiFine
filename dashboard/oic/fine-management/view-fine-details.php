@@ -23,7 +23,7 @@ $fine_id = intval($_GET['id']);
 // Ensure the fine belongs to the OIC's police station
 $sql = "
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, expire_date, 
-           f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.fine_amount, f.is_reported, f.reported_description, 
+           f.offence_type,f.location, f.nature_of_offence, f.offence, f.fine_status, f.fine_amount, f.is_reported, f.reported_description, 
            f.evidence, f.oics_action, f.is_discarded
     FROM fines f
     INNER JOIN officers o ON f.police_id = o.id
@@ -87,6 +87,10 @@ $conn->close();
                     <p><?= htmlspecialchars($fine['nature_of_offence']) ?></p>
                 </div>
                 <div class="data-line">
+                    <span>Location:</span>
+                    <p><?= htmlspecialchars($fine['location']) ?></p>
+                </div>
+                <div class="data-line">
                     <span>Fine Status:</span>
                     <p><?= htmlspecialchars($fine['fine_status']) ?></p>
                 </div>
@@ -109,17 +113,15 @@ $conn->close();
                                 $evidence_path = "../../../" . $fine['evidence'];
                                 $file_extension = strtolower(pathinfo($evidence_path, PATHINFO_EXTENSION));
                                 if (in_array($file_extension, ['jpg', 'jpeg', 'png', 'gif'])): ?>
-                                    <img src="<?= htmlspecialchars($evidence_path) ?>" 
-                                         alt="Evidence Image" 
-                                         style="max-width: 300px; height: auto; margin-top: 10px; border: 1px solid #ddd; border-radius: 4px;"
-                                         onclick="window.open(this.src, '_blank')"
-                                    >
+                                    <img src="<?= htmlspecialchars($evidence_path) ?>"
+                                        alt="Evidence Image"
+                                        style="max-width: 300px; height: auto; margin-top: 10px; border: 1px solid #ddd; border-radius: 4px;"
+                                        onclick="window.open(this.src, '_blank')">
                                 <?php elseif ($file_extension === 'pdf'): ?>
                                     <div class="pdf-preview">
-                                        <a href="<?= htmlspecialchars($evidence_path) ?>" 
-                                           target="_blank" 
-                                           class="pdf-link"
-                                        >
+                                        <a href="<?= htmlspecialchars($evidence_path) ?>"
+                                            target="_blank"
+                                            class="pdf-link">
                                             View PDF Evidence
                                         </a>
                                     </div>
@@ -134,7 +136,7 @@ $conn->close();
                             <span>OIC's Action:</span>
                             <p><?= htmlspecialchars($fine['oics_action']) ?></p>
                         </div>
-                        
+
                         <div class="alert <?= $fine['is_discarded'] ? 'alert-danger' : 'alert-success' ?>">
                             <?php if ($fine['is_discarded']): ?>
                                 <p>This reported Fine has been marked as unfair (discarded).</p>
@@ -142,7 +144,7 @@ $conn->close();
                                 <p>This reported Fine has been marked as fair.</p>
                             <?php endif; ?>
                         </div>
-                        
+
                         <div class="wrapper" style="margin-top: 10px;">
                             <a href="index.php" class="btn">Back to Fines</a>
                         </div>
