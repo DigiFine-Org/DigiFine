@@ -124,9 +124,9 @@ $stmt->close();
 
 // Recent fines
 $sql = "SELECT * FROM fines 
-        WHERE police_id = ? 
-        AND issued_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) 
-        ORDER BY issued_date DESC";
+WHERE police_id = ? 
+AND issued_date >= DATE_SUB(NOW(), INTERVAL 3 DAY) 
+ORDER BY issued_date DESC, issued_time DESC;";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $policeId);
