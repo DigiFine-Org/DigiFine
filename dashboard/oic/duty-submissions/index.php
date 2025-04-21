@@ -29,13 +29,23 @@ try {
     $oic_data = $result->fetch_assoc();
     $police_station_id = $oic_data['police_station'];
 
-    // Query to fetch duty submissions for officers under the OIC's police station
+    // Modified query to include all necessary fields
     $query = "
-        SELECT ds.id AS submission_id, ds.police_id, ds.patrol_location, a.duty_time_start, ds.patrol_time_started, a.duty_time_end, ds.patrol_time_ended, ds.patrol_information
+        SELECT 
+            ds.id AS submission_id, 
+            ds.police_id, 
+            CONCAT(o.fname, ' ', o.lname) AS officer_name,
+            a.duty_date,
+            ds.patrol_location, 
+            a.duty_time_start, 
+            ds.patrol_time_started, 
+            a.duty_time_end, 
+            ds.patrol_time_ended, 
+            ds.is_late_submission
         FROM duty_submissions ds
         INNER JOIN officers o ON ds.police_id = o.id
         INNER JOIN assigned_duties a ON ds.assigned_duty_id = a.id
-        WHERE  o.police_station = ?";
+        WHERE o.police_station = ?";
 
     $stmt = $conn->prepare($query);
     if (!$stmt) {
@@ -69,29 +79,33 @@ try {
                         <thead>
                             <tr>
                                 <th>Police ID</th>
+                                <th>Officer Name</th>
+                                <th>Duty Date</th>
                                 <th>Patrol Location</th>
-                                <th>Duty assigned to start at</th>
-                                <th>Duty started by the officer at</th>
-                                <th>Duty assigned to end at</th>
-                                <th>Duty ended by the officer at</th>
-                                <th>Additional Information</th>
+                                <th>Assigned Start</th>
+                                <th>Actual Start</th>
+                                <th>Assigned End</th>
+                                <th>Actual End</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (empty($duties)): ?>
                                 <tr>
-                                    <td colspan="5">No submitted duties found.</td>
+                                    <td colspan="11">No submitted duties found.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($duties as $duty): ?>
                                     <tr>
                                         <td><?= htmlspecialchars($duty['police_id']) ?></td>
+                                        <td><?= htmlspecialchars($duty['officer_name']) ?></td>
+                                        <td><?= htmlspecialchars($duty['duty_date']) ?></td>
                                         <td><?= htmlspecialchars($duty['patrol_location']) ?></td>
                                         <td><?= htmlspecialchars($duty['duty_time_start']) ?></td>
                                         <td><?= htmlspecialchars($duty['patrol_time_started']) ?></td>
                                         <td><?= htmlspecialchars($duty['duty_time_end']) ?></td>
                                         <td><?= htmlspecialchars($duty['patrol_time_ended']) ?></td>
-                                        <td><?= htmlspecialchars($duty['patrol_information'] ?? 'N/A') ?></td>
+                                        <td><?= $duty['is_late_submission'] ? 'Late' : 'On Time' ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
