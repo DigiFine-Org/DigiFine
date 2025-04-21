@@ -190,7 +190,7 @@ if ($_SESSION['message'] ?? null) {
                                     </option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
-                            <option value="other">Other</option>
+                            <option value="other">Specific Location</option>
                         </select>
                         <input type="text" name="other_location" id="other-location" class="input mt-2"
                             placeholder="Enter location" style="display: none; margin-top: 10px;">

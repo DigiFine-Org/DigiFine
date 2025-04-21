@@ -92,7 +92,7 @@ if ($searchId) {
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <img class="watermark" src="../../../assets/watermark.png" />
-            <div class="container <?= $result ? "large" : "" ?>">
+            <div class="container">
                 <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         viewBox="0 0 16 16">
@@ -278,6 +278,8 @@ if ($searchId) {
                                 class="btn margintop">Issue Fine</a>
                         <?php endif; ?>
                     </div>
+                    <a href="../generate-e-ticket/index.php?id=<?= $result['license_id'] ?>&nic=<?= $result['nic'] ?>"
+                        class="btn margintop">Issue Fine</a>
                 <?php endif ?>
             </div>
         </div>
