@@ -132,6 +132,13 @@ if ($_SESSION['message'] ?? null) {
         <div class="content">
             <div id="alert-container"></div> <!-- Alert container -->
             <div class="container">
+                <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                    </svg>
+                </button>
                 <h1>Generate E-Ticket</h1>
                 <form action="generate-e-ticket-process.php" method="POST">
                     <div class="field">
@@ -232,7 +239,7 @@ if ($_SESSION['message'] ?? null) {
     const select = document.querySelector('select[name="location"]');
     const otherInput = document.getElementById('other-location');
 
-    select.addEventListener('change', function() {
+    select.addEventListener('change', function () {
         if (this.value === 'other') {
             otherInput.style.display = 'block';
             otherInput.setAttribute('required', 'required');
@@ -259,7 +266,7 @@ if ($_SESSION['message'] ?? null) {
     // Toggle Offence select field based on Offence Type
     const offenceType = document.getElementById("offence_type");
     const offenceSelectField = document.getElementById("offence_select_field");
-    offenceType.addEventListener("change", function() {
+    offenceType.addEventListener("change", function () {
         if (this.value === "fine") {
             offenceSelectField.style.display = "flex";
         } else {
@@ -270,7 +277,7 @@ if ($_SESSION['message'] ?? null) {
     // Update fine amount when an offence is selected
     const offenceDropdown = document.getElementById("offence");
     const fineAmountInput = document.getElementById("fine_amount");
-    offenceDropdown.addEventListener("change", function() {
+    offenceDropdown.addEventListener("change", function () {
         const selectedOption = offenceDropdown.options[offenceDropdown.selectedIndex];
         const fineAmount = selectedOption.getAttribute("data-fine") || 0;
         fineAmountInput.value = fineAmount;

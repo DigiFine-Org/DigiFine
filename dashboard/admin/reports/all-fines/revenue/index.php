@@ -50,6 +50,13 @@ if ($_SESSION['message'] ?? null) {
 
             <!-- Main Content -->
             <div class="content">
+                <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                    </svg>
+                </button>
                 <h1>Revenue of All Fines Issued</h1>
                 <p class="description">View and analyze status of fines over different time periods.</p>
 
@@ -142,11 +149,11 @@ if ($_SESSION['message'] ?? null) {
 </body>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         // Attach one event listener to the button
         const generateBtn = document.getElementById("generateReportBtn");
 
-        generateBtn.addEventListener("click", function(e) {
+        generateBtn.addEventListener("click", function (e) {
             e.preventDefault(); // prevent form submission or reload
             fetchFineData();
             fetchStationFineData();
