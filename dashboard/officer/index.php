@@ -71,7 +71,7 @@ if ($result_future->num_rows > 0) {
     while ($row = $result_future->fetch_assoc()) {
         $formattedDate = date("M j, Y", strtotime($row["duty_date"]));
         $formattedTime = date("g:i A", strtotime($row["duty_time_start"]));
-        
+
         $dutiesHTML .= "<div class='duty-card'>";
         $dutiesHTML .= "<div class='duty-icon'><i class='fas fa-calendar-check'></i></div>";
         $dutiesHTML .= "<div class='duty-info'>";
@@ -108,7 +108,7 @@ $lastDutyHTML = "";
 if ($row = $result_last->fetch_assoc()) {
     $formattedDate = date("M j, Y", strtotime($row["duty_date"]));
     $formattedTime = date("g:i A", strtotime($row["duty_time_start"]));
-    
+
     $lastDutyHTML .= "<div class='duty-card'>";
     $lastDutyHTML .= "<div class='duty-icon'><i class='fas fa-clipboard-check'></i></div>";
     $lastDutyHTML .= "<div class='duty-info'>";
@@ -205,42 +205,50 @@ $conn->close();
     <div class="dashboard-layout">
         <?php include_once "../includes/sidebar.php" ?>
         <div class="content">
+            <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                </svg>
+            </button>
+
             <h1>Welcome, Officer <?= htmlspecialchars($officer['fname'] . ' ' . $officer['lname']) ?></h1>
-            <p class="station-info"><i class="fas fa-building"></i> <?= htmlspecialchars($officer['police_station_name']) ?></p>                                                    
+            <p class="station-info"><i class="fas fa-building"></i>
+                <?= htmlspecialchars($officer['police_station_name']) ?></p>
             <div class="insights-bar">
                 <div class="inner-tile">
                     <div class="icon" style="background-color: #FFEFB4;">
                     </div>
                     <div class="info">
-                        <p >Duty Submissions</p>
-                        <h3 ><?= $totalDutySubmissions ?></h3>
+                        <p>Duty Submissions</p>
+                        <h3><?= $totalDutySubmissions ?></h3>
                     </div>
                 </div>
-                
+
                 <div class="inner-tile">
                     <div class="icon" style="background-color: #CDE4FF;">
                     </div>
                     <div class="info">
-                        <p >Fines Issued</p>
-                        <h3 ><?= $totalFines ?></h3>
+                        <p>Fines Issued</p>
+                        <h3><?= $totalFines ?></h3>
                     </div>
                 </div>
-                
+
                 <div class="inner-tile">
                     <div class="icon" style="background-color: #F8C8D8;">
                     </div>
                     <div class="info">
-                        <p >Reported Fines</p>
-                        <h3 ><?= $reportedFines ?></h3>
+                        <p>Reported Fines</p>
+                        <h3><?= $reportedFines ?></h3>
                     </div>
                 </div>
-                
+
                 <div class="inner-tile">
                     <div class="icon" style="background-color: #D5F2EA;">
                     </div>
                     <div class="info">
-                        <p >Pending Duties</p>
-                        <h3 ><?= $pendingDuties ?></h3>
+                        <p>Pending Duties</p>
+                        <h3><?= $pendingDuties ?></h3>
                     </div>
                 </div>
             </div>
@@ -250,13 +258,14 @@ $conn->close();
                     <div class="duty-card-container">
                         <div class="section-header">
                             <h2><i class="fas fa-calendar-plus"></i> New Duty Assignments</h2>
-                            <a href="./submit-duty/index.php" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+                            <a href="./submit-duty/index.php" class="view-all">View All <i
+                                    class="fas fa-chevron-right"></i></a>
                         </div>
                         <div class="duty-details">
                             <?= $dutiesHTML ?>
                         </div>
                     </div>
-                    
+
                     <div class="duty-card-container">
                         <div class="section-header">
                             <h2><i class="fas fa-history"></i> Last Completed Duty</h2>
@@ -271,50 +280,51 @@ $conn->close();
                     <div class="section-header">
                         <h2>Recent Fines Issued</h2>
                     </div>
-                    
-                    
-                        <div class="table-container">
-                            <table>
-                                <thead>
+
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Driver ID</th>
+                                    <th>License No.</th>
+                                    <th>Issued Date</th>
+                                    <th>Expire Date</th>
+                                    <th>Status</th>
+                                    <th>Reported</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($fines)): ?>
                                     <tr>
-                                        <th>Driver ID</th>
-                                        <th>License No.</th>
-                                        <th>Issued Date</th>
-                                        <th>Expire Date</th>
-                                        <th>Status</th>
-                                        <th>Reported</th>
-                                        <th>Amount</th>
+                                        <td colspan="7">
+                                            <i class="fas fa-info-circle"></i> No fines issued in the last 7 days
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if (empty($fines)): ?>
+                                <?php else: ?>
+                                    <?php foreach ($fines as $fine): ?>
                                         <tr>
-                                            <td colspan="7">
-                                                <i class="fas fa-info-circle"></i> No fines issued in the last 7 days
+                                            <td><?= htmlspecialchars($fine['driver_id']) ?></td>
+                                            <td><?= htmlspecialchars($fine['license_plate_number']) ?></td>
+                                            <td><?= htmlspecialchars($fine['issued_date']) ?></td>
+                                            <td><?= htmlspecialchars($fine['expire_date']) ?></td>
+                                            <td>
+                                                <span
+                                                    class="status-badge <?= strtolower(str_replace(' ', '-', $fine['fine_status'])) ?>">
+                                                    <?= htmlspecialchars($fine['fine_status']) ?>
+                                                </span>
                                             </td>
+                                            <td><?= $fine['is_reported'] == 1 ? 'Yes' : "No " ?></td>
+                                            <td>Rs.<?= htmlspecialchars($fine['fine_amount']) ?></td>
+
                                         </tr>
-                                    <?php else: ?>
-                                        <?php foreach ($fines as $fine): ?>
-                                            <tr>
-                                                <td><?= htmlspecialchars($fine['driver_id']) ?></td>
-                                                <td><?= htmlspecialchars($fine['license_plate_number']) ?></td>
-                                                <td><?= htmlspecialchars($fine['issued_date']) ?></td>
-                                                <td><?= htmlspecialchars($fine['expire_date']) ?></td>
-                                                <td>
-                                                    <span class="status-badge <?= strtolower(str_replace(' ', '-', $fine['fine_status'])) ?>">
-                                                        <?= htmlspecialchars($fine['fine_status']) ?>
-                                                    </span>
-                                                </td>
-                                                <td><?= $fine['is_reported'] == 1 ? 'Yes' : "No " ?></td>
-                                                <td>Rs.<?= htmlspecialchars($fine['fine_amount']) ?></td>
-                                              
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -322,177 +332,177 @@ $conn->close();
 </main>
 
 <style>
-/* Add these styles to your officer-dashboard.css */
-:root {
-    --primary-color: #3a7bd5;
-    --secondary-color: #00d2ff;
-    --success-color: #4CAF50;
-    --warning-color: #FFC107;
-    --danger-color: #F44336;
-    --light-gray: #f5f7fa;
-    --medium-gray: #e1e5eb;
-    --dark-gray: #6c757d;
-    --text-color: #333;
-    --text-light: #777;
-}
-
-
-
-.station-info i {
-    margin-right: 0.5rem;
-}
-
-.duty-card-container {
-    background-color: white;
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    margin-top:20px;
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.section-header h2 {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--text-color);
-    display: flex;
-    align-items: center;
-}
-
-.section-header h2 i {
-    margin-right: 0.5rem;
-    color: var(--primary-color);
-}
-
-.view-all {
-    font-size: 0.85rem;
-    color: var(--primary-color);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    padding-left:0.5rem;
-}
-
-.view-all i {
-    margin-left: 0.3rem;
-    font-size: 0.7rem;
-}
-
-
-.duty-card {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    background-color: var(--light-gray);
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-
-.duty-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--primary-color);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 1rem;
-    font-size: 1rem;
-}
-
-.duty-info h3 {
-    font-size: 1rem;
-    margin-bottom: 0.3rem;
-    color: var(--text-color);
-}
-
-.duty-meta {
-    font-size: 0.8rem;
-    color: var(--text-light);
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.2rem;
-}
-
-.duty-meta i {
-    margin-right: 0.5rem;
-    width: 15px;
-    text-align: center;
-}
-
-.no-duties {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 150px;
-    color: var(--dark-gray);
-}
-
-.no-duties i {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: var(--medium-gray);
-}
-
-.no-duties p {
-    font-size: 0.9rem;
-}
-
-.recent-fines-section {
-    background-color: white;
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    margin-top:20px;
-    margin-left:3rem;
-    width: 900px;
-}
-
-
-
-.status-badge {
-    display: inline-block;
-    padding: 0.3rem 0.6rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 500;
-}
-
-.status-badge.pending {
-    background-color: #fff3cd;
-    color: #856404;
-}
-
-.status-badge.paid {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.status-badge.overdue {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-@media (max-width: 768px) {
-    .duty-card-container,
-    .recent-fines-section {
-        padding: 1rem;
-        margin: 1rem 0.5rem;
-        width: auto;
+    /* Add these styles to your officer-dashboard.css */
+    :root {
+        --primary-color: #3a7bd5;
+        --secondary-color: #00d2ff;
+        --success-color: #4CAF50;
+        --warning-color: #FFC107;
+        --danger-color: #F44336;
+        --light-gray: #f5f7fa;
+        --medium-gray: #e1e5eb;
+        --dark-gray: #6c757d;
+        --text-color: #333;
+        --text-light: #777;
     }
 
-}
 
+
+    .station-info i {
+        margin-right: 0.5rem;
+    }
+
+    .duty-card-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        margin-top: 20px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: var(--text-color);
+        display: flex;
+        align-items: center;
+    }
+
+    .section-header h2 i {
+        margin-right: 0.5rem;
+        color: var(--primary-color);
+    }
+
+    .view-all {
+        font-size: 0.85rem;
+        color: var(--primary-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding-left: 0.5rem;
+    }
+
+    .view-all i {
+        margin-left: 0.3rem;
+        font-size: 0.7rem;
+    }
+
+
+    .duty-card {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        background-color: var(--light-gray);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+
+    .duty-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        font-size: 1rem;
+    }
+
+    .duty-info h3 {
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+        color: var(--text-color);
+    }
+
+    .duty-meta {
+        font-size: 0.8rem;
+        color: var(--text-light);
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.2rem;
+    }
+
+    .duty-meta i {
+        margin-right: 0.5rem;
+        width: 15px;
+        text-align: center;
+    }
+
+    .no-duties {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 150px;
+        color: var(--dark-gray);
+    }
+
+    .no-duties i {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: var(--medium-gray);
+    }
+
+    .no-duties p {
+        font-size: 0.9rem;
+    }
+
+    .recent-fines-section {
+        background-color: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        margin-top: 20px;
+        margin-left: 3rem;
+        width: 900px;
+    }
+
+
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.3rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .status-badge.pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .status-badge.paid {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status-badge.overdue {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    @media (max-width: 768px) {
+
+        .duty-card-container,
+        .recent-fines-section {
+            padding: 1rem;
+            margin: 1rem 0.5rem;
+            width: auto;
+        }
+
+    }
 </style>
 
 <?php include_once "../../includes/footer.php"; ?>
