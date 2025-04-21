@@ -93,6 +93,13 @@ if ($searchId) {
         <div class="content">
             <img class="watermark" src="../../../assets/watermark.png" />
             <div class="container <?= $result ? "large" : "" ?>">
+                <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                    </svg>
+                </button>
                 <h1>Verify Driver Details</h1>
                 <?php if ($_SESSION['message'] ?? null): ?>
                     <?php $message = $_SESSION['message'];
@@ -183,79 +190,80 @@ if ($searchId) {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>A1</td>
+                                    <td>A1<img src="/digifine/assets/license-icons/1.png" style="width:25px;"></td>
                                     <td><?= $result['A1_issue_date'] ?></td>
                                     <td><?= $result['A1_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>A</td>
+                                    <td>A<img src="/digifine/assets/license-icons/2.png" style="width:25px;"></td>
                                     <td><?= $result['A_issue_date'] ?></td>
                                     <td><?= $result['A_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>B1</td>
+                                    <td>B1<img src="/digifine/assets/license-icons/3.png" style="width:25px;"></td>
                                     <td><?= $result['B1_issue_date'] ?></td>
                                     <td><?= $result['B1_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>B</td>
+                                    <td>B<img src="/digifine/assets/license-icons/4.png" style="width:25px;"></td>
                                     <td><?= $result['B_issue_date'] ?></td>
                                     <td><?= $result['B_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>C1</td>
+                                    <td>C1<img src="/digifine/assets/license-icons/5.png" style="width:25px;"></td>
                                     <td><?= $result['C1_issue_date'] ?></td>
                                     <td><?= $result['C1_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>C</td>
+                                    <td>C<img src="/digifine/assets/license-icons/6.png" style="width:25px;"></td>
                                     <td><?= $result['C_issue_date'] ?></td>
                                     <td><?= $result['C_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>CE</td>
+                                    <td>CE<img src="/digifine/assets/license-icons/7.png" style="width:35px;"
+                                            style="width:25px;"></td>
                                     <td><?= $result['CE_issue_date'] ?></td>
                                     <td><?= $result['CE_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>D1</td>
+                                    <td>D1<img src="/digifine/assets/license-icons/8.png" style="width:35px;"></td>
                                     <td><?= $result['D1_issue_date'] ?></td>
                                     <td><?= $result['D1_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>D</td>
+                                    <td>D<img src="/digifine/assets/license-icons/9.png" style="width:35px;"></td>
                                     <td><?= $result['D_issue_date'] ?></td>
                                     <td><?= $result['D_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>DE</td>
+                                    <td>DE<img src="/digifine/assets/license-icons/10.png" style="width:35px;"></td>
                                     <td><?= $result['DE_issue_date'] ?></td>
                                     <td><?= $result['DE_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>G1</td>
+                                    <td>G1<img src="/digifine/assets/license-icons/11.png" style="width:35px;"></td>
                                     <td><?= $result['G1_issue_date'] ?></td>
                                     <td><?= $result['G1_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>G</td>
+                                    <td>G<img src="/digifine/assets/license-icons/12.png" style="width:35px;"></td>
                                     <td><?= $result['G_issue_date'] ?></td>
                                     <td><?= $result['G_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
                                 </tr>
                                 <tr>
-                                    <td>J</td>
+                                    <td>J<img src="/digifine/assets/license-icons/13.png" style="width:35px;"></td>
                                     <td><?= $result['J_issue_date'] ?></td>
                                     <td><?= $result['J_expiry_date'] ?></td>
                                     <td><?= $result['restrictions'] ?></td>
