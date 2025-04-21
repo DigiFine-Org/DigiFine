@@ -146,7 +146,7 @@ $conn->close();
                     </div>                    
                 </a>
                 
-                <a href="/digifine/dashboard/driver/dashboard-links/remaining-points.php" class="feature-tile">
+                <a href="/digifine/dashboard/driver/points-scheme/view-points-status.php" class="feature-tile">
                     <div class="tile-full">
                         <div class="tile-content">
                             <h3>Check Your Remaining Points</h3>
