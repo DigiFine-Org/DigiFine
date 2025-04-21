@@ -10,10 +10,26 @@ session_start();
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
-// Ensure the user is authorized to access this page
+// Authorization check
 if ($_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized user!");
 }
+
+// Get officer data for dropdown
+$oicId = $_SESSION['user']['id'];
+$stationQuery = "SELECT police_station FROM officers WHERE id = ? AND is_oic = 1";
+$stationStmt = $conn->prepare($stationQuery);
+$stationStmt->bind_param("i", $oicId);
+$stationStmt->execute();
+$stationResult = $stationStmt->get_result();
+$stationData = $stationResult->fetch_assoc();
+$stationId = $stationData['police_station'];
+
+$officersQuery = "SELECT id, fname, lname FROM officers WHERE police_station = ? AND is_oic = 0 ORDER BY lname, fname";
+$officersStmt = $conn->prepare($officersQuery);
+$officersStmt->bind_param("i", $stationId);
+$officersStmt->execute();
+$officersResult = $officersStmt->get_result();
 ?>
 
 <main>
@@ -25,48 +41,56 @@ if ($_SESSION['user']['role'] !== 'oic') {
                 <h1>Duty History</h1>
 
                 <!-- Search Form -->
-                <form action="" method="POST" style="height:100px">
-                    <label for="police_id">Enter Police ID:</label>
-                    <input type="text" id="police_id" name="police_id" style="height:30px;" 
-                        value="<?= isset($_POST['police_id']) ? htmlspecialchars($_POST['police_id']) : '' ?>" required>
-                    
-                    <button class="btn" style="margin-top:10px;" type="submit" name="search">Search</button>
+                <form action="" method="POST" style="height:140px; position:relative;">
+                    <div class="field">
+                        <select name="policeId" class="input" required>
+                            <option value="">Select Officer</option>
+                            <?php 
+                            // Reset pointer to beginning if needed
+                            $officersResult->data_seek(0);
+                            while ($officer = $officersResult->fetch_assoc()): ?>
+                                <option value="<?php echo $officer['id']; ?>"
+                                    <?php if (isset($_POST['policeId']) && $_POST['policeId'] == $officer['id']) echo 'selected'; ?>>
+                                    <?php echo htmlspecialchars($officer['fname'] . ' ' . $officer['lname'] . ' - ' . $officer['id']); ?>
+                                </option>
+                            <?php endwhile; ?>
+                        </select>
+                        <br>
+                        <button class="btn" style="margin-top:10px;" type="submit" name="search">Search</button>
+                    </div>
                 </form>
 
                 <?php
                 if (isset($_POST['search'])) {
-                    $police_id = filter_input(INPUT_POST, 'police_id', FILTER_SANITIZE_STRING);
+                    $police_id = filter_input(INPUT_POST, 'policeId', FILTER_SANITIZE_NUMBER_INT);
                     
-                    if (!$police_id || !ctype_digit($police_id)) {
-                        echo "<p style='color: red;'>Please enter a valid Police ID.</p>";
+                    if (!$police_id) {
+                        echo "<p style='color: red;'>Please select a valid officer.</p>";
                     } else {
+                        // Verify the officer belongs to the OIC's station
+                        $verifyQuery = "SELECT id FROM officers WHERE id = ? AND police_station = ?";
+                        $verifyStmt = $conn->prepare($verifyQuery);
+                        $verifyStmt->bind_param("ii", $police_id, $stationId);
+                        $verifyStmt->execute();
+                        $verifyResult = $verifyStmt->get_result();
 
-                        $oic_station_query = "SELECT police_station FROM officers WHERE id = ?";
-                        $oic_stmt = $conn->prepare($oic_station_query);
-                        $oic_stmt->bind_param("s", $_SESSION['user']['id']);
-                        $oic_stmt->execute();
-                        $oic_result = $oic_stmt->get_result();
-                        
-                        if ($oic_result->num_rows === 0) {
-                            die("Error: OIC record not found.");
+                        if ($verifyResult->num_rows === 0) {
+                            die("Error: Officer not found in your station.");
                         }
 
-                        $oic_station = $oic_result->fetch_assoc()['police_station'];
-                        $oic_stmt->close();
-
                         $query = "SELECT ad.police_id, ad.duty, ad.notes, ad.duty_date 
-                                FROM assigned_duties ad
-                                JOIN officers o ON ad.police_id = o.id
-                                WHERE ad.police_id = ? 
-                                AND ad.submitted = 1
-                                AND o.police_station = ?";
+                                  FROM assigned_duties ad
+                                  JOIN officers o ON ad.police_id = o.id
+                                  WHERE ad.police_id = ? 
+                                  AND ad.submitted = 1
+                                  AND o.police_station = ?";
                         $stmt = $conn->prepare($query);
-                        
+
                         if ($stmt) {
-                            $stmt->bind_param("ss", $police_id,$oic_station);
+                            $stmt->bind_param("ii", $police_id, $stationId);
                             $stmt->execute();
                             $result = $stmt->get_result();
-                            
+
                             if ($result->num_rows > 0) {
                                 echo "<table class='duty-table'>
                                         <thead>
@@ -88,7 +112,7 @@ if ($_SESSION['user']['role'] !== 'oic') {
                                 }
                                 echo "</tbody></table>";
                             } else {
-                                echo "<p style='color: red;'>No duty history found for Police ID: <strong>" . htmlspecialchars($police_id) . "</strong></p>";
+                                echo "<p style='color: red;'>No duty history found for selected officer.</p>";
                             }
                             $stmt->close();
                         } else {
@@ -96,9 +120,6 @@ if ($_SESSION['user']['role'] !== 'oic') {
                         }
                     }
                 }
-                
-                $conn->close();
-                
                 ?>
             </div>
         </div>
