@@ -16,6 +16,7 @@ if ($_SESSION['user']['role'] !== 'officer') {
 $result = null;
 $searchId = $_GET['query'] ?? null;
 $searchType = $_GET['search_type'] ?? 'license';
+$isSuspended = 0;
 
 if ($searchId) {
     // Determine which field to search based on search type
@@ -58,6 +59,28 @@ if ($searchId) {
 
     if ($fineRow = $fineResult->fetch_assoc()) {
         $fineCount = $fineRow['total'];
+    }
+    
+    // Check if the driver's license is suspended in the drivers table
+    // Find the driver record in the drivers table using nic (since we can see it's a field in both tables)
+    $licenseSql = "SELECT license_suspended FROM drivers WHERE nic = ?";
+    $licenseStmt = $conn->prepare($licenseSql);
+    
+    if (!$licenseStmt) {
+        die("Database error: " . $conn->error);
+    }
+    
+    $licenseStmt->bind_param("s", $result['nic']);
+    
+    if (!$licenseStmt->execute()) {
+        die("Query execution error: " . $licenseStmt->error);
+    }
+    
+    $licenseResult = $licenseStmt->get_result();
+    
+    if ($licenseResult->num_rows > 0) {
+        $licenseData = $licenseResult->fetch_assoc();
+        $isSuspended = (int)$licenseData['license_suspended'];
     }
 }
 
@@ -110,6 +133,13 @@ if ($searchId) {
                                 Violations</a>
                         <?php endif; ?>
                     </div>
+                    
+                    <?php if ($isSuspended == 1): ?>
+                        <div class="alert" style="background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #f5c6cb;">
+                            <strong>Warning:</strong> This driver's license is currently suspended.
+                        </div>
+                    <?php endif; ?>
+                    
                     <h3>Driver License</h3>
                     <div class="data-line">
                         <span>FULL NAME:</span>
@@ -241,7 +271,12 @@ if ($searchId) {
                             </tbody>
                         </table>
                         <br>
-
+                        <?php if ($isSuspended == 1): ?>
+                            <button class="btn margintop" disabled style="background-color: #6c757d; cursor: not-allowed;">Issue Fine (License Suspended)</button>
+                        <?php else: ?>
+                            <a href="../generate-e-ticket/index.php?id=<?= $result['license_id'] ?>&nic=<?= $result['nic'] ?>"
+                                class="btn margintop">Issue Fine</a>
+                        <?php endif; ?>
                     </div>
                     <a href="../generate-e-ticket/index.php?id=<?= $result['license_id'] ?>&nic=<?= $result['nic'] ?>"
                         class="btn margintop">Issue Fine</a>
