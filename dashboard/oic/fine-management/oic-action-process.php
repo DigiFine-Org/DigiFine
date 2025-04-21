@@ -47,12 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $points_stmt->close();
         
         // Update the fine as discarded and add OIC action
-        $sql = "UPDATE fines SET is_discarded = 1, oics_action = ? WHERE id = ?";
+        $sql = "UPDATE fines SET is_discarded = 1, is_solved = 1, oics_action = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("si", $oic_action, $fine_id);
     } elseif ($action_type === 'fair') {
         // Update only the OIC action, leave is_discarded as 0
-        $sql = "UPDATE fines SET oics_action = ? WHERE id = ?";
+        $sql = "UPDATE fines SET is_solved = 1, oics_action = ? WHERE id = ?"; // Added is_solved = 1 for fair action
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("si", $oic_action, $fine_id);
     } else {
