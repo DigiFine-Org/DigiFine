@@ -1,6 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     session_start(); // Ensure session is started
+    require_once "../../../db/connect.php"; // Make sure to include database connection
+    
     // Get the search ID and type from the query parameters
     $searchId = isset($_GET['query']) ? htmlspecialchars($_GET['query']) : '';
     $searchType = isset($_GET['search_type']) ? htmlspecialchars($_GET['search_type']) : 'license';
@@ -18,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $searchField = "nic";
     }
 
-    // Fetch driver details
+    // Fetch driver details from dmt_drivers
     $sql = "SELECT
                 fname,
                 lname,
@@ -68,6 +70,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     $driver = $result->fetch_assoc();
+    
+    // Check if the driver's license is suspended in the drivers table
+    // Use either license_id or nic to lookup in drivers table
+    if ($searchType === 'license') {
+        $licenseSql = "SELECT license_suspended FROM drivers WHERE id = ?";
+    } else {
+        $licenseSql = "SELECT license_suspended FROM drivers WHERE nic = ?";
+    }
+    
+    $licenseStmt = $conn->prepare($licenseSql);
+    
+    if (!$licenseStmt) {
+        die("Database error: " . $conn->error);
+    }
+    
+    $licenseStmt->bind_param("s", $searchId);
+    
+    if (!$licenseStmt->execute()) {
+        die("Query execution error: " . $licenseStmt->error);
+    }
+    
+    $licenseResult = $licenseStmt->get_result();
+    $isSuspended = 0; // Default value if record not found
+    
+    if ($licenseResult->num_rows > 0) {
+        $licenseData = $licenseResult->fetch_assoc();
+        $isSuspended = $licenseData['license_suspended'];
+    }
 
     // Map vehicle categories
     $vehicleCategories = [
@@ -86,8 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'J' => ['issue_date' => $driver['J_issue_date'], 'expiry_date' => $driver['J_expiry_date']],
     ];
 
-    // Redirect with driver details
-    header("Location: verify-driver-details.php?query=$searchId&search_type=$searchType&driver=" . urlencode(json_encode($driver)) . "&categories=" . urlencode(json_encode($vehicleCategories)));
+    // Redirect with driver details and suspension status
+    header("Location: verify-driver-details.php?query=$searchId&search_type=$searchType&driver=" . urlencode(json_encode($driver)) . "&categories=" . urlencode(json_encode($vehicleCategories)) . "&suspended=" . $isSuspended);
     exit();
 } else {
     die("Invalid request method!");

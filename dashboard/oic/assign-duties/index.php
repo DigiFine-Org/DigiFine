@@ -42,6 +42,13 @@ $officersResult = $officersStmt->get_result();
         <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
             <div class="container">
+                <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                    </svg>
+                </button>
                 <h1>Assign Duty</h1>
                 <form action="assign-duty-handler.php" method="POST">
                     <div class="field">
@@ -61,7 +68,8 @@ $officersResult = $officersStmt->get_result();
                     </div>
                     <div class="field">
                         <label for="dutyDate">Duty Date:</label>
-                        <input type="date" name="dutyDate" class="input" id="dutyDate" min="<?= date('Y-m-d') ?>" required>
+                        <input type="date" name="dutyDate" class="input" id="dutyDate" min="<?= date('Y-m-d') ?>"
+                            required>
                     </div>
                     <div class="field">
                         <label for="">Duty Time (Start):</label>
@@ -77,7 +85,7 @@ $officersResult = $officersStmt->get_result();
                     </div>
                     <button class="btn">Assign Duty</button>
                 </form>
-                
+
                 <?php if (isset($_SESSION['success'])): ?>
                     <div class="success-message"><?php echo $_SESSION['success']; ?></div>
                     <?php unset($_SESSION['success']); ?>
@@ -93,10 +101,12 @@ $officersResult = $officersStmt->get_result();
     </div>
 </main>
 
-<?php 
+<?php
 // Close statements and connection
-if (isset($stationStmt)) $stationStmt->close();
-if (isset($officersStmt)) $officersStmt->close();
+if (isset($stationStmt))
+    $stationStmt->close();
+if (isset($officersStmt))
+    $officersStmt->close();
 
-include_once "../../../includes/footer.php"; 
+include_once "../../../includes/footer.php";
 ?>
