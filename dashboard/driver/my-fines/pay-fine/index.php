@@ -104,7 +104,7 @@ $conn->close();
                     <p>Rs. <?= number_format($fine['fine_amount'], 2) ?></p>
                 </div>
                 <div class="wrapper">
-                    <button id="payFineButton" class="btn">Pay Now</button>
+                    <button id="payFineButton" class="btn">Pay</button>
                 </div>
                 <input type="hidden" name="fine_id" value="<?= $fine['fine_id'] ?>">
             </form>

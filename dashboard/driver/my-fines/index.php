@@ -22,7 +22,7 @@ $driver_id = $_SESSION['user']['id'];
 $fines = [];
 $stmt = $conn->prepare("
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date,
-           f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status
+           f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported
     FROM fines AS f
     INNER JOIN drivers AS d ON f.driver_id = d.id
     WHERE d.id = ? AND is_discarded = 0 AND (fine_status = 'pending' OR fine_status = 'overdue')
@@ -77,8 +77,9 @@ $stmt->close();
                                     <?php if ($fine['offence_type'] !== 'court'): ?>
                                         <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
                                             class="btn">View</a>
-                                        <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
-                                            class="btn">Pay</a>
+                                        <!-- <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
+                                            class="btn">Pay</a> -->
+
                                     <?php else: ?>
                                         <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
                                             class="btn">View</a>
