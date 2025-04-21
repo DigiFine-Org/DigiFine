@@ -111,6 +111,7 @@ if (isset($_GET['nic'])) {
 
 $conn->close();
 
+//alerts
 if ($_SESSION['message'] ?? null) {
     if ($_SESSION['message'] === 'success') {
         $message = "E-Ticket generated successfully!";
