@@ -86,8 +86,8 @@ $stmt->close();
                 </svg>
             </button>
             <h2>Administering for Excellence and Security</h2>
-            <div class="insights-bar">
-                <div class="inner-tile">
+            <div class="stats-grid">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #FFEFB4;">
                         <span class="material-symbols-outlined" style="font-size: 36px;">directions_car</span>
                     </div>
@@ -96,7 +96,7 @@ $stmt->close();
                         <h3><?= $totalDrivers ?></h3>
                     </div>
                 </div>
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #CDE4FF;">
                         <span class="material-symbols-outlined" style="font-size: 36px;">badge</span>
                     </div>
@@ -105,7 +105,7 @@ $stmt->close();
                         <h3><?= $totalOfficers ?></h3>
                     </div>
                 </div>
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #F8C8D8;">
                         <span class="material-symbols-outlined" style="font-size: 36px;">report_problem</span>
                     </div>
@@ -114,7 +114,7 @@ $stmt->close();
                         <h3><?= $totalStolenVehicles ?></h3>
                     </div>
                 </div>
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #D5F2EA;">
                         <span class="material-symbols-outlined" style="font-size: 36px;">currency_rupee</span>
                     </div>
