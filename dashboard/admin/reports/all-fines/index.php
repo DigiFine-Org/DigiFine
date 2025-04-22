@@ -3,6 +3,7 @@ $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../../dashboard.css", "../reports.css"],
     'scripts' => [
+        "../../../dashboard.js",
         "payment-status/fine-status-chart.js",
         "payment-status/fine-status-analytics.js",
         "reported-all/issued-fines-chart.js",
@@ -50,13 +51,13 @@ if ($_SESSION['message'] ?? null) {
             <div class="content">
                 <h1>Status of All Fines Issued</h1>
                 <p class="description">View and analyze status of fines over different time periods.</p>
-
-                <div class="table-container">
-                    <!-- Input Section -->
-                    <div class="filter-form-grid">
+                <form action="issued-place/full-issued-place-table.php" method="get" class="filter-form-grid">
+                    <div class="table-container">
+                        <!-- Input Section -->
+                        <!-- <div class="filter-form-grid"> -->
                         <div class="filter-field">
                             <label for="timePeriod">Time Period:</label>
-                            <select id="timePeriod">
+                            <select id="timePeriod" name="time_period">
                                 <option value="24h">Last 24 Hours</option>
                                 <option value="72h">Last 72 Hours</option>
                                 <option value="7days">Last 7 Days</option>
@@ -67,38 +68,49 @@ if ($_SESSION['message'] ?? null) {
                                 <option value="lifetime">Lifetime</option>
                             </select>
                         </div>
+                        <!-- </div> -->
+
+                        <div class="buttons">
+                            <button type="submit" class="btn" id="generateReportBtn">
+                                Generate Report
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
 
-                <div class="filter-field">
-                    <button class="btn" id="generateReportBtn">
-                        Generate Report
-                    </button>
-                </div>
-
-
-                <div class="table-container">
-                    <!-- Chart Section -->
-                    <div class="chart-section">
-                        <canvas id="fineChart" width="800" height="400"></canvas>
+                <div class="chart-content" id="fineStatusContent">
+                    <div class="table-container">
+                        <!-- Chart Section -->
+                        <div class="chart-section">
+                            <canvas id="fineChart" width="800" height="400"></canvas>
+                        </div>
+                        <div class="full-report-buttons" id="fullReportButtons">
+                            <button class="btn full-report-btn" id="fineChartReportBtn">
+                                Full Report
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="fine-summary mt-4" id="fineSummary"></div>
+                    <div class="fine-summary mt-4" id="fineSummary"></div>
 
-                <h1>All Fines Issued</h1>
-                <p class="description">View and analyze fines over different time periods.</p>
+                    <h1>All Fines Issued</h1>
+                    <p class="description">View and analyze fines over different time periods.</p>
 
-                <div class="table-container">
-                    <!-- Chart Section -->
-                    <div class="chart-section">
-                        <canvas id="issuedFineChart" width="800" height="400"></canvas>
+                    <div class="table-container">
+                        <!-- Chart Section -->
+                        <div class="chart-section">
+                            <canvas id="issuedFineChart" width="800" height="400"></canvas>
+                        </div>
+
+                        <div class="full-report-buttons" id="fullReportButtons">
+                            <button class="btn full-report-btn" id="issuedFineChartReportBtn">
+                                Full Report
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="fine-summary mt-4" id="IssuedFineSummary"></div>
+                    <div class="fine-summary mt-4" id="IssuedFineSummary"></div>
 
-                <div class="content">
                     <h1>Analize Fines by Issued police station</h1>
                     <p class="description">View and analyze fines by issued location over different time periods.</p>
 
@@ -107,12 +119,17 @@ if ($_SESSION['message'] ?? null) {
                         <div class="chart-section">
                             <canvas id="policeStationChart" width="800" height="400"></canvas>
                         </div>
+
+                        <div class="full-report-buttons" id="fullReportButtons">
+                            <button class="btn full-report-btn" id="policeStationChartReportBtn">
+                                Full Report
+                            </button>
+                        </div>
                     </div>
 
                     <div class="fine-summary mt-4" id="policeStationSummary"></div>
-                </div>
 
-                <div class="content">
+
                     <h1>Analize Fines by Issued Place</h1>
                     <p class="description">View and analyze fines by issued location over different time periods.</p>
 
@@ -122,9 +139,19 @@ if ($_SESSION['message'] ?? null) {
                             <canvas id="issuedPlaceChart" width="800" height="400"></canvas>
                         </div>
                     </div>
+                    <div class="full-report-buttons" id="fullReportButtons">
+                        <a href="issued-place/full-issued-place-table.php">
+                            <button class="btn" id="issuedPlaceChartReportBtn">Full Report</button>
+                        </a>
+                    </div>
 
                     <div class="fine-summary mt-4" id="issuedPlaceSummary"></div>
                 </div>
+            </div>
+        </div>
+
+
+
     </main>
     <?php include_once "../../../../includes/footer.php"; ?>
 
@@ -146,6 +173,7 @@ if ($_SESSION['message'] ?? null) {
             fetchIssuedFineData();
             fetchIssuedPlaceData();
             fetchPoliceStationData();
+
         });
     }); // Close the DOMContentLoaded event listener
 </script>
