@@ -109,7 +109,7 @@ const icons = [
 '
 
   ],
- 
+
   "Duty Submissions" => [
     'outlined' => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m-6 3.75 3 3m0 0 3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
@@ -225,7 +225,7 @@ const icons = [
 </svg>
 '
   ],
- 
+
   "Reports" => [
     'outlined' => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6m-3.75 4.5a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
@@ -235,7 +235,7 @@ const icons = [
 </svg>'
   ],
 
-//   "Reported Fines" => [
+  //   "Reported Fines" => [
 //     'outlined' => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"> 
 //   <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6m-3.75 4.5a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
 // </svg>',
@@ -304,8 +304,7 @@ function renderLink(string $title, string $link)
       <?php renderLink("Home", "/digifine/dashboard/admin/index.php") ?>
       <?php renderLink("Offence Management", "/digifine/dashboard/admin/Offence-management/index.php") ?>
       <?php renderLink("Fine Management", "/digifine/dashboard/admin/fine-management/index.php") ?>
-      <?php renderLink("Assign OIC", "/digifine/dashboard/admin/assign-oic/index.php") ?>
-      <?php renderLink("Profile Update Requests", "/digifine/dashboard/admin/profile-update-requests/index.php") ?>
+      <!-- <?php renderLink("Profile Update Requests", "/digifine/dashboard/admin/profile-update-requests/index.php") ?> -->
       <!-- <?php renderLink("Driver Management", "/digifine/dashboard/admin/driver-management/index.php") ?> -->
       <!-- <?php renderLink("Stolen Vehicles", "/digifine/dashboard/admin/stolen-vehicles/index.php") ?> -->
       <?php renderLink("Publish Announcements", "/digifine/dashboard/admin/announcements/index.php") ?>

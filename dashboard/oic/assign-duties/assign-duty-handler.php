@@ -16,8 +16,8 @@ $notes = trim($_POST['notes'] ?? "");
 
 // Validate inputs
 $errors = [];
-if (empty($policeId)) {
-    $errors[] = "Police ID is required.";
+if (empty($policeId) || !is_numeric($policeId)) {
+    $errors[] = "Valid Police ID is required.";
 }
 if (empty($duty)) {
     $errors[] = "Duty is required.";
@@ -46,6 +46,11 @@ try {
     // Fetch OIC's station
     $oicStationQuery = "SELECT police_station FROM officers WHERE id = ? AND is_oic = 1";
     $oicStationStmt = $conn->prepare($oicStationQuery);
+    
+    if ($oicStationStmt === false) {
+        throw new Exception("Database error: " . $conn->error);
+    }
+    
     $oicStationStmt->bind_param("i", $_SESSION['user']['id']);
     $oicStationStmt->execute();
     $oicStationResult = $oicStationStmt->get_result();
@@ -60,8 +65,13 @@ try {
     $stationId = $oicStation['police_station'];
 
     // Verify Police ID and that the officer belongs to the same station
-    $officerQuery = "SELECT id, police_station FROM officers WHERE id = ? AND is_oic = 0";
+    $officerQuery = "SELECT id, police_station, CONCAT(fname, ' ', lname) as officer_name FROM officers WHERE id = ? AND is_oic = 0";
     $officerStmt = $conn->prepare($officerQuery);
+    
+    if ($officerStmt === false) {
+        throw new Exception("Database error: " . $conn->error);
+    }
+    
     $officerStmt->bind_param("i", $policeId);
     $officerStmt->execute();
     $officerResult = $officerStmt->get_result();
@@ -79,23 +89,58 @@ try {
         exit;
     }
 
+    // First check if the assigned_duties table exists
+    $checkTableQuery = "SHOW TABLES LIKE 'assigned_duties'";
+    $tableResult = $conn->query($checkTableQuery);
+    
+    if ($tableResult->num_rows == 0) {
+        // Table doesn't exist, create it
+        $createTableQuery = "CREATE TABLE assigned_duties (
+            id INT(11) AUTO_INCREMENT PRIMARY KEY,
+            police_id INT(11) NOT NULL,
+            duty VARCHAR(255) NOT NULL,
+            duty_date DATE NOT NULL,
+            duty_time_start TIME NOT NULL,
+            duty_time_end TIME NOT NULL,
+            notes TEXT,
+            assigned_by INT(11) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )";
+        
+        if (!$conn->query($createTableQuery)) {
+            throw new Exception("Failed to create required table: " . $conn->error);
+        }
+    }
+
     // Insert the duty assignment into the database
     $query = "INSERT INTO assigned_duties (police_id, duty, duty_date, duty_time_start, duty_time_end, notes, assigned_by) 
               VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
+    
+    if ($stmt === false) {
+        throw new Exception("Database error: " . $conn->error);
+    }
 
     $assignedBy = $_SESSION['user']['id'];
     $stmt->bind_param("isssssi", $policeId, $duty, $dutyDate, $dutyTimeStart, $dutyTimeEnd, $notes, $assignedBy);
 
     if ($stmt->execute()) {
-        $_SESSION['success'] = "Duty assigned successfully to Police ID: {$policeId}.";
+        $_SESSION['success'] = "Duty assigned successfully to Officer: {$officer['officer_name']} (ID: {$policeId}).";
     } else {
-        $_SESSION['error'] = "Failed to assign duty. Please try again.";
+        $_SESSION['error'] = "Failed to assign duty: " . $stmt->error;
     }
 
+    // Close statements
+    if (isset($oicStationStmt)) $oicStationStmt->close();
+    if (isset($officerStmt)) $officerStmt->close();
+    if (isset($stmt)) $stmt->close();
+
     header("Location: index.php");
+    exit;
+    
 } catch (Exception $e) {
     $_SESSION['error'] = "Error: " . $e->getMessage();
     header("Location: index.php");
+    exit;
 }
 ?>

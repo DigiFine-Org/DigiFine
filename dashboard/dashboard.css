@@ -71,6 +71,12 @@ header .notification-button span {
   font-weight: 700;
 }
 
+@media only screen and (min-width: 600px) {
+  .menu-button {
+    display: none;
+  }
+}
+
 .dashboard-layout {
   display: flex;
 }
@@ -232,7 +238,7 @@ form .btn {
   .container {
     padding: 1.5rem;
     max-width: 100%;
-}
+  }
 
   .sidebar {
     position: fixed;
@@ -792,5 +798,3 @@ table td.centered {
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
-
-

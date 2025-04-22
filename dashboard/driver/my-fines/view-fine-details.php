@@ -34,7 +34,7 @@ if ($fine_id <= 0 || !$driver_id) {
 // Fetch fine details - added is_reported to the query
 $sql = "
     SELECT f.id AS fine_id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, 
-    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported 
+    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported,f.is_solved
     FROM fines AS f 
     INNER JOIN drivers AS d ON f.driver_id = d.id 
     WHERE f.id = ? AND d.id = ?;
@@ -64,7 +64,7 @@ $conn->close();
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
-            <div class="container large">
+            <div class="container">
                 <h1>Fine Details</h1>
                 <div class="data-line">
                     <span>Police ID:</span>
@@ -109,17 +109,27 @@ $conn->close();
                         <?php if ($fine['is_reported'] == 0): ?>
                             <button class="btn" id="reportFineButton" style="margin-right: 10px;">Report</button>
                         <?php endif; ?>
-                        <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']); ?>"
-                            class="btn" id="payFineButton">Pay</a>
+                        <?php if ($fine['is_reported'] == 0): ?>
+                            <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']); ?>"
+                                class="btn" id="payFineButton">Pay</a>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
-                
+
                 <?php if ($fine['is_reported'] == 1): ?>
                     <div style="margin-top: 15px;">
-                        <p class="reported-message" style="color:rgb(209, 87, 101); font-weight: bold;">This fine has already been reported.</p>
+                        <p class="reported-message" style="color:rgb(209, 87, 101); font-weight: bold;">This fine has
+                            already been reported.</p>
                     </div>
                 <?php endif; ?>
-                
+
+                <?php if ($fine['is_solved'] == 1): ?>
+                    <div style="margin-top: 15px;">
+                        <p class="reported-message" style="color:rgb(48, 38, 141); font-weight: bold;">This fine has been
+                            marked as fair.</p>
+                    </div>
+                <?php endif; ?>
+
                 <?php if ($fine['offence_type'] !== 'court' && $fine['is_reported'] == 0): ?>
                     <form action="report-fine-process.php" method="post" id="reportFineForm" enctype="multipart/form-data"
                         style="display: none; margin-top: 20px; flex-direction: column;">

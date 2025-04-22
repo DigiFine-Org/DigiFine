@@ -63,7 +63,13 @@ $conn->close();
     <div class="dashboard-layout">
         <?php include_once "../../../includes/sidebar.php" ?>
         <div class="content">
-            <form class="container large" method="post" action="https://sandbox.payhere.lk/pay/checkout">
+            <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                </svg>
+            </button>
+            <form class="container large" method="post" action="payment-process.php">
                 <h1>Pay Fine</h1>
                 <div class="data-line">
                     <span>Fine ID:</span>
@@ -98,45 +104,9 @@ $conn->close();
                     <p>Rs. <?= number_format($fine['fine_amount'], 2) ?></p>
                 </div>
                 <div class="wrapper">
-                    <button id="payFineButton" class="btn">Pay Now</button>
+                    <button id="payFineButton" class="btn">Pay</button>
                 </div>
-                <input type="hidden" name="sandbox" value="true">
-                <input type="hidden" name="merchant_id" value="1228631">
-                <input type="hidden" name="return_url"
-                    value="http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-success.php">
-                <input type="hidden" name="cancel_url"
-                    value="http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-cancel.php">
-                <input type="hidden" name="notify_url"
-                    value="http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-notify.php">
-                <?php
-                $merchant_id = "1228631";
-                $order_id = htmlspecialchars($fine['fine_id']);
-                $amount = htmlspecialchars($fine['fine_amount']);
-                $currency = "LKR";
-                $merchant_secret = "MjE0ODIwNjgzNTg4ODgxMzI2MDI4MzA3MDg1NjAzODU4NTA1NTE1";
-                $hash = strtoupper(
-                    md5(
-                        $merchant_id .
-                        $order_id .
-                        number_format($amount, 2, '.', '') .
-                        $currency .
-                        strtoupper(md5($merchant_secret))
-                    )
-                );
-                ?>
-
-                <input type="hidden" name="first_name" value="<?= htmlspecialchars($_SESSION['user']['fname']) ?>">
-                <input type="hidden" name="last_name" value="<?= htmlspecialchars($_SESSION['user']['lname']) ?>">
-                <input type="hidden" name="email" value="<?= htmlspecialchars($_SESSION['user']['email']) ?>">
-                <input type="hidden" name="phone" value="<?= htmlspecialchars($_SESSION['user']['phone_no']) ?>">
-                <input type="hidden" name="address" value="<?= "Haputhale, Sri Lanka" ?>">
-                <input type="hidden" name="city" value="<?= "Colombo" ?>">
-                <input type="hidden" name="country" value="Sri Lanka">
-                <input type="hidden" name="order_id" value="<?= $order_id ?>">
-                <input type="hidden" name="items" value="Traffic Fine Payment">
-                <input type="hidden" name="currency" value="LKR">
-                <input type="hidden" name="amount" value="<?= $amount ?>">
-                <input type="hidden" name="hash" value="<?= $hash ?>">
+                <input type="hidden" name="fine_id" value="<?= $fine['fine_id'] ?>">
             </form>
         </div>
     </div>

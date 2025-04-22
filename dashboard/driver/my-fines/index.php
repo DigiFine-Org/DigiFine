@@ -22,7 +22,7 @@ $driver_id = $_SESSION['user']['id'];
 $fines = [];
 $stmt = $conn->prepare("
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date,
-           f.issued_time, f.offence_type, f.nature_of_offence,f.fine_amount, f.offence, f.fine_status, o.description_english AS offence_description
+           f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status
     FROM fines AS f
     INNER JOIN drivers AS d ON f.driver_id = d.id
     LEFT JOIN offences AS o ON f.offence = o.offence_number
@@ -49,6 +49,12 @@ $stmt->close();
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
+            <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                </svg>
+            </button>
             <h1 style="margin-bottom: 10px;">Fines to be Paid</h1>
             <div class="home-grid">
                 <?php if (count($fines) > 0): ?>
@@ -77,8 +83,9 @@ $stmt->close();
                                     <?php if ($fine['offence_type'] !== 'court'): ?>
                                         <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
                                             class="btn">View</a>
-                                        <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
-                                            class="btn">Pay</a>
+                                        <!-- <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
+                                            class="btn">Pay</a> -->
+
                                     <?php else: ?>
                                         <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
                                             class="btn">View</a>

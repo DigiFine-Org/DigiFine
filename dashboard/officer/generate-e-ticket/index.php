@@ -37,11 +37,12 @@ if ($policeId) {
     }
 }
 
+$_SESSION['police_station_id'] = $policeStationId;
 // echo "Police staion ID: " . htmlspecialchars($policeStationId);
 
 $locations = [];
 if ($policeStationId) {
-    $sqlLocations = "SELECT location_name FROM duty_locations WHERE police_station_id = '$policeStationId' ORDER BY location_name ASC";
+    $sqlLocations = "SELECT location_name, id FROM duty_locations WHERE police_station_id = '$policeStationId' ORDER BY location_name ASC";
     $resultLocations = $conn->query($sqlLocations);
     if ($resultLocations && $resultLocations->num_rows > 0) {
         $locations = $resultLocations->fetch_all(MYSQLI_ASSOC);
@@ -52,7 +53,19 @@ $lastLocation = ""; // Default empty
 
 // Ensure the officer is identified
 if ($policeId) {
-    $sqlLastLocation = "SELECT location FROM fines WHERE police_id = '$policeId' ORDER BY issued_date DESC, issued_time DESC LIMIT 1";
+    $sqlLastLocation = "
+                        SELECT 
+                            CASE 
+                            WHEN dl.id IS NULL THEN f.location 
+                            ELSE dl.location_name 
+                            END AS location
+                        FROM fines f 
+                        LEFT JOIN duty_locations dl ON f.location = dl.id 
+                        WHERE f.police_id = '$policeId' 
+                        ORDER BY f.issued_date DESC, f.issued_time DESC 
+                        LIMIT 1
+                        ";
+
     $resultLastLocation = $conn->query($sqlLastLocation);
 
     if ($resultLastLocation && $resultLastLocation->num_rows > 0) {
@@ -98,6 +111,7 @@ if (isset($_GET['nic'])) {
 
 $conn->close();
 
+//alerts
 if ($_SESSION['message'] ?? null) {
     if ($_SESSION['message'] === 'success') {
         $message = "E-Ticket generated successfully!";
@@ -118,6 +132,13 @@ if ($_SESSION['message'] ?? null) {
         <div class="content">
             <div id="alert-container"></div> <!-- Alert container -->
             <div class="container">
+                <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                    </svg>
+                </button>
                 <h1>Generate E-Ticket</h1>
                 <form action="generate-e-ticket-process.php" method="POST">
                     <div class="field">
@@ -164,12 +185,12 @@ if ($_SESSION['message'] ?? null) {
                             <?php foreach ($locations as $loc): ?>
                                 <!-- Prevent duplicate entry of the last location in the dropdown -->
                                 <?php if ($loc['location_name'] !== $lastLocation): ?>
-                                    <option value="<?php echo htmlspecialchars($loc['location_name']); ?>">
+                                    <option value="<?php echo htmlspecialchars($loc['id']); ?>">
                                         <?php echo htmlspecialchars($loc['location_name']); ?>
                                     </option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
-                            <option value="other">Other</option>
+                            <option value="other">Specific Location</option>
                         </select>
                         <input type="text" name="other_location" id="other-location" class="input mt-2"
                             placeholder="Enter location" style="display: none; margin-top: 10px;">
