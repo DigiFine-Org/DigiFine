@@ -97,7 +97,7 @@ $conn->close();
 
             <!-- Stats Cards -->
             <div class="stats-grid">
-                <a href="#" class="stat-card">
+                <a href="/digifine/dashboard/driver/points-scheme/view-points-status.php" class="stat-card">
                     <div class="stat-icon" style="background-color: #FFEFB4;">
                         <i class="fas fa-star"></i>
                     </div>
@@ -107,7 +107,7 @@ $conn->close();
                     </div>
                 </a>
 
-                <a href="#" class="stat-card">
+                <a href="/digifine/dashboard/driver/my-fines/index.php" class="stat-card">
                     <div class="stat-icon" style="background-color: #CDE4FF;">
                         <i class="fas fa-exclamation-circle"></i>
                     </div>
@@ -127,13 +127,13 @@ $conn->close();
                     </div>
                 </a>
 
-                <a href="#" class="stat-card">
+                <a href="/digifine/dashboard/driver/payments/index.php" class="stat-card">
                     <div class="stat-icon" style="background-color: #D5F2EA;">
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <div class="stat-info">
                         <h3><?= $cleared_fines; ?></h3>
-                        <p>Cleared Fines</p>
+                        <p>Paid Fines</p>
                     </div>
                 </a>
             </div>

@@ -39,14 +39,15 @@ $driver = $result->fetch_assoc();
 $stmt->close();
 
 // Check if points need to be reset (every 3 months since account creation)
-function checkAndResetPoints($conn, $driverId, $createdAt) {
+function checkAndResetPoints($conn, $driverId, $createdAt)
+{
     $createDate = new DateTime($createdAt);
     $currentDate = new DateTime();
     $interval = $createDate->diff($currentDate);
-    
+
     // Convert the difference to months
     $monthsDiff = ($interval->y * 12) + $interval->m;
-    
+
     // Check if it's time for a points reset (every 3 months)
     if ($monthsDiff > 0 && $monthsDiff % 3 == 0 && $interval->d == 0) {
         // Reset points to 20
@@ -55,13 +56,13 @@ function checkAndResetPoints($conn, $driverId, $createdAt) {
         $resetStmt->bind_param("s", $driverId);
         $resetResult = $resetStmt->execute();
         $resetStmt->close();
-        
+
         // If reset was successful, return true
         if ($resetResult) {
             return true;
         }
     }
-    
+
     return false;
 }
 
@@ -80,25 +81,27 @@ if ($pointsReset) {
 }
 
 // Check for 3 fines on the same day
-function checkForMultipleFinesToday($conn, $driverId) {
+function checkForMultipleFinesToday($conn, $driverId)
+{
     $today = date('Y-m-d');
     $sql = "SELECT COUNT(*) as fine_count FROM fines 
             WHERE driver_id = ? AND DATE(issued_date) = ?";
-    
+
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $driverId, $today);
     $stmt->execute();
     $result = $stmt->get_result();
     $data = $result->fetch_assoc();
     $stmt->close();
-    
+
     return $data['fine_count'] >= 3;
 }
 
 $multipleFines = checkForMultipleFinesToday($conn, $driverId);
 
 // Function to update license suspension status
-function updateLicenseSuspension($conn, $driverId, $suspended) {
+function updateLicenseSuspension($conn, $driverId, $suspended)
+{
     $sql = "UPDATE drivers SET license_suspended = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("is", $suspended, $driverId);
@@ -125,50 +128,52 @@ if ($driver['points'] < 8) {
 }
 
 // Function to get points deduction history
-function getPointsHistory($conn, $driverId) {
+function getPointsHistory($conn, $driverId)
+{
     $sql = "SELECT f.issued_date, f.offence, o.description_english, o.points_deducted 
             FROM fines f
             JOIN offences o ON f.offence = o.offence_number
             WHERE f.driver_id = ? AND o.points_deducted > 0
             ORDER BY f.issued_date DESC";
-    
+
     $stmt = $conn->prepare($sql);
-    
+
     if (!$stmt) {
         return ['error' => "Error preparing statement: " . $conn->error];
     }
-    
+
     $stmt->bind_param("s", $driverId);
-    
+
     if (!$stmt->execute()) {
         return ['error' => "Error executing query: " . $stmt->error];
     }
-    
+
     $result = $stmt->get_result();
     $history = [];
-    
+
     while ($row = $result->fetch_assoc()) {
         $history[] = $row;
     }
-    
+
     $stmt->close();
     return $history;
 }
 
 // Calculate next points reset date
-function getNextResetDate($createdAt) {
+function getNextResetDate($createdAt)
+{
     $createDate = new DateTime($createdAt);
     $currentDate = new DateTime();
-    
+
     // Find the next 3-month interval from creation date
-    $monthsSinceCreation = ($currentDate->format('Y') - $createDate->format('Y')) * 12 + 
-                           ($currentDate->format('m') - $createDate->format('m'));
-    
+    $monthsSinceCreation = ($currentDate->format('Y') - $createDate->format('Y')) * 12 +
+        ($currentDate->format('m') - $createDate->format('m'));
+
     $nextResetMonths = ceil(($monthsSinceCreation + 1) / 3) * 3;
-    
+
     $nextResetDate = clone $createDate;
     $nextResetDate->modify("+{$nextResetMonths} months");
-    
+
     return $nextResetDate->format('F j, Y');
 }
 
@@ -187,8 +192,14 @@ $conn->close();
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
+            <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                </svg>
+            </button>
             <h2>Points Status</h2>
-            
+
             <div class="points-overview">
                 <div class="points-card">
                     <div class="points-header">
@@ -199,23 +210,27 @@ $conn->close();
                             <?= $driver['points'] ?>
                         </div>
                     </div>
-                    
+
                     <div class="points-info">
                         <p>Next points reset scheduled for: <strong><?= $nextResetDate ?></strong></p>
-                        
+
                         <?php if ($pointsReset): ?>
                             <div class="points-reset-notification">
-                                <i class="fas fa-sync-alt"></i> Your points have been reset to 20 based on your 3-month cycle.
+                                <i class="fas fa-sync-alt"></i> Your points have been reset to 20 based on your 3-month
+                                cycle.
                             </div>
                         <?php endif; ?>
-                        
-                        <div class="license-status-container <?= $licenseStatus === 'Suspended' ? 'suspended' : 'active' ?>">
+
+                        <div
+                            class="license-status-container <?= $licenseStatus === 'Suspended' ? 'suspended' : 'active' ?>">
                             <h4>License Status: <?= $licenseStatus ?></h4>
                             <?php if ($licenseStatus === 'Suspended'): ?>
-                                <p class="suspension-reason"><i class="fas fa-exclamation-triangle"></i> <?= $suspensionReason ?></p>
+                                <p class="suspension-reason"><i class="fas fa-exclamation-triangle"></i>
+                                    <?= $suspensionReason ?></p>
                                 <p>Please contact traffic authorities immediately to resolve this issue.</p>
                             <?php elseif ($driver['points'] < 12): ?>
-                                <p class="points-warning"><i class="fas fa-exclamation-circle"></i> Warning: Your points are below 12. Drive carefully to avoid license suspension.</p>
+                                <p class="points-warning"><i class="fas fa-exclamation-circle"></i> Warning: Your points are
+                                    below 12. Drive carefully to avoid license suspension.</p>
                             <?php else: ?>
                                 <p><i class="fas fa-check-circle"></i> Your license is in good standing.</p>
                             <?php endif; ?>
@@ -223,7 +238,7 @@ $conn->close();
                     </div>
                 </div>
             </div>
-                
+
             <div class="points-history">
                 <h3>Points Deduction History</h3>
                 <?php if (isset($pointsHistory['error'])): ?>
