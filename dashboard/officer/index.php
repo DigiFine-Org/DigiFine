@@ -299,7 +299,7 @@ $conn->close();
                                 <?php if (empty($fines)): ?>
                                     <tr>
                                         <td colspan="7">
-                                            <i class="fas fa-info-circle"></i> No fines issued in the last 7 days
+                                            No fines issued in the last 7 days
                                         </td>
                                     </tr>
                                 <?php else: ?>

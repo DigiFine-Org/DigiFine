@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Check Vehicle Details',
-    'styles' => ["../../dashboard.css"],
+    'styles' => ["../../dashboard.css","stolen-form.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
@@ -14,6 +14,9 @@ include_once "../../../includes/header.php";
 if ($_SESSION['user']['role'] !== 'officer') {
     die("Unauthorized user!");
 }
+
+
+
 
 $license_plate_number = $_GET['license_plate_number'] ?? null;
 $officerID = $_SESSION['user']['id'] ?? null;
@@ -142,53 +145,95 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </button>
                 <h1>Seizing the Vehicle <?= htmlspecialchars($vehicle['license_plate_number']) ?></h1>
 
-                <form method="POST" action="">
-                    <div class="field">
-                        <label>License Plate Number:</label>
-                        <input type="text" name="license_plate_number"
-                            value="<?= htmlspecialchars($vehicle['license_plate_number']) ?>" class="input" readonly>
-                    </div>
-                    <div class="field">
-                        <label>Seizure Date & Time:</label>
-                        <input type="datetime-local" id="seizure-date-time" name="seizure_date_time" class="input"  required>
-                    </div>
-                    <div class="field">
-                        <label>Seizure Location:</label>
-                        <input type="text" name="seized_location" placeholder="Street name, City"  class="input"  required>
-                    </div>
-                    <div class="field">
-                        <label>Officer ID:</label>
-                        <input type="text" name="officer_id" value="<?= htmlspecialchars($officer['id']) ?>"  class="input"  readonly>
-                    </div>
-                    <div class="field">
-                        <label>Officer Name:</label>
-                        <input type="text" name="officer_name" value="<?= htmlspecialchars($officer['full_name']) ?>"
-                        class="input"  readonly>
-                    </div>
-                    <div class="field">
-                        <label>Police Station:</label>
-                        <input type="text" name="police_station" placeholder="Enter police station name"  class="input"  required>
-                    </div>
-                    <div class="field">
-                        <label>Driver NIC:</label>
-                        <input type="text" name="driver_NIC" placeholder="NIC Number"  class="input"  required>
-                    </div>
-                    <div class="field">
-                        <label>Owner Name:</label>
-                        <input type="text" name="owner_name" value="<?= htmlspecialchars($vehicle['full_name']) ?>"
-                        class="input"  readonly>
-                    </div>
-                    <div class="field">
-                        <button class="btn margintop" type="submit">Seize</button>
-                    </div>
-                </form>
-
-                <script>
-                    document.getElementById('seizure-date-time').value = new Date().toISOString().slice(0, 16);
-                </script>
-            </div>
+            <form method="POST" action="" class="seizure-form">
+    <div class="form-row">
+        <div class="form-group">
+            <label class="form-label">License Plate Number</label>
+            <input type="text" class="form-control readonly" name="license_plate_number" 
+                   value="<?= htmlspecialchars($vehicle['license_plate_number']) ?>" readonly>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Owner Name</label>
+            <input type="text" class="form-control readonly" name="owner_name" 
+                   value="<?= htmlspecialchars($vehicle['full_name']) ?>" readonly>
         </div>
     </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label class="form-label">Seizure Date & Time <span class="required">*</span></label>
+            <input type="datetime-local" class="form-control" id="seizure-date-time" 
+                   name="seizure_date_time" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Seizure Location <span class="required">*</span></label>
+            <input type="text" class="form-control" name="seized_location" 
+                   placeholder="Street name, City" required>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label class="form-label">Officer ID</label>
+            <input type="text" class="form-control readonly" name="officer_id" 
+                   value="<?= htmlspecialchars($officer['id']) ?>" readonly>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Officer Name</label>
+            <input type="text" class="form-control readonly" name="officer_name" 
+                   value="<?= htmlspecialchars($officer['full_name']) ?>" readonly>
+        </div>
+    </div>
+
+    <div class="form-row">
+    <div class="form-group">
+    <label class="form-label">Police Station <span class="required">*</span></label>
+    <select id="police_station" name="police_station" class="form-control select2-dropdown" required>
+        <option value="">Select Police Station</option>
+        <?php
+        $stationQuery = "SELECT id, name FROM police_stations ORDER BY name";
+        $stationStmt = $conn->prepare($stationQuery);
+        $stationStmt->execute();
+        $stationResult = $stationStmt->get_result();
+        
+        while($station = $stationResult->fetch_assoc()): ?>
+            <option value="<?= htmlspecialchars($station['id']) ?>"
+                <?php if(isset($officer['police_station']) && $officer['police_station'] == $station['id']) echo 'selected'; ?>>
+                <?= htmlspecialchars($station['name']) ?>
+            </option>
+        <?php endwhile; ?>
+    </select>
+</div>
+    </div>
+        
+        <div class="form-group">
+            <label class="form-label">Driver NIC <span class="required">*</span></label>
+            <input type="text" class="form-control" name="driver_NIC" 
+                   placeholder="NIC Number" required>
+        </div>
+
+        <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+            Seize Vehicle
+        </button>
+        <a href="index.php" class="btn btn-secondary">
+           Cancel
+        </a>
+    </div>
+    </div>
+
+    
+</form>
+
+            <script>
+                document.getElementById('seizure-date-time').value = new Date().toISOString().slice(0, 16);
+            </script>
+        </div>
+    </div>
+</div>      
 </main>
 
 <div id="popupNew" class="popupNew">
@@ -202,6 +247,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <script>
+
+    
+
     function showPopup(message, isSuccess = true) {
         const popup = document.getElementById('popupNew');
         // const icon = document.getElementById('popupIconNew');
@@ -209,13 +257,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         const textEl = document.getElementById('popupTextNew');
         const button = document.getElementById('popupButtonNew');
 
-        // icon.innerHTML = isSuccess ? '✅' : '❌';
-        // icon.style.color = isSuccess ? '#28a745' : '#dc3545';
-        titleEl.textContent = isSuccess ? 'Success!' : 'Error!';
-        button.style.backgroundColor = '#003366';
-        textEl.textContent = message;
-        popup.style.display = 'flex';
-    }
+    // icon.innerHTML = isSuccess ? '✅' : '❌';
+    // icon.style.color = isSuccess ? '#28a745' : '#dc3545';
+    titleEl.textContent = isSuccess ? 'Success!' : 'Error!';
+    button.style.backgroundColor = '#003366';
+    textEl.textContent = message;
+    popup.style.display = 'flex';
+
+    button.onclick = null;
+    
+    // Set up new click handler
+    button.onclick = function() {
+        closePopup();
+        if (isSuccess) {
+            window.location.href = 'index.php';
+        }
+    };
+}
+
+
 
     function closePopup() {
         document.getElementById('popupNew').style.display = 'none';
@@ -234,4 +294,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             showPopup("<?= htmlspecialchars($popupMessage, ENT_QUOTES) ?>", <?= $popupSuccess ? 'true' : 'false' ?>);
         });
     <?php endif; ?>
+
+    $(document).ready(function() {
+    // Initialize Select2 with search functionality
+    $('.select2-dropdown').select2({
+        placeholder: "Type to search police stations...",
+        allowClear: true,
+        width: '100%',
+        minimumInputLength: 1, // Start searching after 1 character
+        matcher: function(params, data) {
+            // If there are no search terms, return all of the data
+            if ($.trim(params.term) === '') {
+                return data;
+            }
+            
+            // Do a case-insensitive search
+            if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+                return data;
+            }
+            
+            // Return null if the term doesn't match
+            return null;
+        }
+    });
+    
+    // Set default police station if available
+    <?php if(isset($officer['police_station'])): ?>
+        $('#police_station').val('<?= $officer['police_station'] ?>').trigger('change');
+    <?php endif; ?>
+});
 </script>
+
+
+<style>
+
+    
+    /* Main Form Container */
+
+/* Add this to your header for icons */
+/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> */
+</style>

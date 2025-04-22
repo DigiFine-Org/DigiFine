@@ -39,16 +39,13 @@ $officersResult = $officersStmt->get_result();
         <div class="content">
             <div class="container">
                 <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                     </svg>
                 </button>
                 <h1>Duty History</h1>
 
                 <!-- Search Form -->
-
                 <form action="" method="POST" style="height:140px; position:relative;">
                     <div class="field">
                         <select name="policeId" class="input" required>
@@ -66,29 +63,14 @@ $officersResult = $officersStmt->get_result();
                         <br>
                         <button class="btn" style="margin-top:10px;" type="submit" name="search">Search</button>
                     </div>
-
-                <form action="" method="POST" style="height:100px">
-                    <label for="police_id">Enter Police ID:</label>
-                    <input type="text" id="police_id" name="police_id" style="height:30px;"
-                        value="<?= isset($_POST['police_id']) ? htmlspecialchars($_POST['police_id']) : '' ?>" required>
-
-                    <button class="btn" style="margin-top:10px;" type="submit" name="search">Search</button>
-
                 </form>
 
                 <?php
                 if (isset($_POST['search'])) {
-
                     $police_id = filter_input(INPUT_POST, 'policeId', FILTER_SANITIZE_NUMBER_INT);
                     
                     if (!$police_id) {
                         echo "<p style='color: red;'>Please select a valid officer.</p>";
-
-                    $police_id = filter_input(INPUT_POST, 'police_id', FILTER_SANITIZE_STRING);
-
-                    if (!$police_id || !ctype_digit($police_id)) {
-                        echo "<p style='color: red;'>Please enter a valid Police ID.</p>";
-
                     } else {
                         // Verify the officer belongs to the OIC's station
                         $verifyQuery = "SELECT id FROM officers WHERE id = ? AND police_station = ?";
@@ -97,77 +79,58 @@ $officersResult = $officersStmt->get_result();
                         $verifyStmt->execute();
                         $verifyResult = $verifyStmt->get_result();
 
-
                         if ($verifyResult->num_rows === 0) {
-                            die("Error: Officer not found in your station.");
-
-                        $oic_station_query = "SELECT police_station FROM officers WHERE id = ?";
-                        $oic_stmt = $conn->prepare($oic_station_query);
-                        $oic_stmt->bind_param("s", $_SESSION['user']['id']);
-                        $oic_stmt->execute();
-                        $oic_result = $oic_stmt->get_result();
-
-                        if ($oic_result->num_rows === 0) {
-                            die("Error: OIC record not found.");
-
-                        }
-
-                        $query = "SELECT ad.police_id, ad.duty, ad.notes, ad.duty_date 
-                                  FROM assigned_duties ad
-                                  JOIN officers o ON ad.police_id = o.id
-                                  WHERE ad.police_id = ? 
-                                  AND ad.submitted = 1
-                                  AND o.police_station = ?";
-                        $stmt = $conn->prepare($query);
-
-                        if ($stmt) {
-
-                            $stmt->bind_param("ii", $police_id, $stationId);
-
-                            $stmt->bind_param("ss", $police_id, $oic_station);
-
-                            $stmt->execute();
-                            $result = $stmt->get_result();
-
-                            if ($result->num_rows > 0) {
-                                echo "<table class='duty-table'>
-                                        <thead>
-                                            <tr>
-                                                <th>Police ID</th>
-                                                <th>Duty</th>
-                                                <th>Notes</th>
-                                                <th>Duty Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>";
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<tr>
-                                            <td>" . htmlspecialchars($row['police_id']) . "</td>
-                                            <td>" . htmlspecialchars($row['duty']) . "</td>
-                                            <td>" . htmlspecialchars($row['notes']) . "</td>
-                                            <td>" . htmlspecialchars($row['duty_date']) . "</td>
-                                          </tr>";
-                                }
-                                echo "</tbody></table>";
-                            } else {
-                                echo "<p style='color: red;'>No duty history found for selected officer.</p>";
-                            }
-                            $stmt->close();
+                            echo "<p style='color: red;'>Error: Officer not found in your station.</p>";
                         } else {
-                            echo "<p style='color: red;'>Database error. Please try again.</p>";
+                            $query = "SELECT ad.police_id, ad.duty, ad.notes, ad.duty_date 
+                                      FROM assigned_duties ad
+                                      JOIN officers o ON ad.police_id = o.id
+                                      WHERE ad.police_id = ? 
+                                      AND ad.submitted = 1
+                                      AND o.police_station = ?
+                                      ORDER BY ad.duty_date DESC";
+                            $stmt = $conn->prepare($query);
+
+                            if ($stmt) {
+                                $stmt->bind_param("ii", $police_id, $stationId);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+
+                                if ($result->num_rows > 0) {
+                                    echo "<table class='duty-table'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Police ID</th>
+                                                    <th>Duty</th>
+                                                    <th>Notes</th>
+                                                    <th>Duty Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>";
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo "<tr>
+                                                <td>" . htmlspecialchars($row['police_id']) . "</td>
+                                                <td>" . htmlspecialchars($row['duty']) . "</td>
+                                                <td>" . htmlspecialchars($row['notes']) . "</td>
+                                                <td>" . htmlspecialchars($row['duty_date']) . "</td>
+                                              </tr>";
+                                    }
+                                    echo "</tbody></table>";
+                                } else {
+                                    echo "<p style='color: red;'>No duty history found for selected officer.</p>";
+                                }
+                                $stmt->close();
+                            } else {
+                                echo "<p style='color: red;'>Database error. Please try again.</p>";
+                            }
                         }
                     }
                 }
-
-
-
                 $conn->close();
-
-
                 ?>
             </div>
         </div>
     </div>
 </main>
-
+            
 <?php include_once "../../../includes/footer.php"; ?>
