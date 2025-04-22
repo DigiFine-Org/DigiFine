@@ -188,8 +188,8 @@ $conn->close();
                 <p>Police Station: <?= htmlspecialchars($oic['police_station_name']) ?></p>
                 <p>Police Station ID: <?= htmlspecialchars($oic['police_station']) ?></p>
             </div>
-            <div class="insights-bar" style="margin-bottom:20px">
-                <div class="inner-tile">
+            <div class="stats-grid">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #FFEFB4;">
                         <!-- <img src="driver-icon.svg" alt="Driver Icon"> -->
                     </div>
@@ -200,7 +200,7 @@ $conn->close();
                     </div>
                 </div>
 
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #CDE4FF;">
                         <!-- <img src="officer-icon.svg" alt="Officer Icon"> -->
                     </div>
@@ -211,7 +211,7 @@ $conn->close();
 
                     </div>
                 </div>
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #F8C8D8;">
                         <!-- <img src="report-icon.svg" alt="Report Icon"> -->
                     </div>
@@ -223,7 +223,7 @@ $conn->close();
 
                     </div>
                 </div>
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #D5F2EA;">
                         <!-- <img src="fines-icon.svg" alt="Fines Icon"> -->
                     </div>
