@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container large">
     <form method="GET" class="filter-form" id="filter-form" style="display: none;">
         <div class="filter-form-container">
             <div class="filter-field">

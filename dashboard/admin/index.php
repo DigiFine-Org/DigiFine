@@ -129,7 +129,9 @@ $stmt->close();
             </div>
         </div>
     </div>
+
 </main>
+<?php include_once "../../includes/footer.php"; ?>
 
 <script>
     const ctx = document.getElementById('myChart');
@@ -176,5 +178,3 @@ $stmt->close();
         }
     });
 </script>
-
-<?php include_once "../../includes/footer.php"; ?>
