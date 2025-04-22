@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 $pageConfig = [
     'title' => 'Officer Dashboard',
     'styles' => ["./dashboard.css"],
@@ -54,4 +54,4 @@ $dashboard_user = $_SESSION['user'];
         </div>
 </main>
 
-<?php include_once "../includes/footer.php" ?>
+<?php include_once "../includes/footer.php" ?> -->

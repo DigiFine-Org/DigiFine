@@ -216,41 +216,41 @@ $conn->close();
             <p class="station-info"><i class="fas fa-building"></i>
                 <?= htmlspecialchars($officer['police_station_name']) ?></p>
             <div class="stats-grid">
-                <div class="stat-card">
+                <a href="" class="stat-card">
                     <div class="icon" style="background-color: #FFEFB4;">
                     </div>
                     <div class="info">
-                        <p>Duty Submissions</p>
-                        <h3><?= $totalDutySubmissions ?></h3>
+                        <p>Check Driver Details</p>
+                        <!-- <h3><?= $totalDutySubmissions ?></h3> -->
                     </div>
-                </div>
+                </a>
 
-                <div class="stat-card">
+                <a href="" class="stat-card">
                     <div class="icon" style="background-color: #CDE4FF;">
                     </div>
                     <div class="info">
-                        <p>Fines Issued</p>
-                        <h3><?= $totalFines ?></h3>
+                        <p>Check Vehicle Details</p>
+                        <!-- <h3><?= $totalFines ?></h3> -->
                     </div>
-                </div>
+                </a>
 
-                <div class="stat-card">
+                <a href="" class="stat-card">
                     <div class="icon" style="background-color: #F8C8D8;">
                     </div>
                     <div class="info">
-                        <p>Reported Fines</p>
-                        <h3><?= $reportedFines ?></h3>
+                        <p>Issue Fines</p>
+                        <!-- <h3><?= $reportedFines ?></h3> -->
                     </div>
-                </div>
+                </a>
 
-                <div class="stat-card">
+                <a href="" class="stat-card">
                     <div class="icon" style="background-color: #D5F2EA;">
                     </div>
                     <div class="info">
-                        <p>Pending Duties</p>
-                        <h3><?= $pendingDuties ?></h3>
+                        <p>Submit Duty</p>
+                        <!-- <h3><?= $pendingDuties ?></h3> -->
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="main-content">
