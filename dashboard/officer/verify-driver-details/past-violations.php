@@ -53,7 +53,7 @@ $result = $stmt->get_result();
     <?php include_once "../../includes/sidebar.php" ?>
     <div class="content">
         <img class="watermark" src="../../../assets/watermark.png" />
-        <div class="container <?= $result ? "large" : "" ?>">
+        <div class="container">
             <h1>Driver Past Violations</h1>
             <?php if ($result->num_rows > 0): ?>
                 <div class="table-container">

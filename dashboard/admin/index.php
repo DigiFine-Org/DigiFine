@@ -79,9 +79,15 @@ $stmt->close();
     <div class="dashboard-layout">
         <?php include_once "../includes/sidebar.php" ?>
         <div class="content">
+            <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                </svg>
+            </button>
             <h2>Administering for Excellence and Security</h2>
-            <div class="insights-bar">
-                <div class="inner-tile">
+            <div class="stats-grid">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #FFEFB4;">
                         <span class="material-symbols-outlined" style="font-size: 36px;">directions_car</span>
                     </div>
@@ -90,7 +96,7 @@ $stmt->close();
                         <h3><?= $totalDrivers ?></h3>
                     </div>
                 </div>
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #CDE4FF;">
                         <span class="material-symbols-outlined" style="font-size: 36px;">badge</span>
                     </div>
@@ -99,7 +105,7 @@ $stmt->close();
                         <h3><?= $totalOfficers ?></h3>
                     </div>
                 </div>
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #F8C8D8;">
                         <span class="material-symbols-outlined" style="font-size: 36px;">report_problem</span>
                     </div>
@@ -108,7 +114,7 @@ $stmt->close();
                         <h3><?= $totalStolenVehicles ?></h3>
                     </div>
                 </div>
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #D5F2EA;">
                         <span class="material-symbols-outlined" style="font-size: 36px;">currency_rupee</span>
                     </div>

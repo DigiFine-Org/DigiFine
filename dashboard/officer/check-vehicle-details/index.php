@@ -74,8 +74,16 @@ if ($id) {
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
+
             <img class="watermark" src="../../../assets/watermark.png" />
             <div class="container">
+                <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                    </svg>
+                </button>
                 <h1>Check Vehicle Details</h1>
                 <?php if ($_SESSION['message'] ?? null): ?>
                     <div class="alert alert-danger">
@@ -89,7 +97,7 @@ if ($id) {
                 <?php if (!$vehicleDetails): ?>
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="GET">
                         <input name="query" required type="search" class="input"
-                               placeholder="Enter Licence Plate Number (e.g., SP|BBY-1683)">
+                            placeholder="Enter Licence Plate Number (e.g., SP|BBY-1683)">
                         <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>
@@ -100,9 +108,8 @@ if ($id) {
                         </div>
 
                         <?php if ($imagePath): ?>
-                            <img src="../../../uploads/<?php echo htmlspecialchars($imagePath); ?>"
-                                 alt="Stolen Vehicle"
-                                 style="max-width:400px ;height:200px; ;margin-bottom:20px;">
+                            <img src="../../../uploads/<?php echo htmlspecialchars($imagePath); ?>" alt="Stolen Vehicle"
+                                style="max-width:400px ;height:200px; ;margin-bottom:20px;">
                         <?php endif; ?>
 
                         <div class="data-line">
@@ -123,7 +130,8 @@ if ($id) {
                         </div>
                         <div class="data-line">
                             <span>Vehicle Owner’s Name:</span>
-                            <p><?= htmlspecialchars($vehicleDetails['vehicle_owner_fname'] . " " . $vehicleDetails['vehicle_owner_lname']); ?></p>
+                            <p><?= htmlspecialchars($vehicleDetails['vehicle_owner_fname'] . " " . $vehicleDetails['vehicle_owner_lname']); ?>
+                            </p>
                         </div>
                         <div class="data-line">
                             <span>Vehicle Owner’s NIC:</span>
@@ -135,14 +143,17 @@ if ($id) {
                         </div>
                         <div class="data-line">
                             <span>Validity Period:</span>
-                            <p>From <b><?= htmlspecialchars($vehicleDetails['license_issue_date']); ?></b> To <b><?= htmlspecialchars($vehicleDetails['license_expiry_date']); ?></b></p>
+                            <p>From <b><?= htmlspecialchars($vehicleDetails['license_issue_date']); ?></b> To
+                                <b><?= htmlspecialchars($vehicleDetails['license_expiry_date']); ?></b>
+                            </p>
                         </div>
                         <div class="data-line">
                             <span>Number of Seats:</span>
                             <p><?= htmlspecialchars($vehicleDetails['no_of_seats']); ?></p>
                         </div>
                         <form action="./caught_stolen_vehicle.php" method="GET">
-                            <input type="hidden" name="license_plate_number" value="<?= htmlspecialchars($vehicleDetails['license_plate_number']); ?>">
+                            <input type="hidden" name="license_plate_number"
+                                value="<?= htmlspecialchars($vehicleDetails['license_plate_number']); ?>">
                             <button class="btn margintop" type="submit">Seize</button>
                         </form>
 
@@ -170,7 +181,8 @@ if ($id) {
                         </div>
                         <div class="data-line">
                             <span>Vehicle Owner’s Name:</span>
-                            <p><?= htmlspecialchars($vehicleDetails['vehicle_owner_fname'] . " " . $vehicleDetails['vehicle_owner_lname']); ?></p>
+                            <p><?= htmlspecialchars($vehicleDetails['vehicle_owner_fname'] . " " . $vehicleDetails['vehicle_owner_lname']); ?>
+                            </p>
                         </div>
                         <div class="data-line">
                             <span>Vehicle Owner’s Address:</span>
@@ -178,14 +190,18 @@ if ($id) {
                         </div>
                         <div class="data-line">
                             <span>Validity Period:</span>
-                            <p>From <b><?= htmlspecialchars($vehicleDetails['license_issue_date']); ?></b> To <b><?= htmlspecialchars($vehicleDetails['license_expiry_date']); ?></b></p>
+                            <p>From <b><?= htmlspecialchars($vehicleDetails['license_issue_date']); ?></b> To
+                                <b><?= htmlspecialchars($vehicleDetails['license_expiry_date']); ?></b>
+                            </p>
                         </div>
                         <div class="data-line">
                             <span>Number of Seats:</span>
                             <p><?= htmlspecialchars($vehicleDetails['no_of_seats']); ?></p>
                         </div>
-                        <a href="../generate-e-ticket/index.php?license_plate_number=<?= htmlspecialchars($vehicleDetails['license_plate_number']); ?>" class="btn margintop">Issue Fine</a>
-                        <a href="../generate-e-ticket/index.php?nic=<?= htmlspecialchars($vehicleDetails['nic']); ?>&license_plate_number=<?= htmlspecialchars($vehicleDetails['license_plate_number']); ?>" class="btn margintop">Issue Fine to Vehicle Owner</a>
+                        <a href="../generate-e-ticket/index.php?license_plate_number=<?= htmlspecialchars($vehicleDetails['license_plate_number']); ?>"
+                            class="btn margintop">Issue Fine</a>
+                        <a href="../generate-e-ticket/index.php?nic=<?= htmlspecialchars($vehicleDetails['nic']); ?>&license_plate_number=<?= htmlspecialchars($vehicleDetails['license_plate_number']); ?>"
+                            class="btn margintop">Issue Fine to Vehicle Owner</a>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>

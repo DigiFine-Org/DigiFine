@@ -177,13 +177,19 @@ $conn->close();
     <div class="dashboard-layout">
         <?php include_once "../includes/sidebar.php" ?>
         <div class="content">
+            <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                </svg>
+            </button>
             <div>
                 <h2>Welcome OIC <?= htmlspecialchars($oic['fname'] . ' ' . $oic['lname']) ?>!</h2>
                 <p>Police Station: <?= htmlspecialchars($oic['police_station_name']) ?></p>
                 <p>Police Station ID: <?= htmlspecialchars($oic['police_station']) ?></p>
             </div>
-            <div class="insights-bar" style="margin-bottom:20px">
-                <div class="inner-tile">
+            <div class="stats-grid">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #FFEFB4;">
                         <!-- <img src="driver-icon.svg" alt="Driver Icon"> -->
                     </div>
@@ -194,7 +200,7 @@ $conn->close();
                     </div>
                 </div>
 
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #CDE4FF;">
                         <!-- <img src="officer-icon.svg" alt="Officer Icon"> -->
                     </div>
@@ -205,7 +211,7 @@ $conn->close();
 
                     </div>
                 </div>
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #F8C8D8;">
                         <!-- <img src="report-icon.svg" alt="Report Icon"> -->
                     </div>
@@ -217,7 +223,7 @@ $conn->close();
 
                     </div>
                 </div>
-                <div class="inner-tile">
+                <div class="stat-card">
                     <div class="icon" style="background-color: #D5F2EA;">
                         <!-- <img src="fines-icon.svg" alt="Fines Icon"> -->
                     </div>
@@ -258,7 +264,7 @@ $conn->close();
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="4" style="text-align:center;">No duties assigned today.</td>
+                                    <td colspan="7" style="text-align:center;">No duties assigned today.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

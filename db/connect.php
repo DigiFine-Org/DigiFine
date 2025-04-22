@@ -1,8 +1,13 @@
 <?php
 
-$hostname = "mysql-digifine.alwaysdata.net";
-$username = "digifine_db";
-$password = "Digifine1234#";
+// $hostname = "mysql-digifine.alwaysdata.net";
+// $username = "digifine_db";
+// $password = "Digifine1234#";
+// $dbname = "digifine_db";
+
+$hostname = "localhost";
+$username = "root";
+$password = "";
 $dbname = "digifine_db";
 
 $conn = new mysqli($hostname, $username, $password, $dbname);

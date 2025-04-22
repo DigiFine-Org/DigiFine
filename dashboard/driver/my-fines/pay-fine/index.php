@@ -63,6 +63,12 @@ $conn->close();
     <div class="dashboard-layout">
         <?php include_once "../../../includes/sidebar.php" ?>
         <div class="content">
+            <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                </svg>
+            </button>
             <form class="container large" method="post" action="payment-process.php">
                 <h1>Pay Fine</h1>
                 <div class="data-line">
@@ -98,7 +104,7 @@ $conn->close();
                     <p>Rs. <?= number_format($fine['fine_amount'], 2) ?></p>
                 </div>
                 <div class="wrapper">
-                    <button id="payFineButton" class="btn">Pay Now</button>
+                    <button id="payFineButton" class="btn">Pay</button>
                 </div>
                 <input type="hidden" name="fine_id" value="<?= $fine['fine_id'] ?>">
             </form>

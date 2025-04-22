@@ -33,28 +33,31 @@ $result = $stmt->get_result();
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
+            <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                </svg>
+            </button>
             <h1>Announcements</h1>
-            <div class="content">
-                <!-- <div class="home-grid"> -->
-                <?php if ($result->num_rows > 0): ?>
-                    <?php while ($row = $result->fetch_assoc()): ?>
-                        <div class="announcement">
-                            <h3><?php echo htmlspecialchars($row['title']); ?></h3>
-                            <p><?php echo nl2br(htmlspecialchars($row['message'])); ?></p>
-                            <div class="meta">
-                                Published By: <?php echo htmlspecialchars($row['published_by']); ?> |
-                                Date: <?php echo htmlspecialchars($row['created_at']); ?>
-                                <?php if ($row['expires_at']): ?>
-                                    | Expires At: <?php echo htmlspecialchars($row['expires_at']); ?>
-                                <?php endif; ?>
-                            </div>
+            <!-- <div class="home-grid"> -->
+            <?php if ($result->num_rows > 0): ?>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <div class="announcement">
+                        <h3><?php echo htmlspecialchars($row['title']); ?></h3>
+                        <p><?php echo nl2br(htmlspecialchars($row['message'])); ?></p>
+                        <div class="meta">
+                            Published By: <?php echo htmlspecialchars($row['published_by']); ?> |
+                            Date: <?php echo htmlspecialchars($row['created_at']); ?>
+                            <?php if ($row['expires_at']): ?>
+                                | Expires At: <?php echo htmlspecialchars($row['expires_at']); ?>
+                            <?php endif; ?>
                         </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <p>No announcements available.</p>
-                <?php endif; ?>
-
-            </div>
+                    </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p>No announcements available.</p>
+            <?php endif; ?>
         </div>
     </div>
     </div>
