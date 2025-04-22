@@ -22,9 +22,10 @@ $driver_id = $_SESSION['user']['id'];
 $fines = [];
 $stmt = $conn->prepare("
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date,
-           f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status
+           f.issued_time, f.offence_type, f.nature_of_offence,f.fine_amount, f.offence, f.fine_status, o.description_english AS offence_description
     FROM fines AS f
     INNER JOIN drivers AS d ON f.driver_id = d.id
+    LEFT JOIN offences AS o ON f.offence = o.offence_number
     WHERE d.id = ? AND is_discarded = 0 AND (fine_status = 'pending' OR fine_status = 'overdue')
     ");
 
@@ -59,20 +60,28 @@ $stmt->close();
                                 <p><?= htmlspecialchars($fine['offence_type']) ?></p>
                             </div>
                             <div class="data-line">
-                                <div class="label">Offence:</div>
-                                <p><?= htmlspecialchars($fine['offence']) ?></p>
-                            </div>
-                            <div class="data-line">
                                 <div class="label">Date:</div>
                                 <p><?= htmlspecialchars($fine['issued_date']) ?></p>
                             </div>
+                            <div class="data-line">
+                                <div class="label">Offence:</div>
+                                <p><?= htmlspecialchars($fine['offence_description']) ?></p>
+                            </div>
+                            <div class="data-line">
+                                <div class="label">Fine Amount:</div>
+                                <p><?= htmlspecialchars($fine['fine_amount']) ?></p>
+                            </div>
+
                             <div class="bottom-bar">
                                 <div class="actions">
                                     <?php if ($fine['offence_type'] !== 'court'): ?>
-                                        <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>" class="btn">View</a>
-                                        <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['id']) ?>" class="btn">Pay</a>
+                                        <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
+                                            class="btn">View</a>
+                                        <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
+                                            class="btn">Pay</a>
                                     <?php else: ?>
-                                        <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>" class="btn">View</a>
+                                        <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
+                                            class="btn">View</a>
                                     <?php endif; ?>
                                 </div>
                                 <div class="status-list">
