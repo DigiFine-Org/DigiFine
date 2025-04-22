@@ -67,6 +67,10 @@ $conn->close();
             <div class="container">
                 <h1>Fine Details</h1>
                 <div class="data-line">
+                    <span>Fine ID:</span>
+                    <p>3456<?= htmlspecialchars($fine['fine_id']); ?></p>
+                </div>
+                <div class="data-line">
                     <span>Police ID:</span>
                     <p><?= htmlspecialchars($fine['police_id']); ?></p>
                 </div>
