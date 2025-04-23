@@ -66,19 +66,19 @@ $status_class = $is_late_submission ? "error-message" : "";
                     </div>
                     <p><b>Duty Information</b></p>
                     <div class="field">
-                        <label for="">Patrol Location:</label>
+                        <label for="">Duty Location:</label>
                         <input type="text" class="input" name="patrol_location" required>
                     </div>
                     <div class="field">
-                        <label for="">Patrol Time (Start):</label>
+                        <label for="">Duty Start Time:</label>
                         <input type="time" class="input" name="patrol_time_started" required>
                     </div>
                     <div class="field">
-                        <label for="">Patrol Time (End):</label>
+                        <label for="">Duty End Time:</label>
                         <input type="time" class="input" name="patrol_time_ended" required>
                     </div>
                     <div class="field" required>
-                        <label for="">Patrol Information:</label>
+                        <label for="">Duty Information:</label>
                         <textarea type="text" class="input" name="patrol_information"></textarea>
                     </div>
                     <button class="btn">Submit</button>

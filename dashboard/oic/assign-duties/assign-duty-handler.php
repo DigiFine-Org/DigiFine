@@ -89,6 +89,34 @@ try {
         exit;
     }
 
+    // Check for overlapping duties
+    $overlapQuery = "SELECT id, duty FROM assigned_duties 
+                    WHERE police_id = ? 
+                    AND duty_date = ? 
+                    AND submitted = 0
+                    AND (
+                        (duty_time_start <= ? AND duty_time_end > ?) OR  -- New duty starts during existing duty
+                        (duty_time_start < ? AND duty_time_end >= ?) OR  -- New duty ends during existing duty
+                        (duty_time_start >= ? AND duty_time_end <= ?)    -- Existing duty is within new duty
+                    )";
+    
+    $overlapStmt = $conn->prepare($overlapQuery);
+    
+    if ($overlapStmt === false) {
+        throw new Exception("Database error: " . $conn->error);
+    }
+    
+    $overlapStmt->bind_param("isssssss", $policeId, $dutyDate, $dutyTimeEnd, $dutyTimeStart, $dutyTimeEnd, $dutyTimeStart, $dutyTimeStart, $dutyTimeEnd);
+    $overlapStmt->execute();
+    $overlapResult = $overlapStmt->get_result();
+    
+    if ($overlapResult->num_rows > 0) {
+        $overlappingDuty = $overlapResult->fetch_assoc();
+        $_SESSION['error'] = "Cannot assign this duty. Officer already has conflicting duty \"" . $overlappingDuty['duty'] . "\" scheduled during this time period.";
+        header("Location: index.php");
+        exit;
+    }
+
     // First check if the assigned_duties table exists
     $checkTableQuery = "SHOW TABLES LIKE 'assigned_duties'";
     $tableResult = $conn->query($checkTableQuery);
@@ -104,6 +132,7 @@ try {
             duty_time_end TIME NOT NULL,
             notes TEXT,
             assigned_by INT(11) NOT NULL,
+            submitted TINYINT(1) DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )";
         
@@ -133,6 +162,7 @@ try {
     // Close statements
     if (isset($oicStationStmt)) $oicStationStmt->close();
     if (isset($officerStmt)) $officerStmt->close();
+    if (isset($overlapStmt)) $overlapStmt->close();
     if (isset($stmt)) $stmt->close();
 
     header("Location: index.php");

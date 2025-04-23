@@ -278,8 +278,6 @@ if ($searchId) {
                                 class="btn margintop">Issue Fine</a>
                         <?php endif; ?>
                     </div>
-                    <a href="../generate-e-ticket/index.php?id=<?= $result['license_id'] ?>&nic=<?= $result['nic'] ?>"
-                        class="btn margintop">Issue Fine</a>
                 <?php endif ?>
             </div>
         </div>

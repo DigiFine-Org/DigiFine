@@ -33,17 +33,21 @@ try {
 
     $stationId = $oicStation['police_station'];
 
-    // Search for officers in the same station
-    $searchQuery = "SELECT id, CONCAT(first_name, ' ', last_name) AS name 
+    // Search for officers in the same station by name or ID
+    $searchQuery = "SELECT id, fname, lname 
                   FROM officers 
-                  WHERE (first_name LIKE ? OR last_name LIKE ?) 
+                  WHERE (fname LIKE ? OR lname LIKE ? OR id = ?) 
                   AND police_station = ? 
                   AND is_oic = 0
                   LIMIT 10";
                   
     $stmt = $conn->prepare($searchQuery);
     $searchParam = "%$query%";
-    $stmt->bind_param("ssi", $searchParam, $searchParam, $stationId);
+    
+    // Check if query is numeric (could be an ID search)
+    $idSearch = is_numeric($query) ? intval($query) : 0;
+    
+    $stmt->bind_param("ssii", $searchParam, $searchParam, $idSearch, $stationId);
     $stmt->execute();
     $result = $stmt->get_result();
     
@@ -51,7 +55,7 @@ try {
     while ($row = $result->fetch_assoc()) {
         $officers[] = [
             'id' => $row['id'],
-            'name' => $row['name']
+            'name' => $row['fname'] . ' ' . $row['lname']
         ];
     }
     
@@ -62,3 +66,4 @@ try {
     header('HTTP/1.0 500 Internal Server Error');
     echo json_encode(['error' => $e->getMessage()]);
 }
+?>
