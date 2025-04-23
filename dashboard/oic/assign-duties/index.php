@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Assign Duties',
-    'styles' => ["../../dashboard.css"],
+    'styles' => ["../../dashboard.css", "./search-officer.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
@@ -43,17 +43,44 @@ $officersResult = $officersStmt->get_result();
         <div class="content">
             <div class="container">
                 <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                     </svg>
                 </button>
                 <h1>Assign Duty</h1>
-                <form action="assign-duty-handler.php" method="POST">
+                
+                <!-- Search Officer Section -->
+                <div class="search-officer-container">
+                    <div class="search-input-container">
+                        <input type="text" id="officerSearch" class="search-input" placeholder="Search officer by name or ID...">
+                        <div class="search-results" id="searchResults"></div>
+                    </div>
+                    
+                    <div id="existingDutiesContainer">
+                        <h3 id="existingDutiesTitle" style="display: none;">Existing Duties</h3>
+                        <div id="conflictWarning" class="warning-message" style="display: none;">
+                            <strong>Warning:</strong> There are conflicting duties for the selected time period. Please choose a different time.
+                        </div>
+                        <table class="existing-duties" id="existingDutiesTable">
+                            <thead>
+                                <tr>
+                                    <th>Duty</th>
+                                    <th>Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody id="existingDutiesBody"></tbody>
+                        </table>
+                        <div class="no-duties" id="noDutiesMessage">No existing duties found for this officer.</div>
+                    </div>
+                </div>
+                
+                <form action="assign-duty-handler.php" method="POST" id="assignDutyForm">
                     <div class="field">
                         <label for="policeId">Select Officer:</label>
-                        <select name="policeId" class="input" required>
+                        <select name="policeId" class="input" id="policeIdSelect" required>
                             <option value="">Select Officer</option>
                             <?php while ($officer = $officersResult->fetch_assoc()): ?>
                                 <option value="<?php echo $officer['id']; ?>">
@@ -68,22 +95,21 @@ $officersResult = $officersStmt->get_result();
                     </div>
                     <div class="field">
                         <label for="dutyDate">Duty Date:</label>
-                        <input type="date" name="dutyDate" class="input" id="dutyDate" min="<?= date('Y-m-d') ?>"
-                            required>
+                        <input type="date" name="dutyDate" class="input" id="dutyDate" min="<?= date('Y-m-d') ?>" required>
                     </div>
                     <div class="field">
                         <label for="">Duty Time (Start):</label>
-                        <input type="time" class="input" name="duty_time_start" required>
+                        <input type="time" class="input" name="duty_time_start" id="dutyTimeStart" required>
                     </div>
                     <div class="field">
                         <label for="">Duty Time (End):</label>
-                        <input type="time" class="input" name="duty_time_end" required>
+                        <input type="time" class="input" name="duty_time_end" id="dutyTimeEnd" required>
                     </div>
                     <div class="field">
                         <label for="notes">Additional Notes:</label>
                         <textarea name="notes" id="notes"></textarea>
                     </div>
-                    <button class="btn">Assign Duty</button>
+                    <button class="btn" id="submitBtn">Assign Duty</button>
                 </form>
 
                 <?php if (isset($_SESSION['success'])): ?>
@@ -96,10 +122,236 @@ $officersResult = $officersStmt->get_result();
                     <?php unset($_SESSION['error']); ?>
                 <?php endif; ?>
 
+                <?php if (isset($_SESSION['errors'])): ?>
+                    <div class="error-message">
+                        <ul>
+                            <?php foreach ($_SESSION['errors'] as $error): ?>
+                                <li><?php echo $error; ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <?php unset($_SESSION['errors']); ?>
+                <?php endif; ?>
+
             </div>
         </div>
     </div>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const officerSearch = document.getElementById('officerSearch');
+    const searchResults = document.getElementById('searchResults');
+    const policeIdSelect = document.getElementById('policeIdSelect');
+    const existingDutiesTable = document.getElementById('existingDutiesTable');
+    const existingDutiesBody = document.getElementById('existingDutiesBody');
+    const noDutiesMessage = document.getElementById('noDutiesMessage');
+    const existingDutiesTitle = document.getElementById('existingDutiesTitle');
+    const dutyDateInput = document.getElementById('dutyDate');
+    const dutyTimeStartInput = document.getElementById('dutyTimeStart');
+    const dutyTimeEndInput = document.getElementById('dutyTimeEnd');
+    const conflictWarning = document.getElementById('conflictWarning');
+    const submitBtn = document.getElementById('submitBtn');
+    const assignDutyForm = document.getElementById('assignDutyForm');
+    
+    // Initialize visibility
+    hideDutiesTable();
+    
+    // Debounce function to limit API calls
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+    
+    // Search officers
+    officerSearch.addEventListener('input', debounce(function(e) {
+        const query = e.target.value.trim();
+        
+        if (query.length < 2) {
+            searchResults.style.display = 'none';
+            return;
+        }
+        
+        fetch(`search-officers.php?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                searchResults.innerHTML = '';
+                
+                if (data.length === 0) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                data.forEach(officer => {
+                    const item = document.createElement('div');
+                    item.className = 'search-result-item';
+                    item.textContent = `${officer.name} (ID: ${officer.id})`;
+                    item.addEventListener('click', () => {
+                        officerSearch.value = `${officer.name} (ID: ${officer.id})`;
+                        policeIdSelect.value = officer.id;
+                        searchResults.style.display = 'none';
+                        
+                        // Get existing duties without date/time constraints
+                        fetchExistingDuties(officer.id);
+                    });
+                    searchResults.appendChild(item);
+                });
+                
+                searchResults.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, 300));
+    
+    // Hide search results when clicking outside
+    document.addEventListener('click', function(e) {
+        if (e.target !== officerSearch) {
+            searchResults.style.display = 'none';
+        }
+    });
+    
+    // Check existing duties when officer is selected from dropdown
+    policeIdSelect.addEventListener('change', function() {
+        if (this.value) {
+            fetchExistingDuties(this.value);
+        } else {
+            hideDutiesTable();
+        }
+    });
+    
+    // Fetch all existing duties for an officer (without date/time constraints)
+    function fetchExistingDuties(officerId) {
+        if (!officerId) return;
+        
+        fetch(`check-existing-duties.php?officer_id=${officerId}`)
+            .then(response => response.json())
+            .then(data => {
+                displayDuties(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+    
+    // Check for duty conflicts on a specific date and time
+    function checkDutyConflicts() {
+        const officerId = policeIdSelect.value;
+        if (!officerId || !dutyDateInput.value || !dutyTimeStartInput.value || !dutyTimeEndInput.value) {
+            conflictWarning.style.display = 'none';
+            submitBtn.disabled = false;
+            return;
+        }
+        
+        const date = dutyDateInput.value;
+        const startTime = dutyTimeStartInput.value;
+        const endTime = dutyTimeEndInput.value;
+        
+        fetch(`check-existing-duties.php?officer_id=${officerId}&date=${date}&start_time=${startTime}&end_time=${endTime}`)
+            .then(response => response.json())
+            .then(data => {
+                // Show conflict warning if conflicts found
+                if (data.length > 0 && dutyTimeStartInput.value && dutyTimeEndInput.value) {
+                    conflictWarning.style.display = 'block';
+                    submitBtn.disabled = true;
+                } else {
+                    conflictWarning.style.display = 'none';
+                    submitBtn.disabled = false;
+                }
+                
+                displayDuties(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+    
+    // Display duties in the table
+    function displayDuties(duties) {
+        existingDutiesBody.innerHTML = '';
+        
+        if (duties.length === 0) {
+            existingDutiesTable.style.display = 'none';
+            existingDutiesTitle.style.display = 'none';
+            noDutiesMessage.style.display = 'block';
+            conflictWarning.style.display = 'none';
+            return;
+        }
+        
+        duties.forEach(duty => {
+            const row = document.createElement('tr');
+            if (duty.has_conflict) {
+                row.className = 'conflict';
+            }
+            
+            row.innerHTML = `
+                <td>${duty.duty}</td>
+                <td>${duty.duty_date}</td>
+                <td>${duty.duty_time_start}</td>
+                <td>${duty.duty_time_end}</td>
+                <td>${duty.notes || ''}</td>
+            `;
+            existingDutiesBody.appendChild(row);
+        });
+        
+        existingDutiesTable.style.display = 'table';
+        existingDutiesTitle.style.display = 'block';
+        noDutiesMessage.style.display = 'none';
+    }
+    
+    function hideDutiesTable() {
+        existingDutiesTable.style.display = 'none';
+        existingDutiesTitle.style.display = 'none';
+        noDutiesMessage.style.display = 'none';
+        conflictWarning.style.display = 'none';
+    }
+    
+    // Check for duty overlaps when date or time changes
+    [dutyDateInput, dutyTimeStartInput, dutyTimeEndInput].forEach(input => {
+        input.addEventListener('change', function() {
+            if (policeIdSelect.value) {
+                checkDutyConflicts();
+            }
+        });
+    });
+    
+    // Validate start and end times
+    dutyTimeEndInput.addEventListener('change', function() {
+        if (dutyTimeStartInput.value && dutyTimeEndInput.value) {
+            if (dutyTimeEndInput.value <= dutyTimeStartInput.value) {
+                alert("End time must be after start time");
+                dutyTimeEndInput.value = '';
+            }
+        }
+    });
+    
+    // Add form submission validation
+    assignDutyForm.addEventListener('submit', function(e) {
+        const officerId = policeIdSelect.value;
+        const date = dutyDateInput.value;
+        const startTime = dutyTimeStartInput.value;
+        const endTime = dutyTimeEndInput.value;
+        
+        if (officerId && date && startTime && endTime) {
+            // Final check for conflicts before submission
+            fetch(`check-existing-duties.php?officer_id=${officerId}&date=${date}&start_time=${startTime}&end_time=${endTime}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        e.preventDefault();
+                        alert("Cannot assign duty. There are conflicting duties for this officer during the selected time period.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    });
+});
+</script>
 
 <?php
 // Close statements and connection
