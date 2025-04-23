@@ -1,7 +1,7 @@
-const notification_listners = {
-  listners: [],
+const notification_listeners = {
+  listeners: [],
   add_listener: function (listener) {
-    this.listners.push(listener);
+    this.listeners.push(listener);
   },
 };
 
@@ -17,7 +17,7 @@ const fetch_notifications = async () => {
       return;
     }
 
-    notification_listners.listners.forEach((listener) => {
+    notification_listeners.listeners.forEach((listener) => {
       listener(data);
     });
   } catch (error) {
@@ -38,7 +38,7 @@ const delete_notifications = async () => {
     }
 
     // Refresh notifications after deletion
-    await fetch_notification();
+    await fetch_notifications();
   } catch (error) {
     console.error("Failed to delete notifications:", error);
   }

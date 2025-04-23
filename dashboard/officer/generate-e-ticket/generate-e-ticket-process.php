@@ -93,6 +93,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bind_param("isissssssssd", $policeId, $driver_id, $policeStation, $license_plate_number, $issued_date, $issued_time, $expire_date, $offence_type, $nature_of_offence, $location, $offence_number, $fine_amount);
     if ($stmt->execute()) {
 
+        // Get the ID of the newly created fine
+        $fine_id = $conn->insert_id;
+
         // Deduct points from the driver's total
         if ($points_deducted > 0) {
             $new_points = max(0, $current_points - $points_deducted); // Ensure points don't go negative
@@ -133,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // send notification to the driver about the fine
         $notificationTitle = "New Fine Issued";
-        $notificationMessage = "A fine of lkr {$fine_amount} has beem issued for " . ($offence_type === "court" ? "a court case" : "an offence") . "at {$location}. Please check your fines section for details.";
+        $notificationMessage = "A fine of lkr {$fine_amount} has been issued for " . ($offence_type === "court" ? "a court case" : "an offence") . " at {$location}. Please check your fines section for details. [FINE_ID:{$fine_id}]";
 
         // send noification to the driver
         notify_driver($driver_id, $notificationTitle, $notificationMessage, "fine_system");

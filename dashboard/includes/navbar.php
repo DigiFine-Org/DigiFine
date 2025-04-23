@@ -40,8 +40,10 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Check if notification_listeners exists
         if (typeof notification_listeners !== 'undefined') {
             notification_listeners.add_listener(function (notifications) {
+                // Filter unread notifications
                 const unreadCount = notifications.filter(item => !item.is_read).length;
                 const countElement = document.getElementById('notification-count');
 
@@ -54,20 +56,54 @@
                 }
             });
 
+            // Make sure notification script is loaded correctly
+            console.log("Notification listeners found in navbar");
+
             // Initialize notifications if not already done
             if (typeof init_notifications === 'function' && typeof notification_interval === 'undefined') {
                 init_notifications();
+                console.log("Initialized notifications from navbar");
             }
+        } else {
+            console.error("notification_listeners is not defined. Check if script.js is properly loaded.");
+
+            // Try to load the notification script if it hasn't been loaded
+            const scriptElement = document.createElement('script');
+            scriptElement.src = '/digifine/notifications/script.js';
+            scriptElement.onload = function () {
+                console.log("Notification script loaded dynamically");
+                if (typeof notification_listeners !== 'undefined') {
+                    notification_listeners.add_listener(function (notifications) {
+                        const unreadCount = notifications.filter(item => !item.is_read).length;
+                        const countElement = document.getElementById('notification-count');
+
+                        if (countElement) {
+                            if (unreadCount > 0) {
+                                countElement.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                                countElement.style.display = 'block';
+                            } else {
+                                countElement.textContent = '';
+                                countElement.style.display = 'none';
+                            }
+                        }
+                    });
+
+                    if (typeof init_notifications === 'function') {
+                        init_notifications();
+                    }
+                }
+            };
+            document.head.appendChild(scriptElement);
         }
     });
 </script>
 
 
 <style>
-    .notification-bell {
+    .notification-button {
         position: relative;
         display: inline-block;
-        color: #495057;
+        color: #white;
         margin-right: 20px;
     }
 
