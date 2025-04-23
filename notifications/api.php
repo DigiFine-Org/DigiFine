@@ -1,4 +1,9 @@
 <?php
+// Prevent PHP from outputting warnings/errors directly
+ini_set('display_errors', 0);
+error_reporting(E_ERROR);
+
+
 require_once __DIR__ . "/../db/connect.php";
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -11,7 +16,7 @@ function get(int $user_id, string $user_type): array
 
     try {
         // Get user's notifications
-        $notifications_sql = "SELECT* FROM notifications WHERE reciever_id = ? AND reciever_type = ? ORDER BY created_at DESC";
+        $notifications_sql = "SELECT * FROM notifications WHERE reciever_id = ? AND reciever_type = ? ORDER BY created_at DESC";
 
         $stmt = $conn->prepare($notifications_sql);
         $stmt->bind_param("is", $user_id, $user_type);
@@ -20,7 +25,7 @@ function get(int $user_id, string $user_type): array
         $notifications = [];
 
         while ($row = $notifications_result->fetch_assoc()) {
-            $notificaions[] = [
+            $notifications[] = [
                 "id" => $row['id'],
                 "title" => $row['title'],
                 "message" => $row['message'],
@@ -46,7 +51,7 @@ function get(int $user_id, string $user_type): array
 
         while ($row = $announcements_result->fetch_assoc()) {
             $announcements[] = [
-                "id" => $row[id],
+                "id" => $row['id'],
                 "title" => $row['title'],
                 "message" => $row['message'],
                 "created_at" => $row['created_at'],
@@ -59,7 +64,7 @@ function get(int $user_id, string $user_type): array
 
         return [
             "success" => true,
-            "data" => array_merge($notificaions, $announcements)
+            "data" => array_merge($notifications, $announcements)
         ];
     } catch (Exception $e) {
         return [
@@ -118,7 +123,7 @@ function get_notification_by_id(int $id, string $type = "notification"): array
     global $conn;
 
     try {
-        if ($type === "notificaion") {
+        if ($type === "notification") {
             $sql = "SELECT * FROM notifications WHERE id = ? LIMIT 1";
         } else {
             $sql = "SELECT * FROM announcements WHERE id = ? LIMIT 1";
@@ -156,9 +161,16 @@ function get_notification_by_id(int $id, string $type = "notification"): array
     }
 }
 
+
+// Make sure no HTML is output before here
+ob_clean(); // Clear output buffer if anything was already sent
+
+// Set headers before any output
+header("Content-Type: application/json");
+header("Cache-Control: no-cache, must-revalidate");
+
 $method = $_SERVER["REQUEST_METHOD"];
 $function_name = strtolower($method);
-
 
 // Handle GET requests with action parameter (for viewing a specific notification)
 if ($method === "GET" && isset($_GET['action']) && $_GET['action'] === "view" && isset($_GET['id'])) {
@@ -201,4 +213,13 @@ if (function_exists($function_name)) {
 
     http_response_code(200);
     echo json_encode($res);
+    exit;
+} else {
+    // Handle undefined methods
+    http_response_code(405);
+    echo json_encode([
+        "success" => false,
+        "data" => "Method not allowed"
+    ]);
+    exit;
 }

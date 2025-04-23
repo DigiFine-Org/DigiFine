@@ -31,7 +31,7 @@ if ($debug_stmt === false) {
 
     echo "<div style='background-color: #ddffdd; padding: 10px; margin: 10px;'>";
     echo "<h3>Debug - Notifications in DB:</h3>";
-    
+
     if ($debug_result->num_rows === 0) {
         echo "<p>No notifications found for driver ID: " . htmlspecialchars($driver_id) . "</p>";
     } else {
@@ -39,7 +39,7 @@ if ($debug_stmt === false) {
             echo "<pre>" . print_r($row, true) . "</pre>";
         }
     }
-    
+
     echo "</div>";
     $debug_stmt->close();
 }
@@ -84,13 +84,12 @@ echo "</div>";
                 <div class="loading">Loading notifications...</div>
             </div>
 
-            
+
         </div>
     </div>
 </main>
 
 <?php include_once "../../../includes/footer.php"; ?>
-
 
 
 
