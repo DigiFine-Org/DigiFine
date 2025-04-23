@@ -19,7 +19,7 @@ if (empty($timePeriod)) {
 }
 
 // Fetch data from the same source used by your chart
-$url = "http://localhost/digifine/dashboard/admin/reports/all-fines/issued-place/get-fines.php?time_period=" . urlencode($timePeriod);
+$url = "http://localhost/digifine/dashboard/admin/reports/all-fines/issued-police-station/get-fines.php?time_period=" . urlencode($timePeriod);
 $response = file_get_contents($url);
 
 if ($response === false) {
@@ -47,7 +47,7 @@ if (isset($data['error'])) {
                         d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                 </svg>
             </button>
-            <h2>Full Report of Fines by Issued Place - <?= htmlspecialchars($timePeriod) ?></h2>
+            <h2>Full Report of Fines by Issued Police Station - <?= htmlspecialchars($timePeriod) ?></h2>
 
 
             <!-- Fines Table -->
@@ -56,7 +56,7 @@ if (isset($data['error'])) {
                     <thead>
                         <tr>
                             <th>Rank</th>
-                            <th>Location</th>
+                            <th>Police Station</th>
                             <th>Fine Count</th>
                         </tr>
                     </thead>

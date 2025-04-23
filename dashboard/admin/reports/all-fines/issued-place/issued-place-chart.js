@@ -74,4 +74,4 @@ function updateIssuedPlacenChart(data, period) {
 }
 
 // Initial fetch
-fetchIssuedPlaceData();
+// fetchIssuedPlaceData();

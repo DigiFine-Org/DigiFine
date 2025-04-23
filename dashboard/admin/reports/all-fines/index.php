@@ -49,6 +49,12 @@ if ($_SESSION['message'] ?? null) {
 
             <!-- Main Content -->
             <div class="content">
+                <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                    </svg>
+                </button>
                 <h1>Status of All Fines Issued</h1>
                 <p class="description">View and analyze status of fines over different time periods.</p>
                 <form action="issued-place/full-issued-place-table.php" method="get" class="filter-form-grid">
@@ -70,25 +76,25 @@ if ($_SESSION['message'] ?? null) {
                         </div>
                         <!-- </div> -->
 
-                        <div class="buttons">
-                            <button type="submit" class="btn" id="generateReportBtn">
-                                Generate Report
-                            </button>
-                        </div>
                     </div>
                 </form>
-
-                <div class="chart-content" id="fineStatusContent">
+                <div class="table-container">
+                    <div class="buttons">
+                        <button type="submit" class="btn" id="generateReportBtn">
+                            Generate Report
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-content" id="fineStatusContent" style="display: none;">
                     <div class="table-container">
                         <!-- Chart Section -->
                         <div class="chart-section">
                             <canvas id="fineChart" width="800" height="400"></canvas>
                         </div>
-                        <div class="full-report-buttons" id="fullReportButtons">
-                            <button class="btn full-report-btn" id="fineChartReportBtn">
-                                Full Report
-                            </button>
-                        </div>
+                        <form action="payment-status/full-payment-status-table.php" method="get">
+                            <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                            <button type="submit" class="btn full-report" id="paymentStatusFullReportBtn">Full Report</button>
+                        </form>
                     </div>
 
                     <div class="fine-summary mt-4" id="fineSummary"></div>
@@ -102,16 +108,15 @@ if ($_SESSION['message'] ?? null) {
                             <canvas id="issuedFineChart" width="800" height="400"></canvas>
                         </div>
 
-                        <div class="full-report-buttons" id="fullReportButtons">
-                            <button class="btn full-report-btn" id="issuedFineChartReportBtn">
-                                Full Report
-                            </button>
-                        </div>
+                        <form action="reported-all/full-reported-all-table.php" method="get">
+                            <input type="hidden" name="time_period" class="hiddenTimePeriod">
+                            <button type="submit" class="btn full-report">Full Report</button>
+                        </form>
                     </div>
 
                     <div class="fine-summary mt-4" id="IssuedFineSummary"></div>
 
-                    <h1>Analize Fines by Issued police station</h1>
+                    <h1>Analyze Fines by Issued Police Station</h1>
                     <p class="description">View and analyze fines by issued location over different time periods.</p>
 
                     <div class="table-container">
@@ -119,18 +124,15 @@ if ($_SESSION['message'] ?? null) {
                         <div class="chart-section">
                             <canvas id="policeStationChart" width="800" height="400"></canvas>
                         </div>
-
-                        <div class="full-report-buttons" id="fullReportButtons">
-                            <button class="btn full-report-btn" id="policeStationChartReportBtn">
-                                Full Report
-                            </button>
-                        </div>
+                        <form action="issued-police-station/full-issued-police-station-table.php" method="get">
+                            <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                            <button type="submit" class="btn full-report" id="policeStationChartFullReportBtn">Full Report</button>
+                        </form>
                     </div>
 
                     <div class="fine-summary mt-4" id="policeStationSummary"></div>
 
-
-                    <h1>Analize Fines by Issued Place</h1>
+                    <h1>Analyze Fines by Issued Place</h1>
                     <p class="description">View and analyze fines by issued location over different time periods.</p>
 
                     <div class="table-container">
@@ -139,19 +141,16 @@ if ($_SESSION['message'] ?? null) {
                             <canvas id="issuedPlaceChart" width="800" height="400"></canvas>
                         </div>
                     </div>
-                    <div class="full-report-buttons" id="fullReportButtons">
-                        <a href="issued-place/full-issued-place-table.php">
-                            <button class="btn" id="issuedPlaceChartReportBtn">Full Report</button>
-                        </a>
-                    </div>
+
+                    <form action="issued-place/full-issued-place-table.php" method="get">
+                        <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                        <button type="submit" class="btn full-report" id="issuedPlaceFullReportBtn">Full Report</button>
+                    </form>
 
                     <div class="fine-summary mt-4" id="issuedPlaceSummary"></div>
                 </div>
             </div>
         </div>
-
-
-
     </main>
     <?php include_once "../../../../includes/footer.php"; ?>
 
@@ -162,18 +161,40 @@ if ($_SESSION['message'] ?? null) {
         <script src="<?php echo $script; ?>"></script>
     <?php endforeach; ?>
 </body>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Attach one event listener to the button
         const generateBtn = document.getElementById("generateReportBtn");
+        const fineStatusContent = document.getElementById("fineStatusContent");
+
+        generateBtn.addEventListener("click", function() {
+            fineStatusContent.style.display = "block";
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const generateBtn = document.getElementById("generateReportBtn");
+        const timePeriodSelect = document.getElementById("timePeriod");
+        const hiddenTimePeriods = document.querySelectorAll("input[name='time_period']");
 
         generateBtn.addEventListener("click", function(e) {
-            e.preventDefault(); // prevent form submission or reload
+            e.preventDefault(); // Prevent reload
+            const timePeriod = timePeriodSelect.value;
+            hiddenTimePeriods.forEach(input => {
+                input.value = timePeriod;
+            });
+
             fetchFineStatusData();
             fetchIssuedFineData();
             fetchIssuedPlaceData();
             fetchPoliceStationData();
-
         });
-    }); // Close the DOMContentLoaded event listener
+
+        // Optional: sync timePeriod dropdown to hidden inputs live
+        timePeriodSelect.addEventListener("change", function() {
+            hiddenTimePeriods.forEach(input => {
+                input.value = this.value;
+            });
+        });
+    });
 </script>

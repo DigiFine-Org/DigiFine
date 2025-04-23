@@ -19,7 +19,7 @@ if (empty($timePeriod)) {
 }
 
 // Fetch data from the same source used by your chart
-$url = "http://localhost/digifine/dashboard/admin/reports/all-fines/issued-place/get-fines.php?time_period=" . urlencode($timePeriod);
+$url = "http://localhost/digifine/dashboard/admin/reports/all-fines/payment-status/get-fines.php?time_period=" . urlencode($timePeriod);
 $response = file_get_contents($url);
 
 if ($response === false) {
@@ -47,38 +47,57 @@ if (isset($data['error'])) {
                         d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                 </svg>
             </button>
-            <h2>Full Report of Fines by Issued Place - <?= htmlspecialchars($timePeriod) ?></h2>
-
+            <h2>Full Report of Fines by Payment Status - <?= htmlspecialchars($timePeriod) ?></h2>
 
             <!-- Fines Table -->
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>Rank</th>
-                            <th>Location</th>
-                            <th>Fine Count</th>
+                            <th>Date</th>
+                            <th>All Fines</th>
+                            <th>Paid Fines</th>
+                            <th>Pending Fines</th>
+                            <th>Overdue Fines</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (!empty($data)): ?>
-                            <?php $rank = 1; ?>
-                            <?php foreach ($data as $row): ?>
-                                <tr>
-                                    <td><?= $rank++ ?></td>
-                                    <td><?= htmlspecialchars($row['label']) ?></td>
-                                    <td><?= htmlspecialchars($row['count']) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
+                        <?php
+                        $dates = [];
+                        foreach (['paid', 'pending', 'overdue'] as $status) {
+                            foreach ($data[$status] as $row) {
+                                $dates[$row['label']][$status] = $row['count'];
+                            }
+                        }
+
+                        foreach ($dates as $date => $counts) {
+                            $paid = $counts['paid'] ?? 0;
+                            $pending = $counts['pending'] ?? 0;
+                            $overdue = $counts['overdue'] ?? 0;
+                            $allFines = $paid + $pending + $overdue;
+                        ?>
                             <tr>
-                                <td colspan="3">No fines found for the selected filters.</td>
+                                <td><?= htmlspecialchars($date) ?></td>
+                                <td><?= $allFines ?></td>
+                                <td><?= $paid ?></td>
+                                <td><?= $pending ?></td>
+                                <td><?= $overdue ?></td>
                             </tr>
-                        <?php endif; ?>
+                        <?php } ?>
                     </tbody>
+                    <?php if (empty($dates)) : ?>
+                        <tr>
+                            <td colspan="5">No fines found for the selected filters.</td>
+                        </tr>
+                    <?php endif; ?>
                 </table>
             </div>
         </div>
+    </div>
+
+
+
+    </div>
     </div>
 
 
