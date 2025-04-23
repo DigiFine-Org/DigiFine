@@ -3,6 +3,7 @@ session_start();
 
 include '../../../db/connect.php';
 require_once "send-fine-mail.php";
+require_once "../../../notifications/functions.php";
 
 // Check if user is logged in as police officer
 $policeId = $_SESSION['user']['id'] ?? null;
@@ -129,6 +130,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $driverEmail = $driverEmailResult->fetch_assoc()['email'];
             sendFineEmail($driverEmail, $fineDetails);
         }
+
+        // send notification to the driver about the fine
+        $notificationTitle = "New Fine Issued";
+        $notificationMessage = "A fine of lkr {$fine_amount} has beem issued for " . ($offence_type === "court" ? "a court case" : "an offence") . "at {$location}. Please check your fines section for details.";
+
+        // send noification to the driver
+        notify_driver($driver_id, $notificationTitle, $notificationMessage, "fine_system");
 
         $_SESSION["message"] = "success";
         header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php");

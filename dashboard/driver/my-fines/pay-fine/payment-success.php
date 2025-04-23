@@ -79,7 +79,7 @@ $conn->close();
     <div class="dashboard-layout">
         <?php include_once "../../../includes/sidebar.php" ?>
         <div class="content">
-            <div class="container large">
+            <div class="container">
                 <h1>Payment Successful</h1>
                 <p style="margin-bottom: 10px;">Your payment was successfully processed. Thank you for paying the fine.
                 </p>
