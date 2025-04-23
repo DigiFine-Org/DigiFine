@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'OIC Dashboard',
-    'styles' => ["../dashboard.css", "oic-dashboard.css", "popup.css"],
+    'styles' => ["../dashboard.css", "./oic-dashboard.css", "./popup.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
 ];
