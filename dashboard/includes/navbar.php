@@ -104,7 +104,6 @@
         position: relative;
         display: inline-block;
         color: #white;
-        margin-right: 20px;
     }
 
     .notification-count {
@@ -120,5 +119,10 @@
         display: none;
         text-align: center;
         line-height: 18px;
+    }
+
+    .notification-count.active {
+        display: flex;
+        /* Only show when has content */
     }
 </style>
