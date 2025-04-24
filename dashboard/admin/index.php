@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Admin Dashboard',
-    'styles' => ["../dashboard.css", "./admin-dashboard.css"],
+    'styles' => ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css", "../dashboard.css", "./admin-dashboard.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
 ];
@@ -89,7 +89,7 @@ $stmt->close();
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="icon" style="background-color: #FFEFB4;">
-                        <span class="material-symbols-outlined" style="font-size: 36px;">directions_car</span>
+                        <i class="fas fa-car" style="font-size: 1.7rem;"></i>
                     </div>
                     <div class="info">
                         <p>Drivers</p>
@@ -98,7 +98,7 @@ $stmt->close();
                 </div>
                 <div class="stat-card">
                     <div class="icon" style="background-color: #CDE4FF;">
-                        <span class="material-symbols-outlined" style="font-size: 36px;">badge</span>
+                        <i class="fas fa-user-shield" style="font-size: 1.7rem;"></i>
                     </div>
                     <div class="info">
                         <p>Police Officers</p>
@@ -107,7 +107,7 @@ $stmt->close();
                 </div>
                 <div class="stat-card">
                     <div class="icon" style="background-color: #F8C8D8;">
-                        <span class="material-symbols-outlined" style="font-size: 36px;">report_problem</span>
+                        <i class="fas fa-car-crash" style="font-size: 1.7rem;"></i>
                     </div>
                     <div class="info">
                         <p>Stolen Vehicles</p>
@@ -116,7 +116,7 @@ $stmt->close();
                 </div>
                 <div class="stat-card">
                     <div class="icon" style="background-color: #D5F2EA;">
-                        <span class="material-symbols-outlined" style="font-size: 36px;">currency_rupee</span>
+                        <i class="fas fa-rupee-sign" style="font-size: 1.7rem;"></i>
                     </div>
                     <div class="info">
                         <p>Total Fines</p>
@@ -124,63 +124,192 @@ $stmt->close();
                     </div>
                 </div>
             </div>
+            <style>
+                .chart-container {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 20px;
+                    margin-top: 30px;
+                    padding: 20px;
+                }
 
-            <div class="charts-bar" style="margin-top: 75px;">
-                <div class="inner-chart">
-                    <canvas id="myChart"></canvas>
+                .chart-card {
+                    background: white;
+                    border-radius: 10px;
+                    padding: 20px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    max-width: 500px;
+                    height: 300px;
+                }
+
+                .chart-title {
+                    font-size: 1.1rem;
+                    color: #333;
+                    margin-bottom: 15px;
+                    font-weight: 500;
+                }
+
+                canvas {
+                    max-height: 240px !important;
+                }
+
+                .chart-container {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 20px;
+                    margin-top: 30px;
+                    padding: 20px;
+                }
+
+                .chart-card {
+                    background: white;
+                    border-radius: 10px;
+                    padding: 20px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+
+                .chart-title {
+                    font-size: 1.1rem;
+                    color: #333;
+                    margin-bottom: 15px;
+                    font-weight: 500;
+                }
+            </style>
+
+            <div class="chart-container">
+                <div class="chart-card">
+                    <h3 class="chart-title">Monthly Fines Distribution</h3>
+                    <canvas id="finesChart"></canvas>
                 </div>
-                <div class="inner-chart">
-                    <canvas id="myChart-1"></canvas>
+                <div class="chart-card">
+                    <h3 class="chart-title">User Distribution</h3>
+                    <canvas id="usersChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Vehicle Status</h3>
+                    <canvas id="vehicleChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Fine Collection Trend</h3>
+                    <canvas id="trendChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <h3 class="chart-title">License Status</h3>
+                    <canvas id="licenseChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Fine Payment Status</h3>
+                    <canvas id="fineStatusChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
 </main>
-<?php include_once "../../includes/footer.php"; ?>
 
 <script>
-    const ctx = document.getElementById('myChart');
-
-    new Chart(ctx, {
+    const finesChart = new Chart(document.getElementById('finesChart'), {
         type: 'bar',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'August', 'Sept', 'Oct', 'Nov', 'Dec'],
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
             datasets: [{
-                label: ' Monthly Driver Registrations',
-                data: [121, 58, 45, 145, 23, 67, 73, 95, 100, 36, 78, 60],
-                borderWidth: 1
+                label: 'Fine Amount (Rs)',
+                data: [12000, 19000, 15000, 25000, 22000, 30000],
+                backgroundColor: '#0284c7'
             }]
         },
         options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
                 }
             }
         }
     });
-</script>
 
-<script>
-    const cty = document.getElementById('myChart-1');
+    const usersChart = new Chart(document.getElementById('usersChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Drivers', 'Officers', 'Admins'],
+            datasets: [{
+                data: [<?= $totalDrivers ?>, <?= $totalOfficers ?>, 1],
+                backgroundColor: ['#FFC107', '#2196F3', '#FF5722']
+            }]
+        }
+    });
 
-    new Chart(cty, {
+    const vehicleChart = new Chart(document.getElementById('vehicleChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Regular Vehicles', 'Stolen Vehicles'],
+            datasets: [{
+                data: [<?= $totalDrivers - $totalStolenVehicles ?>, <?= $totalStolenVehicles ?>],
+                backgroundColor: ['#2196F3', '#FF5722']
+            }]
+        }
+    });
+
+    const trendChart = new Chart(document.getElementById('trendChart'), {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'August', 'Sept', 'Oct', 'Nov', 'Dec'],
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
             datasets: [{
-                label: ' Monthly Fines Issued',
-                data: [1321, 2558, 4645, 4145, 1523, 5667, 8673, 6695, 6100, 4364, 4578, 4560],
-                borderWidth: 1
+                label: 'Collection Trend',
+                data: [5000, 15000, 20000, 18000, 25000, <?= $totalFineAmount ?>],
+                borderColor: '#2196F3',
+                tension: 0.4
             }]
         },
         options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        }
+    });
+
+    // License Status Chart
+    const licenseChart = new Chart(document.getElementById('licenseChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Active License', 'Suspended License'],
+            datasets: [{
+                data: [80, 20], // Replace with actual data
+                backgroundColor: ['#4CAF50', '#FF5722']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        }
+    });
+
+    // Fine Payment Status Chart
+    const fineStatusChart = new Chart(document.getElementById('fineStatusChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Paid Fines', 'Overdue Fines'],
+            datasets: [{
+                data: [65, 35], // Replace with actual data
+                backgroundColor: ['#2196F3', '#f44336']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
                 }
             }
         }
     });
 </script>
+<?php include_once "../../includes/footer.php"; ?>

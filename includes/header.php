@@ -44,8 +44,8 @@ if (!is_null($authRequired)) {
         echo "<link rel='stylesheet' href='$style'/>";
     }
 
-    
 
+    
     ?>
 </head>
 

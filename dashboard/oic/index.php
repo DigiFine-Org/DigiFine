@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'OIC Dashboard',
-    'styles' => ["../dashboard.css", "oic-dashboard.css", "popup.css"],
+    'styles' => ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css", "../dashboard.css", "oic-dashboard.css", "popup.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
 ];
@@ -192,6 +192,7 @@ $conn->close();
                 <div class="stat-card">
                     <div class="icon" style="background-color: #FFEFB4;">
                         <!-- <img src="driver-icon.svg" alt="Driver Icon"> -->
+                        <i class="fas fa-user-shield" style="font-size: 24px; color: #000;"></i>
                     </div>
                     <div class="info">
                         <?php renderLink("Station Officers", "/digifine/dashboard/oic/officer-management/index.php"); ?>
@@ -203,6 +204,7 @@ $conn->close();
                 <div class="stat-card">
                     <div class="icon" style="background-color: #CDE4FF;">
                         <!-- <img src="officer-icon.svg" alt="Officer Icon"> -->
+                        <i class="fas fa-gavel" style="font-size: 1.7rem; color: #000;"></i>
                     </div>
                     <div class="info">
                         <?php renderLink("Court-violations", "/digifine/dashboard/oic/court-violations/index.php") ?>
@@ -214,18 +216,17 @@ $conn->close();
                 <div class="stat-card">
                     <div class="icon" style="background-color: #F8C8D8;">
                         <!-- <img src="report-icon.svg" alt="Report Icon"> -->
+                        <i class="fas fa-file-alt" style="font-size: 1.7rem; color: #000;"></i>
                     </div>
                     <div class="info">
                         <?php renderLink("Reported Fines", "/digifine/dashboard/oic/reported-fines/index.php") ?>
                         <h3><?php echo htmlspecialchars($reportFineCount, ENT_QUOTES, 'UTF-8'); ?></h3>
-
-
-
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="icon" style="background-color: #D5F2EA;">
                         <!-- <img src="fines-icon.svg" alt="Fines Icon"> -->
+                        <i class="fas fa-car-crash" style="font-size: 1.7rem; color: #000;"></i>
                     </div>
                     <div class="info">
                         <?php renderLink("Seized Vehicles", "/digifine/dashboard/oic/seized_vehicle/index.php") ?>
