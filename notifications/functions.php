@@ -8,6 +8,11 @@ function notify_user(string $user_type, string $user_id, string $title, string $
     $sql = "INSERT INTO notifications (title, message, reciever_id, reciever_type, source, expires_at) VALUES (?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
+    if ($stmt === false) {
+        // For debugging
+        error_log("SQL Prepare Error: " . $conn->error);
+        return false;
+    }
     $stmt->bind_param("ssssss", $title, $message, $user_id, $user_type, $source, $expires_at);
     $stmt->execute();
 

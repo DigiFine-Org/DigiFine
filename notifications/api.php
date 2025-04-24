@@ -4,13 +4,13 @@ ini_set('display_errors', 0);
 error_reporting(E_ERROR);
 
 
-require_once __DIR__ . "/../db/connect.php";
+require_once "../db/connect.php";
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-function get(int $user_id, string $user_type): array
+function get(string $user_id, string $user_type): array
 {
     global $conn;
 
@@ -19,7 +19,7 @@ function get(int $user_id, string $user_type): array
         $notifications_sql = "SELECT * FROM notifications WHERE reciever_id = ? AND reciever_type = ? ORDER BY created_at DESC";
 
         $stmt = $conn->prepare($notifications_sql);
-        $stmt->bind_param("is", $user_id, $user_type);
+        $stmt->bind_param("ss", $user_id, $user_type);
         $stmt->execute();
         $notifications_result = $stmt->get_result();
         $notifications = [];
