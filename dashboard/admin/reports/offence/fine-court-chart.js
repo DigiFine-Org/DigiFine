@@ -121,4 +121,4 @@ function getLastDays(days) {
   return labels;
 }
 
-fetchFineCourtData(); // Initial fetch
+// fetchFineCourtData(); // Initial fetch

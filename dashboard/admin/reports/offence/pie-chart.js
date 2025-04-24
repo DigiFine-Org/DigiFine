@@ -8,8 +8,8 @@ window.fetchPieChartData = function () {
       if (data.error) {
         alert(data.error);
       } else {
-        updateLocationChart(data, timePeriod); // No slicing since data is already simplified
-        updateFineSummary(data, timePeriod); // Optional: your summary logic
+        updatePieChart(data, timePeriod);
+        updateFineSummary(data, timePeriod);
       }
     })
     .catch((error) => {
@@ -17,7 +17,7 @@ window.fetchPieChartData = function () {
     });
 };
 
-function updateLocationChart(data, period) {
+function updatePieChart(data, period) {
   const ctx = document.getElementById("pieChart").getContext("2d");
 
   if (window.chartPie) {
@@ -26,7 +26,7 @@ function updateLocationChart(data, period) {
 
   const labels = data.map((item) => item.label);
   const counts = data.map((item) => parseInt(item.count));
-  const total = counts.reduce((sum, count) => sum + count, 0);
+  // const total = counts.reduce((sum, count) => sum + count, 0);
 
   const backgroundColors = labels.map((label) => {
     if (label.toLowerCase() === "fine") {
@@ -83,4 +83,4 @@ function updateLocationChart(data, period) {
   });
 }
 
-fetchPieChartData(); // Initial fetch
+// fetchPieChartData(); // Initial fetch

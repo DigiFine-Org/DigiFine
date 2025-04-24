@@ -1,7 +1,7 @@
 window.fetchFineData = function () {
   const timePeriod = document.getElementById("timePeriod").value;
 
-  fetch(`get-fines.php?time_period=${timePeriod}`)
+  fetch(`overall/get-fines.php?time_period=${timePeriod}`)
     .then((response) => response.json())
     .then((data) => {
       console.log("Fetched data:", data);
@@ -143,4 +143,4 @@ function getLastDays(days) {
   return labels;
 }
 
-fetchFineData(); // Initial fetch
+// fetchFineData(); // Initial fetch

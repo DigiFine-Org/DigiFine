@@ -89,4 +89,4 @@ function updateOffencesRevenueChart(data, period) {
   });
 }
 
-fetchOffencesRevenueFineData(); // on load display
+// fetchOffencesRevenueFineData(); // on load display

@@ -75,4 +75,4 @@ function updateStationChart(data, period) {
   });
 }
 
-fetchStationFineData(); // on load display
+// fetchStationFineData(); // on load display

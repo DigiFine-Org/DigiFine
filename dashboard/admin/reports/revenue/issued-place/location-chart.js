@@ -63,7 +63,7 @@ function updateIssuedPlaceChart(data, period) {
       plugins: {
         title: {
           display: true,
-          text: `Revenue Distribution by Police Officer (${period})`,
+          text: `Total Fines - Location (${period})`,
         },
         legend: {
           display: false,
@@ -72,4 +72,4 @@ function updateIssuedPlaceChart(data, period) {
     },
   });
 }
-fetchIssuedPlaceFineData(); // on load display
+// fetchIssuedPlaceFineData(); // on load display
