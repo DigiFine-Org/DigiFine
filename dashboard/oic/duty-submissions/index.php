@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Submitted Duties',
-    'styles' => ["../../dashboard.css"],
+    'styles' => ["../../dashboard.css", "./search-duties.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
@@ -29,7 +29,12 @@ try {
     $oic_data = $result->fetch_assoc();
     $police_station_id = $oic_data['police_station'];
 
-    // Modified query to include all necessary fields
+    // Get search parameters
+    $search_officer = isset($_GET['officer_name']) ? trim($_GET['officer_name']) : '';
+    $search_date_from = isset($_GET['date_from']) ? trim($_GET['date_from']) : '';
+    $search_date_to = isset($_GET['date_to']) ? trim($_GET['date_to']) : '';
+
+    // Modified query to include all necessary fields with search filters
     $query = "
         SELECT 
             ds.id AS submission_id, 
@@ -46,19 +51,56 @@ try {
         INNER JOIN officers o ON ds.police_id = o.id
         INNER JOIN assigned_duties a ON ds.assigned_duty_id = a.id
         WHERE o.police_station = ?";
+    
+    $params = [$police_station_id];
+    $types = "i";
+    
+    // Add search filters if provided
+    if (!empty($search_officer)) {
+        $query .= " AND (o.fname LIKE ? OR o.lname LIKE ? OR CONCAT(o.fname, ' ', o.lname) LIKE ?)";
+        $search_term = "%" . $search_officer . "%";
+        $params = array_merge($params, [$search_term, $search_term, $search_term]);
+        $types .= "sss";
+    }
+    
+    if (!empty($search_date_from)) {
+        $query .= " AND a.duty_date >= ?";
+        $params[] = $search_date_from;
+        $types .= "s";
+    }
+    
+    if (!empty($search_date_to)) {
+        $query .= " AND a.duty_date <= ?";
+        $params[] = $search_date_to;
+        $types .= "s";
+    }
+    
+    // Add ordering
+    $query .= " ORDER BY a.duty_date DESC, o.lname ASC";
 
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Failed to prepare statement: " . $conn->error);
     }
 
-    $stmt->bind_param('s', $police_station_id);
+    $stmt->bind_param($types, ...$params);
     $stmt->execute();
     $result = $stmt->get_result();
 
     $duties = [];
     while ($row = $result->fetch_assoc()) {
         $duties[] = $row;
+    }
+    
+    // Get all officers for the dropdown
+    $officersQuery = "SELECT id, CONCAT(fname, ' ', lname) as name FROM officers WHERE police_station = ? ORDER BY lname, fname";
+    $officersStmt = $conn->prepare($officersQuery);
+    $officersStmt->bind_param("i", $police_station_id);
+    $officersStmt->execute();
+    $officersResult = $officersStmt->get_result();
+    $officers = [];
+    while ($row = $officersResult->fetch_assoc()) {
+        $officers[] = $row;
     }
 } catch (Exception $e) {
     die("Error fetching submitted duties: " . $e->getMessage());
@@ -79,6 +121,32 @@ try {
             </button>
             <div class="">
                 <h1>Duty Submissions</h1>
+                
+                <!-- Search Form -->
+                <div class="search-container">
+                    <form id="searchForm" method="GET" action="">
+                        <div class="search-fields">
+                            <div class="search-field">
+                                <label for="officer_name">Officer Name:</label>
+                                <input type="text" id="officer_name" name="officer_name" class="search-input" value="<?= htmlspecialchars($search_officer) ?>" placeholder="Search by name">
+                                <div class="search-results" id="officerSearchResults"></div>
+                            </div>
+                            <div class="search-field">
+                                <label for="date_from">From Date:</label>
+                                <input type="date" id="date_from" name="date_from" class="search-input" value="<?= htmlspecialchars($search_date_from) ?>">
+                            </div>
+                            <div class="search-field">
+                                <label for="date_to">To Date:</label>
+                                <input type="date" id="date_to" name="date_to" class="search-input" value="<?= htmlspecialchars($search_date_to) ?>">
+                            </div>
+                            <div class="search-buttons">
+                                <button type="submit" class="search-btn">Search</button>
+                                <button type="button" id="resetBtn" class="reset-btn">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
                 <div class="table-container">
                     <table>
                         <thead>
@@ -86,7 +154,7 @@ try {
                                 <th>Police ID</th>
                                 <th>Officer Name</th>
                                 <th>Duty Date</th>
-                                <th>Patrol Location</th>
+                                <th>Duty Location</th>
                                 <th>Assigned Start</th>
                                 <th>Actual Start</th>
                                 <th>Assigned End</th>
@@ -97,7 +165,7 @@ try {
                         <tbody>
                             <?php if (empty($duties)): ?>
                                 <tr>
-                                    <td colspan="11">No submitted duties found.</td>
+                                    <td colspan="9">No submitted duties found.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($duties as $duty): ?>
@@ -106,11 +174,11 @@ try {
                                         <td><?= htmlspecialchars($duty['officer_name']) ?></td>
                                         <td><?= htmlspecialchars($duty['duty_date']) ?></td>
                                         <td><?= htmlspecialchars($duty['patrol_location']) ?></td>
-                                        <td><?= htmlspecialchars($duty['duty_time_start']) ?></td>
-                                        <td><?= htmlspecialchars($duty['patrol_time_started']) ?></td>
-                                        <td><?= htmlspecialchars($duty['duty_time_end']) ?></td>
-                                        <td><?= htmlspecialchars($duty['patrol_time_ended']) ?></td>
-                                        <td><?= $duty['is_late_submission'] ? 'Late' : 'On Time' ?></td>
+                                        <td><?= htmlspecialchars(substr($duty['duty_time_start'], 0, 5)) ?></td>
+                                        <td><?= htmlspecialchars(substr($duty['patrol_time_started'], 0, 5)) ?></td>
+                                        <td><?= htmlspecialchars(substr($duty['duty_time_end'], 0, 5)) ?></td>
+                                        <td><?= htmlspecialchars(substr($duty['patrol_time_ended'], 0, 5)) ?></td>
+                                        <td class="<?= $duty['is_late_submission'] ? 'late-status' : 'ontime-status' ?>"><?= $duty['is_late_submission'] ? 'Late' : 'On Time' ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -121,5 +189,86 @@ try {
         </div>
     </div>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const officerInput = document.getElementById('officer_name');
+    const searchResults = document.getElementById('officerSearchResults');
+    const resetBtn = document.getElementById('resetBtn');
+    
+    // Officer name suggestions
+    const officers = <?= json_encode($officers) ?>;
+    
+    // Debounce function
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+    
+    // Show officer suggestions
+    officerInput.addEventListener('input', debounce(function(e) {
+        const query = e.target.value.trim().toLowerCase();
+        
+        if (query.length < 2) {
+            searchResults.style.display = 'none';
+            return;
+        }
+        
+        // Filter officers based on query
+        const filteredOfficers = officers.filter(officer => 
+            officer.name.toLowerCase().includes(query)
+        );
+        
+        searchResults.innerHTML = '';
+        
+        if (filteredOfficers.length === 0) {
+            searchResults.style.display = 'none';
+            return;
+        }
+        
+        filteredOfficers.forEach(officer => {
+            const item = document.createElement('div');
+            item.className = 'search-result-item';
+            item.textContent = officer.name;
+            item.addEventListener('click', () => {
+                officerInput.value = officer.name;
+                searchResults.style.display = 'none';
+            });
+            searchResults.appendChild(item);
+        });
+        
+        searchResults.style.display = 'block';
+    }, 300));
+    
+    // Hide search results when clicking outside
+    document.addEventListener('click', function(e) {
+        if (e.target !== officerInput) {
+            searchResults.style.display = 'none';
+        }
+    });
+    
+    // Reset button handler
+    resetBtn.addEventListener('click', function() {
+        officerInput.value = '';
+        document.getElementById('date_from').value = '';
+        document.getElementById('date_to').value = '';
+        document.getElementById('searchForm').submit();
+    });
+    
+    // Validate date range
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+        const dateFrom = document.getElementById('date_from').value;
+        const dateTo = document.getElementById('date_to').value;
+        
+        if (dateFrom && dateTo && dateFrom > dateTo) {
+            e.preventDefault();
+            alert('From date cannot be after To date');
+        }
+    });
+});
+</script>
 
 <?php include_once "../../../includes/footer.php"; ?>

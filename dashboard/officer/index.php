@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Officer Dashboard',
-    'styles' => ["../dashboard.css", "./officer-dashboard.css"],
+    'styles' => ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css", "../dashboard.css", "./officer-dashboard.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
 ];
@@ -216,41 +216,45 @@ $conn->close();
             <p class="station-info"><i class="fas fa-building"></i>
                 <?= htmlspecialchars($officer['police_station_name']) ?></p>
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="icon" style="background-color: #FFEFB4;">
+                <a href="/digifine/dashboard/officer/verify-driver-details/index.php" class="stat-card">
+                    <div class="icon" style="background-color: #FFEFB4; font-size: 1.7rem;">
+                        <i class="fas fa-id-card"></i>
                     </div>
                     <div class="info">
-                        <p>Duty Submissions</p>
-                        <h3><?= $totalDutySubmissions ?></h3>
+                        <p>Check Driver Details</p>
+                        <!-- <h3><?= $totalDutySubmissions ?></h3> -->
                     </div>
-                </div>
+                </a>
 
-                <div class="stat-card">
-                    <div class="icon" style="background-color: #CDE4FF;">
+                <a href="/digifine/dashboard/officer/check-vehicle-details/index.php" class="stat-card">
+                    <div class="icon" style="background-color: #CDE4FF;  font-size: 1.7rem;">
+                        <i class="fas fa-car"></i>
                     </div>
                     <div class="info">
-                        <p>Fines Issued</p>
-                        <h3><?= $totalFines ?></h3>
+                        <p>Check Vehicle Details</p>
+                        <!-- <h3><?= $totalFines ?></h3> -->
                     </div>
-                </div>
+                </a>
 
-                <div class="stat-card">
-                    <div class="icon" style="background-color: #F8C8D8;">
+                <a href="/digifine/dashboard/officer/generate-e-ticket/index.php" class="stat-card">
+                    <div class="icon" style="background-color: #F8C8D8; font-size: 1.7rem;">
+                        <i class="fas fa-file-invoice-dollar"></i>
                     </div>
                     <div class="info">
-                        <p>Reported Fines</p>
-                        <h3><?= $reportedFines ?></h3>
+                        <p>Issue Fines</p>
+                        <!-- <h3><?= $reportedFines ?></h3> -->
                     </div>
-                </div>
+                </a>
 
-                <div class="stat-card">
-                    <div class="icon" style="background-color: #D5F2EA;">
+                <a href="/digifine/dashboard/officer/submit-duty/index.php" class="stat-card">
+                    <div class="icon" style="background-color: #D5F2EA; font-size: 1.7rem;">
+                        <i class="fas fa-tasks"></i>
                     </div>
                     <div class="info">
-                        <p>Pending Duties</p>
-                        <h3><?= $pendingDuties ?></h3>
+                        <p>Submit Duty</p>
+                        <!-- <h3><?= $pendingDuties ?></h3> -->
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="main-content">

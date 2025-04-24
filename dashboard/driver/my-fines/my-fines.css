@@ -118,3 +118,21 @@
   color: #666;
   font-size: 16px;
 }
+
+.reported-message1 {
+  color: red;
+  background-color: #ffe0e0; /* Light red background */
+  border: 1px solid red;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.reported-message2 {
+  color: #ffffff;
+  background-color: #145da0;
+  border: 1px solid #145da0;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}

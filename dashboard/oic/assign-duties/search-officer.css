@@ -1,0 +1,89 @@
+/* Search officer section */
+.search-officer-container {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.search-input-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-results {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: none;
+}
+
+.search-result-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.search-result-item:hover {
+    background-color: #f5f5f5;
+}
+
+/* Existing duties table */
+.existing-duties {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    display: none;
+}
+
+.existing-duties th, .existing-duties td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.existing-duties th {
+    background-color: #f2f2f2;
+}
+
+.existing-duties tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.no-duties {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 15px;
+    display: none;
+}
+ 
+.warning-message {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.existing-duties tr.conflict {
+    background-color: #ffe6e6;
+}
+
+#existingDutiesContainer {
+    margin-bottom: 20px;
+}

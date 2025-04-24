@@ -49,12 +49,19 @@ $status_class = $is_late_submission ? "error-message" : "";
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container">
+                <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                    </svg>
+                </button>
                 <h1>Submit Duty</h1>
-                
+
                 <?php if (!empty($status_message)): ?>
-                <div class="<?= $status_class ?>"><?= $status_message ?></div>
+                    <div class="<?= $status_class ?>"><?= $status_message ?></div>
                 <?php endif; ?>
-                
+
                 <form action="submit-duty-process.php" method="post">
                     <p><b>Police Officer Details</b></p>
                     <div class="field">
@@ -66,19 +73,19 @@ $status_class = $is_late_submission ? "error-message" : "";
                     </div>
                     <p><b>Duty Information</b></p>
                     <div class="field">
-                        <label for="">Patrol Location:</label>
+                        <label for="">Duty Location:</label>
                         <input type="text" class="input" name="patrol_location" required>
                     </div>
                     <div class="field">
-                        <label for="">Patrol Time (Start):</label>
+                        <label for="">Duty Start Time:</label>
                         <input type="time" class="input" name="patrol_time_started" required>
                     </div>
                     <div class="field">
-                        <label for="">Patrol Time (End):</label>
+                        <label for="">Duty End Time:</label>
                         <input type="time" class="input" name="patrol_time_ended" required>
                     </div>
                     <div class="field" required>
-                        <label for="">Patrol Information:</label>
+                        <label for="">Duty Information:</label>
                         <textarea type="text" class="input" name="patrol_information"></textarea>
                     </div>
                     <button class="btn">Submit</button>
