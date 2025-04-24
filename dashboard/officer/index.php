@@ -216,7 +216,7 @@ $conn->close();
             <p class="station-info"><i class="fas fa-building"></i>
                 <?= htmlspecialchars($officer['police_station_name']) ?></p>
             <div class="stats-grid">
-                <a href="" class="stat-card">
+                <a href="/digifine/dashboard/officer/verify-driver-details/index.php" class="stat-card">
                     <div class="icon" style="background-color: #FFEFB4;">
                     </div>
                     <div class="info">
@@ -225,7 +225,7 @@ $conn->close();
                     </div>
                 </a>
 
-                <a href="" class="stat-card">
+                <a href="/digifine/dashboard/officer/check-vehicle-details/index.php" class="stat-card">
                     <div class="icon" style="background-color: #CDE4FF;">
                     </div>
                     <div class="info">
@@ -234,7 +234,7 @@ $conn->close();
                     </div>
                 </a>
 
-                <a href="" class="stat-card">
+                <a href="/digifine/dashboard/officer/generate-e-ticket/index.php" class="stat-card">
                     <div class="icon" style="background-color: #F8C8D8;">
                     </div>
                     <div class="info">
@@ -243,7 +243,7 @@ $conn->close();
                     </div>
                 </a>
 
-                <a href="" class="stat-card">
+                <a href="/digifine/dashboard/officer/submit-duty/index.php" class="stat-card">
                     <div class="icon" style="background-color: #D5F2EA;">
                     </div>
                     <div class="info">
