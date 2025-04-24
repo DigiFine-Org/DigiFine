@@ -103,7 +103,7 @@ if (!$policeStationId) {
                         </form>
                     </div>
 
-                    <div class="fine-summary mt-4" id="fineSummary1"></div>
+                    <!-- <div class="fine-summary mt-4" id="fineSummary1"></div> -->
 
                     <h1>Issued fines by Offence</h1>
                     <p class="description">View and analyze fines over different time periods.</p>
@@ -168,9 +168,9 @@ if (!$policeStationId) {
     document.addEventListener("DOMContentLoaded", function() {
         const generateBtn = document.getElementById("generateReportBtn");
         const timePeriodSelect = document.getElementById("timePeriod");
-        const hiddenStationId = document.getElementById("hiddenStationId");
+        const stationIdInput = document.getElementById("stationId");
         const hiddenTimePeriods = document.querySelectorAll("input[name='time_period']");
-        const stationIdInput = document.getElementById("input[name='station_id']");
+        const hiddenStationIds = document.querySelectorAll("input[name='station_id']");
         const fullReportButtons = document.querySelectorAll(".btn.full-report");
 
         generateBtn.addEventListener("click", function(e) {
@@ -182,7 +182,7 @@ if (!$policeStationId) {
                 input.value = timePeriod;
             });
 
-            hiddenStationId.forEach(input => {
+            hiddenStationIds.forEach(input => {
                 input.value = stationId;
             });
 

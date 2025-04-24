@@ -1,7 +1,10 @@
 window.fetchFineData = function () {
   const timePeriod = document.getElementById("timePeriod").value;
+  const policeStationId = document.getElementById("stationId").value;
 
-  fetch(`get-offences.php?time_period=${timePeriod}`)
+  fetch(
+    `get-offences.php?police_station=${policeStationId}&time_period=${timePeriod}`
+  )
     .then((response) => response.json())
     .then((data) => {
       console.log("Fetched fine data:", data);

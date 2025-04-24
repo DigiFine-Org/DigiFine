@@ -1,7 +1,10 @@
 window.fetchPieChartData = function () {
   const timePeriod = document.getElementById("timePeriod").value;
+  const policeStationId = document.getElementById("stationId").value;
 
-  fetch(`get-pie-chart-data.php?time_period=${timePeriod}`)
+  fetch(
+    `get-pie-chart-data.php?police_station=${policeStationId}&time_period=${timePeriod}`
+  )
     .then((response) => response.json())
     .then((data) => {
       console.log("Fetched fine data:", data);

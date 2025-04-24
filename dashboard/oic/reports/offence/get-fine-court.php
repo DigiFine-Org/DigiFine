@@ -7,6 +7,13 @@ require_once "../../../../db/connect.php";
 session_start();
 
 $period = $_GET['time_period'] ?? '';
+$policeStationId = $_GET['police_station'] ?? null;
+
+// Check if police station ID is provided
+if (!$policeStationId) {
+    echo json_encode(["error" => "Police station ID is required"]);
+    exit;
+}
 
 // Set time interval
 $interval = match ($period) {
@@ -24,32 +31,50 @@ $group_by = ($period === "24h" || $period === "72h")
     ? "DATE_FORMAT(CONCAT(issued_date, ' ', issued_time), '%Y-%m-%d %H:00')"
     : "DATE(issued_date)";
 
-// Fetch Fines with offence_type = 'fine'
+// Fetch Fines with offence_type = 'fine' for the specific police station
 $queryFines = "
     SELECT 
         $group_by AS label,
         COUNT(*) AS count
     FROM fines
     WHERE offence_type = 'fine'
+      AND police_station = ?
       AND CONCAT(issued_date, ' ', issued_time) >= NOW() - $interval
     GROUP BY label
     ORDER BY label ASC;
 ";
-$resultFines = $conn->query($queryFines);
+
+$stmtFines = $conn->prepare($queryFines);
+if (!$stmtFines) {
+    echo json_encode(["error" => "Database error: " . $conn->error]);
+    exit;
+}
+$stmtFines->bind_param("i", $policeStationId);
+$stmtFines->execute();
+$resultFines = $stmtFines->get_result();
 $dataFines = $resultFines->fetch_all(MYSQLI_ASSOC);
 
-// Fetch Court Cases with offence_type = 'court'
+// Fetch Court Cases with offence_type = 'court' for the specific police station
 $queryCourt = "
     SELECT 
         $group_by AS label,
         COUNT(*) AS count
     FROM fines
     WHERE offence_type = 'court'
+      AND police_station = ?
       AND CONCAT(issued_date, ' ', issued_time) >= NOW() - $interval
     GROUP BY label
     ORDER BY label ASC;
 ";
-$resultCourt = $conn->query($queryCourt);
+
+$stmtCourt = $conn->prepare($queryCourt);
+if (!$stmtCourt) {
+    echo json_encode(["error" => "Database error: " . $conn->error]);
+    exit;
+}
+$stmtCourt->bind_param("i", $policeStationId);
+$stmtCourt->execute();
+$resultCourt = $stmtCourt->get_result();
 $dataCourt = $resultCourt->fetch_all(MYSQLI_ASSOC);
 
 // Combine into JSON response

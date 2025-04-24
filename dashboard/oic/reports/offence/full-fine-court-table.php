@@ -9,7 +9,7 @@ $pageConfig = [
 session_start();
 include_once "../../../../includes/header.php";
 
-if ($_SESSION['user']['role'] !== 'admin') {
+if ($_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized user!");
 }
 $timePeriod = $_GET['time_period'] ?? '';
@@ -17,9 +17,13 @@ if (empty($timePeriod)) {
     echo "No time period selected.";
     exit;
 }
+$policeStationId = $_SESSION['police_station_id'] ?? null;
+if (!$policeStationId) {
+    die("Police station ID not found in session.");
+}
 
 // Fetch data from the same source used by your chart
-$url = "http://localhost/digifine/dashboard/admin/reports/offence/get-fine-court.php?time_period=" . urlencode($timePeriod);
+$url = "http://localhost/digifine/dashboard/oic/reports/offence/get-fine-court.php?police_station=$policeStationId&time_period=$timePeriod";
 $response = file_get_contents($url);
 
 if ($response === false) {
