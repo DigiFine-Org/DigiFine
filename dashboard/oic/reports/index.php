@@ -72,14 +72,6 @@ if (!$policeStationId) {
                             </div>
                         </div>
                     </a>
-                    <a href="police-station-reports/index.php" class="feature-tile">
-                        <div class="tile-full">
-                            <div class="tile-content">
-                                <h3>Analyze by Police Station</h3>
-                                <p>View and analyze statistics for different time periods</p>
-                            </div>
-                        </div>
-                    </a>
                     <a href="revenue\index.php" class="feature-tile">
                         <div class="tile-full">
                             <div class="tile-content">

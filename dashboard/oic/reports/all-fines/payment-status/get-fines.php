@@ -6,12 +6,16 @@ header("Content-Type: application/json");
 require_once "../../../../../db/connect.php";
 session_start();
 
-$policeStationId = $_SESSION['police_station_id'] ?? null;
-if (!$policeStationId) {
-    die(json_encode(["error" => "Police station ID not found in session."]));
-}
+// $policeStationId = $_SESSION['police_station_id'] ?? null;
+// if (!$policeStationId) {
+//     die(json_encode(["error" => "Police station ID not found in session."]));
+// }
 
 $period = $_GET['time_period'] ?? '';
+$policeStationId = $_GET['police_station'] ?? null;
+// echo "Time Period: " . htmlspecialchars($period) . "<br>";
+// echo "Police Station ID: " . htmlspecialchars($policeStationId);
+
 
 // Set time interval
 $interval = match ($period) {

@@ -1,7 +1,10 @@
 window.fetchIssuedFineData = function () {
   const timePeriod = document.getElementById("timePeriod").value;
+  const policeStationId = document.getElementById("stationId").value;
 
-  fetch(`reported-all/get-fines.php?time_period=${timePeriod}`)
+  fetch(
+    `reported-all/get-fines.php?police_station=${policeStationId}&time_period=${timePeriod}`
+  )
     .then((response) => response.json())
     .then((data) => {
       console.log("Fetched data:", data);

@@ -53,6 +53,10 @@ if (!$policeStationId) {
                 <h1>Status of All Fines Issued</h1>
                 <p class="description">View and analyze status of fines over different time periods.</p>
                 <form method="get" class="filter-form-grid">
+                    <div class="filter-field">
+                        <label for="stationId">Police Station ID:</label>
+                        <input type="text" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
+                    </div>
                     <div class="table-container">
                         <!-- Input Section -->
                         <!-- <div class="filter-form-grid"> -->
@@ -88,6 +92,7 @@ if (!$policeStationId) {
                         </div>
                         <form action="payment-status/full-payment-status-table.php" method="get">
                             <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                            <input type="hidden" name="station_id" id="hiddenStationId">
                             <button type="submit" class="btn full-report">Full Report</button>
                         </form>
                     </div>
@@ -105,6 +110,7 @@ if (!$policeStationId) {
 
                         <form action="reported-all/full-reported-all-table.php" method="get">
                             <input type="hidden" name="time_period" class="hiddenTimePeriod">
+                            <input type="hidden" name="station_id" id="hiddenStationId">
                             <button type="submit" class="btn full-report">Full Report</button>
                         </form>
                     </div>
@@ -121,6 +127,7 @@ if (!$policeStationId) {
                         </div>
                         <form action="issued-police-station/full-issued-police-station-table.php" method="get">
                             <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                            <input type="hidden" name="station_id" id="hiddenStationId">
                             <button type="submit" class="btn full-report">Full Report</button>
                         </form>
                     </div>
@@ -139,6 +146,7 @@ if (!$policeStationId) {
 
                     <form action="issued-place/full-issued-place-table.php" method="get">
                         <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                        <input type="hidden" name="station_id" id="hiddenStationId">
                         <button type="submit" class="btn full-report">Full Report</button>
                     </form>
 
@@ -170,25 +178,45 @@ if (!$policeStationId) {
     document.addEventListener("DOMContentLoaded", function() {
         const generateBtn = document.getElementById("generateReportBtn");
         const timePeriodSelect = document.getElementById("timePeriod");
+        const stationIdInput = document.getElementById("stationId");
         const hiddenTimePeriods = document.querySelectorAll("input[name='time_period']");
+        const hiddenStationIds = document.querySelectorAll("input[name='station_id']");
+        const fullReportButtons = document.querySelectorAll(".btn.full-report");
 
+        // Update hidden inputs when the Generate Report button is clicked
         generateBtn.addEventListener("click", function(e) {
             e.preventDefault(); // Prevent reload
             const timePeriod = timePeriodSelect.value;
+            const stationId = stationIdInput.value;
+
+            // Update hidden inputs for time period and station ID
             hiddenTimePeriods.forEach(input => {
                 input.value = timePeriod;
             });
+            hiddenStationIds.forEach(input => {
+                input.value = stationId;
+            });
 
+            // Fetch data for the report
             fetchFineStatusData();
             fetchIssuedFineData();
             fetchIssuedPlaceData();
             fetchPoliceStationData();
         });
 
-        // Optional: sync timePeriod dropdown to hidden inputs live
-        timePeriodSelect.addEventListener("change", function() {
-            hiddenTimePeriods.forEach(input => {
-                input.value = this.value;
+        // Ensure hidden inputs are updated before any Full Report button is clicked
+        fullReportButtons.forEach(button => {
+            button.addEventListener("click", function() {
+                const timePeriod = timePeriodSelect.value;
+                const stationId = stationIdInput.value;
+
+                // Update hidden inputs for time period and station ID
+                hiddenTimePeriods.forEach(input => {
+                    input.value = timePeriod;
+                });
+                hiddenStationIds.forEach(input => {
+                    input.value = stationId;
+                });
             });
         });
     });
