@@ -33,11 +33,17 @@ include_once "../includes/header.php";
                 <input type="text" id="lname" name="lname" required class="input" placeholder="Walgampaya">
             </div>
 
-            <div class="field">
+            <!-- <div class="field">
                 <label for="email">Email:<span style="color: red;">*</span> </label>
                 <input type="email" id="email" name="email" required class="input" placeholder="pubuditha@gmail.com">
+            </div> -->
+            <div class="field">
+                <label for="email">Email:<span style="color: red;">*</span> </label>
+                <input type="email" id="email" name="email" required class="input" placeholder="pubuditha@gmail.com"
+                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                    title="Please enter a valid email address (e.g. username@domain.com)">
             </div>
-
+<!-- 
             <div class="field">
                 <label for="nic">NIC:<span style="color: red;">*</span> </label>
                 <input type="text" id="nic" name="nic" required class="input" placeholder="1122334455V">
@@ -46,6 +52,19 @@ include_once "../includes/header.php";
                 <label for="userid">Driver ID(Licence ID):<span style="color: red;">*</span> </label>
                 <input type="text" pattern="^([B][0-9]{7}|[0-9]{12})$" id="userid" name="userid" class="input"
                     placeholder="B1234567">
+                <small style="margin-top: 5px;">You can't change this value once entered!</small>
+            </div> -->
+
+            <div class="field">
+                <label for="nic">NIC:<span style="color: red;">*</span> </label>
+                <input type="text" id="nic" name="nic" required class="input" placeholder="1122334455V or 200012345678"
+                    pattern="^([0-9]{9}[vVxX]|[0-9]{12})$"
+                    title="Please enter a valid Sri Lankan NIC Format">
+            </div>
+            <div class="field">
+                <label for="userid">Driver ID(Licence ID):<span style="color: red;">*</span> </label>
+                <input type="text" pattern="^([B][0-9]{7}|[0-9]{12})$" id="userid" name="userid" class="input"
+                    placeholder="B1234567 or 123456789012">
                 <small style="margin-top: 5px;">You can't change this value once entered!</small>
             </div>
             <div class="field">
