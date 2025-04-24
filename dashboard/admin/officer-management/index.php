@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Register Police Officer',
-    'styles' => ["../../dashboard.css", "styles.css"],
+    'styles' => ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css", "../../dashboard.css", "styles.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
@@ -55,8 +55,8 @@ include_once "../../../includes/header.php";
                     <a href="" class="feature-tile">
                         <div class="tile-full">
                             <div class="tile-content">
-                                <h3>Update Police Officer Details</h3>
-                                <p>Update Police Officer Details</p>
+                                <h3>Police Officer Analytics</h3>
+                                <p>Police Officer Analytics</p>
                             </div>
                         </div>
                     </a>

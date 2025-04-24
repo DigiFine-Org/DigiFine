@@ -40,6 +40,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        console.log({ notification_listeners });
+
         // Check if notification_listeners exists
         if (typeof notification_listeners !== 'undefined') {
             notification_listeners.add_listener(function (notifications) {

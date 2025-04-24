@@ -2,7 +2,7 @@
 $pageConfig = [
     'title' => 'Notifications',
     'styles' => ["../../dashboard.css", "./notifications.css"],
-    'scripts' => ["../../dashboard.js", "../../../notifications/script.js", "./driver-notification-scripts.js"],
+    'scripts' => ["../../dashboard.js", "./driver-notification-scripts.js"],
     'authRequired' => true
 ];
 

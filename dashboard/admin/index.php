@@ -125,55 +125,7 @@ $stmt->close();
                 </div>
             </div>
             <style>
-                .chart-container {
-                    display: grid;
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 20px;
-                    margin-top: 30px;
-                    padding: 20px;
-                }
-
-                .chart-card {
-                    background: white;
-                    border-radius: 10px;
-                    padding: 20px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                    max-width: 500px;
-                    height: 300px;
-                }
-
-                .chart-title {
-                    font-size: 1.1rem;
-                    color: #333;
-                    margin-bottom: 15px;
-                    font-weight: 500;
-                }
-
-                canvas {
-                    max-height: 240px !important;
-                }
-
-                .chart-container {
-                    display: grid;
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 20px;
-                    margin-top: 30px;
-                    padding: 20px;
-                }
-
-                .chart-card {
-                    background: white;
-                    border-radius: 10px;
-                    padding: 20px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                }
-
-                .chart-title {
-                    font-size: 1.1rem;
-                    color: #333;
-                    margin-bottom: 15px;
-                    font-weight: 500;
-                }
+                
             </style>
 
             <div class="chart-container">
