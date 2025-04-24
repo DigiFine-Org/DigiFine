@@ -25,13 +25,13 @@ const fetch_notifications = async () => {
   }
 };
 
-
 const delete_notifications = async () => {
   try {
     const res = await fetch("/digifine/notifications/api.php", {
       method: "DELETE",
     });
-    const { success, data } = await res.json();
+
+    const { data, success } = await res.json();
 
     if (!success) {
       alert("Error deleting notifications: " + data);
