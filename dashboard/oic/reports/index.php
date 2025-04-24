@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Register Police Officer',
-    'styles' => ["../../dashboard.css", "../officer-management/styles.css"],
+    'styles' => ["../../dashboard.css", "../../admin/officer-management/styles.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
@@ -9,6 +9,30 @@ $pageConfig = [
 session_start();
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
+
+if ($_SESSION['user']['role'] !== 'oic') {
+    die("Unauthorized user!");
+}
+
+$policeId = $_SESSION['user']['id'] ?? '';
+if (empty($policeId)) {
+    die("User ID not found in session.");
+}
+$policeStationId = null;
+
+if ($policeId) {
+    $sqlStation = "SELECT police_station FROM officers WHERE id = '$policeId'";
+    $resultStation = $conn->query($sqlStation);
+    if ($resultStation && $resultStation->num_rows > 0) {
+        $dataStation = $resultStation->fetch_assoc();
+        $policeStationId = $dataStation['police_station'];
+    }
+}
+
+$_SESSION['police_station_id'] = $policeStationId;
+if (!$policeStationId) {
+    die("Police station ID not found for the OIC.");
+}
 
 ?>
 
@@ -27,7 +51,7 @@ require_once "../../../db/connect.php";
                     </svg>
                 </button>
                 <div style="margin-bottom: 50px;">
-                    <h1>Reports Dashboard</h1>
+                    <h1>Reports Dashboard - Police Station <?php echo htmlspecialchars($policeStationId); ?></h1>
                     <p class="description">View and analyze statistics for different time periods.</p>
                 </div>
                 <div class="feature-tiles">
