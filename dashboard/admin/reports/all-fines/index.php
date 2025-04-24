@@ -86,6 +86,8 @@ if ($_SESSION['message'] ?? null) {
                     </div>
                 </div>
                 <div class="chart-content" id="fineStatusContent" style="display: none;">
+                    <h1>Analyze by Payment Status</h1>
+                    <p class="description">View and analyze fines over different time periods.</p>
                     <div class="table-container">
                         <!-- Chart Section -->
                         <div class="chart-section">
@@ -176,6 +178,8 @@ if ($_SESSION['message'] ?? null) {
         const generateBtn = document.getElementById("generateReportBtn");
         const timePeriodSelect = document.getElementById("timePeriod");
         const hiddenTimePeriods = document.querySelectorAll("input[name='time_period']");
+        const fullReportButtons = document.querySelectorAll(".btn.full-report");
+
 
         generateBtn.addEventListener("click", function(e) {
             e.preventDefault(); // Prevent reload
@@ -188,13 +192,6 @@ if ($_SESSION['message'] ?? null) {
             fetchIssuedFineData();
             fetchIssuedPlaceData();
             fetchPoliceStationData();
-        });
-
-        // Optional: sync timePeriod dropdown to hidden inputs live
-        timePeriodSelect.addEventListener("change", function() {
-            hiddenTimePeriods.forEach(input => {
-                input.value = this.value;
-            });
         });
     });
 </script>

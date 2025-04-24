@@ -21,6 +21,12 @@ if ($_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized user!");
 }
 
+$policeStationId = $_SESSION['police_station_id'] ?? null;
+// echo "Police Station ID: " . htmlspecialchars($policeStationId);
+if (!$policeStationId) {
+    die("Police station ID not found in session.");
+}
+
 ?>
 
 <body>
@@ -33,20 +39,22 @@ if ($_SESSION['user']['role'] !== 'oic') {
             <?php include_once "../../../includes/sidebar.php"; ?>
 
             <!-- Main Content -->
-            <div class="content">
+            <div class="content" style="max-width: 100%;">
                 <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                             d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                     </svg>
                 </button>
-                <h1>Analize Fines by Offence - <?= htmlspecialchars($policeStationId) ?></h1>
+                <h1>Analize Fines by Offence</h1>
                 <p class="description">View and analyze fines by Offence over different time periods.</p>
 
                 <form method="get" class="filter-form-grid">
+                    <div class="filter-field">
+                        <label for="stationId">Police Station ID:</label>
+                        <input type="text" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
+                    </div>
                     <div class="table-container">
-                        <!-- Input Section -->
-                        <!-- <div class="filter-form-grid"> -->
                         <div class="filter-field">
                             <label for="timePeriod">Time Period:</label>
                             <select id="timePeriod" name="time_period">
@@ -60,9 +68,9 @@ if ($_SESSION['user']['role'] !== 'oic') {
                                 <option value="lifetime">Lifetime</option>
                             </select>
                         </div>
-                        <!-- </div> -->
-
                     </div>
+
+
                 </form>
                 <div class="table-container">
                     <div class="buttons">
@@ -90,6 +98,7 @@ if ($_SESSION['user']['role'] !== 'oic') {
                         </div>
                         <form action="full-fine-court-table.php" method="get">
                             <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                            <input type="hidden" name="station_id" id="hiddenStationId">
                             <button type="submit" class="btn full-report">Full Report</button>
                         </form>
                     </div>
@@ -107,6 +116,7 @@ if ($_SESSION['user']['role'] !== 'oic') {
 
                         <form action="get-full-offence-table.php" method="get">
                             <input type="hidden" name="time_period" class="hiddenTimePeriod">
+                            <input type="hidden" name="station_id" id="hiddenStationId">
                             <button type="submit" class="btn full-report">Full Report</button>
                         </form>
                     </div>
@@ -123,6 +133,7 @@ if ($_SESSION['user']['role'] !== 'oic') {
                         </div>
                         <form action="offence-type-revenue/full-offence-revenue-table.php" method="get">
                             <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                            <input type="hidden" name="station_id" id="hiddenStationId">
                             <button type="submit" class="btn full-report">Full Report</button>
                         </form>
                     </div>
@@ -157,26 +168,28 @@ if ($_SESSION['user']['role'] !== 'oic') {
     document.addEventListener("DOMContentLoaded", function() {
         const generateBtn = document.getElementById("generateReportBtn");
         const timePeriodSelect = document.getElementById("timePeriod");
+        const hiddenStationId = document.getElementById("hiddenStationId");
         const hiddenTimePeriods = document.querySelectorAll("input[name='time_period']");
+        const stationIdInput = document.getElementById("input[name='station_id']");
+        const fullReportButtons = document.querySelectorAll(".btn.full-report");
 
         generateBtn.addEventListener("click", function(e) {
             e.preventDefault(); // Prevent reload
             const timePeriod = timePeriodSelect.value;
+            const stationId = stationIdInput.value;
+
             hiddenTimePeriods.forEach(input => {
                 input.value = timePeriod;
+            });
+
+            hiddenStationId.forEach(input => {
+                input.value = stationId;
             });
 
             fetchFineData();
             fetchFineCourtData();
             fetchPieChartData();
             fetchOffencesRevenueFineData();
-        });
-
-        // Optional: sync timePeriod dropdown to hidden inputs live
-        timePeriodSelect.addEventListener("change", function() {
-            hiddenTimePeriods.forEach(input => {
-                input.value = this.value;
-            });
         });
     });
 </script>

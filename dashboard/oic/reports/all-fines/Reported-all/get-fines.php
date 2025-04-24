@@ -9,8 +9,11 @@ session_start();
 $period = $_GET['time_period'] ?? '';
 $policeStationId = $_GET['police_station'] ?? null;
 
-// echo "Police Station ID: " . $policeStationId . "<br>";
-// echo "Time Period: " . $period . "<br>";
+// Check if police station ID is provided
+if (!$policeStationId) {
+    echo json_encode(["error" => "Police station ID is required"]);
+    exit;
+}
 
 // Set time interval
 $interval = match ($period) {
@@ -30,12 +33,12 @@ $group_by = ($period === "24h" || $period === "72h")
     : "DATE(issued_date)";
 
 // Function to fetch data
-function fetchFines($conn, $interval, $group_by, $is_reported = null, $policeStationId)
+function fetchFines($conn, $interval, $group_by, $policeStationId, $is_reported = null)
 {
     $query = "SELECT $group_by AS label, COUNT(*) AS count 
               FROM fines 
               WHERE CONCAT(issued_date, ' ', issued_time) >= NOW() - $interval
-              AND police_station_id = $policeStationId";
+              AND police_station = ?";
 
     if (!is_null($is_reported)) {
         $query .= " AND is_reported = ?";
@@ -44,17 +47,30 @@ function fetchFines($conn, $interval, $group_by, $is_reported = null, $policeSta
     $query .= " GROUP BY label ORDER BY label ASC";
 
     $stmt = $conn->prepare($query);
-    if (!is_null($is_reported)) {
-        $stmt->bind_param("i", $is_reported);
+    if (!$stmt) {
+        error_log("Prepare error: " . $conn->error);
+        return [];
     }
+
+    if (!is_null($is_reported)) {
+        $stmt->bind_param("ii", $policeStationId, $is_reported);
+    } else {
+        $stmt->bind_param("i", $policeStationId);
+    }
+
     $stmt->execute();
     $result = $stmt->get_result();
+    if (!$result) {
+        error_log("Result error: " . $stmt->error);
+        return [];
+    }
+
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
-// Fetch both datasets
-$allFines = fetchFines($conn, $interval, $group_by, null, $policeStationId); // all fines
-$reportedFines = fetchFines($conn, $interval, $group_by, 1, $policeStationId); // reported fines
+// Fetch both datasets for the specific police station
+$allFines = fetchFines($conn, $interval, $group_by, $policeStationId); // all fines for this police station
+$reportedFines = fetchFines($conn, $interval, $group_by, $policeStationId, 1); // reported fines for this police station
 
 // Return JSON
 echo json_encode([

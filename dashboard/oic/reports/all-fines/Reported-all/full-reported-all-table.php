@@ -20,7 +20,7 @@ if (empty($timePeriod)) {
 $policeStationId = $_GET['station_id'] ?? null;
 
 // Fetch data from the same source used by your chart
-$url = "http://localhost/digifine/dashboard/admin/reports/all-fines/Reported-all/get-fines.php?police_station_id=" . urlencode($policeStationId) . "&time_period=" . urlencode($timePeriod);
+$url = "http://localhost/digifine/dashboard/oic/reports/all-fines/Reported-all/get-fines.php?police_station=" . urlencode($policeStationId) . "&time_period=" . urlencode($timePeriod);
 $response = file_get_contents($url);
 
 if ($response === false) {

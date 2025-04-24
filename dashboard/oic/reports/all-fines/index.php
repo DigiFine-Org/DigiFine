@@ -10,9 +10,6 @@ $pageConfig = [
         "reported-all/issued-fines-analytics.js",
         "issued-place/issued-place-chart.js",
         "issued-place/issued-place-analytics.js",
-        "issued-police-station/police-station-chart.js",
-        "issued-police-station/police-station-analytics.js",
-
     ],
     'authRequired' => true
 ];
@@ -25,7 +22,6 @@ if ($_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized user!");
 }
 
-// Check if police_station_id exists in the session
 $policeStationId = $_SESSION['police_station_id'] ?? null;
 // echo "Police Station ID: " . htmlspecialchars($policeStationId);
 if (!$policeStationId) {
@@ -43,7 +39,7 @@ if (!$policeStationId) {
             <?php include_once "../../../includes/sidebar.php"; ?>
 
             <!-- Main Content -->
-            <div class="content">
+            <div class="content" style="max-width: 100%;">
                 <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -85,6 +81,8 @@ if (!$policeStationId) {
                     </div>
                 </div>
                 <div class="chart-content" id="fineStatusContent" style="display: none;">
+                    <h1>Analize by Payment Status</h1>
+                    <p class="description">View and analyze fines over different time periods.</p>
                     <div class="table-container">
                         <!-- Chart Section -->
                         <div class="chart-section">
@@ -117,25 +115,9 @@ if (!$policeStationId) {
 
                     <div class="fine-summary mt-4" id="IssuedFineSummary"></div>
 
-                    <h1>Analyze Fines by Issued Police Station</h1>
-                    <p class="description">View and analyze fines by issued location over different time periods.</p>
-
-                    <div class="table-container">
-                        <!-- Chart Section -->
-                        <div class="chart-section">
-                            <canvas id="policeStationChart" width="800" height="400"></canvas>
-                        </div>
-                        <form action="issued-police-station/full-issued-police-station-table.php" method="get">
-                            <input type="hidden" name="time_period" id="hiddenTimePeriod">
-                            <input type="hidden" name="station_id" id="hiddenStationId">
-                            <button type="submit" class="btn full-report">Full Report</button>
-                        </form>
-                    </div>
-
-                    <div class="fine-summary mt-4" id="policeStationSummary"></div>
-
                     <h1>Analyze Fines by Issued Place</h1>
                     <p class="description">View and analyze fines by issued location over different time periods.</p>
+                    <p class="description">*location_name = Location entered by officers.</p>
 
                     <div class="table-container">
                         <!-- Chart Section -->
@@ -201,23 +183,6 @@ if (!$policeStationId) {
             fetchFineStatusData();
             fetchIssuedFineData();
             fetchIssuedPlaceData();
-            fetchPoliceStationData();
-        });
-
-        // Ensure hidden inputs are updated before any Full Report button is clicked
-        fullReportButtons.forEach(button => {
-            button.addEventListener("click", function() {
-                const timePeriod = timePeriodSelect.value;
-                const stationId = stationIdInput.value;
-
-                // Update hidden inputs for time period and station ID
-                hiddenTimePeriods.forEach(input => {
-                    input.value = timePeriod;
-                });
-                hiddenStationIds.forEach(input => {
-                    input.value = stationId;
-                });
-            });
         });
     });
 </script>
