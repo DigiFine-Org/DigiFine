@@ -3,16 +3,17 @@ $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../../dashboard.css", "../reports.css"],
     'scripts' => [
-        "../../../dashboard.js",
-        "payment-status/fine-status-chart.js",
-        "payment-status/fine-status-analytics.js",
-        "reported-all/issued-fines-chart.js",
-        "reported-all/issued-fines-analytics.js",
-        "issued-place/issued-place-chart.js",
-        "issued-place/issued-place-analytics.js",
-        "issued-police-station/police-station-chart.js",
-        "issued-police-station/police-station-analytics.js",
-
+        "./chart.js",
+        "analytics.js",
+        "growth-chart.js",
+        "police-stations/station-chart.js",
+        "police-stations/station-analytics.js",
+        "police-officers/officer-chart.js",
+        "police-officers/officer-analytics.js",
+        "offence-type-revenue/offence-revenue-chart.js",
+        "offence-type-revenue/offence-revenue-analytics.js",
+        "issued-place/location-analytics.js",
+        "issued-place/location-chart.js"
     ],
     'authRequired' => true
 ];
@@ -25,17 +26,6 @@ if ($_SESSION['user']['role'] !== 'admin') {
     die("Unauthorized user!");
 }
 
-if ($_SESSION['message'] ?? null) {
-    if ($_SESSION['message'] === 'success') {
-        $message = "Chart generated successfully!";
-        unset($_SESSION['message']);
-        include '../../../../includes/alerts/success.php';
-    } else {
-        $message = $_SESSION['message'];
-        unset($_SESSION['message']);
-        include '../../../../includes/alerts/failed.php';
-    }
-}
 ?>
 
 <body>
