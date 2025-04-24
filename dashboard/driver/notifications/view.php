@@ -2,7 +2,7 @@
 $pageConfig = [
     'title' => 'View Notification',
     'styles' => ["../../dashboard.css", "./notifications.css"],
-    'scripts' => ["../../dashboard.js"],
+    'scripts' => ["../../dashboard.js", "./driver-notification-scripts.js"],
     'authRequired' => true
 ];
 
@@ -39,7 +39,7 @@ if ($type === 'announcement') {
     $stmt->bind_param("is", $id, $driver_id);
 
     // Mark as read
-    $update_sql = "UPDATE notifications SET is_read = 1 WHERE id = ? AND reciever_id = ? AND receiver_type = 'driver'";
+    $update_sql = "UPDATE notifications SET is_read = 1 WHERE id = ? AND reciever_id = ? AND reciever_type = 'driver'";
     $update_stmt = $conn->prepare($update_sql);
     $update_stmt->bind_param("is", $id, $driver_id);
     $update_stmt->execute();
