@@ -53,22 +53,22 @@ if (!$policeStationId) {
                         <label for="stationId">Police Station ID:</label>
                         <input type="text" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
                     </div>
-                    <div class="table-container">
-                        <!-- Input Section -->
-                        <!-- <div class="filter-form-grid"> -->
-                        <div class="filter-field">
-                            <label for="timePeriod">Time Period:</label>
-                            <select id="timePeriod" name="time_period">
-                                <option value="24h">Last 24 Hours</option>
-                                <option value="72h">Last 72 Hours</option>
-                                <option value="7days">Last 7 Days</option>
-                                <option value="14days">Last 14 Days</option>
-                                <option value="30days">Last 30 Days</option>
-                                <option value="90days">Last 90 Days</option>
-                                <option value="365days">Last 365 Days</option>
-                                <option value="lifetime">Lifetime</option>
-                            </select>
-                        </div>
+                    <!-- <div class="table-container"> -->
+                    <!-- Input Section -->
+                    <!-- <div class="filter-form-grid"> -->
+                    <div class="filter-field">
+                        <label for="timePeriod">Time Period:</label>
+                        <select id="timePeriod" name="time_period">
+                            <option value="24h">Last 24 Hours</option>
+                            <option value="72h">Last 72 Hours</option>
+                            <option value="7days">Last 7 Days</option>
+                            <option value="14days">Last 14 Days</option>
+                            <option value="30days">Last 30 Days</option>
+                            <option value="90days">Last 90 Days</option>
+                            <option value="365days">Last 365 Days</option>
+                            <option value="lifetime">Lifetime</option>
+                        </select>
+                        <!-- </div> -->
                         <!-- </div> -->
 
                     </div>

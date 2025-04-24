@@ -4,6 +4,7 @@ $pageConfig = [
     'styles' => ["../../../dashboard.css", "../reports.css"],
     'scripts' => [
         "../../../dashboard.js",
+        "officer-details.js",
         "duty-submissions/duty-chart.js",
         "duty-submissions/analytics.js",
         "issued-reported/issued-reported-chart.js",
@@ -39,7 +40,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
             <?php include_once "../../../includes/sidebar.php"; ?>
 
             <!-- Main Content -->
-            <div class="content">
+            <div class="content" style="max-width: none;">
                 <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -80,6 +81,13 @@ if ($_SESSION['user']['role'] !== 'admin') {
                         </button>
                     </div>
                 </div>
+
+                <div class="officer-info-container" id="officerInfoContainer" style="display: none; margin-bottom: 20px;">
+                    <h1>Officer Information</h1>
+                    <div id="officerDetails" class="officer-details">
+                    </div>
+                </div>
+
                 <div class="chart-content" id="fineStatusContent" style="display: none;">
 
                     <h1>Duty Submisions</h1>
@@ -220,27 +228,12 @@ if ($_SESSION['user']['role'] !== 'admin') {
             });
 
             // Fetch data for the report
+            fetchOfficerInfo();
             fetchDutyData();
             fetchIssuedReportedData();
             fetchFineCourtData();
             fetchIssuedPlaceData();
             fetchRevenueData();
-        });
-
-        // Ensure hidden inputs are updated before any Full Report button is clicked
-        fullReportButtons.forEach(button => {
-            button.addEventListener("click", function() {
-                const timePeriod = timePeriodSelect.value;
-                const officerId = officerIdInput.value;
-
-                // Update hidden inputs for time period and officer ID
-                hiddenTimePeriods.forEach(input => {
-                    input.value = timePeriod;
-                });
-                hiddenOfficerIds.forEach(input => {
-                    input.value = officerId;
-                });
-            });
         });
     });
 </script>

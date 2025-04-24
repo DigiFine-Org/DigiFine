@@ -24,9 +24,16 @@ session_start();
 include_once "../../../../includes/header.php";
 require_once "../../../../db/connect.php";
 
-if ($_SESSION['user']['role'] !== 'admin') {
+if ($_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized user!");
 }
+
+$policeStationId = $_SESSION['police_station_id'] ?? null;
+if ($policeStationId === null) {
+    die("Police station ID not found in session.");
+}
+
+
 ?>
 
 <body>
@@ -39,7 +46,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
             <?php include_once "../../../includes/sidebar.php"; ?>
 
             <!-- Main Content -->
-            <div class="content">
+            <div class="content" style="max-width: none;">
                 <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -50,8 +57,25 @@ if ($_SESSION['user']['role'] !== 'admin') {
                 <p class="description">View and analyze status of fines over different time periods.</p>
                 <form method="get" class="filter-form-grid">
                     <div class="filter-field">
-                        <label for="officerId">Officer ID:</label>
-                        <input type="text" id="officerId" name="officerId" placeholder="Enter Officer ID" required>
+                        <label for="officerId">Officer:</label>
+                        <select id="officerId" name="officerId" required>
+                            <option value="">Select an Officer</option>
+                            <?php
+                            // Fetch officers belonging to the current police station
+                            $officerQuery = "SELECT id, fname, lname FROM officers WHERE police_station = ? AND is_oic = '0'";
+                            $stmt = $conn->prepare($officerQuery);
+                            $stmt->bind_param("i", $policeStationId);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+
+                            while ($officer = $result->fetch_assoc()) {
+                                echo "<option value='" . htmlspecialchars($officer['id']) . "'>" .
+                                    htmlspecialchars($officer['fname'] . ' ' . $officer['lname']) . " (ID: " . htmlspecialchars($officer['id']) . ")" .
+                                    "</option>";
+                            }
+                            $stmt->close();
+                            ?>
+                        </select>
                     </div>
                     <div class="table-container">
                         <!-- Input Section -->
@@ -225,22 +249,6 @@ if ($_SESSION['user']['role'] !== 'admin') {
             fetchFineCourtData();
             fetchIssuedPlaceData();
             fetchRevenueData();
-        });
-
-        // Ensure hidden inputs are updated before any Full Report button is clicked
-        fullReportButtons.forEach(button => {
-            button.addEventListener("click", function() {
-                const timePeriod = timePeriodSelect.value;
-                const officerId = officerIdInput.value;
-
-                // Update hidden inputs for time period and officer ID
-                hiddenTimePeriods.forEach(input => {
-                    input.value = timePeriod;
-                });
-                hiddenOfficerIds.forEach(input => {
-                    input.value = officerId;
-                });
-            });
         });
     });
 </script>
