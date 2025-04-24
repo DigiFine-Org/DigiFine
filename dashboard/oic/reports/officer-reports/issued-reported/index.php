@@ -2,7 +2,7 @@
 $pageConfig = [
     'title' => 'Reports Dashboard',
     'styles' => ["../../../../dashboard.css", "../../reports.css"],
-    'scripts' => ["./chart.js", "analytics.js"],
+    'scripts' => ["chart.js", "analytics.js"],
     'authRequired' => true
 ];
 
@@ -45,12 +45,17 @@ if ($_SESSION['message'] ?? null) {
                             d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                     </svg>
                 </button>
-                <h1>Analize Fines by Issued Place</h1>
-                <p class="description">View and analyze fines by issued location over different time periods.</p>
+                <h1>Fines Issued Per Officer</h1>
+                <p class="description">View and analyze fines issued by officers over different time periods.</p>
 
                 <div class="table-container">
                     <!-- Input Section -->
                     <div class="filter-form-grid">
+                        <div class="filter-field">
+                            <label for="officerId">Officer ID:</label>
+                            <input type="text" id="officerId" placeholder="Enter Officer ID" required>
+                        </div>
+
                         <div class="filter-field">
                             <label for="timePeriod">Time Period:</label>
                             <select id="timePeriod">
@@ -77,9 +82,7 @@ if ($_SESSION['message'] ?? null) {
                         <canvas id="fineChart" width="800" height="400"></canvas>
                     </div>
                 </div>
-
                 <div class="fine-summary mt-4" id="fineSummary"></div>
-
             </div>
     </main>
 

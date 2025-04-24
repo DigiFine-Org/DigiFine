@@ -9,6 +9,10 @@ $pageConfig = [
 session_start();
 require_once "../../../db/connect.php";
 
+// Check if the user is logged in and has the role of 'officer'
+
+
+
 // Fetch offences from offences table
 $sql = "SELECT offence_number, description_english, fine_amount FROM offences";
 $result = $conn->query($sql);
@@ -239,7 +243,7 @@ if ($_SESSION['message'] ?? null) {
     const select = document.querySelector('select[name="location"]');
     const otherInput = document.getElementById('other-location');
 
-    select.addEventListener('change', function () {
+    select.addEventListener('change', function() {
         if (this.value === 'other') {
             otherInput.style.display = 'block';
             otherInput.setAttribute('required', 'required');
@@ -266,7 +270,7 @@ if ($_SESSION['message'] ?? null) {
     // Toggle Offence select field based on Offence Type
     const offenceType = document.getElementById("offence_type");
     const offenceSelectField = document.getElementById("offence_select_field");
-    offenceType.addEventListener("change", function () {
+    offenceType.addEventListener("change", function() {
         if (this.value === "fine") {
             offenceSelectField.style.display = "flex";
         } else {
@@ -277,7 +281,7 @@ if ($_SESSION['message'] ?? null) {
     // Update fine amount when an offence is selected
     const offenceDropdown = document.getElementById("offence");
     const fineAmountInput = document.getElementById("fine_amount");
-    offenceDropdown.addEventListener("change", function () {
+    offenceDropdown.addEventListener("change", function() {
         const selectedOption = offenceDropdown.options[offenceDropdown.selectedIndex];
         const fineAmount = selectedOption.getAttribute("data-fine") || 0;
         fineAmountInput.value = fineAmount;

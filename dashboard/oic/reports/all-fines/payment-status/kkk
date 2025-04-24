@@ -3,10 +3,15 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 header("Content-Type: application/json");
 
-require_once "../../../../db/connect.php";
+require_once "../../../../../db/connect.php";
 session_start();
 
 $period = $_GET['time_period'] ?? '';
+$policeStationId = $_SESSION['police_station_id'] ?? null;
+// echo "Police Station ID: " . htmlspecialchars($policeStationId);
+if (!$policeStationId) {
+    die("Police station ID not found in session.");
+}
 
 // Set time interval
 $interval = match ($period) {
@@ -26,9 +31,9 @@ $group_by = ($period === "24h" || $period === "72h")
     : "DATE(issued_date)";
 
 // Function to fetch data by fine status
-function fetchFineAmounts($conn, $interval, $group_by, $fine_status)
+function fetchFinesByStatus($conn, $interval, $group_by, $fine_status)
 {
-    $query = "SELECT $group_by AS label, SUM(fine_amount) AS total_amount 
+    $query = "SELECT $group_by AS label, COUNT(*) AS count 
               FROM fines 
               WHERE CONCAT(issued_date, ' ', issued_time) >= NOW() - $interval
               AND fine_status = ? 
@@ -43,25 +48,13 @@ function fetchFineAmounts($conn, $interval, $group_by, $fine_status)
 }
 
 // Fetch datasets for each fine status
-$paidFines = fetchFineAmounts($conn, $interval, $group_by, 'paid');
-$pendingFines = fetchFineAmounts($conn, $interval, $group_by, 'pending');
-$overdueFines = fetchFineAmounts($conn, $interval, $group_by, 'overdue');
-
-// Calculate total amounts
-$totalPaidAmount = array_sum(array_column($paidFines, 'total_amount'));
-$totalIssuedAmount = array_sum(array_column(array_merge($paidFines, $pendingFines, $overdueFines), 'total_amount'));
-$totalPendingAmount = array_sum(array_column($pendingFines, 'total_amount'));
-$totalOverdueAmount = array_sum(array_column($overdueFines, 'total_amount'));
+$paidFines = fetchFinesByStatus($conn, $interval, $group_by, 'paid');
+$pendingFines = fetchFinesByStatus($conn, $interval, $group_by, 'pending');
+$overdueFines = fetchFinesByStatus($conn, $interval, $group_by, 'overdue');
 
 // Return JSON
 echo json_encode([
     "paid" => $paidFines,
     "pending" => $pendingFines,
-    "overdue" => $overdueFines,
-    "totals" => [
-        "paid" => $totalPaidAmount,
-        "issued" => $totalIssuedAmount,
-        "pending" => $totalPendingAmount,
-        "overdue" => $totalOverdueAmount
-    ]
+    "overdue" => $overdueFines
 ]);

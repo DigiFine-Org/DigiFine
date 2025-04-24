@@ -1,7 +1,10 @@
-window.fetchFineData = function () {
+window.fetchFineCourtData = function () {
+  const officerId = document.getElementById("officerId").value;
   const timePeriod = document.getElementById("timePeriod").value;
 
-  fetch(`get-fines.php?time_period=${timePeriod}`)
+  fetch(
+    `fine-court/get-fine-court.php?police_id=${officerId}&time_period=${timePeriod}`
+  )
     .then((response) => response.json())
     .then((data) => {
       console.log("Fetched data:", data);
@@ -9,8 +12,7 @@ window.fetchFineData = function () {
         alert(data.error);
       } else {
         updateChart(data, timePeriod);
-        updateFineSummary(data, timePeriod); // Assuming this updates summary stats
-        drawFineAmountGrowthChart(data, timePeriod);
+        updateCourtFineSummary(data, timePeriod);
       }
     })
     .catch((error) => {
@@ -19,72 +21,52 @@ window.fetchFineData = function () {
 };
 
 function updateChart(data, period) {
-  const ctx = document.getElementById("fineChart").getContext("2d");
+  const ctx = document.getElementById("fineCourtChart").getContext("2d");
 
-  if (window.fineChart1) {
-    window.fineChart1.destroy();
+  if (window.chart2) {
+    window.chart2.destroy();
   }
 
   let labels = [];
 
   if (period === "24h" || period === "72h") {
     labels = getLastHours(period === "24h" ? 24 : 72);
-  } else if (
-    ["7days", "14days", "30days", "90days", "365days"].includes(period)
-  ) {
+  } else if (["7days", "14days", "30days", "90days"].includes(period)) {
     labels = getLastDays(Number(period.replace("days", "")));
   } else {
-    const paidLabels = data.paid.map((d) => d.label);
-    const pendingLabels = data.pending.map((d) => d.label);
-    const overdueLabels = data.overdue.map((d) => d.label);
-    labels = Array.from(
-      new Set([...paidLabels, ...pendingLabels, ...overdueLabels])
-    ).sort();
+    const fineLabels = data.Fines.map((d) => d.label);
+    const courtLabels = data.Court.map((d) => d.label);
+    labels = Array.from(new Set([...fineLabels, ...courtLabels])).sort();
   }
 
-  // Create maps for faster lookup
-  const paidMap = new Map(data.paid.map((d) => [d.label, d.total_amount]));
-  const pendingMap = new Map(
-    data.pending.map((d) => [d.label, d.total_amount])
-  );
-  const overdueMap = new Map(
-    data.overdue.map((d) => [d.label, d.total_amount])
-  );
+  const fineMap = new Map(data.Fines.map((d) => [d.label, d.count]));
+  const courtdMap = new Map(data.Court.map((d) => [d.label, d.count]));
 
-  const paidFines = labels.map((label) => paidMap.get(label) || 0);
-  const pendingFines = labels.map((label) => pendingMap.get(label) || 0);
-  const overdueFines = labels.map((label) => overdueMap.get(label) || 0);
+  const fines = labels.map((label) => fineMap.get(label) || 0);
+  const court = labels.map((label) => courtdMap.get(label) || 0);
 
-  window.fineChart1 = new Chart(ctx, {
+  window.chart2 = new Chart(ctx, {
     type: "line",
     data: {
       labels: labels,
       datasets: [
         {
-          label: `Paid Fines (${period})`,
-          data: paidFines,
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 2,
-          tension: 0.1,
-          fill: true,
-        },
-        {
-          label: `Pending Fines (${period})`,
-          data: pendingFines,
-          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          label: `Fines (${period})`,
+          data: fines,
+          backgroundColor: "rgba(158, 194, 220, 0.16)", // lighter fill
           borderColor: "rgba(54, 162, 235, 1)",
           borderWidth: 2,
-          tension: 0.2,
+          tension: 0,
           fill: true,
         },
         {
-          label: `Overdue Fines (${period})`,
-          data: overdueFines,
-          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          label: `Court Cases (${period})`,
+          data: court,
+          backgroundColor: "rgba(249, 189, 202, 0.35)", // no fill
           borderColor: "rgba(255, 99, 132, 1)",
           borderWidth: 2,
-          tension: 0.3,
+          // borderDash: [5, 5], // dashed line
+          tension: 0.1,
           fill: true,
         },
       ],
@@ -94,7 +76,7 @@ function updateChart(data, period) {
       scales: {
         y: {
           beginAtZero: true,
-          title: { display: true, text: "Fine Amount (Rs.)" },
+          title: { display: true, text: "Number of Fines" },
         },
         x: {
           title: { display: true, text: "Time Period" },
@@ -103,11 +85,10 @@ function updateChart(data, period) {
       plugins: {
         title: {
           display: true,
-          text: `Fine Amount Overview (${period})`,
+          text: `Fines Overview (${period})`,
         },
         legend: {
           display: true,
-          position: "bottom",
         },
       },
     },
@@ -143,4 +124,4 @@ function getLastDays(days) {
   return labels;
 }
 
-fetchFineData(); // Initial fetch
+// fetchFineCourtData(); // Initial fetch
