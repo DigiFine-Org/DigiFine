@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Admin Dashboard',
-    'styles' => ["../dashboard.css", "./admin-dashboard.css"],
+    'styles' => ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css", "../dashboard.css", "./admin-dashboard.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
 ];
@@ -89,7 +89,7 @@ $stmt->close();
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="icon" style="background-color: #FFEFB4;">
-                        <span class="material-symbols-outlined" style="font-size: 36px;">directions_car</span>
+                        <i class="fas fa-car" style="font-size: 1.7rem;"></i>
                     </div>
                     <div class="info">
                         <p>Drivers</p>
@@ -98,7 +98,7 @@ $stmt->close();
                 </div>
                 <div class="stat-card">
                     <div class="icon" style="background-color: #CDE4FF;">
-                        <span class="material-symbols-outlined" style="font-size: 36px;">badge</span>
+                        <i class="fas fa-user-shield" style="font-size: 1.7rem;"></i>
                     </div>
                     <div class="info">
                         <p>Police Officers</p>
@@ -107,7 +107,7 @@ $stmt->close();
                 </div>
                 <div class="stat-card">
                     <div class="icon" style="background-color: #F8C8D8;">
-                        <span class="material-symbols-outlined" style="font-size: 36px;">report_problem</span>
+                        <i class="fas fa-car-crash" style="font-size: 1.7rem;"></i>
                     </div>
                     <div class="info">
                         <p>Stolen Vehicles</p>
@@ -116,7 +116,7 @@ $stmt->close();
                 </div>
                 <div class="stat-card">
                     <div class="icon" style="background-color: #D5F2EA;">
-                        <span class="material-symbols-outlined" style="font-size: 36px;">currency_rupee</span>
+                        <i class="fas fa-money-bill-wave" style="font-size: 1.7rem;"></i>
                     </div>
                     <div class="info">
                         <p>Total Fines</p>
