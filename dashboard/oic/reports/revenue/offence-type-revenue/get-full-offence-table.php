@@ -9,7 +9,7 @@ $pageConfig = [
 session_start();
 include_once "../../../../../includes/header.php";
 
-if ($_SESSION['user']['role'] !== 'admin') {
+if ($_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized user!");
 }
 $timePeriod = $_GET['time_period'] ?? '';
@@ -18,8 +18,10 @@ if (empty($timePeriod)) {
     exit;
 }
 
+$policeStationId = $_GET['station_id'] ?? '';
+
 // Fetch data from the same source used by your chart
-$url = "http://localhost/digifine/dashboard/admin/reports/revenue/offence-type-revenue/get-offences-revenue.php?time_period=" . urlencode($timePeriod);
+$url = "http://localhost/digifine/dashboard/oic/reports/revenue/offence-type-revenue/get-offences-revenue.php?police_station=$policeStationId&time_period=$timePeriod";
 $response = file_get_contents($url);
 
 if ($response === false) {

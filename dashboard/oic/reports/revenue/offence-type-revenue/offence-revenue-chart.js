@@ -1,8 +1,9 @@
 window.fetchOffencesRevenueFineData = function () {
   const timePeriod = document.getElementById("timePeriod").value;
+  const policeStationId = document.getElementById("stationId").value;
 
   fetch(
-    `offence-type-revenue/get-offences-revenue.php?time_period=${timePeriod}`
+    `offence-type-revenue/get-offences-revenue.php?police_station=${policeStationId}&time_period=${timePeriod}`
   )
     .then((response) => response.json())
     .then((data) => {

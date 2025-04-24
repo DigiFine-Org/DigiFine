@@ -6,7 +6,14 @@ header("Content-Type: application/json");
 require_once "../../../../../db/connect.php";
 session_start();
 
+// Get the time period and police station parameters
 $period = $_GET['time_period'] ?? '';
+$policeStationId = $_GET['police_station'] ?? null;
+
+// Validate police station ID
+if (!$policeStationId) {
+    die(json_encode(['error' => 'Police station ID is required']));
+}
 
 // Set time interval
 $interval = match ($period) {
@@ -20,23 +27,28 @@ $interval = match ($period) {
     default => "INTERVAL 9999 DAY"
 };
 
-// Fetch total fines grouped by location
+// Fetch total fines grouped by location, filtered by police station
 $query = "
         SELECT 
         CASE 
             WHEN f.location = '' OR f.location IS NULL THEN 'Unknown'
-            WHEN dl.location_name IS NOT NULL THEN CONCAT('(', dl.police_station_id, ') ', dl.location_name)
-            ELSE CONCAT('(', COALESCE(f.police_station, 'N/A'), ') ', COALESCE(f.location, 'N/A'))
+            WHEN dl.location_name IS NOT NULL THEN dl.location_name
+            ELSE CONCAT( '*', COALESCE(f.location, 'N/A'))
         END AS label,
         SUM(f.fine_amount) AS count
         FROM fines f
         LEFT JOIN duty_locations dl ON f.location = dl.id
         WHERE CONCAT(f.issued_date, ' ', f.issued_time) >= NOW() - $interval
+        AND (f.police_station = ? OR dl.police_station_id = ?)
         GROUP BY label
         ORDER BY count DESC;
 ";
 
-$result = $conn->query($query);
+// Use prepared statement to avoid SQL injection
+$stmt = $conn->prepare($query);
+$stmt->bind_param("ss", $policeStationId, $policeStationId);
+$stmt->execute();
+$result = $stmt->get_result();
 $data = $result->fetch_all(MYSQLI_ASSOC);
 
 // Return JSON

@@ -6,9 +6,16 @@ header("Content-Type: application/json");
 require_once "../../../../../db/connect.php";
 session_start();
 
+// Get the time period and police station ID
 $period = $_GET['period'] ?? '';
+$policeStationId = $_GET['police_station'] ?? null;
 
+// Validate police station ID
+if (!$policeStationId) {
+    die(json_encode(['error' => 'Police station ID is required']));
+}
 
+// Set time interval
 $interval = match ($period) {
     "24h" => "INTERVAL 24 HOUR",
     "72h" => "INTERVAL 72 HOUR",
@@ -20,7 +27,7 @@ $interval = match ($period) {
     default => "INTERVAL 9999 DAY"
 };
 
-// Fetch total fines grouped by location
+// Fetch total fines grouped by offence, filtered by police station
 $query = "
     SELECT o.offence_number, o.description_english AS label,
     SUM(f.fine_amount) AS count
@@ -29,11 +36,16 @@ $query = "
     WHERE CONCAT(f.issued_date, ' ', f.issued_time) >= NOW() - $interval 
     AND f.offence IS NOT NULL
     AND o.offence_number IS NOT NULL
+    AND f.police_station = ?
     GROUP BY o.offence_number
     ORDER BY count DESC;
 ";
 
-$result = $conn->query($query);
+// Use prepared statement for security
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $policeStationId);
+$stmt->execute();
+$result = $stmt->get_result();
 $data = $result->fetch_all(MYSQLI_ASSOC);
 
 // Return JSON

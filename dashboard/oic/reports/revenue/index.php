@@ -22,10 +22,15 @@ session_start();
 include_once "../../../../includes/header.php";
 require_once "../../../../db/connect.php";
 
-if ($_SESSION['user']['role'] !== 'admin') {
+if ($_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized user!");
 }
 
+$policeStationId = $_SESSION['police_station_id'] ?? null;
+// echo "Police Station ID: " . htmlspecialchars($policeStationId);
+if (!$policeStationId) {
+    die("Police station ID not found in session.");
+}
 ?>
 
 <body>
@@ -38,7 +43,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
             <?php include_once "../../../includes/sidebar.php"; ?>
 
             <!-- Main Content -->
-            <div class="content">
+            <div class="content" style="max-width: none;">
                 <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -48,6 +53,10 @@ if ($_SESSION['user']['role'] !== 'admin') {
                 <h1>Status of All Fines Issued</h1>
                 <p class="description">View and analyze status of fines over different time periods.</p>
                 <form method="get" class="filter-form-grid">
+                    <div class="filter-field">
+                        <label for="stationId">Police Station ID:</label>
+                        <input type="text" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
+                    </div>
                     <div class="table-container">
                         <!-- Input Section -->
                         <!-- <div class="filter-form-grid"> -->
@@ -86,6 +95,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
                         </div>
                         <form action="overall/get-full-revenue-report.php" method="get">
                             <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                            <input type="hidden" name="station_id" id="hiddenStationId">
                             <button type="submit" class="btn full-report">Full Report</button>
                         </form>
                     </div>
@@ -103,6 +113,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
 
                         <form action="police-stations/get-full-stations-table.php" method="get">
                             <input type="hidden" name="time_period" class="hiddenTimePeriod">
+                            <input type="hidden" name="station_id" id="hiddenStationId">
                             <button type="submit" class="btn full-report">Full Report</button>
                         </form>
                     </div>
@@ -119,6 +130,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
                         </div>
                         <form action="police-officers/full-officer-table.php" method="get">
                             <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                            <input type="hidden" name="station_id" id="hiddenStationId">
                             <button type="submit" class="btn full-report">Full Report</button>
                         </form>
                     </div>
@@ -137,6 +149,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
 
                     <form action="offence-type-revenue/get-full-offence-table.php" method="get">
                         <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                        <input type="hidden" name="station_id" id="hiddenStationId">
                         <button type="submit" class="btn full-report">Full Report</button>
                     </form>
 
@@ -155,6 +168,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
 
                     <form action="issued-place/full-issued-place-table.php" method="get">
                         <input type="hidden" name="time_period" id="hiddenTimePeriod">
+                        <input type="hidden" name="station_id" id="hiddenStationId">
                         <button type="submit" class="btn full-report">Full Report</button>
                     </form>
 
@@ -186,13 +200,23 @@ if ($_SESSION['user']['role'] !== 'admin') {
     document.addEventListener("DOMContentLoaded", function() {
         const generateBtn = document.getElementById("generateReportBtn");
         const timePeriodSelect = document.getElementById("timePeriod");
+        const stationIdInput = document.getElementById("stationId");
         const hiddenTimePeriods = document.querySelectorAll("input[name='time_period']");
+        const hiddenStationIds = document.querySelectorAll("input[name='station_id']");
+        const fullReportButtons = document.querySelectorAll(".btn.full-report");
+
 
         generateBtn.addEventListener("click", function(e) {
             e.preventDefault(); // Prevent reload
             const timePeriod = timePeriodSelect.value;
+            const stationId = stationIdInput.value;
+
             hiddenTimePeriods.forEach(input => {
                 input.value = timePeriod;
+            });
+
+            hiddenStationIds.forEach(input => {
+                input.value = stationId;
             });
 
             fetchFineData();
@@ -202,11 +226,5 @@ if ($_SESSION['user']['role'] !== 'admin') {
             fetchIssuedPlaceFineData();
         });
 
-        // Optional: sync timePeriod dropdown to hidden inputs live
-        timePeriodSelect.addEventListener("change", function() {
-            hiddenTimePeriods.forEach(input => {
-                input.value = this.value;
-            });
-        });
     });
 </script>
