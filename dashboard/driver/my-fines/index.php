@@ -1,5 +1,4 @@
 <?php
-
 $pageConfig = [
     'title' => 'Driver Fines',
     'styles' => ["../../dashboard.css", "./my-fines.css"],
