@@ -25,6 +25,7 @@ const fetch_notifications = async () => {
   }
 };
 
+
 const delete_notifications = async () => {
   try {
     const res = await fetch("/digifine/notifications/api.php", {
