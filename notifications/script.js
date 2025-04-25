@@ -51,7 +51,7 @@ function init_notifications() {
   window.addEventListener("DOMContentLoaded", async () => {
     notification_interval = setInterval(async () => {
       await fetch_notifications();
-    }, 30000); // Check every 30 seconds
+    }, 5000); // Check every 30 seconds
 
     // Initial fetch
     await fetch_notifications();
