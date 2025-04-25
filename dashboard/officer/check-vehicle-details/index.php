@@ -2,7 +2,7 @@
 
 $pageConfig = [
     'title' => 'Check Vehicle Details',
-    'styles' => ["../../dashboard.css"],
+    'styles' => ["../../dashboard.css", "dropdown.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
@@ -95,9 +95,12 @@ if ($id) {
                 <?php endif; ?>
 
                 <?php if (!$vehicleDetails): ?>
-                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="GET">
-                        <input name="query" required type="search" class="input"
-                            placeholder="Enter Licence Plate Number (e.g., SP|BBY-1683)">
+                    <form action="check-vehicle-details-process.php" method="GET" >
+                        <div class="search-container">
+                            <input name="query" id="vehicleSearch" type="search" class="input"
+                                placeholder="Enter License Plate Number (e.g., SPBBY1683)" autocomplete="off" required>
+                            <div id="searchResults" class="dropdown-results"></div>
+                        </div>
                         <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>
@@ -208,5 +211,67 @@ if ($id) {
         </div>
     </div>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('vehicleSearch');
+        const resultsDiv = document.getElementById('searchResults');
+
+        // Debounce function to prevent excessive AJAX calls
+        function debounce(func, wait) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // Function to fetch suggestions
+        const fetchSuggestions = debounce(function (searchTerm) {
+            if (searchTerm.length < 2) {
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            fetch(`get-vehicle-suggestions.php?term=${encodeURIComponent(searchTerm)}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultsDiv.innerHTML = '';
+
+                    if (data.length === 0) {
+                        resultsDiv.style.display = 'none';
+                        return;
+                    }
+
+                    data.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'dropdown-item';
+                        div.textContent = item.label;
+                        div.addEventListener('click', function () {
+                            searchInput.value = item.value;
+                            resultsDiv.innerHTML = '';
+                            resultsDiv.style.display = 'none';
+                        });
+                        resultsDiv.appendChild(div);
+                    });
+
+                    resultsDiv.style.display = 'block';
+                })
+                .catch(error => console.error('Error fetching suggestions:', error));
+        }, 300);
+
+        // Event listeners
+        searchInput.addEventListener('input', function () {
+            fetchSuggestions(this.value);
+        });
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
+                resultsDiv.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 <?php include_once "../../../includes/footer.php"; ?>

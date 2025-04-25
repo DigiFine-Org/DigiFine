@@ -139,6 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
         $_SESSION["message"] = "success";
+        $_SESSION["redirect_after_alert"] = "/digifine/dashboard/officer/index.php";
         header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php");
         exit();
     } else {

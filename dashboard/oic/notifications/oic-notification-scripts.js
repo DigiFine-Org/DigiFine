@@ -65,7 +65,7 @@ notification_listeners.add_listener((items) => {
   );
   if (personalNotifications.length > 0) {
     const clearButton = document.createElement("button");
-    clearButton.classList.add("btn", "secondary");
+    clearButton.classList.add("btn");
     clearButton.innerText = "Clear All Notifications";
 
     clearButton.addEventListener("click", async () => {
