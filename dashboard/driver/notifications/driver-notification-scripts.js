@@ -32,7 +32,7 @@ notification_listeners.add_listener((items) => {
       const match = item.message.match(/\[FINE_ID:(\d+)\]/);
       if (match && match[1]) {
         const fineId = match[1];
-        href = `/digifine/dashboard/driver/my-fines/view-fine-details.php?fine_id=${fineId}`;
+        // href = `/digifine/dashboard/driver/my-fines/view-fine-details.php?fine_id=${fineId}`;
 
         // Remove the [FINE_ID:123] from the displayed message
         item.message = item.message.replace(/\[FINE_ID:\d+\]/, "").trim();
