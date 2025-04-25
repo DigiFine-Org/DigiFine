@@ -324,11 +324,11 @@ $conn->close();
 </main>
 
 <script>
-    document.querySelector("#show-form").addEventListener("click", function () {
+    document.querySelector("#show-form").addEventListener("click", function() {
         document.querySelector(".popup-new").classList.add("active");
     });
 
-    document.querySelector(".popup-new .close-btn").addEventListener("click", function () {
+    document.querySelector(".popup-new .close-btn").addEventListener("click", function() {
         document.querySelector(".popup-new").classList.remove("active");
     });
 </script>

@@ -48,14 +48,22 @@ require_once "../../../db/connect.php";
                             </div>
                         </div>
                     </a>
-                    <a href="police-station-reports/index.php" class="feature-tile">
+                    <div class="feature-tile">
                         <div class="tile-full">
                             <div class="tile-content">
                                 <h3>Analyze by Police Station</h3>
-                                <p>View and analyze statistics for different time periods</p>
+                                <form action="police-station-report/index.php" method="GET" style="display: flex; align-items: center;">
+                                    <div class="filter-field" style="flex-direction: row; margin-right: 10px;">
+                                        <!-- <label for="officerId">Police Station ID:</label> -->
+                                        <input type="text" id="station_id" name="station_id" placeholder="Enter Police Station ID" required style="padding: 6.5px 13px; margin-right: 20px; ">
+                                        <button type="submit" class="btn btn-primary" style="padding: 0px 23px;">Analize</button>
+                                    </div>
+                                    <!-- <div class="filter-field"> -->
+                                    <!-- </div> -->
+                                </form>
                             </div>
                         </div>
-                    </a>
+                    </div>
                     <a href="revenue\index.php" class="feature-tile">
                         <div class="tile-full">
                             <div class="tile-content">
