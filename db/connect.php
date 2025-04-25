@@ -10,6 +10,7 @@ $dbname = "digifine_db";
 // $password = "";
 // $dbname = "digifine_db";
 
+
 $conn = new mysqli($hostname, $username, $password, $dbname);
 mysqli_report(MYSQLI_REPORT_OFF);
 

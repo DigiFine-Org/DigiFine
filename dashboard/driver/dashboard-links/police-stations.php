@@ -1,13 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Police Stations',
-    'styles' => [
-        "../../dashboard.css?v=" . time(),
-        "./popup.css?v=" . time(),
-
-        "../driver-dashboard.css?v=" . time()
-    ],
-];
+    'styles' => ["../../dashboard.css","popup.css","../driver-dashboard.css"]];
 include_once "../../../includes/header.php";
 ?>
 
@@ -156,75 +150,6 @@ include_once "../../../includes/header.php";
     }
 </script>
 
-<style>
-    .navigation-tileNew-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 50px;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-    .tile-container {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        cursor: pointer
-    }
-
-    .tileNew {
-        height: 90px;
-        width: 200px;
-        /* Reduced width since text is outside */
-        background-size: cover;
-        background-position: center;
-        border-radius: 10px;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s;
-        opacity: 0.8;
-        cursor: default;
-    }
-
-    .tileNew:hover {
-        transform: scale(1.03);
-    }
-
-    .province-name {
-        /* font-weight: bold; */
-        font-size: 15px;
-        color: #333;
-        max-width: 200px;
-        /* Ensures names align vertically */
-    }
-
-    .popupNew {
-        margin-bottom: 20px;
-    }
-
-    .description-section {
-        margin: 20px 0;
-        padding: 12px;
-        background: #f8f9fa;
-        border-radius: 8px;
-        border-left: 4px solid #003366;
-
-    }
-
-    .description-section h3 {
-        color: #003366;
-        margin-bottom: 10px;
-    }
-
-    .english,
-    .sinhala {
-        margin-bottom: 20px;
-    }
-
-    .description-section p {
-        line-height: 1.6;
-    }
-</style>
 
 
 <?php include_once "../../../includes/footer.php"; ?>

@@ -55,13 +55,7 @@
                     <p>Quickly pay your traffic fines online with our secure payment gateway</p>
                 </a>
             </div>
-            <div class="feature">
-                <a href="../../dashboard/gov-fine-list/index.php">
-                    <div class="icon"><img src="../assets/landingPage/icons/list2.png" alt="List Icon"></div>
-                    <h3>Traffic Offence List</h3>
-                    <p>Comprehensive list of traffic offences with corresponding penalties</p>
-                </a>
-            </div>
+           
             <div class="feature">
                 <a href="#safety">
                     <div class="icon"><img src="../assets/landingPage/icons/shield.png" alt="Shield Icon"></div>
