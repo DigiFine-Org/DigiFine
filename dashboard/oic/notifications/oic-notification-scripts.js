@@ -24,7 +24,7 @@ notification_listeners.add_listener((items) => {
     }
 
     // Determine the appropriate href based on notification source
-    let href = `/digifine/dashboard/officer/notifications/view.php?id=${item.id}&type=${item.type}`;
+    let href = `/digifine/dashboard/oic/notifications/view.php?id=${item.id}&type=${item.type}`;
 
     // Handle fine payments or other specific notification types
     if (item.source === "payment_system") {
