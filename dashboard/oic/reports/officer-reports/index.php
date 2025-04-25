@@ -56,7 +56,7 @@ if ($policeStationId === null) {
                 <h1>Status of All Fines Issued</h1>
                 <p class="description">View and analyze status of fines over different time periods.</p>
                 <form method="get" class="filter-form-grid">
-                    <div class="filter-field">
+                    <div class="filter-field" style="margin-right: 20px;width: 300px;">
                         <label for="officerId">Officer:</label>
                         <select id="officerId" name="officerId" required>
                             <option value="">Select an Officer</option>
@@ -159,6 +159,8 @@ if ($policeStationId === null) {
 
                     <h1>Fine Issued Place</h1>
                     <p class="description">View and analyze fines over different time periods.</p>
+                    <p class="description">*location_name = Location entered by officers.</p>
+
 
                     <div class="table-container">
                         <div class="chart-section">

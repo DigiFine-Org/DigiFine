@@ -9,7 +9,7 @@ $pageConfig = [
 session_start();
 include_once "../../../../../includes/header.php";
 
-if ($_SESSION['user']['role'] !== 'admin') {
+if ($_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized user!");
 }
 
@@ -18,7 +18,7 @@ $policeId = $_GET['officer_id'] ?? '';
 
 
 // Fetch data from the same source used by your chart
-$url = "http://localhost/digifine/dashboard/admin/reports/officer-reports/fine-court/get-fine-court.php?police_id=" . urlencode($policeId) . "&time_period=" . urlencode($timePeriod);
+$url = "http://localhost/digifine/dashboard/oic/reports/officer-reports/fine-court/get-fine-court.php?police_id=" . urlencode($policeId) . "&time_period=" . urlencode($timePeriod);
 $response = file_get_contents($url);
 
 if ($response === false) {
