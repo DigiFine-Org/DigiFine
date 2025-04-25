@@ -32,11 +32,15 @@
     // After the closing animation, hide the overlay
     setTimeout(() => {
       alertContainer.style.display = "none"; // Hide the overlay after animation
+      <?php if (isset($_SESSION["redirect_after_alert"])): ?>
+        window.location.href = "<?php echo $_SESSION['redirect_after_alert']; ?>";
+        <?php unset($_SESSION["redirect_after_alert"]); ?>
+      <?php endif; ?>
     }, 400); // Duration of the transition (should match the CSS transition time)
   }
 
   // Automatically show the popup when the page loads (or you can trigger this when needed)
-  window.onload = function() {
+  window.onload = function () {
     openPopup(); // Trigger the popup display
   };
 </script>
