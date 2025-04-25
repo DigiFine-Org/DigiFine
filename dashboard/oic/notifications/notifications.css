@@ -20,6 +20,7 @@
 }
 
 .notification h3 {
+  text-transform: capitalize;
   margin: 0 0 10px;
   color: #212529;
 }
