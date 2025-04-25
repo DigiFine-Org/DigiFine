@@ -62,7 +62,7 @@ if ($stmt->execute()) {
                 <p class='details'><strong>Your Police ID:</strong> $userid</p>
                 <p class='details'><strong>Temporary Password:</strong> $temp_password</p>
                 <p class='details'>For security reasons, please reset your password within 24 hours using the link below:</p>
-                <p><a href='http://localhost/digifine/officer-reset-password.php?token=$reset_token' class='button' style='color: white;'>Set New Password</a></p>
+                // <p><a href='http://localhost/digifine/officer-reset-password.php?token=$reset_token' class='button' style='color: white;'>Set New Password</a></p>
             </div>
         </body>
         </html>
