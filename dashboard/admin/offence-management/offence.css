@@ -1,0 +1,28 @@
+
+/* /dashboard/admin/offence-management/css/offence-form.css */
+.error-messages {
+    color: red;
+    margin-bottom: 15px;
+    border: 1px solid #ffcccc;
+    padding: 10px;
+    background: #ffeeee;
+}
+
+
+
+.back-btn {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+}
+
+.field {
+    margin-bottom: 15px;
+}
+
+.input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
