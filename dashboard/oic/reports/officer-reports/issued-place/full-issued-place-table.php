@@ -13,10 +13,7 @@ if ($_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized user!");
 }
 $timePeriod = $_GET['time_period'] ?? '';
-if (empty($timePeriod)) {
-    echo "No time period selected.";
-    exit;
-}
+
 
 $policeId = $_GET['officer_id'] ?? '';
 // Fetch data from the same source used by your chart

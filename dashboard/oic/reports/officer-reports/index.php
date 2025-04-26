@@ -33,7 +33,6 @@ if ($policeStationId === null) {
     die("Police station ID not found in session.");
 }
 
-
 ?>
 
 <body>

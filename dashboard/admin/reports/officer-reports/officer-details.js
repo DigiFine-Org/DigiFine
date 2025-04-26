@@ -3,17 +3,12 @@ function fetchOfficerInfo() {
   const officerInfoContainer = document.getElementById("officerInfoContainer");
   const officerDetails = document.getElementById("officerDetails");
 
-  if (!officerId) {
-    alert("Please enter an Officer ID");
-    return;
-  }
-
   // Show loading indicator
   officerDetails.innerHTML = "<p>Loading...</p>";
   officerInfoContainer.style.display = "block";
 
   // Fetch officer data
-  fetch(`get-officer-details.php?officer_id=${officerId}`)
+  fetch(`get-officer-details.php?officerId=${officerId}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.error) {
@@ -30,15 +25,6 @@ function fetchOfficerInfo() {
   <p class="description" style="font-size: 1.3rem;"><strong>Is OIC:</strong> ${
     officer.is_oic == 1 ? "Yes" : "No"
   }</p>
-</div>
-
-
-
-    `;
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      officerDetails.innerHTML =
-        '<p class="description" style="color: red">Error fetching officer information</p>';
+</div> `;
     });
 }

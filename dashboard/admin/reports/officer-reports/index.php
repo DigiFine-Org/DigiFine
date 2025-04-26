@@ -28,6 +28,11 @@ require_once "../../../../db/connect.php";
 if ($_SESSION['user']['role'] !== 'admin') {
     die("Unauthorized user!");
 }
+if ($_SESSION['message'] ?? null) {
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']);
+    include '../../../../includes/alerts/failed.php';
+}
 ?>
 
 <body>
@@ -49,7 +54,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
                 </button>
                 <h1>Status of All Fines Issued</h1>
                 <p class="description">View and analyze status of fines over different time periods.</p>
-                <form method="get" class="filter-form-grid">
+                <form action="./get-officer-details.php" method="get" class="filter-form-grid">
                     <div class="filter-field">
                         <label for="officerId">Officer ID:</label>
                         <input type="text" id="officerId" name="officerId" placeholder="Enter Officer ID" required>

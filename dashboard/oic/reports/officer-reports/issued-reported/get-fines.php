@@ -9,10 +9,7 @@ session_start();
 $police_id = intval($_GET['police_id'] ?? 0);
 $period = $_GET['time_period'] ?? '';
 
-if ($police_id == 0) {
-    echo json_encode(["error" => "Invalid police ID"]);
-    exit;
-}
+
 
 // Set interval based on period
 $interval = match ($period) {

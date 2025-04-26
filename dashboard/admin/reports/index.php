@@ -10,6 +10,14 @@ session_start();
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
 
+//checked in duty submissions/get -data.php
+if ($_SESSION['message'] ?? null) {
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']);
+    include '../../../includes/alerts/failed.php';
+}
+
+
 ?>
 
 <main>
@@ -55,7 +63,7 @@ require_once "../../../db/connect.php";
                                 <form action="police-station-report/index.php" method="GET" style="display: flex; align-items: center;">
                                     <div class="filter-field" style="flex-direction: row; margin-right: 10px;">
                                         <!-- <label for="officerId">Police Station ID:</label> -->
-                                        <input type="text" id="station_id" name="station_id" placeholder="Enter Police Station ID" required style="padding: 6.5px 13px; margin-right: 20px; ">
+                                        <input type="text" id="station_id" name="station_id" step="1" placeholder="Enter Police Station ID" required style="padding: 6.5px 13px; margin-right: 20px; ">
                                         <button type="submit" class="btn btn-primary" style="padding: 0px 23px;">Analyze</button>
                                     </div>
                                     <!-- <div class="filter-field"> -->

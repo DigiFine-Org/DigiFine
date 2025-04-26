@@ -21,7 +21,14 @@ if (empty($policeId)) {
 
 $policeStationId = $_GET['station_id'] ?? null;
 if (empty($policeStationId)) {
-    die("Police Station ID not provided.");
+    $_SESSION["message"] = "Police Station ID not Provided.";
+    header("Location: /digifine/dashboard/admin/reports/index.php");
+    exit();
+}
+if (!ctype_digit($policeStationId)) {
+    $_SESSION["message"] = "Invalid Police Station ID.ID Contain Integers Only";
+    header("Location: /digifine/dashboard/admin/reports/index.php");
+    exit();
 }
 
 // Check if the police station exists in the database
@@ -32,7 +39,9 @@ $stationStmt->execute();
 $stationResult = $stationStmt->get_result();
 
 if ($stationResult->num_rows === 0) {
-    die("Police station not found in the database.");
+    $_SESSION['message'] = "Police Station not found.";
+    header("Location: /digifine/dashboard/admin/reports/index.php");
+    exit();
 }
 // Store the police station ID in the session
 $_SESSION['police_station_id'] = $policeStationId;
