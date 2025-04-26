@@ -95,7 +95,7 @@ if ($id) {
                 <?php endif; ?>
 
                 <?php if (!$vehicleDetails): ?>
-                    <form action="check-vehicle-details-process.php" method="GET" >
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="GET">
                         <div class="search-container">
                             <input name="query" id="vehicleSearch" type="search" class="input"
                                 placeholder="Enter License Plate Number (e.g., SPBBY1683)" autocomplete="off" required>
