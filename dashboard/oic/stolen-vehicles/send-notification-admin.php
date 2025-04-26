@@ -1,5 +1,8 @@
 <?php
 
+require_once __DIR__ . "/../../../notifications/functions.php";
+
+
 // Create detailed notification message with all vehicle information
 $notificationTitle = "New Stolen Vehicle Report";
 $notificationMessage = "A new stolen vehicle has been reported with the following details:\n\n" .
@@ -15,16 +18,11 @@ $notificationMessage = "A new stolen vehicle has been reported with the followin
     "Last Seen Date: $lastSeenDate\n" .
     "Current Status: $status";
 
-// Insert into notifications table
-$notifyQuery = "INSERT INTO notifications (title, message, reciever_type, source, is_read, created_at) 
-                VALUES (?, ?, 'admin', 'stolen_vehicle_system', 0, NOW())";
-$notifyStmt = $conn->prepare($notifyQuery);
-
-if ($notifyStmt === false) {
-    // Log the error but don't halt the process
-    error_log("Failed to create notification: " . $conn->error);
-} else {
-    $notifyStmt->bind_param("ss", $notificationTitle, $notificationMessage);
-    $notifyStmt->execute();
-    $notifyStmt->close();
-}
+// Call notify_admin function with the notification details
+notify_admin(
+    '1234',
+    $notificationTitle,
+    $notificationMessage,
+    'stolen_vehicle_system',
+    null // Using default expiration
+);

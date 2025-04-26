@@ -1,6 +1,6 @@
 <?php
 require_once "../../../db/connect.php";
-require_once "../../../functions/notification.php";
+require_once "../../../notifications/functions.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $license_plate_number = $_POST['license_plate_number'] ?? '';
@@ -90,7 +90,7 @@ $conn->close();
 ?>
 
 
-.popupRis {
+<!-- .popupRis {
 display: none;
 position: fixed;
 z-index: 1000;
@@ -110,4 +110,4 @@ text-align: center;
 float: right;
 font-size: 20px;
 cursor: pointer;
-}
+} -->
