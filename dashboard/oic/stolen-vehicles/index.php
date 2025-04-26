@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Report Stolen Vehicle',
-    'styles' => ["../../dashboard.css","stolen-vehicle.css"],
+    'styles' => ["../../dashboard.css", "stolen-vehicle.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
@@ -106,6 +106,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $popupSuccess = false;
                         }
                         $updateStmt->close();
+
+                        // Send notification to admin
+                        require_once "./send-notification-admin.php";
                     } else {
                         $popupMessage = "Error preparing update statement: " . $conn->error;
                         $popupSuccess = false;
@@ -337,5 +340,6 @@ validateDates();
         });
     <?php endif; ?>
 </script>
+
 
 <?php include_once "../../../includes/footer.php" ?>
