@@ -21,6 +21,44 @@ document.addEventListener('DOMContentLoaded', function () {
     // Handle form submission
     resolveForm.addEventListener('submit', function (e) {
         e.preventDefault();
+    
+        const formData = new FormData(this);
+        const caseId = formData.get('case_id');
+    
+        if (!caseId) {
+            console.error('Case ID is missing in form data!');
+            return;
+        }
+    
+        fetch('resolve-case.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const btn = document.querySelector(`.btn-resolve[data-case-id="${caseId}"]`);
+                    btn.className = "btn btn-remove";
+                    btn.textContent = 'Resolved';
+                    btn.disabled = true;
+    
+                    popup.style.display = 'none';
+                    alert('Case resolved successfully!');
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(() => {
+                alert('An error occurred');
+            });
+    });
+    
+});
+
+
+/* Get DOM elements
+resolveForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
         const formData = new FormData(this);
         for (let [key, value] of formData.entries()) {
@@ -59,7 +97,4 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert('An error occurred');
             });
     });
-});
-
-
-// Get DOM elements
+    */

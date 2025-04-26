@@ -1,84 +1,12 @@
-/* General Styling */
 
-
-h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.vehicle-details {
-    text-align: left;
-    margin-bottom: 20px;
-}
-
-.vehicle-details p {
-    font-size: 16px;
-    color: #555;
-    margin: 8px 0;
-}
-
-.vehicle-details strong {
-    color: #333;
-}
-
-.stolen-form {
-    margin-top: 20px;
-    text-align: left;
-}
-
-label {
-    display: block;
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
-}
-
-select {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 20px;
-}
-
-button.btn {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button.btn:hover {
-    background-color: #0056b3;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    .container {
-        padding: 15px;
-    }
-
-    h1 {
-        font-size: 20px;
-    }
-
-    .vehicle-details p {
-        font-size: 14px;
-    }
-}
 
 .seizure-form {
-    width: 400px;
-    /* margin: 2rem auto; */
+    width: 100%; /* Changed from fixed width to fluid */
+    max-width: 400px; /* Maximum width for larger screens */
     padding: 2rem;
     border-radius: 8px;
+    margin: 0 auto; /* Center the form */
 }
-
 
 .form-group {
     margin-bottom: 1.25rem;
@@ -92,7 +20,28 @@ button.btn:hover {
     font-size: 0.875rem;
 }
 
-/* Input Fields */
+@media (max-width: 768px) {
+    .seizure-form {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .seizure-form {
+        padding: 1rem;
+        max-width: 100%; 
+        border-radius: 0; 
+    }
+    
+    .form-group {
+        margin-bottom: 1rem; 
+    }
+    
+    .form-label {
+        font-size: 0.8125rem; 
+    }
+}
+
 .form-control {
     width: 100%;
     padding: 0.75rem 1rem;
@@ -125,30 +74,7 @@ button.btn:hover {
     border-top: 1px solid #edf2f7;
 }
 
-/* Button Styles */
-.btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
 
-.btn-primary {
-    background-color:rgb(11, 52, 90);
-    color: white;
-    border: none;
-}
-
-.btn-primary:hover {
-    background-color: #2b6cb0;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 .btn-secondary {
     background-color: #ffffff;
@@ -161,7 +87,6 @@ button.btn:hover {
     border-color: #cbd5e0;
 }
 
-/* Popup Modal Styles */
 .popupNew {
     position: fixed;
     top: 0;
@@ -237,40 +162,11 @@ button.btn:hover {
     background-color: #2b6cb0;
 }
 
-/* Animations */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-    
-    .form-actions {
-        flex-direction: column;
-    }
-    
-    .btn {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .seizure-form {
-        padding: 1.5rem;
-    }
-}
 
-/* Date Time Input Fix */
-input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    background: none;
-    display: none;
-}
 
 .select2-container--default .select2-selection--single {
-    height: 42px;
+    height: 40px;
     border: 1px solid #e2e8f0;
     border-radius: 6px;
     padding: 0.5rem;
@@ -294,13 +190,5 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     padding: 8px 12px;
 }
 
-.select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: #003366;
-    color: white;
-}
 
-.select2-container--default .select2-results__option[aria-selected=true] {
-    background-color: #f8f9fa;
-    color: #003366;
-}
 
