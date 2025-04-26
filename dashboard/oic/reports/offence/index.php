@@ -50,10 +50,10 @@ if (!$policeStationId) {
                 <p class="description">View and analyze fines by Offence over different time periods.</p>
 
                 <form method="get" class="filter-form-grid">
-                    <div class="filter-field">
-                        <label for="stationId">Police Station ID:</label>
-                        <input type="text" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
-                    </div>
+                    <!-- <div class="filter-field"> -->
+                    <!-- <label for="stationId">Police Station ID:</label> -->
+                    <input type="hidden" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
+                    <!-- </div> -->
                     <div class="table-container">
                         <div class="filter-field">
                             <label for="timePeriod">Time Period:</label>

@@ -87,8 +87,8 @@ if (isset($data['error'])) {
                             <tr>
                                 <td><?= htmlspecialchars($date) ?></td>
                                 <td><?= $all_submissions ?></td>
-                                <td><?= $late_submissions ?></td>
                                 <td><?= $on_time ?></td>
+                                <td><?= $late_submissions ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>

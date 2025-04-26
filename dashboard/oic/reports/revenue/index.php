@@ -51,10 +51,10 @@ if (!$policeStationId) {
                 <h1>Analize Revenue of All Fines Issued by Police Station <?php echo htmlspecialchars($policeStationId); ?></h1>
                 <p class="description">View and analyze status of fines over different time periods.</p>
                 <form method="get" class="filter-form-grid">
-                    <div class="filter-field">
-                        <label for="stationId">Police Station ID:</label>
-                        <input type="text" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
-                    </div>
+                    <!-- <div class="filter-field">
+                        <label for="stationId">Police Station ID:</label> -->
+                    <input type="hidden" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
+                    <!-- </div> -->
                     <div class="table-container">
                         <!-- Input Section -->
                         <!-- <div class="filter-form-grid"> -->
