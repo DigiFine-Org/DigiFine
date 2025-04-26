@@ -38,10 +38,10 @@ function notify_oic(string $police_id, string $title, string $message, string $s
     return notify_user("oic", $police_id, $title, $message, $source, $expires_at);
 }
 
-// function notify_admin(int $id, string $title, string $message, string $source = "system", $expires_at = null)
-// {
-//     return notify_user("oic", $police_id, $title, $message, $source, $expires_at);
-// }
+function notify_admin(int $id, string $title, string $message, string $source = "system", $expires_at = null)
+{
+    return notify_user("admin", $admin_id = '1234', $title, $message, $source = "", $expires_at = null);
+}
 
 // Create a new announcement
 
