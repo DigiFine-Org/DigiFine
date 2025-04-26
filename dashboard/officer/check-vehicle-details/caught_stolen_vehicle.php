@@ -245,10 +245,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     
                     <!-- Form Actions -->
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Seize Vehicle</button>
-                        <a href="index.php" class="btn btn-secondary">Cancel</a>
-                    </div>
+                    <form action="process-seizure-vehicle.php" method="post" class="seizure-form">    
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Seize Vehicle</button>
+                            <a href="index.php" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
                 </form>
             </div>
         </div>
