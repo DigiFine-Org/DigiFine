@@ -123,6 +123,8 @@ $conn->close();
                     <?php else: ?>
                         <?php if ($fine['fine_status'] === 'overdue'): ?>
                             <p class="reported-message1">This fine is overdue. Reporting or paying is not allowed.</p>
+                        <?php elseif ($fine['fine_status'] === 'paid'): ?>
+                            <p class="reported-message2">This fine has already been paid. Further actions are not allowed.</p>
                         <?php else: ?>
                             <?php if ($fine['is_reported'] == 0): ?>
                                 <button class="btn" id="reportFineButton" style="margin-right: 10px;">Report</button>

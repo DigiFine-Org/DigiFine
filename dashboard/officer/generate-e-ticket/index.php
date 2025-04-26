@@ -162,15 +162,18 @@ if ($_SESSION['message'] ?? null) {
                     <div class="field">
                         <label for="driver_id">Driver License ID:</label>
                         <input type="text" class="input" id="driver_id" name="driver_id"
-                            value="<?php echo htmlspecialchars($driverId); ?>" placeholder="B5767089" required>
+                            value="<?php echo htmlspecialchars($driverId); ?>" placeholder="B1234567" required
+                            pattern="^B\d{7}$" title="Driver License ID must start with 'B' followed by 7 digits.">
                     </div>
                     <div class="field">
                         <label for="">Vehicle License Number:</label>
                         <?php
                         $licensePlateNumber = $_GET['license_plate_number'] ?? '';
                         ?>
-                        <input type="text" class="input" placeholder="CAD-6264" name="license_plate_number"
-                            value="<?php echo htmlspecialchars($licensePlateNumber); ?>" required>
+                        <input type="text" class="input" placeholder="SP|BBY-1683 or BBY-1683"
+                            name="license_plate_number" value="<?php echo htmlspecialchars($licensePlateNumber); ?>"
+                            required pattern="^(SP\|)?[A-Z]{3}-\d{4}$"
+                            title="Vehicle License Number must be in the format SP|XXX-1234 or XXX-1234.">
                     </div>
 
                     <!-- Updated Location field with a search bar (datalist) -->
@@ -243,7 +246,7 @@ if ($_SESSION['message'] ?? null) {
     const select = document.querySelector('select[name="location"]');
     const otherInput = document.getElementById('other-location');
 
-    select.addEventListener('change', function() {
+    select.addEventListener('change', function () {
         if (this.value === 'other') {
             otherInput.style.display = 'block';
             otherInput.setAttribute('required', 'required');
@@ -270,7 +273,7 @@ if ($_SESSION['message'] ?? null) {
     // Toggle Offence select field based on Offence Type
     const offenceType = document.getElementById("offence_type");
     const offenceSelectField = document.getElementById("offence_select_field");
-    offenceType.addEventListener("change", function() {
+    offenceType.addEventListener("change", function () {
         if (this.value === "fine") {
             offenceSelectField.style.display = "flex";
         } else {
@@ -281,7 +284,7 @@ if ($_SESSION['message'] ?? null) {
     // Update fine amount when an offence is selected
     const offenceDropdown = document.getElementById("offence");
     const fineAmountInput = document.getElementById("fine_amount");
-    offenceDropdown.addEventListener("change", function() {
+    offenceDropdown.addEventListener("change", function () {
         const selectedOption = offenceDropdown.options[offenceDropdown.selectedIndex];
         const fineAmount = selectedOption.getAttribute("data-fine") || 0;
         fineAmountInput.value = fineAmount;
