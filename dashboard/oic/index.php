@@ -311,10 +311,9 @@ $conn->close();
                     <div class="field">
                         <label for="location_name">Location</label>
                         <input type="text" class="input" placeholder="Enter location name" name="location_name"
-                            required>
+                            pattern="[A-Za-z0-9\s]+" title="Only letters, numbers, and spaces are allowed" required>
                         <input type="hidden" name="police_station_id"
                             value="<?= htmlspecialchars($oic['police_station']) ?>">
-
                     </div>
                     <button class="btn" type="submit">Add</button>
                 </form>
@@ -324,11 +323,11 @@ $conn->close();
 </main>
 
 <script>
-    document.querySelector("#show-form").addEventListener("click", function() {
+    document.querySelector("#show-form").addEventListener("click", function () {
         document.querySelector(".popup-new").classList.add("active");
     });
 
-    document.querySelector(".popup-new .close-btn").addEventListener("click", function() {
+    document.querySelector(".popup-new .close-btn").addEventListener("click", function () {
         document.querySelector(".popup-new").classList.remove("active");
     });
 </script>
