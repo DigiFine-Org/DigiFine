@@ -199,7 +199,7 @@ if ($policeStationId === null) {
             </div>
         </div>
     </main>
-    <?php include_once "../../../../includes/footer.php"; ?>
+    <?php include_once "../../../../../includes/footer.php"; ?>
 
 
     <!-- Include Chart.js -->
