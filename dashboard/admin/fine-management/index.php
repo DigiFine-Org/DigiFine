@@ -196,7 +196,7 @@ $stmt->close();
 <?php include_once "../../../includes/footer.php"; ?>
 
 <script>
-    document.querySelector('.btn').addEventListener('click', function () {
+    document.querySelector('.btn').addEventListener('click', function() {
         var filterForm = document.getElementById('filter-form');
         if (filterForm.style.display === 'none') {
             filterForm.style.display = 'block';
