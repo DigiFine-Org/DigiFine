@@ -21,11 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $license_plate_number = $_POST['license_plate_number'] ?? '';
     $absoluteOwner = $_POST['absolute_owner'] ?? '';
     $engineNo = $_POST['engine_no'] ?? '';
-    $make = $_POST['make'] ?? '';
     $model = $_POST['model'] ?? '';
     $colour = $_POST['colour'] ?? '';
     $dateOfRegistration = $_POST['date_of_registration'] ?? '';
-    $status = $_POST['status'] ?? '';
     $dateReportedStolen = $_POST['date_reported_stolen'] ?? '';
     $locationLastSeen = $_POST['location_last_seen'] ?? '';
     $lastSeenDate = $_POST['last_seen_date'] ?? '';
@@ -52,42 +50,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $popupMessage = "Error: 'Date Last Seen' cannot be in the future.";
         $popupSuccess = false;
     } else {
+        // Check if vehicle exists in registered vehicles
         $checkSql = "SELECT * FROM dmt_vehicles WHERE license_plate_number = ?";
         $checkStmt = $conn->prepare($checkSql);
         $checkStmt->bind_param("s", $license_plate_number);
         $checkStmt->execute();
         $checkResult = $checkStmt->get_result();
-
+    
+        // Check if vehicle is already reported stolen
+        $checkStolenSql = "SELECT * FROM stolen_vehicles WHERE license_plate_number = ?";
+        $checkStolenStmt = $conn->prepare($checkStolenSql);
+        $checkStolenStmt->bind_param("s", $license_plate_number);
+        $checkStolenStmt->execute();
+        $checkStolenResult = $checkStolenStmt->get_result();
+    
         if ($checkResult->num_rows === 0) {
-            $popupMessage = "Error: The license plate number does not exist in the registered vehicles database.";
+            $popupMessage = "Error: No vehicle found with this license plate number in the registered vehicles database.";
+            $popupSuccess = false;
+        } elseif ($checkStolenResult->num_rows > 0) {
+            $popupMessage = "Error: This vehicle has already been reported as stolen.";
             $popupSuccess = false;
         } else {
-            $checkStmt->close();
-
+            // Proceed with insertion since vehicle exists and isn't reported stolen
             $sql = "INSERT INTO stolen_vehicles 
-                    (license_plate_number, absolute_owner, engine_no, make, model, colour, date_of_registration, 
-                    status, date_reported_stolen, location_last_seen, last_seen_date,vehicle_image) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
-
+                    (license_plate_number, absolute_owner, engine_no, model, colour, date_of_registration, 
+                     date_reported_stolen, location_last_seen, last_seen_date, vehicle_image) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
             $stmt = $conn->prepare($sql);
             if ($stmt) {
                 $stmt->bind_param(
-                    "ssssssssssss",
+                    "ssssssssss",
                     $license_plate_number,
                     $absoluteOwner,
                     $engineNo,
-                    $make,
                     $model,
                     $colour,
                     $dateOfRegistration,
-                    $status,
                     $dateReportedStolen,
                     $locationLastSeen,
                     $lastSeenDate,
                     $vehicleImage
                 );
-
+    
                 if ($stmt->execute()) {
+                    // Update the is_stolen flag in dmt_vehicles
                     $updateSql = "UPDATE dmt_vehicles SET is_stolen = 1 WHERE license_plate_number = ?";
                     $updateStmt = $conn->prepare($updateSql);
                     if ($updateStmt) {
@@ -95,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($updateStmt->execute()) {
                             $popupMessage = "Stolen vehicle reported successfully and status updated!";
                         } else {
-                            $popupMessage = "Error updating is_stolen column: " . $updateStmt->error;
+                            $popupMessage = "Error updating vehicle status: " . $updateStmt->error;
                             $popupSuccess = false;
                         }
                         $updateStmt->close();
@@ -107,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $popupSuccess = false;
                     }
                 } else {
-                    $popupMessage = "Error executing query: " . $stmt->error;
+                    $popupMessage = "Error reporting stolen vehicle: " . $stmt->error;
                     $popupSuccess = false;
                 }
                 $stmt->close();
@@ -116,6 +123,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $popupSuccess = false;
             }
         }
+        
+        // Close all statements
+        $checkStmt->close();
+        $checkStolenStmt->close();
     }
 }
 ?>
@@ -147,7 +158,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Group 2
                         [
                             'engine_no' => 'Engine Number',
-                            'make' => 'Make'
+                            'location_last_seen' => 'Location Last Seen',
+
                         ],
                         // Group 3
                         [
@@ -157,9 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Full-width fields
                         [
                             'date_of_registration' => 'Date of Registration',
-                            'status' => 'Status',
                             'date_reported_stolen' => 'Date Reported Stolen',
-                            'location_last_seen' => 'Location Last Seen',
                             'last_seen_date' => 'Date Last Seen',
                             'vehicle_image' => 'Vehicle Image'
                         ]
@@ -224,33 +234,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     regDateInput.max = today;
     reportDateInput.max = today;
 
-    lastSeenDateInput.addEventListener('input', () => {
-        const dateError = document.getElementById('dateError');
-        if (new Date(lastSeenDateInput.value) > new Date()) {
-            dateError.style.display = 'block';
-        } else {
-            dateError.style.display = 'none';
-        }
-    });
+   function validateDates() {
+    const dateError = document.getElementById('dateError');
+    dateError.style.display = 'none';
+    
+    const regDate = new Date(regDateInput.value);
+    const reportDate = new Date(reportDateInput.value);
+    const lastSeenDate = new Date(lastSeenDateInput.value);
+    const currentDate = new Date();
+    
+    let errorMessage = '';
+    
+    // Check individual dates aren't in the future
+    if (regDate > currentDate) {
+        errorMessage = "Registration date cannot be in the future";
+    } else if (reportDate > currentDate) {
+        errorMessage = "Report date cannot be in the future";
+    } else if (lastSeenDate > currentDate) {
+        errorMessage = "Last seen date cannot be in the future";
+    }
+    // Check date relationships
+    else if (reportDate < lastSeenDate) {
+        errorMessage = "Report date must be on or after last seen date";
+    }
+    else if (regDate > reportDate) {
+        errorMessage = "Registration date must be before report date";
+    }
+    else if (regDate > lastSeenDate) {
+        errorMessage = "Registration date must be before last seen date";
+    }
+    
+    if (errorMessage) {
+        dateError.textContent = errorMessage;
+        dateError.style.display = 'block';
+        return false;
+    }
+    return true;
+}
+[lastSeenDateInput, regDateInput, reportDateInput].forEach(input => {
+    input.addEventListener('input', validateDates);
+});
 
-    regDateInput.addEventListener('input', () => {
-        const dateError = document.getElementById('dateError');
-        if (new Date(regDateInput.value) > new Date()) {
-            dateError.style.display = 'block';
-        } else {
-            dateError.style.display = 'none';
-        }
-    });
-
-    reportDateInput.addEventListener('input', () => {
-        const dateError = document.getElementById('dateError');
-        if (new Date(reportDateInput.value) > new Date()) {
-            dateError.style.display = 'block';
-        } else {
-            dateError.style.display = 'none';
-        }
-    });
-
+// Initial validation
+validateDates();
     document.getElementById('vehicle_image').addEventListener('change', function (event) {
         const preview = document.getElementById('vehiclePreview');
         const file = event.target.files[0];
@@ -314,9 +340,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
     <?php endif; ?>
 </script>
-<style>
-
-</style>
 
 
 <?php include_once "../../../includes/footer.php" ?>

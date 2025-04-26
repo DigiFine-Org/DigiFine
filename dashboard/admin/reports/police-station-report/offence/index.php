@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Reports Dashboard',
-    'styles' => ["../../../dashboard.css", "../reports.css"],
+    'styles' => ["../../../../dashboard.css", "../../reports.css"],
     'scripts' => [
         "./chart.js",
         "analytics.js",
@@ -14,13 +14,18 @@ $pageConfig = [
 ];
 
 session_start();
-include_once "../../../../includes/header.php";
-require_once "../../../../db/connect.php";
+include_once "../../../../../includes/header.php";
+require_once "../../../../../db/connect.php";
 
-if ($_SESSION['user']['role'] !== 'oic') {
+if ($_SESSION['user']['role'] !== 'admin') {
     die("Unauthorized user!");
 }
 
+$policeStationId = $_SESSION['police_station_id'] ?? null;
+// echo "Police Station ID: " . htmlspecialchars($policeStationId);
+if (!$policeStationId) {
+    die("Police station ID not found in session.");
+}
 $policeStationId = $_SESSION['police_station_id'] ?? null;
 // echo "Police Station ID: " . htmlspecialchars($policeStationId);
 if (!$policeStationId) {
@@ -32,11 +37,11 @@ if (!$policeStationId) {
 <body>
     <main>
         <!-- Navbar -->
-        <?php include_once "../../../includes/navbar.php"; ?>
+        <?php include_once "../../../../includes/navbar.php"; ?>
 
         <div class="dashboard-layout">
             <!-- Sidebar -->
-            <?php include_once "../../../includes/sidebar.php"; ?>
+            <?php include_once "../../../../includes/sidebar.php"; ?>
 
             <!-- Main Content -->
             <div class="content" style="max-width: 100%;">
@@ -46,14 +51,14 @@ if (!$policeStationId) {
                             d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                     </svg>
                 </button>
-                <h1>Analize Fines by Offence</h1>
+                <h1>Analize Fines by Offence (Police Station <?php echo htmlspecialchars($policeStationId); ?>)</h1>
                 <p class="description">View and analyze fines by Offence over different time periods.</p>
 
                 <form method="get" class="filter-form-grid">
-                    <div class="filter-field">
-                        <label for="stationId">Police Station ID:</label>
-                        <input type="text" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
-                    </div>
+                    <!-- <div class="filter-field"> -->
+                    <!-- <label for="stationId">Police Station ID:</label> -->
+                    <input type="hidden" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
+                    <!-- </div> -->
                     <div class="table-container">
                         <div class="filter-field">
                             <label for="timePeriod">Time Period:</label>
@@ -144,7 +149,7 @@ if (!$policeStationId) {
             </div>
         </div>
     </main>
-    <?php include_once "../../../../includes/footer.php"; ?>
+    <?php include_once "../../../../../includes/footer.php"; ?>
 
 
     <!-- Include Chart.js -->

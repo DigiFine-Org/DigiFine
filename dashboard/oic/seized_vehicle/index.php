@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Police Station Vehicle',
-    'styles' => ["../../dashboard.css"],
+    'styles' => ["../../dashboard.css","seize-vehicle.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
@@ -25,7 +25,8 @@ $stmt->bind_param("i", $oic_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $station = $result->fetch_assoc();
-if (!$station) die("Station not found.");
+if (!$station) 
+  die("Station not found.");
 $police_station_id = $station['police_station'];
 $stmt->close();
 
@@ -33,7 +34,7 @@ $stmt->close();
 $sql = "SELECT s.license_plate_number, o.id AS officer_id, s.officer_name, 
                s.seizure_date_time, s.seized_location, s.is_released
         FROM seized_vehicle s
-        INNER JOIN police_stations ps ON ps.name = s.police_station
+        INNER JOIN police_stations ps ON ps.id = s.police_station
         INNER JOIN officers o ON o.police_station = ps.id
         WHERE ps.id = ?
         GROUP BY s.license_plate_number, s.seizure_date_time, s.seized_location, s.is_released
@@ -220,47 +221,3 @@ $conn->close();
   };
 </script>
 
-<style>
-.modal {
-  position: fixed;
-  z-index: 999;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-}
-.modal-content {
-  background: white;
-  width: 420px;
-  margin: 100px auto;
-  padding: 25px;
-  border-radius: 10px;
-  position: relative;
-  
-}
-.close-button {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 24px;
-  cursor: pointer;
-}
-.btn.released {
-  background-color: gray;
-  cursor: not-allowed;
-  opacity: 0.7;
-  margin-bottom:2px;
-}
-
-#viewModal .field {
-  display: flex;
-  margin-bottom: 12px;  /* Space between rows */
-  width: 100%;   
-  margin-top:5px;     
-}
-
-#viewModal .field span {
-  color: #555;
-  flex: 1;             /* Takes remaining space */
-}
-
-</style>

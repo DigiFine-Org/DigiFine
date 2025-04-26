@@ -140,20 +140,8 @@ if ($id) {
                             <span>Vehicle Owner’s NIC:</span>
                             <p><?= htmlspecialchars($vehicleDetails['nic']); ?></p>
                         </div>
-                        <div class="data-line">
-                            <span>Vehicle Owner’s Address:</span>
-                            <p><?= htmlspecialchars($vehicleDetails['address']); ?></p>
-                        </div>
-                        <div class="data-line">
-                            <span>Validity Period:</span>
-                            <p>From <b><?= htmlspecialchars($vehicleDetails['license_issue_date']); ?></b> To
-                                <b><?= htmlspecialchars($vehicleDetails['license_expiry_date']); ?></b>
-                            </p>
-                        </div>
-                        <div class="data-line">
-                            <span>Number of Seats:</span>
-                            <p><?= htmlspecialchars($vehicleDetails['no_of_seats']); ?></p>
-                        </div>
+                       
+                        
                         <form action="./caught_stolen_vehicle.php" method="GET">
                             <input type="hidden" name="license_plate_number"
                                 value="<?= htmlspecialchars($vehicleDetails['license_plate_number']); ?>">

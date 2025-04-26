@@ -23,6 +23,9 @@ $policeStationId = $_GET['station_id'] ?? null;
 if (empty($policeStationId)) {
     die("Police Station ID not provided.");
 }
+// Store the police station ID in the session
+$_SESSION['police_station_id'] = $policeStationId;
+
 ?>
 
 <main>

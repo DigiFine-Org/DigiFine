@@ -255,7 +255,7 @@ $conn->close();
 </head>
 
 <body>
-    <?php include_once '../navbar.php'; ?>
+    <?php include_once 'navbar.php'; ?>
 
     <main>
         <div class="complaint-container">
