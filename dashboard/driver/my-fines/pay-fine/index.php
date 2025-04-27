@@ -30,9 +30,10 @@ if (!$driver_id) {
 // Fetch fine details
 $sql = "
     SELECT f.id AS fine_id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, 
-    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.fine_amount 
-    FROM fines AS f
-    INNER JOIN drivers AS d ON f.driver_id = d.id 
+    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported,f.is_solved, f.fine_amount, o.description_english  AS offence_description
+    FROM fines AS f 
+    INNER JOIN drivers AS d ON f.driver_id = d.id
+    LEFT JOIN offences AS o ON f.offence = o.offence_number 
     WHERE f.id = ? AND d.id = ? AND is_discarded = 0;
 ";
 
@@ -63,13 +64,14 @@ $conn->close();
     <div class="dashboard-layout">
         <?php include_once "../../../includes/sidebar.php" ?>
         <div class="content">
-            <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
-                </svg>
-            </button>
-            <form class="container large" method="post" action="payment-process.php">
+            <form class="container" method="post" action="payment-process.php">
+                <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
+                    </svg>
+                </button>
                 <h1>Pay Fine</h1>
                 <div class="data-line">
                     <span>Fine ID:</span>

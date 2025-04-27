@@ -41,14 +41,14 @@ include_once "../includes/header.php";
 
             <div class="field">
                 <label for="nic">NIC:<span style="color: red;">*</span> </label>
-                <input type="text" id="nic" name="nic" required class="input" placeholder="911042754V"
+                <input type="text" id="nic" name="nic" required class="input" placeholder="123456789V or 123456789012"
                     pattern="^\d{9}[Vv]$|^\d{12}$"
                     title="NIC should be a 9-digit number followed by 'V' or 'v' (e.g., 911042754V), or a 12-digit number (e.g., 197419202757).">
             </div>
             <div class="field">
                 <label for="userid">Driver ID(Licence ID):<span style="color: red;">*</span> </label>
-                <input type="text" pattern="^([B][0-9]{7}|[0-9]{12})$" id="userid" name="userid" class="input"
-                    placeholder="B1234567">
+                <input type="text" pattern="^B[0-9]{7}$" id="userid" name="userid" class="input" required
+                    placeholder="B1234567" title="Driver ID must start with 'B' followed by 7 digits">
                 <small style="margin-top: 5px;">You can't change this value once entered!</small>
             </div>
             <div class="field">
@@ -69,7 +69,7 @@ include_once "../includes/header.php";
                     pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}"
                     title="Password must match the above criteria.">
             </div>
-            
+
 
             <button type="submit" class="btn">Sign Up</button>
             <p class="p">Already have an account? <a href="/digifine/login/index.php" class="link">Login here</a></p>

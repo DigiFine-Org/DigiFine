@@ -1,6 +1,6 @@
 <?php
 $pageConfig = [
-	'title' => 'Login',
+	'title' => 'Forget Password',
 	'styles' => ['../login/login.css'],
 	'authRequired' => false
 ];
@@ -318,13 +318,13 @@ include_once "../includes/header.php" ?>
 			?>
 
 			<div class="login-container">
-				<img src="/digifine/assets/logo.svg" alt="Logo">
 				<button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
 						<path fill-rule="evenodd"
 							d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
 					</svg>
 				</button>
+				<img src="/digifine/assets/logo.svg" alt="Logo">
 				<h2>Find your password</h2>
 				<form action="forgot.php?mode=enter_email" method="POST">
 					<div class="field">
@@ -414,10 +414,12 @@ include_once "../includes/header.php" ?>
 							}
 							?>
 						</span>
-						<input type="password" id="" name="password" required class="input" placeholder="password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}"
+						<input type="password" id="" name="password" required class="input" placeholder="password"
+							pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}"
 							title="Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.">
 						<label for="" style="margin-top:7px;">Retype your new password: </label>
-						<input type="password" id="" name="password2" required class="input" placeholder="Retype Password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}"
+						<input type="password" id="" name="password2" required class="input" placeholder="Retype Password"
+							pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}"
 							title="Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.">
 						<br style="clear: both;">
 					</div>
