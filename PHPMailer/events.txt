@@ -44,3 +44,9 @@ END//
 DELIMITER ;
 
 Authentication verifies who a user is, while authorization determines what they are allowed to do or access after being authenticated
+
+
+// <p><a href='http://localhost/digifine/officer-reset-password.php?token=$reset_token' class='button' style='color: white;'>Set New Password</a></p>
+
+
+<p><a href='" . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST']) . "/digifine/officer-reset-password.php?token=$reset_token' class='button' style='color: white;'>Set New Password</a></p>
