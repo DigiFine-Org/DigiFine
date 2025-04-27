@@ -21,11 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $stmt = $conn->prepare("
-        UPDATE fines 
-        SET is_solved = 1, reference_number = ?, license_status = ? 
-        WHERE id = ?
-    ");
+    $sql="UPDATE fines SET is_solved = 1, reference_number = ?, license_status = ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    
     $stmt->bind_param("sii", $reference_number, $license_action, $case_id);
 
     if ($stmt->execute()) {

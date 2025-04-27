@@ -7,8 +7,6 @@ $pageConfig = [
 
 include_once "../includes/header.php";
 
-
-
 ?>
 
 
@@ -22,15 +20,18 @@ include_once "../includes/header.php";
             </svg>
         </button>
         <h2>Register as Driver</h2>
+
         <form action="signup_process.php" method="POST">
             <div class="field">
                 <label for="fname">First Name:<span style="color: red;">*</span> </label>
-                <input type="text" id="fname" name="fname" required class="input" placeholder="Pubuditha">
+                <input type="text" id="fname" name="fname" required class="input" placeholder="Pubuditha"
+                    pattern="[A-Za-z]+" title="First name should only contain letters.">
             </div>
 
             <div class="field">
-                <label for="fname">Last Name:<span style="color: red;">*</span> </label>
-                <input type="text" id="lname" name="lname" required class="input" placeholder="Walgampaya">
+                <label for="lname">Last Name:<span style="color: red;">*</span> </label>
+                <input type="text" id="lname" name="lname" required class="input" placeholder="Walgampaya"
+                    pattern="[A-Za-z]+" title="Last name should only contain letters.">
             </div>
 
             <div class="field">
@@ -40,7 +41,9 @@ include_once "../includes/header.php";
 
             <div class="field">
                 <label for="nic">NIC:<span style="color: red;">*</span> </label>
-                <input type="text" id="nic" name="nic" required class="input" placeholder="1122334455V">
+                <input type="text" id="nic" name="nic" required class="input" placeholder="911042754V"
+                    pattern="^\d{9}[Vv]$|^\d{12}$"
+                    title="NIC should be a 9-digit number followed by 'V' or 'v' (e.g., 911042754V), or a 12-digit number (e.g., 197419202757).">
             </div>
             <div class="field">
                 <label for="userid">Driver ID(Licence ID):<span style="color: red;">*</span> </label>
@@ -55,13 +58,18 @@ include_once "../includes/header.php";
             </div>
             <div class="field">
                 <label for="password">Password:<span style="color: red;">*</span> </label>
-                <input type="password" id="password" minlength="6" name="password" required class="input">
+                <input type="password" id="password" minlength="6" name="password" required class="input"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}"
+                    title="Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.">
             </div>
 
             <div class="field">
                 <label for="cpassword">Confirm Password:<span style="color: red;">*</span> </label>
-                <input type="password" id="cpassword" name="cpassword" required class="input">
+                <input type="password" id="cpassword" name="cpassword" required class="input"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}"
+                    title="Password must match the above criteria.">
             </div>
+            
 
             <button type="submit" class="btn">Sign Up</button>
             <p class="p">Already have an account? <a href="/digifine/login/index.php" class="link">Login here</a></p>

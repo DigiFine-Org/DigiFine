@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate required fields
     if (
         empty($license_plate_number) || empty($seizure_date_time) || empty($seized_location) ||
-        empty($officer_id) || empty($officer_name) || empty($police_station) || empty($driver_NIC)|| empty($owner_name)
+        empty($officer_id) || empty($officer_name) || empty($police_station) || empty($driver_NIC) || empty($owner_name)
     ) {
         die("All fields are required!");
     }
@@ -32,13 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Error preparing statement: " . $conn->error);
     }
 
-    $stmt->bind_param("ssssssss", 
-        $license_plate_number, 
-        $seizure_date_time, 
-        $seized_location, 
-        $officer_id, 
-        $officer_name, 
-        $police_station, 
+    $stmt->bind_param(
+        "ssssssss",
+        $license_plate_number,
+        $seizure_date_time,
+        $seized_location,
+        $officer_id,
+        $officer_name,
+        $police_station,
         $driver_NIC,
         $owner_name
     );

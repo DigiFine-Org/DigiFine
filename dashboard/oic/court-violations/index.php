@@ -24,11 +24,11 @@ $sql = "SELECT * FROM officers WHERE is_oic = '1' AND id = ? LIMIT 1";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $oic_id);
 $stmt->execute();
-$result = $stmt->get_result();
+$result = $stmt->get_result();//Gets the result set
 if ($result->num_rows === 0) {
     die("OIC not found or police station not assigned.");
 }
-$oic_data = $result->fetch_assoc();
+$oic_data = $result->fetch_assoc();//Fetches OIC data as associative array
 $police_station_id = $oic_data['police_station'];
 
 // Retrieve filter from GET
@@ -50,7 +50,7 @@ if (!empty($fine_status_filter)) {
     } else {
         $fines_sql .= " AND f.fine_status = ?";
         $fines_stmt = $conn->prepare($fines_sql);
-        $fines_stmt->bind_param("is", $police_station_id, $fine_status_filter);
+        $fines_stmt->bind_param("i  ", $police_station_id, $fine_status_filter);
     }
 } else {
     $fines_stmt = $conn->prepare($fines_sql);
@@ -96,17 +96,17 @@ $conn->close();
                                     <td><?= htmlspecialchars($fine['driver_id']) ?></td>
                                     <td><?= htmlspecialchars($fine['license_plate_number']) ?></td>
                                     <td>
-                                        <?= date('d M Y', strtotime($fine['issued_date'])) ?><br>
-                                        <?= date('h:i A', strtotime($fine['issued_time'])) ?>
+                                        <?= htmlspecialchars($fine['issued_date']) ?><br>
                                     </td>
                                     <td><?= htmlspecialchars($fine['nature_of_offence']) ?></td>
                                     
                                     <td class="actions">
-                                    <button onclick="window.location.href='view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>'" 
+                                    <button onclick="window.location.href='/digifine/dashboard/oic/fine-management/view-fine-details.php?id=<?= htmlspecialchars($fine['id']) ?>'" 
                                             class="btn btn-view" 
                                             title="View Full Details">
                                         Details
                                     </button>
+
                                         
                                         <?php if ($fine['is_solved'] == 1): ?>
                                             <button class="btn btn-remove" disabled>

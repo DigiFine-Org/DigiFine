@@ -32,4 +32,4 @@ class AdminAuth
 
 }
 
-AdminAuth::add_credential('1234', '123456');
+AdminAuth::add_credential('DigiAdmin27', '123456');
