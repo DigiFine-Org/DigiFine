@@ -30,9 +30,10 @@ if (!$driver_id) {
 // Fetch fine details
 $sql = "
     SELECT f.id AS fine_id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, 
-    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.fine_amount 
-    FROM fines AS f
-    INNER JOIN drivers AS d ON f.driver_id = d.id 
+    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported,f.is_solved, f.fine_amount, o.description_english  AS offence_description
+    FROM fines AS f 
+    INNER JOIN drivers AS d ON f.driver_id = d.id
+    LEFT JOIN offences AS o ON f.offence = o.offence_number 
     WHERE f.id = ? AND d.id = ? AND is_discarded = 0;
 ";
 
