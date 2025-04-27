@@ -65,7 +65,7 @@ if ($_SESSION['message'] ?? null) {
                     </svg>
                 </button>
                 <div id="alert-container"></div> <!-- Alert container -->
-                <h1 class="page-title">Publish Announcements for station officers</h1>
+                <h1 class="page-title">Publish Announcements for Station Officers</h1>
                 <form action="./process.php" method="POST" id="publishAnnouncementForm">
                     <div class="field">
                         <label for="title">Title</label>
