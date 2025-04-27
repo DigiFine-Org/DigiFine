@@ -74,7 +74,7 @@ if ($_SESSION['message'] ?? null) {
 
                     <div class="field">
                         <label for="message">Message</label>
-                        <textarea id="message" name="message" class="input" rows="10" style="min-height: 200px; width: 100%;" required>
+                        <textarea id="message" name="message" class="input" rows="10" style="min-height: 200px; width: 100%;" required></textarea>
                     </div>
 
                     <div class="field">
@@ -86,7 +86,6 @@ if ($_SESSION['message'] ?? null) {
                         <button type="submit" class="btn" id="submitBtn">Add Announcement</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
