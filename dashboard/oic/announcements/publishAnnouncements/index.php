@@ -51,10 +51,10 @@ if ($_SESSION['message'] ?? null) {
 
 ?>
 
-<main>
-    <?php include_once "../../../includes/navbar.php" ?>
+<main class="dashboard-main">
+    <?php include_once "../../../includes/navbar.php"; ?>
     <div class="dashboard-layout">
-        <?php include_once "../../../includes/sidebar.php" ?>
+        <?php include_once "../../../includes/sidebar.php"; ?>
         <div class="content">
             <div class="container">
                 <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
@@ -65,8 +65,8 @@ if ($_SESSION['message'] ?? null) {
                     </svg>
                 </button>
                 <div id="alert-container"></div> <!-- Alert container -->
-                <h1>Publish Announcements for station officers</h1>
-                <form action="./process.php" method="POST">
+                <h1 class="page-title">Publish Announcements for station officers</h1>
+                <form action="./process.php" method="POST" class="form-container">
                     <div class="field">
                         <label for="">Title</label>
                         <input type="text" name="title" placeholder="Title" required>

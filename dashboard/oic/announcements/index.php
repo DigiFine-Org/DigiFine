@@ -15,7 +15,7 @@ if ($_SESSION['user']['role'] !== 'oic') {
 
 // Fetch announcements for drivers
 $stmt = $conn->prepare("
-    SELECT title, message, published_by, created_at, expires_at 
+    SELECT id, title, message, published_by, published_id, created_at, expires_at 
     FROM announcements 
     WHERE (target_role = 'oic' OR target_role = 'all')
       AND (expires_at IS NULL OR expires_at > NOW())
@@ -24,7 +24,30 @@ $stmt = $conn->prepare("
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Display announcements
+// Fetch announcements published by the logged-in user
+$userStmt = $conn->prepare("
+    SELECT id, title, message, created_at, expires_at 
+    FROM announcements 
+    WHERE published_id = ?
+    ORDER BY created_at DESC
+");
+$userStmt->bind_param("i", $_SESSION['user']['id']);
+$userStmt->execute();
+$userResult = $userStmt->get_result();
+
+if ($_SESSION['message'] ?? null) {
+    if ($_SESSION['message'] === 'success') {
+        $message = "Announcement Deleted successfully!";
+        unset($_SESSION['message']); // Clear the session message
+        include '../../../includes/alerts/success.php';
+    } else {
+        $message = $_SESSION['message']; // Store the message
+        unset($_SESSION['message']); // Clear the session message
+
+        // Include the alert.php file to display the message
+        include '../../../includes/alerts/failed.php';
+    }
+}
 ?>
 
 <main>
@@ -40,7 +63,7 @@ $result = $stmt->get_result();
                 </svg>
             </button>
             <h1>Announcements</h1>
-            <!-- <div class="home-grid"> -->
+            <h2>All Announcements</h2>
             <?php if ($result->num_rows > 0): ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <div class="announcement">
@@ -58,8 +81,29 @@ $result = $stmt->get_result();
             <?php else: ?>
                 <p>No announcements available.</p>
             <?php endif; ?>
+
+            <h2>Your Published Announcements</h2>
+            <?php if ($userResult->num_rows > 0): ?>
+                <?php while ($row = $userResult->fetch_assoc()): ?>
+                    <div class="announcement">
+                        <h3><?php echo htmlspecialchars($row['title']); ?></h3>
+                        <p><?php echo nl2br(htmlspecialchars($row['message'])); ?></p>
+                        <div class="meta">
+                            Date: <?php echo htmlspecialchars($row['created_at']); ?>
+                            <?php if ($row['expires_at']): ?>
+                                | Expires At: <?php echo htmlspecialchars($row['expires_at']); ?>
+                            <?php endif; ?>
+                        </div>
+                        <div class="actions" style="display: flex; gap: 5px; margin-top: 5px;">
+                            <a href="edit.php?id=<?php echo $row['id']; ?>" class="btn btn-edit" style="font-size: 12px; padding: 2px 20px;">Edit</a>
+                            <a href="delete.php?id=<?php echo $row['id']; ?>" class="btn btn-delete" style="font-size: 12px; padding: 2px 13px; background-color:crimson">Delete</a>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p>You have not published any announcements.</p>
+            <?php endif; ?>
         </div>
-    </div>
     </div>
 </main>
 
