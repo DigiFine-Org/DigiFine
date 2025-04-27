@@ -119,7 +119,7 @@ $stmt_court->close();
 $query = "
     SELECT COUNT(DISTINCT s.id) AS seized_vehicle_count
     FROM seized_vehicle s
-    INNER JOIN police_stations ps ON ps.name = s.police_station
+    INNER JOIN police_stations ps ON ps.id = s.police_station
     INNER JOIN officers o ON o.police_station = ps.id
     WHERE o.police_station = ? AND s.is_released = 0";
 

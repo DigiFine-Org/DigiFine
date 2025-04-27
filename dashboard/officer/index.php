@@ -52,9 +52,10 @@ $stmt->close();
 // Fetch upcoming duties
 $sql_future_duties = "SELECT police_id, duty, duty_date, duty_time_start 
                       FROM assigned_duties 
-                      WHERE duty_date > CURDATE() 
+                      WHERE duty_date >= CURDATE() 
                       AND submitted = 0 
-                      AND police_id = ?";
+                      AND police_id = ?
+                      LIMIT 1";
 
 $stmt = $conn->prepare($sql_future_duties);
 if (!$stmt) {

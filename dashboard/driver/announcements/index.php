@@ -102,9 +102,7 @@ $result = $stmt->get_result();
     </div>
 </main>
 
-<style>
 
-</style>
 
 <?php include_once "../../../includes/footer.php"; ?>
 
