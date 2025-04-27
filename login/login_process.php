@@ -30,7 +30,6 @@ if (!is_null($isAdmin)) {
 
 $asPolice = true;
 
-// search in officers
 $sql = "SELECT id,fname,lname,email,nic,password,is_oic,phone_no FROM officers WHERE id = '$userid'";
 $result = $conn->query($sql);
 if (!$result) {
@@ -38,15 +37,12 @@ if (!$result) {
 }
 
 if ($result->num_rows == 0) {
-    // search in drivers
     $sql = "SELECT id,fname,lname,email,nic,password,phone_no FROM drivers WHERE id = '$userid'";
     $result = $conn->query($sql);
     if (!$result) {
         die("Error: " . $conn->error);
     }
-    // Neither a officer nor a driver found
     if ($result->num_rows == 0) {
-        // die("No account found with that ID!");
         $_SESSION['message'] = "No account found with that ID!";
         header("Location: /digifine/login/index.php");
         exit();
@@ -61,16 +57,13 @@ $user = $result->fetch_assoc();
 
 $dbPasswordHash = $user['password'];
 if (!password_verify($password, $dbPasswordHash)) {
-    // die("Incorrect password!");
     $_SESSION['message'] = "Incorrect password!";
     header("Location: /digifine/login/index.php");
     exit();
 }
 
-// remove password field from database record to save to session
 unset($user['password']);
 
-// set user role
 $user['role'] = $asPolice ? ($user['is_oic'] ? 'oic' : 'officer') : 'driver';
 $_SESSION['user'] = $user;
 

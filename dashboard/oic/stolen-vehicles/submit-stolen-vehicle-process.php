@@ -15,12 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $locationLastSeen = $_POST['location_last_seen'] ?? '';
     $lastSeenDate = $_POST['last_seen_date'] ?? '';
 
-    // Validate last_seen_date
+
     if (strtotime($lastSeenDate) > time()) {
         die("Error: 'Date Last Seen' cannot be in the future.");
     }
 
-    // Check if vehicle_number exists in dmt_vehicles
+
     $checkSql = "SELECT * FROM dmt_vehicles WHERE license_plate_number = ?";
     $checkStmt = $conn->prepare($checkSql);
     $checkStmt->bind_param("s", $license_plate_number);
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $checkStmt->close();
 
-    // Insert data into stolen_vehicles
+
     $sql = "INSERT INTO stolen_vehicles 
             (license_plate_number, absolute_owner, engine_no, make, model, colour, date_of_registration, 
             status, date_reported_stolen, location_last_seen, last_seen_date) 
@@ -61,10 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if ($stmt->execute()) {
-        // Notify admin about the new stolen vehicle report
+
         include 'send-notification-admin.php';
 
-        // Update the is_stolen column in dmt_vehicles
+
         $updateSql = "UPDATE dmt_vehicles SET is_stolen = 1 WHERE license_plate_number = ?";
         $updateStmt = $conn->prepare($updateSql);
 
@@ -90,24 +90,3 @@ $conn->close();
 ?>
 
 
-<!-- .popupRis {
-display: none;
-position: fixed;
-z-index: 1000;
-left: 0; top: 0;
-width: 100%; height: 100%;
-background-color: rgba(0, 0, 0, 0.5);
-}
-.popup-contentRis {
-background-color: #fff;
-margin: 15% auto;
-padding: 20px;
-border-radius: 10px;zz
-width: 300px;
-text-align: center;
-}
-.popup-closeRis {
-float: right;
-font-size: 20px;
-cursor: pointer;
-} -->

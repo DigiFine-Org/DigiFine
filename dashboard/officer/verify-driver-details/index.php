@@ -19,7 +19,7 @@ $searchType = $_GET['search_type'] ?? 'license';
 $isSuspended = 0;
 
 if ($searchId) {
-    // Determine which field to search based on search type
+
     if ($searchType === 'license') {
         $searchField = "license_id";
     } else {
@@ -48,7 +48,7 @@ if ($searchId) {
 
     $result = $result->fetch_assoc();
 
-    // fetch previous fine count
+
     $fineCount = 0;
 
     $fineSql = "SELECT COUNT(*) as total FROM fines WHERE driver_id = ?";
@@ -61,8 +61,7 @@ if ($searchId) {
         $fineCount = $fineRow['total'];
     }
     
-    // Check if the driver's license is suspended in the drivers table
-    // Find the driver record in the drivers table using nic (since we can see it's a field in both tables)
+
     $licenseSql = "SELECT license_suspended FROM drivers WHERE nic = ?";
     $licenseStmt = $conn->prepare($licenseSql);
     

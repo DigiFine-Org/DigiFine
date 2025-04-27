@@ -18,7 +18,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
     die("Unauthorized user!");
 }
 
-// Initialize variables and error messages
+
 $errors = [];
 $values = [
     'offence_number' => '',
@@ -29,13 +29,13 @@ $values = [
     'fine_amount' => ''
 ];
 
-// Handle POST
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     foreach ($values as $key => $_) {
         $values[$key] = htmlspecialchars(trim($_POST[$key] ?? ''));
     }
 
-    // Validation
+  
     if (!preg_match('/^\d+$/', $values['offence_number']) || $values['offence_number'] <= 0) {
         $errors['offence_number'] = "Offence number must be a positive integer.";
     }
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['fine_amount'] = "Fine must be a non-negative number.";
     }
     
-    // Duplicate check
+
     if (empty($errors)) {
         $stmt = $conn->prepare("SELECT * FROM offences WHERE offence_number = ? ");
         $stmt->bind_param("s", $values['offence_number']);
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
 
-    // Insert if no errors
+
     if (empty($errors)) {
         $stmt = $conn->prepare("INSERT INTO offences (offence_number, description_sinhala, description_tamil, description_english, points_deducted, fine_amount) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssid", $values['offence_number'], $values['description_sinhala'], $values['description_tamil'], $values['description_english'], $values['points_deducted'], $values['fine_amount']);
@@ -119,9 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="field">
                         <label>Offence Description (Sinhala)</label>
                         <input type="text" name="description_sinhala" class="input" value="<?= $values['description_sinhala'] ?>" required>
-                        <!-- <?php if (isset($errors['description_sinhala'])): ?>
-                            <small class="error" ><?= $errors['description_sinhala'] ?></small>
-                        <?php endif; ?> -->
+                        
                     </div>
 
                     <div class="field">

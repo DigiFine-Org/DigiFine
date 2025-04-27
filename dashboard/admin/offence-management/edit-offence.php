@@ -15,7 +15,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
     die("Unauthorized user!");
 }
 
-// Check if offence exists
+
 $offence = null;
 if (isset($_GET['offence_number']) && is_numeric($_GET['offence_number'])) {
     $offence_number = $_GET['offence_number'];
@@ -38,7 +38,7 @@ if (!$offence) {
     exit();
 }
 
-// Check for errors passed from process file
+
 $errors = $_SESSION['form_errors'] ?? [];
 $values = $_SESSION['form_values'] ?? $offence;
 unset($_SESSION['form_errors']);

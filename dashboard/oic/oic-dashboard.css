@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  flex-wrap: wrap; /* Ensures items wrap to the next row on smaller screens */
+  flex-wrap: wrap; 
 }
 
 .inner-tile {
@@ -58,59 +58,58 @@
 
 .inner-chart {
   width: 50%;
-  /* gap: 10px; */
 }
 
-/* Media Queries for Responsiveness */
+
 @media (max-width: 1024px) {
   .inner-tile {
-    width: 48%; /* Adjust to take up more space on medium screens */
+    width: 48%; 
   }
 
   .charts-bar {
-    flex-direction: column; /* Stack charts vertically */
+    flex-direction: column; 
   }
 
   .inner-chart {
-    width: 100%; /* Make each chart full-width */
+    width: 100%; 
   }
 }
 
 @media (max-width: 768px) {
   .inner-tile {
-    width: 100%; /* Stack each tile vertically on smaller screens */
-    margin-bottom: 6px; /* Add spacing between tiles */
+    width: 100%; 
+    margin-bottom: 6px; 
   }
 
   .icon {
-    height: 40px; /* Adjust icon size */
+    height: 40px; 
     width: 40px;
   }
 
   .icon img {
-    width: 60%; /* Adjust icon size */
+    width: 60%; 
   }
 
   .info p {
-    font-size: 12px; /* Adjust text size */
+    font-size: 12px; 
   }
 
   .info h3 {
-    font-size: 16px; /* Adjust heading size */
+    font-size: 16px; 
   }
 }
 
 @media (max-width: 480px) {
   .inner-tile {
-    padding: 8px; /* Reduce padding on very small screens */
+    padding: 8px; 
   }
 
   .info h3 {
-    font-size: 14px; /* Further adjust heading size */
+    font-size: 14px; 
   }
 }
 
-/* Photo cards */
+
 
 .navigation-tile-grid {
   display: grid;

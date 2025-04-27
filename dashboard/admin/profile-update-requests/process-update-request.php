@@ -13,12 +13,12 @@ if (!$action || !$type || !$id) {
     die("Invalid request data");
 }
 
-// Determine table and main table based on type
+
 $request_table = $type === 'officer' ? 'update_officer_profile_requests' : 'update_driver_profile_requests';
 $main_table = $type === 'officer' ? 'officers' : 'drivers';
 
 if ($action === 'approve') {
-    // Fetch request data
+    
     $sql = "SELECT * FROM $request_table WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $id);
@@ -31,7 +31,7 @@ if ($action === 'approve') {
 
     $request = $result->fetch_assoc();
 
-    // Update main table
+    
     $sql_update = "
         UPDATE $main_table SET
         fname = ?,
@@ -58,14 +58,14 @@ if ($action === 'approve') {
         die("Error updating profile: " . $stmt_update->error);
     }
 
-    // Remove request
+    
     $conn->query("DELETE FROM $request_table WHERE id = '$id'");
     echo "<script>
         alert('Profile updated successfully!');
         window.location.href = '/digifine/dashboard/admin/index.php';
     </script>";
 } elseif ($action === 'reject') {
-    // Remove request
+    
     $conn->query("DELETE FROM $request_table WHERE id = '$id'");
     echo "<script>
         alert('Request rejected!');

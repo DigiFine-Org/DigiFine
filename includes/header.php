@@ -12,7 +12,7 @@ if (isset($pageConfig)) {
     $authRequired = $pageConfig['authRequired'] ?? null;
 }
 
-// check if auth required for current page
+
 $currentUser = $_SESSION['user'] ?? null;
 if (!is_null($authRequired)) {
     if (!$currentUser && $authRequired) {

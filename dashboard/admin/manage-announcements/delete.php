@@ -2,7 +2,7 @@
 session_start();
 require_once "../../../db/connect.php";
 
-// Ensure the user is logged in and has the role of admin
+
 if ($_SESSION['user']['role'] !== 'admin') {
     die("Unauthorized access!");
 }

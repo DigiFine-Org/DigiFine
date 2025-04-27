@@ -29,12 +29,12 @@ try {
     $oic_data = $result->fetch_assoc();
     $police_station_id = $oic_data['police_station'];
 
-    // Get search parameters
+
     $search_officer = isset($_GET['officer_name']) ? trim($_GET['officer_name']) : '';
     $search_date_from = isset($_GET['date_from']) ? trim($_GET['date_from']) : '';
     $search_date_to = isset($_GET['date_to']) ? trim($_GET['date_to']) : '';
 
-    // Modified query to include all necessary fields with search filters
+
     $query = "
         SELECT 
             ds.id AS submission_id, 
@@ -55,7 +55,7 @@ try {
     $params = [$police_station_id];
     $types = "i";
     
-    // Add search filters if provided
+
     if (!empty($search_officer)) {
         $query .= " AND (o.fname LIKE ? OR o.lname LIKE ? OR CONCAT(o.fname, ' ', o.lname) LIKE ?)";
         $search_term = "%" . $search_officer . "%";
@@ -75,7 +75,7 @@ try {
         $types .= "s";
     }
     
-    // Add ordering
+
     $query .= " ORDER BY a.duty_date DESC, o.lname ASC";
 
     $stmt = $conn->prepare($query);
@@ -92,7 +92,7 @@ try {
         $duties[] = $row;
     }
     
-    // Get all officers for the dropdown
+
     $officersQuery = "SELECT id, CONCAT(fname, ' ', lname) as name FROM officers WHERE police_station = ? ORDER BY lname, fname";
     $officersStmt = $conn->prepare($officersQuery);
     $officersStmt->bind_param("i", $police_station_id);
@@ -122,7 +122,7 @@ try {
             <div class="">
                 <h1>Duty Submissions</h1>
                 
-                <!-- Search Form -->
+
                 <div class="search-container">
                     <form id="searchForm" method="GET" action="">
                         <div class="search-fields">
@@ -196,10 +196,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchResults = document.getElementById('officerSearchResults');
     const resetBtn = document.getElementById('resetBtn');
     
-    // Officer name suggestions
+
     const officers = <?= json_encode($officers) ?>;
     
-    // Debounce function
+
     function debounce(func, wait) {
         let timeout;
         return function(...args) {
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
     
-    // Show officer suggestions
+
     officerInput.addEventListener('input', debounce(function(e) {
         const query = e.target.value.trim().toLowerCase();
         
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Filter officers based on query
+
         const filteredOfficers = officers.filter(officer => 
             officer.name.toLowerCase().includes(query)
         );
@@ -243,14 +243,14 @@ document.addEventListener('DOMContentLoaded', function() {
         searchResults.style.display = 'block';
     }, 300));
     
-    // Hide search results when clicking outside
+
     document.addEventListener('click', function(e) {
         if (e.target !== officerInput) {
             searchResults.style.display = 'none';
         }
     });
     
-    // Reset button handler
+
     resetBtn.addEventListener('click', function() {
         officerInput.value = '';
         document.getElementById('date_from').value = '';
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('searchForm').submit();
     });
     
-    // Validate date range
+
     document.getElementById('searchForm').addEventListener('submit', function(e) {
         const dateFrom = document.getElementById('date_from').value;
         const dateTo = document.getElementById('date_to').value;

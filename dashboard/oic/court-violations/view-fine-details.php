@@ -32,7 +32,7 @@ if ($result->num_rows === 0) {
 
 $fine = $result->fetch_assoc();
 
-// Ensure the fine belongs to the OIC's police station and is of type 'court'
+
 $sql = "
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
            f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported, f.reported_description
@@ -99,7 +99,7 @@ $conn->close();
                     <p><?= htmlspecialchars($fine['fine_status']) ?></p>
                 </div>
 
-                <!-- Show reported description if applicable -->
+                
                 <?php if ($fine['is_reported'] == 1): ?>
                     <div class="data-line">
                         <span>Reported Description:</span>

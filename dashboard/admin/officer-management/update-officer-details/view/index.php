@@ -18,7 +18,7 @@ if (!$officerId) {
     die("No officer ID provided.");
 }
 
-// Get officer details
+
 $stmt = $conn->prepare("SELECT * FROM officers WHERE id = ?");
 $stmt->bind_param("i", $officerId);
 $stmt->execute();
@@ -26,7 +26,7 @@ $result = $stmt->get_result();
 $officer = $result->fetch_assoc();
 $stmt->close();
 
-// Get list of police stations
+
 $stationsResult = $conn->query("SELECT id, name FROM police_stations");
 $stations = $stationsResult->fetch_all(MYSQLI_ASSOC);
 

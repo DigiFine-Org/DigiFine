@@ -108,7 +108,7 @@
     transition: opacity 0.3s ease;
 }
 
-/* Scrollbar styling */
+
 .popup-new::-webkit-scrollbar {
     width: 10px;
 }
@@ -128,7 +128,7 @@
     background: #0056b3;
 }
 
-/* Smooth transitions */
+
 .popup-new,
 .popup-new-overlay {
     transition: opacity 0.3s ease-in-out;
@@ -152,7 +152,7 @@
 .tileNew {
     height: 90px;
     width: 200px;
-    /* Reduced width since text is outside */
+  
     background-size: cover;
     background-position: center;
     border-radius: 10px;
@@ -168,11 +168,11 @@
 }
 
 .province-name {
-    /* font-weight: bold; */
+
     font-size: 15px;
     color: #333;
     max-width: 200px;
-    /* Ensures names align vertically */
+
 }
 
 .popupNew {

@@ -1,4 +1,4 @@
-/* Search container styling */
+
 .search-container {
     background-color: #f5f5f5;
     border-radius: 8px;
@@ -68,7 +68,7 @@
     background-color: #5a6268;
 }
 
-/* Search results dropdown */
+
 .search-results {
     position: absolute;
     top: 100%;
@@ -109,7 +109,7 @@
     font-weight: 500;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .search-field {
         flex: 1 0 100%;

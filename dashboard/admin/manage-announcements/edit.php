@@ -10,12 +10,12 @@ session_start();
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
-// Ensure the user is logged in and has the role of admin
+
 if ($_SESSION['user']['role'] !== 'admin') {
     die("Unauthorized access!");
 }
 
-// Fetch the announcement to edit
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $id = intval($_GET['id']);
     $stmt = $conn->prepare("SELECT * FROM announcements WHERE id = ?");

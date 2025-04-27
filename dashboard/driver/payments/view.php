@@ -20,7 +20,6 @@ if (!$fine_id || !$driver_id) {
     die("Invalid request");
 }
 
-// fetch fine details
 $sql = "SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, 
     f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, 
     f.is_reported, f.is_solved, f.fine_amount, o.description_english AS offence_description,

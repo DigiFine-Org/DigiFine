@@ -13,19 +13,19 @@ if ($_SESSION['user']['role'] !== 'admin') {
     die("unauthorized user!");
 }
 
-// Fetch update requests for officers and drivers
+
 $officer_requests = [];
 $driver_requests = [];
 
 try {
-    // Officer update requests
+
     $sql_officers = "SELECT * FROM update_officer_profile_requests";
     $result_officers = $conn->query($sql_officers);
     if ($result_officers) {
         $officer_requests = $result_officers->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Driver update requests
+
     $sql_drivers = "SELECT * FROM update_driver_profile_requests";
     $result_drivers = $conn->query($sql_drivers);
     if ($result_drivers) {
@@ -44,7 +44,7 @@ try {
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container x-large no-border">
-                <!-- Driver Update Requests -->
+                
                 <h2>Driver Profile Update Requests</h2>
                 <div class="table-container">
                     <table>

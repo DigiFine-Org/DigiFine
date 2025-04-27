@@ -1,9 +1,9 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    session_start(); // Ensure session is started
-    require_once "../../../db/connect.php"; // Make sure to include database connection
+    session_start(); 
+    require_once "../../../db/connect.php"; 
     
-    // Get the search ID and type from the query parameters
+    
     $searchId = isset($_GET['query']) ? htmlspecialchars($_GET['query']) : '';
     $searchType = isset($_GET['search_type']) ? htmlspecialchars($_GET['search_type']) : 'license';
 
@@ -13,14 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit();
     }
 
-    // Determine which field to search based on search type
+    
     if ($searchType === 'license') {
         $searchField = "license_id";
     } else {
         $searchField = "nic";
     }
 
-    // Fetch driver details from dmt_drivers
+    
     $sql = "SELECT
                 fname,
                 lname,
@@ -62,17 +62,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $result = $stmt->get_result();
 
-    // Check if the driver exists
+    
     if ($result->num_rows === 0) {
         $_SESSION['message'] = "Driver not found!";
         header("Location: /digifine/dashboard/officer/verify-driver-details/index.php");
-        exit(); // Stop further execution
+        exit(); 
     }
 
     $driver = $result->fetch_assoc();
     
-    // Check if the driver's license is suspended in the drivers table
-    // Use either license_id or nic to lookup in drivers table
+    
     if ($searchType === 'license') {
         $licenseSql = "SELECT license_suspended FROM drivers WHERE id = ?";
     } else {
@@ -92,14 +91,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
     
     $licenseResult = $licenseStmt->get_result();
-    $isSuspended = 0; // Default value if record not found
+    $isSuspended = 0; 
     
     if ($licenseResult->num_rows > 0) {
         $licenseData = $licenseResult->fetch_assoc();
         $isSuspended = $licenseData['license_suspended'];
     }
 
-    // Map vehicle categories
+    
     $vehicleCategories = [
         'A1' => ['issue_date' => $driver['A1_issue_date'], 'expiry_date' => $driver['A1_expiry_date']],
         'A' => ['issue_date' => $driver['A_issue_date'], 'expiry_date' => $driver['A_expiry_date']],
@@ -116,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'J' => ['issue_date' => $driver['J_issue_date'], 'expiry_date' => $driver['J_expiry_date']],
     ];
 
-    // Redirect with driver details and suspension status
+    
     header("Location: verify-driver-details.php?query=$searchId&search_type=$searchType&driver=" . urlencode(json_encode($driver)) . "&categories=" . urlencode(json_encode($vehicleCategories)) . "&suspended=" . $isSuspended);
     exit();
 } else {

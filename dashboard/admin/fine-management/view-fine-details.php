@@ -125,30 +125,7 @@ $conn->close();
                         </div>
                     <?php endif; ?>
 
-                    <!-- OIC Comment Form -->
-                    <!-- <form action="oic-action-process.php" method="post" id="oicActionForm" style="margin-top: 20px;">
-                        <div class="field">
-                            <label for="oic_action">OIC Action (Comment):</label>
-                            <textarea type="text" class="input" name="oic_action" id="oic_action"
-                                placeholder="Provide your comment here..." required></textarea>
-                        </div> -->
-
-                    <!-- <div class="wrapper" style="margin-top: 10px;"> -->
-                    <!-- Button to Discard Fine -->
-                    <!-- <button type="submit" name="action_type" value="discard" class="deletebtn"
-                                style="margin-right: 10px;">
-                                Discard Fine (Unfair)
-                            </button> -->
-
-                    <!-- Button to Mark Fine as Fair -->
-                    <!-- <button type="submit" name="action_type" value="fair" class="btn" style="margin-right: 10px;">
-                                Submit (Fair)
-                            </button>
-                        </div> -->
-
-                    <!-- Hidden input for the Fine ID -->
-                    <!-- <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['id']) ?>">
-                    </form> -->
+                    
                 <?php endif; ?>
             </div>
         </div>

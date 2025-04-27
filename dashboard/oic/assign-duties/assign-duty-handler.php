@@ -6,7 +6,7 @@ if ($_SESSION['user']['role'] !== 'oic' && $_SESSION['user']['is_oic'] != 1) {
     die("Unauthorized access!");
 }
 
-// Retrieve form inputs
+
 $policeId = trim($_POST['policeId'] ?? "");
 $duty = trim($_POST['duty'] ?? "");
 $dutyDate = trim($_POST['dutyDate'] ?? "");
@@ -14,7 +14,7 @@ $dutyTimeStart = trim($_POST['duty_time_start'] ?? "");
 $dutyTimeEnd = trim($_POST['duty_time_end'] ?? "");
 $notes = trim($_POST['notes'] ?? "");
 
-// Validate inputs
+
 $errors = [];
 if (empty($policeId) || !is_numeric($policeId)) {
     $errors[] = "Valid Police ID is required.";
@@ -43,7 +43,7 @@ if (!empty($errors)) {
 }
 
 try {
-    // Fetch OIC's station
+
     $oicStationQuery = "SELECT police_station FROM officers WHERE id = ? AND is_oic = 1";
     $oicStationStmt = $conn->prepare($oicStationQuery);
 
@@ -64,7 +64,7 @@ try {
 
     $stationId = $oicStation['police_station'];
 
-    // Verify Police ID and that the officer belongs to the same station
+
     $officerQuery = "SELECT id, police_station, CONCAT(fname, ' ', lname) as officer_name FROM officers WHERE id = ? AND is_oic = 0";
     $officerStmt = $conn->prepare($officerQuery);
 
@@ -89,15 +89,15 @@ try {
         exit;
     }
 
-    // Check for overlapping duties
+
     $overlapQuery = "SELECT id, duty FROM assigned_duties 
                     WHERE police_id = ? 
                     AND duty_date = ? 
                     AND submitted = 0
                     AND (
-                        (duty_time_start <= ? AND duty_time_end > ?) OR  -- New duty starts during existing duty
-                        (duty_time_start < ? AND duty_time_end >= ?) OR  -- New duty ends during existing duty
-                        (duty_time_start >= ? AND duty_time_end <= ?)    -- Existing duty is within new duty
+                        (duty_time_start <= ? AND duty_time_end > ?) OR  
+                        (duty_time_start < ? AND duty_time_end >= ?) OR  
+                        (duty_time_start >= ? AND duty_time_end <= ?)    
                     )";
 
     $overlapStmt = $conn->prepare($overlapQuery);
@@ -117,12 +117,12 @@ try {
         exit;
     }
 
-    // First check if the assigned_duties table exists
+  
     $checkTableQuery = "SHOW TABLES LIKE 'assigned_duties'";
     $tableResult = $conn->query($checkTableQuery);
 
     if ($tableResult->num_rows == 0) {
-        // Table doesn't exist, create it
+
         $createTableQuery = "CREATE TABLE assigned_duties (
             id INT(11) AUTO_INCREMENT PRIMARY KEY,
             police_id INT(11) NOT NULL,
@@ -141,7 +141,7 @@ try {
         }
     }
 
-    // Insert the duty assignment into the database
+
     $query = "INSERT INTO assigned_duties (police_id, duty, duty_date, duty_time_start, duty_time_end, notes, assigned_by) 
               VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
@@ -154,14 +154,14 @@ try {
     $stmt->bind_param("isssssi", $policeId, $duty, $dutyDate, $dutyTimeStart, $dutyTimeEnd, $notes, $assignedBy);
 
     if ($stmt->execute()) {
-        // Notify the officer about the new duty assignment
+
         include "send-duty-notification-officer.php";
         $_SESSION['success'] = "Duty assigned successfully to Officer: {$officer['officer_name']} (ID: {$policeId}).";
     } else {
         $_SESSION['error'] = "Failed to assign duty: " . $stmt->error;
     }
 
-    // Close statements
+
     if (isset($oicStationStmt))
         $oicStationStmt->close();
     if (isset($officerStmt))

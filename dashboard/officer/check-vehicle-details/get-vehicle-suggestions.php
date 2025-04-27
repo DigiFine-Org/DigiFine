@@ -2,12 +2,12 @@
 session_start();
 require_once "../../../db/connect.php";
 
-// Check user authentication and role
+
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'officer') {
     die(json_encode(['error' => 'Unauthorized']));
 }
 
-// Get the search term
+
 $search = isset($_GET['term']) ? $_GET['term'] : '';
 
 if (empty($search)) {
@@ -15,11 +15,11 @@ if (empty($search)) {
     exit;
 }
 
-// Sanitize and prepare search term for fuzzy matching
-$search = preg_replace('/[^a-zA-Z0-9]/', '', $search); // Remove special chars
-$search = '%' . $search . '%'; // Add wildcards for LIKE query
 
-// Query database for matching license plates
+$search = preg_replace('/[^a-zA-Z0-9]/', '', $search); 
+$search = '%' . $search . '%';
+
+
 $sql = "SELECT license_plate_number, vehicle_type, vehicle_owner_fname, vehicle_owner_lname 
         FROM dmt_vehicles 
         WHERE REPLACE(REPLACE(license_plate_number, '|', ''), '-', '') LIKE ?

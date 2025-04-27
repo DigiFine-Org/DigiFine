@@ -18,7 +18,7 @@ if (!$oic_id) {
     die("Unauthorized access.");
 }
 
-// Get OIC's police station ID
+
 $sql = "SELECT police_station FROM officers WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $oic_id);
@@ -30,7 +30,7 @@ if (!$station)
 $police_station_id = $station['police_station'];
 $stmt->close();
 
-// Fetch all seized vehicles
+
 $sql = "SELECT s.license_plate_number, o.id AS officer_id, s.officer_name, 
                s.seizure_date_time, s.seized_location, s.is_released
         FROM seized_vehicle s
@@ -118,7 +118,7 @@ $conn->close();
 </div>
 </main>
 
-<!-- Release Modal -->
+
 <div class="modal" id="releaseModal" style="display:none;">
   <div class="modal-content">
     <span class="close-button" id="closeModal">&times;</span>
@@ -171,7 +171,7 @@ $conn->close();
   </div>
 </div>
 
-<!-- View Modal -->
+
 <div class="modal" id="viewModal" style="display:none;">
   <div class="modal-content">
     <span class="close-button" id="closeViewModal">&times;</span>
@@ -208,7 +208,7 @@ $conn->close();
     if (e.target === viewModal) viewModal.style.display = "none";
   };
 
-  // View Modal Logic
+
   const viewModal = document.getElementById("viewModal");
   const closeView = document.getElementById("closeViewModal");
 

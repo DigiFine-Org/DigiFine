@@ -25,10 +25,6 @@ class AdminAuth
         return password_verify($password, AdminAuth::$credentials[$user_id]);
     }
 
-    // public static function print()
-    // {
-    //     var_dumpml(AdminAuth::$credentials);
-    // }
 
 }
 

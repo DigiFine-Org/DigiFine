@@ -21,7 +21,7 @@ if (!$oicId) {
     die("Unauthorized access.");
 }
 
-// fetch officer's nameS
+
 $sql = "SELECT o.fname, o.lname,police_station,  ps.name AS police_station_name 
     FROM officers o 
     INNER JOIN police_stations ps ON o.police_station = ps.id 
@@ -40,7 +40,7 @@ if ($result->num_rows === 0) {
 
 $oic = $result->fetch_assoc();
 
-// Fetch duty locations
+
 $location_sql = "
     SELECT id, police_station_id, location_name, created_at, updated_at FROM duty_locations";
 
@@ -57,7 +57,8 @@ $location_stmt->close();
 $stmt->close();
 
 
-// Fetch duty locations
+
+
 $location_sql = "
     SELECT id, police_station_id, location_name, created_at, updated_at FROM duty_locations WHERE police_station_id = ?";
 
@@ -92,14 +93,18 @@ $row = $result->fetch_assoc();
 $reportFineCount = $row ? $row['report_fine_count'] : 0;
 $stmt_report->close();
 
-// Fetch officer count (excluding OIC)
+
+
+
+
+
 $sql = "SELECT COUNT(*) AS officer_count FROM officers WHERE police_station = ? AND is_oic = 0";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $police_station_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
-$officerCount = $row ? $row['officer_count'] : 0; // Assign count to a variable
+$officerCount = $row ? $row['officer_count'] : 0; 
 $stmt->close();
 
 
@@ -138,7 +143,8 @@ $stmt->close();
 
 
 
-//GET POLICE OFFICERS TODAY DUTIES
+
+
 
 $today = date('Y-m-d');
 
@@ -191,7 +197,7 @@ $conn->close();
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="icon" style="background-color: #FFEFB4;">
-                        <!-- <img src="driver-icon.svg" alt="Driver Icon"> -->
+                        
                         <i class="fas fa-user-shield" style="font-size: 24px; color: #000;"></i>
                     </div>
                     <div class="info">
@@ -203,7 +209,7 @@ $conn->close();
 
                 <div class="stat-card">
                     <div class="icon" style="background-color: #CDE4FF;">
-                        <!-- <img src="officer-icon.svg" alt="Officer Icon"> -->
+                        
                         <i class="fas fa-gavel" style="font-size: 1.7rem; color: #000;"></i>
                     </div>
                     <div class="info">
@@ -215,7 +221,7 @@ $conn->close();
                 </div>
                 <div class="stat-card">
                     <div class="icon" style="background-color: #F8C8D8;">
-                        <!-- <img src="report-icon.svg" alt="Report Icon"> -->
+                        
                         <i class="fas fa-file-alt" style="font-size: 1.7rem; color: #000;"></i>
                     </div>
                     <div class="info">
@@ -225,7 +231,7 @@ $conn->close();
                 </div>
                 <div class="stat-card">
                     <div class="icon" style="background-color: #D5F2EA;">
-                        <!-- <img src="fines-icon.svg" alt="Fines Icon"> -->
+                        
                         <i class="fas fa-car-crash" style="font-size: 1.7rem; color: #000;"></i>
                     </div>
                     <div class="info">
@@ -303,7 +309,8 @@ $conn->close();
                 </div>
                 <button class="btn" id="show-form">Add Duty Location</button>
             </div>
-            <!-- Popup for Adding Duty Location -->
+
+            
             <div class="popup-new-overlay" id="popupNewOverlay" onclick="closeAddLocationPopup()"></div>
             <div class="popup-new" id="addLocationPopupNew">
                 <h3>Add Duty Location</h3>

@@ -107,8 +107,8 @@ include_once "../../../includes/header.php";
         fetch(`./fetch-policeStations.php?province=${provinceId}`)
             .then(response => response.json())
             .then(data => {
-                policeStations = data; // Save data for filtering
-                popupContent.innerHTML = ""; // Clear loading text
+                policeStations = data; 
+                popupContent.innerHTML = ""; 
                 if (data.error) {
                     popupContent.innerHTML = `<li>${data.error}</li>`;
                 } else if (data.length === 0) {
@@ -128,7 +128,7 @@ include_once "../../../includes/header.php";
 
     function renderStations(stations) {
         const popupContent = document.getElementById('popupContent');
-        popupContent.innerHTML = ""; // Clear content
+        popupContent.innerHTML = ""; 
         stations.forEach(station => {
             const listItem = document.createElement('li');
             listItem.innerHTML = `<strong>${station.name}</strong><br>Tel: ${station.telephone}`;

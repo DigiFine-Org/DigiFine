@@ -37,7 +37,6 @@ $oic_id = $_SESSION['user']['id'];
             </div>
 
             <div id="notifications-container">
-                <!-- Notifications will be loaded here via JavaScript -->
                 <div class="loading">Loading notifications...</div>
             </div>
         </div>

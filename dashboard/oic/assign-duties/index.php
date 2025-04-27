@@ -18,7 +18,7 @@ if (isset($_GET)) {
     $result = $_GET['query'] ?? "";
 }
 
-// Fetch OIC's station
+
 $oicId = $_SESSION['user']['id'];
 $stationQuery = "SELECT police_station FROM officers WHERE id = ? AND is_oic = 1";
 $stationStmt = $conn->prepare($stationQuery);
@@ -28,7 +28,7 @@ $stationResult = $stationStmt->get_result();
 $stationData = $stationResult->fetch_assoc();
 $stationId = $stationData['police_station'];
 
-// Fetch all officers under this station who are not OICs
+
 $officersQuery = "SELECT id, fname, lname FROM officers WHERE police_station = ? AND is_oic = 0 ORDER BY lname, fname";
 $officersStmt = $conn->prepare($officersQuery);
 $officersStmt->bind_param("i", $stationId);
@@ -49,7 +49,7 @@ $officersResult = $officersStmt->get_result();
                 </button>
                 <h1>Assign Duty</h1>
                 
-                <!-- Search Officer Section -->
+                
                 <div class="search-officer-container">
                     <div class="search-input-container">
                         <input type="text" id="officerSearch" class="search-input" placeholder="Search officer by name or ID...">
@@ -154,10 +154,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.getElementById('submitBtn');
     const assignDutyForm = document.getElementById('assignDutyForm');
     
-    // Initialize visibility
+   
     hideDutiesTable();
     
-    // Debounce function to limit API calls
+
     function debounce(func, wait) {
         let timeout;
         return function(...args) {
@@ -165,8 +165,8 @@ document.addEventListener('DOMContentLoaded', function() {
             timeout = setTimeout(() => func.apply(this, args), wait);
         };
     }
-    
-    // Search officers
+
+
     officerSearch.addEventListener('input', debounce(function(e) {
         const query = e.target.value.trim();
         
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         policeIdSelect.value = officer.id;
                         searchResults.style.display = 'none';
                         
-                        // Get existing duties without date/time constraints
+                        
                         fetchExistingDuties(officer.id);
                     });
                     searchResults.appendChild(item);
@@ -207,14 +207,14 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }, 300));
     
-    // Hide search results when clicking outside
+
     document.addEventListener('click', function(e) {
         if (e.target !== officerSearch) {
             searchResults.style.display = 'none';
         }
     });
     
-    // Check existing duties when officer is selected from dropdown
+
     policeIdSelect.addEventListener('change', function() {
         if (this.value) {
             fetchExistingDuties(this.value);
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Fetch all existing duties for an officer (without date/time constraints)
+ 
     function fetchExistingDuties(officerId) {
         if (!officerId) return;
         
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
-    // Check for duty conflicts on a specific date and time
+
     function checkDutyConflicts() {
         const officerId = policeIdSelect.value;
         if (!officerId || !dutyDateInput.value || !dutyTimeStartInput.value || !dutyTimeEndInput.value) {
@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`check-existing-duties.php?officer_id=${officerId}&date=${date}&start_time=${startTime}&end_time=${endTime}`)
             .then(response => response.json())
             .then(data => {
-                // Show conflict warning if conflicts found
+
                 if (data.length > 0 && dutyTimeStartInput.value && dutyTimeEndInput.value) {
                     conflictWarning.style.display = 'block';
                     submitBtn.disabled = true;
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
-    // Display duties in the table
+
     function displayDuties(duties) {
         existingDutiesBody.innerHTML = '';
         
@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', function() {
         conflictWarning.style.display = 'none';
     }
     
-    // Check for duty overlaps when date or time changes
+
     [dutyDateInput, dutyTimeStartInput, dutyTimeEndInput].forEach(input => {
         input.addEventListener('change', function() {
             if (policeIdSelect.value) {
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Validate start and end times
+
     dutyTimeEndInput.addEventListener('change', function() {
         if (dutyTimeStartInput.value && dutyTimeEndInput.value) {
             if (dutyTimeEndInput.value <= dutyTimeStartInput.value) {
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Add form submission validation
+
     assignDutyForm.addEventListener('submit', function(e) {
         const officerId = policeIdSelect.value;
         const date = dutyDateInput.value;
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const endTime = dutyTimeEndInput.value;
         
         if (officerId && date && startTime && endTime) {
-            // Final check for conflicts before submission
+
             fetch(`check-existing-duties.php?officer_id=${officerId}&date=${date}&start_time=${startTime}&end_time=${endTime}`)
                 .then(response => response.json())
                 .then(data => {
@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <?php
-// Close statements and connection
+
 if (isset($stationStmt))
     $stationStmt->close();
 if (isset($officersStmt))

@@ -1,4 +1,4 @@
-/* Button */
+
 
 .btn {
   padding: 0 12px;
@@ -70,7 +70,7 @@
 
 .wrapper {
   display: flex;
-  /* margin-left: 10px; */
+
 }
 
 .deletebtn {
@@ -89,7 +89,6 @@
   justify-content: center;
 }
 
-/* Input */
 .input {
   padding: 0 9px;
   height: 30px;
@@ -107,7 +106,7 @@ textarea.input {
   min-height: 80px;
 }
 
-/* Input Field */
+
 .field {
   display: flex;
   flex-direction: column;
@@ -120,20 +119,20 @@ textarea.input {
   margin-bottom: 2px;
 }
 
-/* Paragraph */
+
 .p {
   font-size: 13px;
   line-height: 1.4;
 }
 
-/* Headings */
+
 .h1 {
   font-size: 2rem;
   font-weight: 800;
   line-height: 32px;
 }
 
-/* Link */
+
 .link {
   color: var(--color-blue);
   font-weight: 500;
@@ -149,7 +148,7 @@ textarea.input {
   left: 0;
   width: 100%;
   z-index: 1000;
-  display: none; /* Hidden by default */
+  display: none; 
 }
 
 .alert {
@@ -160,15 +159,15 @@ textarea.input {
 }
 
 .alert-success {
-  background-color: #4caf50; /* Green for success */
+  background-color: #4caf50; 
 }
 
 .alert-error {
-  background-color: #f44336; /* Red for error */
+  background-color: #f44336;
 }
 
 .alert-warning {
-  background-color: #ff9800; /* Orange for warning */
+  background-color: #ff9800; 
 }
 
 .back-btn {

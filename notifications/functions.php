@@ -9,7 +9,7 @@ function notify_user(string $user_type, string $user_id, string $title, string $
 
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
-        // For debugging
+
         error_log("SQL Prepare Error: " . $conn->error);
         return false;
     }
@@ -43,7 +43,7 @@ function notify_admin(string $id, string $title, string $message, string $source
     return notify_user("admin", '1234', $title, $message, $source, $expires_at);
 }
 
-// Create a new announcement
+
 
 function create_announcement($title, $message, $target_role, $published_by, $expires_at = null)
 {

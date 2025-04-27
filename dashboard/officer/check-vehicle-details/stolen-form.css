@@ -1,11 +1,11 @@
 
 
 .seizure-form {
-    width: 100%; /* Changed from fixed width to fluid */
-    max-width: 400px; /* Maximum width for larger screens */
+    width: 100%;
+    max-width: 400px; 
     padding: 2rem;
     border-radius: 8px;
-    margin: 0 auto; /* Center the form */
+    margin: 0 auto; 
 }
 
 .form-group {
@@ -64,7 +64,7 @@
     cursor: not-allowed;
 }
 
-/* Form Actions */
+
 .form-actions {
     display: flex;
     justify-content: flex-end;

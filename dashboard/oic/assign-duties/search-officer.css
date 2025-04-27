@@ -1,4 +1,4 @@
-/* Search officer section */
+
 .search-officer-container {
     margin-bottom: 20px;
     position: relative;
@@ -40,7 +40,7 @@
     background-color: #f5f5f5;
 }
 
-/* Existing duties table */
+
 .existing-duties {
     width: 100%;
     border-collapse: collapse;

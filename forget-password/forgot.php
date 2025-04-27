@@ -5,14 +5,7 @@ $pageConfig = [
 	'authRequired' => false
 ];
 
-// if ($_SESSION['message'] ?? null) {
 
-//     $message = $_SESSION['message']; // Store the message
-//     unset($_SESSION['message']); // Clear the session message
-
-//     // Include the alert.php file to display the message
-//     include '../includes/alerts/failed.php';
-// }
 
 session_start();
 $error = array();
@@ -29,14 +22,14 @@ if (isset($_GET['mode'])) {
 	$mode = $_GET['mode'];
 }
 
-//something is posted
+
 if (count($_POST) > 0) {
 
 	switch ($mode) {
 		case 'enter_email':
-			// code...
+
 			$email = $_POST['email'];
-			//validate email
+
 			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 				$error[] = "Please enter a valid email";
 			} elseif (!valid_email($email)) {
@@ -51,7 +44,7 @@ if (count($_POST) > 0) {
 			break;
 
 		case 'enter_code':
-			// code...
+
 			$code = $_POST['code'];
 			$result = is_code_correct($code);
 
@@ -66,7 +59,7 @@ if (count($_POST) > 0) {
 			break;
 
 		case 'enter_password':
-			// code...
+
 			$password = $_POST['password'];
 			$password2 = $_POST['password2'];
 
@@ -88,7 +81,7 @@ if (count($_POST) > 0) {
 			break;
 
 		default:
-			// code...
+
 			break;
 	}
 }
@@ -97,8 +90,8 @@ function send_email($email)
 {
 	global $conn;
 
-	$expire = time() + (60 * 5); // Expiration time: 5 minute
-	$code = rand(10000, 99999); // Generate random code
+	$expire = time() + (60 * 5); 
+	$code = rand(10000, 99999); 
 	$email = addslashes($email);
 
 	$query = "INSERT INTO codes (email, code, expire) VALUES ('$email', '$code', '$expire')";
@@ -190,13 +183,13 @@ function send_email($email)
     </html>
     ";
 
-	// Send the email
+
 	send_mail($email, $subject, $message);
 }
 
 
 
-// Save the new password in the appropriate table
+
 function save_password($password)
 {
 
@@ -205,10 +198,9 @@ function save_password($password)
 	$password = password_hash($password, PASSWORD_DEFAULT);
 	$email = addslashes($_SESSION['forgot']['email']);
 
-	// $query = "update users set password = '$password' where email = '$email' limit 1";
-	// mysqli_query($conn, $query);
 
-	// Determine if the email is in drivers or officers
+
+
 	$userType = get_user_type($email);
 
 	if ($userType === 'driver') {
@@ -230,9 +222,9 @@ function valid_email($email)
 
 	$email = addslashes($email);
 
-	// $query = "select * from users where email = '$email' limit 1";
+	
 
-	// Check in drivers table
+
 	$query = "SELECT * FROM drivers WHERE email = '$email' LIMIT 1";
 	$result = mysqli_query($conn, $query);
 	if ($result && mysqli_num_rows($result) > 0) {
@@ -240,7 +232,7 @@ function valid_email($email)
 		return true;
 	}
 
-	// Check in officers table
+
 	$query = "SELECT * FROM officers WHERE email = '$email' LIMIT 1";
 	$result = mysqli_query($conn, $query);
 	if ($result && mysqli_num_rows($result) > 0) {
@@ -248,27 +240,27 @@ function valid_email($email)
 		return true;
 	}
 
-	// If no matching email was found in either table
+
 	$error[] = "Email does not exist";
 	return false;
 }
 
 
-// Determine user type based on email
+
 function get_user_type($email)
 {
 	global $conn;
 
 	$email = addslashes($email);
 
-	// Check in drivers table
+
 	$query = "SELECT * FROM drivers WHERE email = '$email' LIMIT 1";
 	$result = mysqli_query($conn, $query);
 	if ($result && mysqli_num_rows($result) > 0) {
 		return 'driver';
 	}
 
-	// Check in officers table
+
 	$query = "SELECT * FROM officers WHERE email = '$email' LIMIT 1";
 	$result = mysqli_query($conn, $query);
 	if ($result && mysqli_num_rows($result) > 0) {
@@ -314,7 +306,7 @@ include_once "../includes/header.php" ?>
 	<?php
 	switch ($mode) {
 		case 'enter_email':
-			// code...
+
 			?>
 
 			<div class="login-container">
@@ -332,7 +324,7 @@ include_once "../includes/header.php" ?>
 						<span style="font-size: 12px;color:red;">
 							<?php
 							foreach ($error as $err) {
-								// code...
+
 								echo $err . "<br>";
 							}
 							?>
@@ -340,19 +332,19 @@ include_once "../includes/header.php" ?>
 						<input type="email" id="" name="email" required class="input" placeholder="Enter your email">
 						<br style="clear: both;">
 					</div>
-					<!-- <button type="submit" class="btn">Reset Password</button> -->
+
 					<input type="submit" value="Reset Password" class="btn">
 					<div class="link-wrap">
 						<p class="p"><a href="/digifine/login/index.php" class="link">Back to login</a></p>
 					</div>
-					<!-- updated the path -->
+
 				</form>
 			</div>
 			<?php
 			break;
 
 		case 'enter_code':
-			// code...
+
 			?>
 
 			<div class="login-container">
@@ -371,7 +363,7 @@ include_once "../includes/header.php" ?>
 						<span style="font-size: 12px;color:red;">
 							<?php
 							foreach ($error as $err) {
-								// code...
+
 								echo $err . "<br>";
 							}
 							?>
@@ -379,19 +371,19 @@ include_once "../includes/header.php" ?>
 						<input type="text" id="" name="code" required class="input" placeholder="12345">
 						<br style="clear: both;">
 					</div>
-					<!-- <button type="submit" class="btn">Submit</button> -->
+
 					<input type="submit" class="btn" value="Submit">
 					<div class="link-wrap">
 						<p class="p"><a href="/digifine/login/index.php" class="link">Back to login</a></p>
 					</div>
-					<!-- updated the path -->
+
 				</form>
 			</div>
 			<?php
 			break;
 
 		case 'enter_password':
-			// code...
+
 			?>
 
 			<div class="login-container">
@@ -409,7 +401,7 @@ include_once "../includes/header.php" ?>
 						<span style="font-size: 12px;color:red;">
 							<?php
 							foreach ($error as $err) {
-								// code...
+
 								echo $err . "<br>";
 							}
 							?>
@@ -423,19 +415,19 @@ include_once "../includes/header.php" ?>
 							title="Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.">
 						<br style="clear: both;">
 					</div>
-					<!-- <button type="submit" class="btn">Submit</button> -->
+
 					<input type="submit" class="btn" value="Submit">
 					<div class="link-wrap">
 						<p class="p"><a href="../../digifine/login/index.php" class="link">Back to login</a></p>
 					</div>
-					<!-- updated the path -->
+
 				</form>
 			</div>
 			<?php
 			break;
 
 		default:
-			// code...
+
 			break;
 	}
 

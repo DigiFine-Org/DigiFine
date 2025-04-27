@@ -10,7 +10,7 @@ session_start();
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
 
-// Check if user is admin
+
 if ($_SESSION['user']['role'] !== 'admin') {
     die("Unauthorized access!");
 }
@@ -37,25 +37,10 @@ $admin_id = $_SESSION['user']['id'];
                 </div>
             </div>
 
-            <!-- Add Notification Button -->
-            <!-- <div class="action-buttons" style="margin-bottom: 20px;">
-                <button id="createNotificationBtn" class="primary-button">
-                    Create New Notification
-                </button>
-            </div> -->
-
-            <!-- Notification Filters -->
-            <!-- <div class="notification-filters" style="margin-bottom: 20px;">
-                <select id="notificationTypeFilter">
-                    <option value="all">All Types</option>
-                    <option value="driver">Driver Notifications</option>
-                    <option value="police">Police Notifications</option>
-                    <option value="system">System Notifications</option>
-                </select>
-            </div> -->
+            
 
             <div id="notifications-container">
-                <!-- Notifications will be loaded here via JavaScript -->
+
                 <div class="loading">Loading notifications...</div>
             </div>
         </div>

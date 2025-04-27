@@ -26,14 +26,13 @@ $stmt->close();
 
 if ($_SESSION['message'] ?? null) {
     if ($_SESSION['message'] === 'OIC assigned successfully!') {
-        $message = $_SESSION['message']; // Store the message
-        unset($_SESSION['message']); // Clear the session message
+        $message = $_SESSION['message']; 
+        unset($_SESSION['message']); 
         include '../../../../includes/alerts/success.php';
     } else {
-        $message = $_SESSION['message']; // Store the message
-        unset($_SESSION['message']); // Clear the session message
+        $message = $_SESSION['message']; 
+        unset($_SESSION['message']); 
 
-        // Include the alert.php file to display the message
         include '../../../../includes/alerts/failed.php';
     }
 }

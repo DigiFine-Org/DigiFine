@@ -10,14 +10,12 @@ require_once "../../../../db/connect.php";
 include_once "../../../../includes/header.php";
 
 
-// Ensure the user is a driver
 if ($_SESSION['user']['role'] !== 'driver') {
     die("Unathorized user!");
 }
 
 $driver_id = $_SESSION['user']['id'] ?? null;
 
-// Retrieve and sanitize the order ID
 $fine_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
 
 
@@ -32,8 +30,7 @@ if (!$stmt) {
 }
 
 $stmt->bind_param("ii", $fine_id, $driver_id);
-// var_dump($stmt);
-// exit();
+
 if (!$stmt->execute()) {
 
     die("Error executing query: " . $stmt->error);
@@ -45,12 +42,10 @@ if ($result->num_rows === 0) {
 
 $fine = $result->fetch_assoc();
 
-// CHeck fine is already paid
 if ($fine['fine_status'] === 'paid') {
     $message = "Your payment has already been recorded.";
 } else {
 
-    // Update fine statud in db
     $now = date("Y-m-d H:i:s");
     $updateSql = "UPDATE fines SET fine_status = 'paid', paid_at = ? WHERE id = ?";
     $updateStmt = $conn->prepare($updateSql);
@@ -67,11 +62,9 @@ if ($fine['fine_status'] === 'paid') {
 }
 
 $stmt->close();
-// $updateStmt->close();
 $conn->close();
 
 
-// Jan 29,30 Update 16:22
 
 ?>
 <main>

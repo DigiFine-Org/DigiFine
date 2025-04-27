@@ -13,7 +13,6 @@ if ($_SESSION['user']['role'] !== 'admin') {
     die("unauthorized user!");
 }
 
-// Fetch filter options
 $offenceTypes = [];
 $offences = [];
 $fineStatuses = ['Paid', 'Overdue', 'Pending'];
@@ -31,7 +30,6 @@ $offences = $result->fetch_all(MYSQLI_ASSOC);
 
 $stmt->close();
 
-// Handle filters
 $whereClauses = [];
 $params = [];
 $types = '';
@@ -138,7 +136,6 @@ $stmt->close();
 
                 <h2>All Fines Issued</h2>
 
-                <!-- Filter Form -->
                 <div class="feild">
                     <button class="btn margintop marginbottom">Filter Results</button>
                 </div>
@@ -148,7 +145,6 @@ $stmt->close();
         </div>
     </div>
 
-    <!-- Fines Table -->
     <div class="table-container">
         <table>
             <thead>

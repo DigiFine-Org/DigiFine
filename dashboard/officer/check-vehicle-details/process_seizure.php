@@ -1,7 +1,7 @@
 <?php
 require_once "../../../db/connect.php";
 
-// Check if form is submitted via POST
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $license_plate_number = $_POST['license_plate_number'] ?? '';
     $seizure_date_time = $_POST['seizure_date_time'] ?? '';
@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $owner_name = $_POST['owner_name'] ?? '';
 
 
-    // Validate required fields
     if (
         empty($license_plate_number) || empty($seizure_date_time) || empty($seized_location) ||
         empty($officer_id) || empty($officer_name) || empty($police_station) || empty($driver_NIC) || empty($owner_name)
@@ -21,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("All fields are required!");
     }
 
-    // Prepare the SQL query to insert into seized_vehicle table
+
     $sql = "INSERT INTO seized_vehicle 
             (license_plate_number, seizure_date_time, seized_location, officer_id, officer_name, police_station, driver_NIC,owner_name) 
             VALUES (?, ?, ?, ?, ?, ?, ?,?)";
@@ -45,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if ($stmt->execute()) {
-        // Update the stolen vehicle status in dmt_vehicles
+
         $updateSql = "UPDATE dmt_vehicles SET is_stolen = 0 WHERE license_plate_number = ?";
         $updateStmt = $conn->prepare($updateSql);
 
@@ -65,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         echo "Vehicle seized successfully!";
-        // header("Location: ../../s.php");
+
         exit();
     } else {
         echo "Error inserting data: " . $stmt->error;

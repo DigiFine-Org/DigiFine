@@ -1,4 +1,4 @@
-// Form validation script for driver signup
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form');
     const fields = {
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cpassword: document.getElementById('cpassword')
     };
 
-    // Create error message elements for each field
+
     for (const key in fields) {
         const errorElement = document.createElement('span');
         errorElement.className = 'error-message';
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Validation functions
+
     const validation = {
         fname: (value) => {
             if (!value) return 'First name is required';
@@ -50,8 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         nic: (value) => {
             if (!value) return 'NIC is required';
-            // For old format: 9 digits followed by V or X
-            // For new format: 12 digits
+
             const oldNicRegex = /^[0-9]{9}[VvXx]$/;
             const newNicRegex = /^[0-9]{12}$/;
             if (!oldNicRegex.test(value) && !newNicRegex.test(value)) {
@@ -78,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         password: (value) => {
             if (!value) return 'Password is required';
             if (value.length < 6) return 'Password must be at least 6 characters';
-            // Strength check (optional)
+
             if (!/(?=.*\d)(?=.*[a-zA-Z])/.test(value)) {
                 return 'Password should contain both letters and numbers';
             }
@@ -92,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Show error message for a field
+
     function showError(field, message) {
         const errorElement = document.getElementById(`${field}-error`);
         if (errorElement) {
@@ -102,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Clear error message for a field
+
     function clearError(field) {
         const errorElement = document.getElementById(`${field}-error`);
         if (errorElement) {
@@ -112,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Validate a single field
+
     function validateField(field) {
         const value = fields[field].value.trim();
         const error = validation[field](value);
@@ -126,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Add input event listeners to all fields
+
     for (const field in fields) {
         fields[field].addEventListener('input', function() {
             validateField(field);
@@ -137,11 +136,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Form submission validation
+
     form.addEventListener('submit', function(event) {
         let isValid = true;
         
-        // Validate all fields
+
         for (const field in fields) {
             if (!validateField(field)) {
                 isValid = false;
@@ -153,11 +152,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Optional: Handle AJAX validation for checking existing email
+
     fields.email.addEventListener('blur', function() {
         const email = fields.email.value.trim();
         if (email && !validation.email(email)) {
-            // Only check if email format is valid
+
             const xhr = new XMLHttpRequest();
             xhr.open('POST', 'check_email.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -173,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Optional: Handle AJAX validation for checking existing NIC
+
     fields.nic.addEventListener('blur', function() {
         const nic = fields.nic.value.trim();
         if (nic && !validation.nic(nic)) {

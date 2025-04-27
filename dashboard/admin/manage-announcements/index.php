@@ -10,16 +10,16 @@ session_start();
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
-// Ensure the user is logged in and has the role of admin
+
 if ($_SESSION['user']['role'] !== 'admin') {
     die("Unauthorized access!");
 }
 
-// Fetch all announcements
+
 $query = "SELECT * FROM announcements ORDER BY created_at DESC";
 $result = $conn->query($query);
 
-if (isset($_SESSION['message'])) { // Ensure the key exists before accessing it
+if (isset($_SESSION['message'])) { 
     if ($_SESSION['message'] === 'updated') {
         $message = "Announcement Updated successfully!";
         unset($_SESSION['message']);
@@ -41,7 +41,6 @@ if (isset($_SESSION['message'])) { // Ensure the key exists before accessing it
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php"; ?>
         <div class="content">
-            <!-- <div class="container"> -->
             <h1 class="page-title">Manage Announcements</h1>
             <table class="table">
                 <thead>

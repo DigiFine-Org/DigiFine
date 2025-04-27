@@ -2,12 +2,12 @@
 session_start();
 require_once "../../../db/connect.php";
 
-// Check if user is authorized
+
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized access.");
 }
 
-// Get form data
+
 $license_plate_number = $_POST['license_plate_number'] ?? null;
 $owner_name = $_POST['owner_name'] ?? null;
 $national_id = $_POST['national_id'] ?? null;
@@ -18,7 +18,7 @@ if (!$license_plate_number || !$owner_name || !$national_id || !$release_date) {
     die("Missing required data.");
 }
 
-// Optional: Insert release info into a separate release log table (optional, if you have one)
+
 $sql = "INSERT INTO vehicle_release_log (license_plate_number, owner_name, national_id, release_date, notes) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("sssss", $license_plate_number, $owner_name, $national_id, $release_date, $release_notes);

@@ -8,10 +8,9 @@ $pageConfig = [
 session_start();
 if ($_SESSION['message'] ?? null) {
 
-    $message = $_SESSION['message']; // Store the message
-    unset($_SESSION['message']); // Clear the session message
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']); 
 
-    // Include the alert.php file to display the message
     include '../includes/alerts/failed.php';
 }
 
@@ -40,7 +39,6 @@ include_once "../includes/header.php" ?>
                 <p class="p"><a href="/digifine/signup/index.php" class="link">Sign up for Digifine</a></p>
                 <p class="p"><a href="/digifine/forget-password/forgot.php" class="link">Forgotton Password?</a></p>
             </div>
-            <!-- updated the path -->
         </form>
     </div>
 </main>

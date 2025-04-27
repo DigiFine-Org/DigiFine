@@ -3,14 +3,14 @@ require_once "../../../db/connect.php";
 session_start();
 header('Content-Type: application/json');
 
-// Check user role
+
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'oic') {
     http_response_code(403);
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }
 
-// Handle POST request
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $case_id = isset($_POST['case_id']) ? intval($_POST['case_id']) : null;
     $reference_number = $_POST['reference_number'] ?? null;

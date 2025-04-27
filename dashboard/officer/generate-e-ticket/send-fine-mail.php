@@ -3,7 +3,7 @@ require "../../../PHPMailer/mail.php";
 
 function sendFineEmail($recipient, $fineDetails)
 {
-    // Construct the email subject and message
+    
     $subject = "Fine Issued Notification - DigiFine";
     $message = "
     <html>
@@ -83,6 +83,6 @@ function sendFineEmail($recipient, $fineDetails)
     </html>
     ";
 
-    // Send the email using the reusable `send_mail` function
+    
     return send_mail($recipient, $subject, $message);
 }

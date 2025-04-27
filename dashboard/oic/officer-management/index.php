@@ -9,9 +9,7 @@ $pageConfig = [
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
-// if ($_SESSION['user']['role'] !== 'oic') {
-//     die("unauthorized user!");
-// }
+
 
 $oic_id = $_SESSION['user']['id'] ?? null;
 
@@ -20,7 +18,7 @@ if (!$oic_id) {
 }
 
 
-// Retrieve OIC's police station ID
+
 $sql = "SELECT * FROM officers WHERE is_oic = '1' AND id = ? LIMIT 1";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
@@ -38,7 +36,7 @@ if ($result->num_rows === 0) {
 $oic_data = $result->fetch_assoc();
 $police_station_id = $oic_data['police_station'];
 
-// Fetch officers related to the OIC's police station
+
 $officer_sql = "
     SELECT id, fname, lname, email, phone_no, nic 
     FROM officers WHERE police_station = ? AND is_oic = 0;
@@ -81,7 +79,7 @@ $conn->close();
                                 <th>EMAIL</th>
                                 <th>PHONE NO</th>
                                 <th>NIC</th>
-                                <!-- <th>ACTION</th> -->
+
                             </tr>
                         </thead>
                         <tbody>
@@ -92,10 +90,7 @@ $conn->close();
                                     <td><?= htmlspecialchars($officer['email']) ?></td>
                                     <td><?= htmlspecialchars($officer['phone_no']) ?></td>
                                     <td><?= htmlspecialchars($officer['nic']) ?></td>
-                                    <!-- <td>
-                                        <a href="view-officer-details.php?id=<?= htmlspecialchars($officer['id']) ?>"
-                                            class="btn">View</a>
-                                    </td> -->
+
                                 </tr>
                             <?php endforeach ?>
                         </tbody>

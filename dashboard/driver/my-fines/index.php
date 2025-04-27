@@ -10,14 +10,12 @@ session_start();
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
 
-// Authorization check
 if ($_SESSION['user']['role'] !== 'driver') {
     die("Unauthorized user!");
 }
 
 $driver_id = $_SESSION['user']['id'];
 
-// Fetch fines
 $fines = [];
 $stmt = $conn->prepare("
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date,
@@ -91,8 +89,7 @@ $stmt->close();
                                     <?php if ($fine['offence_type'] !== 'court'): ?>
                                         <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
                                             class="btn">View</a>
-                                        <!-- <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"
-                                            class="btn">Pay</a> -->
+                                        
 
                                     <?php else: ?>
                                         <a href="view-fine-details.php?fine_id=<?= htmlspecialchars($fine['id']) ?>"

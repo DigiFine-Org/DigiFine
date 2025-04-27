@@ -1,5 +1,5 @@
 <?php
-// Prevent PHP from outputting warnings/errors directly
+
 ini_set('display_errors', 0);
 error_reporting(E_ERROR);
 
@@ -35,7 +35,7 @@ function get(string $user_id, string $user_type): array
         ];
     }
 
-    // Get announcements relevant to this user
+
     $announcements_sql = "SELECT * FROM announcements 
                            WHERE (target_role = ? OR target_role = 'all')
                            AND (expires_at IS NULL OR expires_at >= NOW())
@@ -54,7 +54,7 @@ function get(string $user_id, string $user_type): array
             "message" => $row['message'],
             "created_at" => $row['created_at'],
             "expires_at" => $row['expires_at'],
-            "is_read" => false, // Announcements are always marked as unread
+            "is_read" => false, 
             "source" => $row['published_by'],
             "type" => "announcement"
         ];
@@ -85,7 +85,7 @@ $method = $_SERVER["REQUEST_METHOD"];
 $function_name = strtolower($method);
 
 
-// Handle regular API requests
+
 header("Content-Type: application/json");
 if (!function_exists($function_name)) {
     http_response_code(405);

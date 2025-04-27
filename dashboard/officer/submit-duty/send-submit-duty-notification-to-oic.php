@@ -1,9 +1,9 @@
 <?php
-// Add error reporting at the top
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Verify that required variables are set
+
 if (!isset($assigned_duty_id)) {
     error_log("assigned_duty_id not set in send-submit-duty-notification-to-oic.php");
     die("Required variable not set");
@@ -11,10 +11,10 @@ if (!isset($assigned_duty_id)) {
 
 if (!isset($is_late_submission)) {
     error_log("is_late_submission not set in send-submit-duty-notification-to-oic.php");
-    $is_late_submission = 0; // Set default value
+    $is_late_submission = 0; 
 }
 
-// Rest of your existing query code...
+
 $officer_query = $conn->prepare("
 SELECT 
     CONCAT(o.fname, ' ', o.lname) AS officer_name,
@@ -49,13 +49,13 @@ if ($result->num_rows === 0) {
 
 $row = $result->fetch_assoc();
 
-// Verify notify_oic function exists
+
 if (!function_exists('notify_oic')) {
     error_log("notify_oic function not found");
     die("Notification function not available");
 }
 
-// Create notification
+
 try {
     $notification_title = $is_late_submission ? "Late Duty Submission" : "Duty Submission";
     $notification_message = $is_late_submission
@@ -70,5 +70,5 @@ try {
     );
 } catch (Exception $e) {
     error_log("Failed to send notification: " . $e->getMessage());
-    // Don't die here, allow the submission to complete
+
 }

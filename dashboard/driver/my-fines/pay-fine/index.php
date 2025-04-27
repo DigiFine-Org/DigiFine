@@ -16,7 +16,7 @@ if ($_SESSION['user']['role'] !== 'driver') {
 
 $driver_id = $_SESSION['user']['id'] ?? null;
 
-// Fine ID Numeric Validation
+
 $fine_id = isset($_GET['fine_id']) ? intval($_GET['fine_id']) : 0;
 
 if ($fine_id <= 0) {
@@ -27,7 +27,7 @@ if (!$driver_id) {
     die("Unauthorized access.");
 }
 
-// Fetch fine details
+
 $sql = "
     SELECT f.id AS fine_id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, 
     f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported,f.is_solved, f.fine_amount, o.description_english  AS offence_description
@@ -114,34 +114,6 @@ $conn->close();
     </div>
 </main>
 
-<!-- PayHere Payment Integration -->
-<!-- <script src="https://www.payhere.lk/lib/payhere.js"></script>
-<script>
-    console.log("asdsad");
-    document.getElementById('payFineButton').addEventListener('click', function () {
-        console.log("asdsad");
-        return;
-        const payment = {
-            "sandbox": true, // Set to false for production
-            "merchant_id": "1228631", // Replace with your PayHere Merchant ID
-            "return_url": "http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-success.php",
-            "cancel_url": "http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-cancel.php",
-            "notify_url": "http://localhost/digifine/dashboard/driver/my-fines/pay-fine/payment-notify.php",
-            "order_id": "FINE-<?= htmlspecialchars($fine['fine_id']) ?>",
-            "items": "Traffic Fine Payment",
-            "amount": "<?= htmlspecialchars($fine['fine_amount']) ?>", // Avoid formatting numbers here
-            "currency": "LKR",
-            "first_name": "<?= htmlspecialchars($_SESSION['user']['fname']) ?>",
-            "last_name": "<?= htmlspecialchars($_SESSION['user']['lname']) ?>",
-            "email": "<?= htmlspecialchars($_SESSION['user']['email']) ?>",
-            "phone": "<?= htmlspecialchars($_SESSION['user']['phone_no']) ?>",
-            "address": "<?= htmlspecialchars($_SESSION['user']['address']) ?>",
-            "city": "<?= htmlspecialchars($_SESSION['user']['city']) ?>"
-        };
 
-        console.log({ payment });
-        payhere.startPayment(payment);
-    });
-</script> -->
 
 <?php include_once "../../../../includes/footer.php"; ?>

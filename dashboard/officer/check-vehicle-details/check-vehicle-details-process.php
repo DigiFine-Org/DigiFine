@@ -11,17 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit();
     }
 
-    // Remove special characters for matching
+
     $clean_query = preg_replace('/[^a-zA-Z0-9]/', '', $query);
 
-    // First try exact match
+
     $sql = "SELECT * FROM dmt_vehicles WHERE license_plate_number = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $query);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // If no exact match, try fuzzy match
+
     if ($result->num_rows === 0) {
         $sql = "SELECT * FROM dmt_vehicles 
                 WHERE REPLACE(REPLACE(license_plate_number, '|', ''), '-', '') = ?";

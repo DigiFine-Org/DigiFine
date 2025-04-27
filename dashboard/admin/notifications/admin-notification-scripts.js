@@ -1,7 +1,7 @@
 const container = document.getElementById("notifications-container");
 
 notification_listeners.add_listener((items) => {
-  container.innerHTML = ""; // Clear container
+  container.innerHTML = ""; 
 
   if (items.length === 0) {
     container.innerHTML = `
@@ -12,7 +12,6 @@ notification_listeners.add_listener((items) => {
     return;
   }
 
-  // Sort items by date (newest first)
   items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   items.forEach((item) => {
@@ -23,17 +22,17 @@ notification_listeners.add_listener((items) => {
       notification.classList.add("read");
     }
 
-    // Determine the appropriate href based on notification source
+
     let href = `/digifine/dashboard/admin/notifications/view.php?id=${item.id}&type=${item.type}`;
 
-    // If this is a fine system notification, modify the URL accordingly
+
     if (item.source === "fine_system") {
       const match = item.message.match(/\[FINE_ID:(\d+)\]/);
       if (match && match[1]) {
         const fineId = match[1];
         href = `/digifine/dashboard/admin/fines/view-fine.php?fine_id=${fineId}`;
 
-        // Remove the [FINE_ID:123] from the displayed message
+        
         item.message = item.message.replace(/\[FINE_ID:\d+\]/, "").trim();
       }
     }
@@ -58,5 +57,5 @@ notification_listeners.add_listener((items) => {
     container.appendChild(notification);
   });
 
-  // Add clear notifications button if there are personal notifications
+ 
 });

@@ -43,9 +43,7 @@ if (!$driverId) {
                     new driver or looking to improve your skills.</p>
             </div>
 
-            <!-- First row of tips - 4 cards -->
             <div class="tips-row">
-                <!-- Tip 1 -->
                 <div class="card">
                     <div class="card-badge">1</div>
                     <div class="card-content">
@@ -57,7 +55,6 @@ if (!$driverId) {
                     </div>
                 </div>
 
-                <!-- Tip 2 -->
                 <div class="card">
                     <div class="card-badge">2</div>
                     <div class="card-content">
@@ -70,7 +67,6 @@ if (!$driverId) {
                     </div>
                 </div>
 
-                <!-- Tip 3 -->
                 <div class="card">
                     <div class="card-badge">3</div>
                     <div class="card-content">
@@ -82,7 +78,6 @@ if (!$driverId) {
                     </div>
                 </div>
 
-                <!-- Tip 4 -->
                 <div class="card">
                     <div class="card-badge">4</div>
                     <div class="card-content">
@@ -101,9 +96,7 @@ if (!$driverId) {
                     confidence.</p>
             </div>
 
-            <!-- Second row of tips - 4 cards -->
             <div class="tips-row">
-                <!-- Tip 5 -->
                 <div class="card">
                     <div class="card-badge">5</div>
                     <div class="card-content">
@@ -115,7 +108,6 @@ if (!$driverId) {
                     </div>
                 </div>
 
-                <!-- Tip 6 -->
                 <div class="card">
                     <div class="card-badge">6</div>
                     <div class="card-content">
@@ -127,7 +119,6 @@ if (!$driverId) {
                     </div>
                 </div>
 
-                <!-- Tip 7 -->
                 <div class="card">
                     <div class="card-badge">7</div>
                     <div class="card-content">
@@ -138,7 +129,6 @@ if (!$driverId) {
                     </div>
                 </div>
 
-                <!-- Tip 8 -->
                 <div class="card">
                     <div class="card-badge">8</div>
                     <div class="card-content">
@@ -156,9 +146,7 @@ if (!$driverId) {
                 <p>These additional tips will help you handle unique situations on Sri Lankan roads.</p>
             </div>
 
-            <!-- Third row of tips - 4 cards -->
             <div class="tips-row">
-                <!-- Tip 9 -->
                 <div class="card">
                     <div class="card-badge">9</div>
                     <div class="card-content">
@@ -169,7 +157,6 @@ if (!$driverId) {
                     </div>
                 </div>
 
-                <!-- Tip 10 -->
                 <div class="card">
                     <div class="card-badge">10</div>
                     <div class="card-content">
@@ -181,7 +168,6 @@ if (!$driverId) {
                     </div>
                 </div>
 
-                <!-- Tip 11 -->
                 <div class="card">
                     <div class="card-badge">11</div>
                     <div class="card-content">
@@ -192,7 +178,6 @@ if (!$driverId) {
                     </div>
                 </div>
 
-                <!-- Tip 12 -->
                 <div class="card">
                     <div class="card-badge">12</div>
                     <div class="card-content">
@@ -217,7 +202,6 @@ if (!$driverId) {
 </main>
 
 <style>
-    /* Essential styling for the tips page */
     .page-title {
         color: var(--color-dark-blue);
         font-size: 2rem;
@@ -250,7 +234,6 @@ if (!$driverId) {
         line-height: 1.5;
     }
 
-    /* New row-based layout with 4 cards per row */
     .tips-row {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -305,7 +288,6 @@ if (!$driverId) {
         line-height: 1.5;
     }
 
-    /* Section dividers for better organization */
     .section-divider {
         margin: 30px 0;
         padding: 15px 0;
@@ -331,7 +313,6 @@ if (!$driverId) {
         margin-bottom: 15px;
     }
 
-    /* Responsive adjustments */
     @media (max-width: 1200px) {
         .tips-row {
             grid-template-columns: repeat(2, 1fr);

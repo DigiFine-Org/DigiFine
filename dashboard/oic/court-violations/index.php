@@ -19,22 +19,22 @@ if (!$oic_id) {
     die("Unauthorized access.");
 }
 
-// Retrieve OIC's police station ID
+
 $sql = "SELECT * FROM officers WHERE is_oic = '1' AND id = ? LIMIT 1";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $oic_id);
 $stmt->execute();
-$result = $stmt->get_result();//Gets the result set
+$result = $stmt->get_result();
 if ($result->num_rows === 0) {
     die("OIC not found or police station not assigned.");
 }
-$oic_data = $result->fetch_assoc();//Fetches OIC data as associative array
+$oic_data = $result->fetch_assoc();
 $police_station_id = $oic_data['police_station'];
 
-// Retrieve filter from GET
+
 $fine_status_filter = isset($_GET['fine_status']) ? htmlspecialchars($_GET['fine_status']) : null;
 
-// Fetch fines related to the OIC's police station and where offence_type is court
+
 $fines_sql = "SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
            f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported, f.is_solved
     FROM fines f
@@ -133,7 +133,7 @@ $conn->close();
     </div>
 </main>
 
-<!-- Confirmation Popup -->
+
 <div id="court-resolve-popup" class="court-popup">
     <div class="court-popup-content">
         <h3>Resolve Court Case</h3>

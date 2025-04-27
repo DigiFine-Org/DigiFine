@@ -20,7 +20,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
 $fine_id = intval($_GET['id']);
 
-// Ensure the fine belongs to the OIC's police station
+
 $sql = "
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, expire_date, 
            f.offence_type,f.location, f.nature_of_offence, f.offence, f.fine_status, f.fine_amount, f.is_reported, f.reported_description, 
@@ -135,7 +135,7 @@ $conn->close();
                     <?php endif; ?>
 
                     <?php if (!empty($fine['oics_action'])): ?>
-                        <!-- Display OIC's action if already taken -->
+                        
                         <div class="data-line">
                             <span>OIC's Action:</span>
                             <p><?= htmlspecialchars($fine['oics_action']) ?></p>
@@ -153,7 +153,7 @@ $conn->close();
                             <a href="index.php" class="btn">Back to Fines</a>
                         </div>
                     <?php else: ?>
-                        <!-- OIC Comment Form if action not yet taken -->
+                        
                         <form action="oic-action-process.php" method="post" id="oicActionForm" style="margin-top: 20px;">
                             <div class="field">
                                 <label for="oic_action">OIC Action (Comment):</label>
@@ -162,19 +162,18 @@ $conn->close();
                             </div>
 
                             <div class="wrapper" style="margin-top: 10px;">
-                                <!-- Button to Discard Fine -->
+                                
                                 <button type="submit" name="action_type" value="discard" class="deletebtn"
                                     style="margin-right: 10px;">
                                     Discard Fine (Unfair)
                                 </button>
 
-                                <!-- Button to Mark Fine as Fair -->
+                                
                                 <button type="submit" name="action_type" value="fair" class="btn" style="margin-right: 10px;">
                                     Submit (Fair)
                                 </button>
                             </div>
 
-                            <!-- Hidden input for the Fine ID -->
                             <input type="hidden" name="fine_id" value="<?= htmlspecialchars($fine['id']) ?>">
                         </form>
                     <?php endif; ?>

@@ -2,14 +2,14 @@
 session_start();
 include_once "../../../db/connect.php";
 
-// Check if user is authorized
+
 if ($_SESSION['user']['role'] !== 'oic' && $_SESSION['user']['is_oic'] != 1) {
     header('HTTP/1.0 403 Forbidden');
     echo json_encode(['error' => 'Unauthorized access']);
     exit;
 }
 
-// Get search query
+
 $query = trim($_GET['query'] ?? '');
 
 if (empty($query) || strlen($query) < 2) {
@@ -18,7 +18,7 @@ if (empty($query) || strlen($query) < 2) {
 }
 
 try {
-    // Get OIC's station ID first
+
     $oicStationQuery = "SELECT police_station FROM officers WHERE id = ? AND is_oic = 1";
     $oicStationStmt = $conn->prepare($oicStationQuery);
     $oicStationStmt->bind_param("i", $_SESSION['user']['id']);
@@ -33,7 +33,7 @@ try {
 
     $stationId = $oicStation['police_station'];
 
-    // Search for officers in the same station by name or ID
+
     $searchQuery = "SELECT id, fname, lname 
                   FROM officers 
                   WHERE (fname LIKE ? OR lname LIKE ? OR id = ?) 
@@ -44,7 +44,7 @@ try {
     $stmt = $conn->prepare($searchQuery);
     $searchParam = "%$query%";
     
-    // Check if query is numeric (could be an ID search)
+
     $idSearch = is_numeric($query) ? intval($query) : 0;
     
     $stmt->bind_param("ssii", $searchParam, $searchParam, $idSearch, $stationId);

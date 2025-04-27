@@ -11,19 +11,19 @@ session_start();
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
-// Check user authentication and role
+
 if ($_SESSION['user']['role'] !== 'officer') {
     die("Unauthorized user!");
 }
 
-// Get license plate number
+
 $license_plate_number = isset($_GET['license_plate_number']) ? htmlspecialchars($_GET['license_plate_number']) : '';
 
 if (!$license_plate_number) {
     die("No license plate number provided!");
 }
 
-// Fetch vehicle details
+
 $sql = "SELECT * FROM dmt_vehicles WHERE license_plate_number = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $license_plate_number);

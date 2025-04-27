@@ -53,9 +53,7 @@ include_once "../../includes/header.php";
                         d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                 </svg>
             </button>
-            <!-- <div class="container x-large no-border">
-                <h1>Offence List</h1>
-            </div> -->
+            
             <h1>Offence List</h1>
             <div class="table-container">
                 <table>

@@ -13,7 +13,6 @@ if ($_SESSION['user']['role'] !== 'admin') {
     die("unauthorized user!");
 }
 
-// SELECT TOTAL DRIVERS
 $sql_total_drivers = "SELECT COUNT(*) as total_drivers FROM drivers ";
 $stmt = $conn->prepare($sql_total_drivers);
 $stmt->execute();
@@ -26,7 +25,6 @@ if ($row = $result_drivers->fetch_assoc()) {
 
 $stmt->close();
 
-// SELECT TOTAL POLICE OFFICERS
 $sql_total_officers = "SELECT COUNT(*) as total_officers FROM officers ";
 $stmt = $conn->prepare($sql_total_officers);
 $stmt->execute();
@@ -39,7 +37,6 @@ if ($row = $result_officers->fetch_assoc()) {
 
 $stmt->close();
 
-// SELECT TOTAL STOLEN VEHICLES
 $sql_total_stolen_vehicles = "SELECT COUNT(*) as total_stolen_vehicles FROM stolen_vehicles ";
 $stmt = $conn->prepare($sql_total_stolen_vehicles);
 $stmt->execute();
@@ -53,7 +50,6 @@ if ($row = $result_stolen_vehicles->fetch_assoc()) {
 $stmt->close();
 
 
-// SELECT TOTAL FINES
 
 $sql_total_fine_amount = "SELECT SUM(fine_amount) as total_fine_amount FROM fines WHERE is_discarded = 0";
 $stmt = $conn->prepare($sql_total_fine_amount);
@@ -224,13 +220,12 @@ $stmt->close();
         }
     });
 
-    // License Status Chart
     const licenseChart = new Chart(document.getElementById('licenseChart'), {
         type: 'doughnut',
         data: {
             labels: ['Active License', 'Suspended License'],
             datasets: [{
-                data: [80, 20], // Replace with actual data
+                data: [80, 20], 
                 backgroundColor: ['#4CAF50', '#FF5722']
             }]
         },
@@ -244,13 +239,12 @@ $stmt->close();
         }
     });
 
-    // Fine Payment Status Chart
     const fineStatusChart = new Chart(document.getElementById('fineStatusChart'), {
         type: 'pie',
         data: {
             labels: ['Paid Fines', 'Overdue Fines'],
             datasets: [{
-                data: [65, 35], // Replace with actual data
+                data: [65, 35], 
                 backgroundColor: ['#2196F3', '#f44336']
             }]
         },

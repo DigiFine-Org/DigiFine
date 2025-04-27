@@ -35,7 +35,7 @@ if ($result->num_rows === 0) {
 $duty = $result->fetch_assoc();
 $stmt->close();
 
-// Late submission logic
+
 date_default_timezone_set('Asia/Colombo');
 $currentDate = date('Y-m-d');
 $is_late_submission = ($currentDate > $duty['duty_date']);

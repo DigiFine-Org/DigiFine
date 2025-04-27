@@ -10,14 +10,12 @@ $pageConfig = [
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
-// Check if the user is a driver
 if ($_SESSION['user']['role'] !== 'driver') {
     die("Unauthorized user!");
 }
 
 $driver_id = $_SESSION['user']['id'] ?? null;
 
-// Validate the fine ID
 $fine_id = isset($_GET['fine_id']) ? intval($_GET['fine_id']) : 0;
 if ($fine_id <= 0) {
     die("Invalid fine ID.");
@@ -31,7 +29,6 @@ if ($fine_id <= 0 || !$driver_id) {
     die("Invalid fine ID or unauthorized access.");
 }
 
-// Fetch fine details - added is_reported to the query
 $sql = "
     SELECT f.id AS fine_id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, 
     f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported,f.is_solved, f.fine_amount, o.description_english  AS offence_description
@@ -176,16 +173,15 @@ $conn->close();
 </main>
 
 <script>
-    // Toggle visibility for the report form and hide other buttons
     const reportButton = document.getElementById('reportFineButton');
     if (reportButton) {
         reportButton.addEventListener('click', function () {
             const reportForm = document.getElementById('reportFineForm');
             const payFineButton = document.getElementById('payFineButton');
 
-            reportForm.style.display = 'flex'; // Show the report form
-            this.style.display = 'none'; // Hide the Report button
-            if (payFineButton) payFineButton.style.display = 'none'; // Hide the Pay button
+            reportForm.style.display = 'flex'; 
+            this.style.display = 'none'; 
+            if (payFineButton) payFineButton.style.display = 'none'; 
         });
     }
 </script>

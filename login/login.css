@@ -41,49 +41,47 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* Alerts */
-/* Background overlay container */
+
 .alert-container {
   width: 100%;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  display: flex; /* Use Flexbox for centering */
-  justify-content: center; /* Horizontally center */
-  align-items: center; /* Vertically center */
-  position: fixed; /* Fixed on the screen */
+  background: rgba(0, 0, 0, 0.5); 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  position: fixed; 
   top: 0;
   left: 0;
-  z-index: 9999; /* Ensure the popup appears above other content */
-  display: none; /* Hide initially */
+  z-index: 9999; 
+  display: none; 
 }
 
-/* Popup styling */
+
 .popup {
-  width: 300px; /* Fixed width */
+  width: 300px; 
   background: #fff;
   border-radius: 22px;
   padding: 20px;
   text-align: center;
   color: #333;
-  visibility: hidden; /* Initially hidden */
-  opacity: 0; /* Initially invisible */
-  transform: translate(-50%, -50%) scale(0.1); /* Start small */
-  transition: all 0.4s ease-in-out; /* Smooth animation */
-  position: absolute; /* Use absolute positioning */
-  top: 50%; /* 50% from top */
-  left: 50%; /* 50% from left */
-  transform: translate(-50%, -50%) scale(1); /* Center the popup */
+  visibility: hidden; 
+  opacity: 0; 
+  transform: translate(-50%, -50%) scale(0.1); 
+  transition: all 0.4s ease-in-out; 
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%) scale(1); 
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Visible popup when triggered */
 .open-popup {
   visibility: visible;
-  opacity: 1; /* Make it visible */
-  transform: translate(-50%, -50%) scale(1); /* Center and show the popup */
+  opacity: 1; 
+  transform: translate(-50%, -50%) scale(1); 
 }
 
-/* Image inside the popup */
+
 .popup img {
   width: 100px;
   margin-top: -50px;
@@ -92,19 +90,16 @@ h2 {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Heading text */
 .popup h2 {
   font-size: 38px;
   font-weight: 500;
   margin: 30px 0 10px;
-  /* color: red; */
 }
 
 .popup p {
   font-size: 16px;
   margin-bottom: 20px;
 }
-/* Button styling */
 .popup button {
   width: 100%;
   margin-top: 50px;
@@ -137,7 +132,6 @@ h2 {
   font-weight: normal;
 }
 
-/* Animate the error messages for better visibility */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -147,7 +141,6 @@ h2 {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Focus styles for clarity */
 .input:focus {
   outline: none;
   border-color: #4a90e2;

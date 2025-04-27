@@ -1,5 +1,4 @@
 <?php
-// Configuration and Initialization
 $pageConfig = [
     'title' => 'Check Vehicle Details',
     'styles' => ["../../dashboard.css", "stolen-form.css"],
@@ -11,12 +10,12 @@ session_start();
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
-// Authentication Check
+
 if ($_SESSION['user']['role'] !== 'officer') {
     die("Unauthorized user!");
 }
 
-// Get Parameters
+
 $license_plate_number = $_GET['license_plate_number'] ?? null;
 $officerID = $_SESSION['user']['id'] ?? null;
 
@@ -24,8 +23,7 @@ if (!$license_plate_number) {
     die("No license plate number provided!");
 }
 
-// Database Operations
-// Fetch Officer Details
+
 $officer = [];
 $sqlOfficer = "SELECT id, CONCAT(fname, ' ', lname) AS full_name, police_station FROM officers WHERE id=?";
 $stmt = $conn->prepare($sqlOfficer);
@@ -35,7 +33,7 @@ $result = $stmt->get_result();
 $officer = $result->fetch_assoc();
 $stmt->close();
 
-// Fetch Vehicle Info
+
 $vehicle = [];
 $sql = "SELECT sv.*, CONCAT(dv.vehicle_owner_fname, ' ', dv.vehicle_owner_lname) AS full_name 
         FROM stolen_vehicles sv 
@@ -48,13 +46,13 @@ $result = $stmt->get_result();
 $vehicle = $result->fetch_assoc();
 $stmt->close();
 
-// Form Processing
+
 $error = "";
 $popupMessage = "";
 $popupSuccess = true;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize Inputs
+
     $inputs = [
         'license_plate_number' => $_POST['license_plate_number'] ?? '',
         'seizure_date_time' => $_POST['seizure_date_time'] ?? '',
@@ -66,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'owner_name' => trim($_POST['owner_name'] ?? '')
     ];
 
-    // Validate Inputs
+
     $errors = [];
     foreach ($inputs as $key => $value) {
         if (empty($value)) {
@@ -74,13 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // NIC Validation
+
     if (!empty($inputs['driver_NIC']) && !preg_match('/^(?:\d{12}|\d{9}[vVxX])$/', $inputs['driver_NIC'])) {
         $errors['driver_NIC'] = "Invalid NIC format. Must be 12 digits or 9 digits followed by V/X";
     }
 
     if (empty($errors)) {
-        // Insert Seized Vehicle Record
+
         $sql = "INSERT INTO seized_vehicle 
                 (license_plate_number, seizure_date_time, seized_location, officer_id, 
                  officer_name, police_station, driver_NIC, owner_name) 
@@ -101,14 +99,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
 
             if ($stmt->execute()) {
-                // Update DMT Vehicles
+
                 $updateSql = "UPDATE dmt_vehicles SET is_stolen = 0 WHERE license_plate_number = ?";
                 $updateStmt = $conn->prepare($updateSql);
 
                 if ($updateStmt) {
                     $updateStmt->bind_param("s", $inputs['license_plate_number']);
                     if ($updateStmt->execute()) {
-                        // Delete from Stolen Vehicles
+
                         $deleteSql = "DELETE FROM stolen_vehicles WHERE license_plate_number = ?";
                         $deleteStmt = $conn->prepare($deleteSql);
                         if ($deleteStmt) {
@@ -128,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $popupSuccess = false;
                 }
             } else {
-                if ($conn->errno === 1062) { // Duplicate entry error code
+                if ($conn->errno === 1062) { 
                     $popupMessage = "This vehicle has already been seized";
                 } else {
                     $popupMessage = "Error seizing vehicle: " . $stmt->error;
@@ -147,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!-- HTML Structure -->
+
 <main>
     <?php include_once "../../includes/navbar.php"; ?>
 
@@ -160,9 +158,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <h1>Seizing the Vehicle <?= htmlspecialchars($vehicle['license_plate_number']) ?></h1>
 
-                <!-- Seizure Form -->
+
                 <form method="POST" action="" class="seizure-form">
-                    <!-- Row 1: License Plate and Owner -->
+    
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">License Plate Number</label>
@@ -177,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
 
-                    <!-- Row 2: Seizure Details -->
+
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Seizure Date & Time <span class="required">*</span></label>
@@ -193,7 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
 
-                    <!-- Row 3: Officer Details -->
+
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Officer ID</label>
@@ -208,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
 
-                    <!-- Row 4: Police Station -->
+
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Police Station <span class="required">*</span></label>
@@ -231,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
 
-                    <!-- Row 5: Driver NIC -->
+
                     <div class="form-group">
                         <label class="form-label">Driver NIC <span class="required">*</span></label>
                         <input type="text" class="form-control" name="driver_NIC"
@@ -245,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     </div>
 
-                    <!-- Form Actions -->
+
 
                     <form action="process-seizure.php" method="post" class="seizure-form">    
 
@@ -260,7 +258,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </main>
 
-<!-- Popup Modal -->
+
 <div id="popupNew" class="popupNew">
     <div class="popup-contentNew">
         <span id="popup-closeNew" class="popup-closeNew">&times;</span>
@@ -271,12 +269,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<!-- JavaScript -->
+
 <script>
-    // Set current datetime for seizure
+
     document.getElementById('seizure-date-time').value = new Date().toISOString().slice(0, 16);
 
-    // Popup Functions
+
     function showPopup(message, isSuccess = true) {
         const popup = document.getElementById('popupNew');
         const titleEl = document.getElementById('popupTitleNew');
@@ -300,7 +298,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         document.getElementById('popupNew').style.display = 'none';
     }
 
-    // Event Listeners
+
     document.getElementById('popup-closeNew').addEventListener('click', closePopup);
     window.addEventListener('click', function (event) {
         if (event.target === document.getElementById('popupNew')) {
@@ -308,7 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     });
 
-    // Initialize Select2
+
     $(document).ready(function () {
         $('.select2-dropdown').select2({
             placeholder: "Type to search police stations...",
@@ -317,13 +315,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             minimumInputLength: 1
         });
 
-        // Set default police station if available
+
         <?php if (isset($officer['police_station'])): ?>
             $('#police_station').val('<?= $officer['police_station'] ?>').trigger('change');
         <?php endif; ?>
     });
 
-    // Show popup if message exists
+
     <?php if (!empty($popupMessage)): ?>
         document.addEventListener('DOMContentLoaded', function () {
             showPopup("<?= addslashes($popupMessage) ?>", <?= $popupSuccess ? 'true' : 'false' ?>);

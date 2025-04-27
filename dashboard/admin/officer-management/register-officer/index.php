@@ -34,15 +34,15 @@ if (!$result) {
 
 $policeStations = $result->fetch_all(MYSQLI_ASSOC);
 
-//alerts
+
 if ($_SESSION['message'] ?? null) {
     if ($_SESSION['message'] === 'success') {
         $message = "Officer registered successfully!";
-        unset($_SESSION['message']); // Clear the session message
+        unset($_SESSION['message']); 
         include '../../../../includes/alerts/success.php';
     } else {
-        $message = $_SESSION['message']; // Store the message
-        unset($_SESSION['message']); // Clear the session message
+        $message = $_SESSION['message']; 
+        unset($_SESSION['message']); 
         include '../../../../includes/alerts/failed.php';
     }
 }
@@ -115,15 +115,7 @@ if ($_SESSION['message'] ?? null) {
                         <input type="tel" id="phoneno" name="phoneno" required class="input" placeholder="0766743755"
                             pattern="\d{10}" title="Phone number should be a 10-digit number.">
                     </div>
-                    <!-- <div class="field">
-                        <label for="password">Password:<span style="color: red;">*</span> </label>
-                        <input type="password" id="password" minlength="6" name="password" required class="input">
-                    </div>
-                    <div class="field">
-                        <label for="cpassword">Confirm Passwords:<span style="color: red;">*</span> </label>
-                        <input type="password" id="cpassword" name="cpassword" required class="input">
-                    </div>
-                    <input type="hidden" name="aspolice" value="true"> -->
+                    
                     <button type="submit" class="btn">Register Officer</button>
                 </form>
             </div>

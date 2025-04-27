@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Error: assigned_duty_id does not exist in assigned_duties table.");
     }
 
-    // Insert into duty_submissions table with late submission status
+
     $sql = "INSERT INTO duty_submissions (police_id, assigned_duty_id, patrol_location, patrol_time_started, patrol_time_ended, patrol_information, is_late_submission) 
             VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
@@ -32,17 +32,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
 
-        // Get the submission ID for the notification
+
         $submission_id = $conn->insert_id;
 
-        // Update 'submitted' column in assigned_duties table
+
         $update_stmt = $conn->prepare("UPDATE assigned_duties SET submitted = 1 WHERE id = ?");
         $update_stmt->bind_param("i", $assigned_duty_id);
         $update_stmt->execute();
 
 
 
-        // Send notification to OIC
+
         include "send-submit-duty-notification-to-oic.php";
 
         $message = $is_late_submission ?

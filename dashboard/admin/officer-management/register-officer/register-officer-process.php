@@ -17,7 +17,7 @@ $province = htmlspecialchars($_POST['province']);
 $policestation = htmlspecialchars($_POST['policestation']);
 $phoneno = htmlspecialchars($_POST['phoneno']);
 
-// Generate a random temporary password
+
 $temp_password = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%"), 0, 10);
 $hashed_password = password_hash($temp_password, PASSWORD_DEFAULT);
 
@@ -30,18 +30,18 @@ $stmt->bind_param("isssssss", $userid, $fname, $lname, $email, $phoneno, $nic, $
 
 if ($stmt->execute()) {
 
-    // Generate a unique password reset token (valid for 24 hours)
+    
     $reset_token = bin2hex(random_bytes(32));
-    $expire_time = time() + (24 * 60 * 60); //24 hours
+    $expire_time = time() + (24 * 60 * 60); 
 
-    // Store reset token in db
+    
     $token_sql = "INSERT INTO password_resets (email, token, expires_at) VALUES (?, ?, FROM_UNIXTIME(?))";
     $token_stmt = $conn->prepare($token_sql);
     $token_stmt->bind_param("ssi", $email, $reset_token, $expire_time);
     $token_stmt->execute();
     $token_stmt->close();
 
-    // Send email with reset link
+    
     $subject = "Your Digifine Police Account - Action Required";
     $message = "
         <html>

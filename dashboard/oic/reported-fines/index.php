@@ -19,7 +19,7 @@ if (!$oic_id) {
     die("Unauthorized access.");
 }
 
-// Retrieve OIC's police station ID
+
 $sql = "SELECT * FROM officers WHERE is_oic = '1' AND id = ? LIMIT 1";
 $oic_stmt = $conn->prepare($sql);
 $oic_stmt->bind_param("i", $oic_id);
@@ -31,8 +31,7 @@ if ($result->num_rows === 0) {
 $oic_data = $result->fetch_assoc();
 $police_station_id = $oic_data['police_station'];
 
-// Fetch fines related to the OIC's police station
-// Modified query to order by issued_date and issued_time in descending order (latest first)
+
 $query = "
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
            f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported
@@ -50,7 +49,7 @@ $result = $stmt->get_result();
 $fines = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-// Fetch offence types and offences for filters
+
 $stmt = $conn->prepare("SELECT DISTINCT offence_type FROM fines");
 $stmt->execute();
 $result = $stmt->get_result();
@@ -78,7 +77,7 @@ $stmt->close();
             </div>
 
 
-            <!-- Fines Table -->
+
             <div class="table-container">
                 <table>
                     <thead>

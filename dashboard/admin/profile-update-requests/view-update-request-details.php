@@ -22,7 +22,7 @@ if (!$type || !$id) {
     die("Invalid request");
 }
 
-// Fetch data from `dmt_drivers` (current data)
+
 $current_data = [];
 $sql_current = "SELECT * FROM dmt_drivers WHERE id = ?";
 $stmt_current = $conn->prepare($sql_current);
@@ -34,7 +34,7 @@ if ($result_current->num_rows > 0) {
 }
 $stmt_current->close();
 
-// Fetch data from `update_driver_profile_requests` (requested updates)
+
 $requested_data = [];
 $sql_requested = "SELECT * FROM update_driver_profile_requests WHERE id = ?";
 $stmt_requested = $conn->prepare($sql_requested);
@@ -56,32 +56,7 @@ $conn->close();
         <?php include_once "../../includes/sidebar.php" ?>
         <div class="content">
             <div class="container large">
-                <!-- <h1>Compare Driver Details</h1>
-
-                <h2>Current Data</h2>
-                <table>
-                    <tr>
-                        <th>First Name</th>
-                        <td><?= htmlspecialchars($current_data['fname']) ?></td>
-                    </tr>
-                    <tr>
-                        <th>Last Name</th>
-                        <td><?= htmlspecialchars($current_data['lname']) ?></td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td><?= htmlspecialchars($current_data['email']) ?></td>
-                    </tr>
-                    <tr>
-                        <th>Phone Number</th>
-                        <td><?= htmlspecialchars($current_data['phone_no']) ?></td>
-                    </tr>
-                    <tr>
-                        <th>NIC</th>
-                        <td><?= htmlspecialchars($current_data['nic']) ?></td>
-                    </tr>
-                </table> -->
-
+                
                 <h2>Requested Updates</h2>
                 <table>
                     <tr>

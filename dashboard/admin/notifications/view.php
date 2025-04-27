@@ -16,7 +16,7 @@ if ($_SESSION['user']['role'] !== 'admin') {
 
 $admin_id = $_SESSION['user']['id'];
 
-// Get notification ID and type from URL
+
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $type = isset($_GET['type']) ? htmlspecialchars($_GET['type']) : 'notification';
 
@@ -25,7 +25,7 @@ if (!$id) {
     exit;
 }
 
-// Fetch notification details
+
 if ($type === 'announcement') {
     $sql = "SELECT * FROM announcements WHERE id = ? LIMIT 1";
 } else {
@@ -38,7 +38,7 @@ if ($type === 'announcement') {
 } else {
     $stmt->bind_param("is", $id, $admin_id);
 
-    // Mark as read
+
     $update_sql = "UPDATE notifications SET is_read = 1 WHERE id = ? AND reciever_id = ? AND reciever_type = 'admin'";
     $update_stmt = $conn->prepare($update_sql);
     $update_stmt->bind_param("is", $id, $admin_id);

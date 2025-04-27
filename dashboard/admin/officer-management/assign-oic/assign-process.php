@@ -19,7 +19,7 @@ $result = $stmt1->get_result();
 $alreadyOICInCurrentStation = $result->fetch_assoc();
 $stmt1->close();
 if ($alreadyOICInCurrentStation) {
-    // die("there exists an OIC in respective police station already!!!");
+
     $_SESSION['message'] = "There exists an OIC already";
     header("Location: /digifine/dashboard/admin/officer-management/assign-oic/index.php");
     exit();
@@ -31,5 +31,5 @@ if (!$stmt2->execute()) {
     die("mysql stmt2 execution error!");
 }
 header('Location: /digifine/dashboard/admin/officer-management/assign-oic/index.php');
-$_SESSION['message'] = "OIC assigned successfully!"; // Optional: for message styling
+$_SESSION['message'] = "OIC assigned successfully!"; 
 $stmt2->close();

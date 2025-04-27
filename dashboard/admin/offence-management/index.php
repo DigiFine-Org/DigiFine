@@ -106,29 +106,29 @@ if ($_SESSION['user']['role'] !== 'admin') {
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-  // Handle all delete button clicks
+
   document.querySelectorAll('.deletebtn').forEach(button => {
     button.addEventListener('click', function(e) {
-      // Prevent the default form submission
+
       e.preventDefault();
       
-      // Get the offence number from the hidden input
+
       const form = e.target.closest('form');
       const offenceNumber = form.querySelector('input[name="offence_number"]').value;
       
-      // Show confirmation dialog
+
       const userConfirmed = confirm(`Are you sure you want to remove offence ${offenceNumber} from view?`);
       
-      // Only proceed if user clicked OK
+
       if (userConfirmed) {
-        // Remove the table row
+
         const row = e.target.closest('tr');
         row.remove();
         
-        // Optional: Show success message
+
         alert(`Offence ${offenceNumber} has been removed from view.`);
       }
-      // If user clicked Cancel, nothing happens
+
     });
   });
 });

@@ -10,12 +10,12 @@ session_start();
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
-// Authorization check
+
 if ($_SESSION['user']['role'] !== 'oic') {
     die("Unauthorized user!");
 }
 
-// Get officer data for dropdown
+
 $oicId = $_SESSION['user']['id'];
 $stationQuery = "SELECT police_station FROM officers WHERE id = ? AND is_oic = 1";
 $stationStmt = $conn->prepare($stationQuery);
@@ -45,13 +45,13 @@ $officersResult = $officersStmt->get_result();
                 </button>
                 <h1>Duty History</h1>
 
-                <!-- Search Form -->
+
                 <form action="" method="POST" style="height:140px; position:relative;">
                     <div class="field">
                         <select name="policeId" class="input" required>
                             <option value="">Select Officer</option>
                             <?php 
-                            // Reset pointer to beginning if needed
+
                             $officersResult->data_seek(0);
                             while ($officer = $officersResult->fetch_assoc()): ?>
                                 <option value="<?php echo $officer['id']; ?>"
@@ -72,7 +72,7 @@ $officersResult = $officersStmt->get_result();
                     if (!$police_id) {
                         echo "<p style='color: red;'>Please select a valid officer.</p>";
                     } else {
-                        // Verify the officer belongs to the OIC's station
+
                         $verifyQuery = "SELECT id FROM officers WHERE id = ? AND police_station = ?";
                         $verifyStmt = $conn->prepare($verifyQuery);
                         $verifyStmt->bind_param("ii", $police_id, $stationId);

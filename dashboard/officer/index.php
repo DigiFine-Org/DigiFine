@@ -24,7 +24,7 @@ if (!$policeId) {
     exit();
 }
 
-// Fetch officers name
+
 $sql = "SELECT o.fname, o.lname, ps.name AS police_station_name 
         FROM officers o 
         INNER JOIN police_stations ps ON o.police_station = ps.id 
@@ -49,7 +49,7 @@ if ($result->num_rows === 0) {
 $officer = $result->fetch_assoc();
 $stmt->close();
 
-// Fetch upcoming duties
+
 $sql_future_duties = "SELECT police_id, duty, duty_date, duty_time_start 
                       FROM assigned_duties 
                       WHERE duty_date >= CURDATE() 
@@ -87,7 +87,7 @@ if ($result_future->num_rows > 0) {
 
 $stmt->close();
 
-// Last duty query
+
 $sql_last_duty = "SELECT police_id, duty, duty_date, duty_time_start 
                   FROM assigned_duties 
                   WHERE submitted = 1 
@@ -123,7 +123,7 @@ if ($row = $result_last->fetch_assoc()) {
 
 $stmt->close();
 
-// Recent fines
+
 $sql = "SELECT * FROM fines 
 WHERE police_id = ? 
 AND issued_date >= DATE_SUB(NOW(), INTERVAL 3 DAY) 
@@ -141,7 +141,7 @@ while ($row = $result->fetch_assoc()) {
 
 $stmt->close();
 
-// Total fines
+
 $sql_total_fines = "SELECT COUNT(*) as total_fines FROM fines WHERE police_id = ?";
 $stmt = $conn->prepare($sql_total_fines);
 $stmt->bind_param("i", $policeId);
@@ -155,7 +155,7 @@ if ($row = $result_total->fetch_assoc()) {
 
 $stmt->close();
 
-// Duty submissions
+
 $sql_total_duty_submissions = "SELECT COUNT(*) as total_duty_submissions FROM duty_submissions WHERE police_id = ?";
 $stmt = $conn->prepare($sql_total_duty_submissions);
 $stmt->bind_param("i", $policeId);
@@ -169,7 +169,7 @@ if ($row = $result_duty_submissions->fetch_assoc()) {
 
 $stmt->close();
 
-// Reported fines
+
 $sql_reported_fines = "SELECT COUNT(*) as reported_fines FROM fines WHERE police_id = ? AND is_reported = 1";
 $stmt = $conn->prepare($sql_reported_fines);
 $stmt->bind_param("i", $policeId);
@@ -183,7 +183,7 @@ if ($row = $result_reported->fetch_assoc()) {
 
 $stmt->close();
 
-// Pending duties
+
 $sql_pending_duties = "SELECT COUNT(*) as pending_duties FROM assigned_duties WHERE police_id = ? AND submitted = 0";
 $stmt = $conn->prepare($sql_pending_duties);
 $stmt->bind_param("i", $policeId);
@@ -223,7 +223,7 @@ $conn->close();
                     </div>
                     <div class="info">
                         <p>Check Driver Details</p>
-                        <!-- <h3><?= $totalDutySubmissions ?></h3> -->
+                        
                     </div>
                 </a>
 
@@ -233,7 +233,7 @@ $conn->close();
                     </div>
                     <div class="info">
                         <p>Check Vehicle Details</p>
-                        <!-- <h3><?= $totalFines ?></h3> -->
+                        
                     </div>
                 </a>
 
@@ -243,7 +243,7 @@ $conn->close();
                     </div>
                     <div class="info">
                         <p>Issue Fines</p>
-                        <!-- <h3><?= $reportedFines ?></h3> -->
+                        
                     </div>
                 </a>
 
@@ -253,7 +253,7 @@ $conn->close();
                     </div>
                     <div class="info">
                         <p>Submit Duty</p>
-                        <!-- <h3><?= $pendingDuties ?></h3> -->
+                        
                     </div>
                 </a>
             </div>

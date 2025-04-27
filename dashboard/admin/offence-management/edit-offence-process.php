@@ -6,11 +6,11 @@ if ($_SESSION['user']['role'] !== 'admin') {
     die("Unauthorized user!");
 }
 
-// Initialize variables
+
 $errors = [];
 $offence_number = $_GET['offence_number'] ?? null;
 
-// Get form data
+
 $values = [
     'offence_number' => $offence_number,
     'description_sinhala' => htmlspecialchars(trim($_POST['description_sinhala'] ?? '')),
@@ -20,7 +20,7 @@ $values = [
     'fine_amount' => htmlspecialchars(trim($_POST['fine_amount'] ?? ''))
 ];
 
-// Validate descriptions
+
 foreach (['description_sinhala', 'description_tamil', 'description_english'] as $desc) {
     if (empty($values[$desc])) {
         $errors[$desc] = "This field is required.";
@@ -29,17 +29,17 @@ foreach (['description_sinhala', 'description_tamil', 'description_english'] as 
     }
 }
 
-// Validate points
+
 if (!preg_match('/^\d+$/', $values['points_deducted']) || $values['points_deducted'] < 0) {
     $errors['points_deducted'] = "Points must be a non-negative integer.";
 }
 
-// Validate fine amount
+
 if (!preg_match('/^\d+(\.\d{1,2})?$/', $values['fine_amount']) || $values['fine_amount'] <= 0) {
     $errors['fine_amount'] = "Fine must be a non-negative number.";
 }
 
-// Check for duplicate offence number (if changing number)
+
 if (empty($errors) && isset($values['new_offence_number']) && $values['new_offence_number'] != $offence_number) {
     $stmt = $conn->prepare("SELECT * FROM offences WHERE offence_number = ?");
     $stmt->bind_param("s", $values['new_offence_number']);
@@ -51,7 +51,7 @@ if (empty($errors) && isset($values['new_offence_number']) && $values['new_offen
     $stmt->close();
 }
 
-// Update if no errors
+
 if (empty($errors)) {
     $sql = "UPDATE offences SET 
         description_sinhala = ?, 
@@ -85,7 +85,7 @@ if (empty($errors)) {
     }
 }
 
-// If there are errors, store them in session and redirect back
+
 $_SESSION['form_errors'] = $errors;
 $_SESSION['form_values'] = $values;
 header("Location: edit-offence.php?offence_number=" . $offence_number);

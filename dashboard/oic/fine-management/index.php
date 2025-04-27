@@ -19,7 +19,7 @@ if (!$oic_id) {
     die("Unauthorized access.");
 }
 
-// Retrieve OIC's police station ID
+
 $sql = "SELECT * FROM officers WHERE is_oic = '1' AND id = ? LIMIT 1";
 $oic_stmt = $conn->prepare($sql);
 $oic_stmt->bind_param("i", $oic_id);
@@ -47,12 +47,12 @@ $offences = $result->fetch_all(MYSQLI_ASSOC);
 
 $stmt->close();
 
-// Filters for fines
+
 $whereClauses = [];
 $params = [];
 $types = '';
 
-// Handle filters
+
 if (isset($_GET['fine_id']) && !empty($_GET['fine_id'])) {
     $whereClauses[] = "f.id LIKE ?";
     $params[] = "%" . $_GET['fine_id'] . "%";
@@ -119,7 +119,7 @@ if (isset($_GET['is_reported']) && !empty($_GET['is_reported'])) {
     $types .= 'i';
 }
 
-// Base query
+
 $query = "
     SELECT f.id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, f.issued_time, 
            f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported, f.fine_amount
@@ -128,15 +128,15 @@ $query = "
     WHERE o.police_station = ?
 ";
 
-// Append dynamic WHERE clauses
+
 if (!empty($whereClauses)) {
     $query .= " AND " . implode(" AND ", $whereClauses);
 }
 
-// Prepare and execute the query
+
 $stmt = $conn->prepare($query);
 
-// Bind parameters dynamically
+
 if (!empty($params)) {
     $stmt->bind_param("i" . $types, $police_station_id, ...$params);
 } else {
@@ -167,7 +167,7 @@ $conn->close();
             <div class="table-container">
 
                 <h1>Fines Issued by Station Officers</h1>
-                <!-- FILTER FINES -->
+
                 <div class="feild">
                     <button class="btn margintop marginbottom">Filter Results</button>
                 </div>
@@ -179,7 +179,7 @@ $conn->close();
 
     </div>
 
-    <!-- Fines Table -->
+
     <div class="table-container">
         <table>
             <thead>

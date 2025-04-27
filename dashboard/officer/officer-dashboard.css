@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  flex-wrap: wrap; /* Ensures items wrap to the next row on smaller screens */
+  flex-wrap: wrap; 
 }
 
 .inner-tile {
@@ -59,7 +59,7 @@
 
 .inner-chart {
   width: 50%;
-  /* gap: 10px; */
+
 }
 
 .stats-grid {
@@ -79,22 +79,22 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Media Queries for Responsiveness */
+
 @media (max-width: 1024px) {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
   .charts-bar {
-    flex-direction: column; /* Stack charts vertically */
+    flex-direction: column; 
   }
 
   .inner-chart {
-    width: 100%; /* Make each chart full-width */
+    width: 100%; 
   }
 }
 
-/* Photo cards */
+
 
 .navigation-tile-grid {
   display: grid;
@@ -179,23 +179,23 @@
 .tile span {
   position: relative;
   font-weight: bold;
-  z-index: 1; /* Ensure the text appears above the highlight */
-  color: black; /* Adjust text color if needed */
+  z-index: 1; 
+  color: black; 
 }
 
 .tile span::before {
   content: "";
   position: absolute;
-  bottom: 0; /* Position at the base of the text */
-  left: -10px; /* Extend the highlight to the left */
-  right: -10px; /* Extend the highlight to the right */
-  height: 15px; /* Adjust the height of the highlight bar */
-  background-color: white; /* White highlight bar */
-  z-index: -1; /* Place the highlight behind the text */
-  transform: skewX(-10deg); /* Optional: Add an angled effect */
+  bottom: 0; 
+  left: -10px; 
+  right: -10px; 
+  height: 15px; 
+  background-color: white; 
+  z-index: -1; 
+  transform: skewX(-10deg); 
 }
 
-/* Add these styles to your officer-dashboard.css */
+
 :root {
   --primary-color: #3a7bd5;
   --secondary-color: #00d2ff;

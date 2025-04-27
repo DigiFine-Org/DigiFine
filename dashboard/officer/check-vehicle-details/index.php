@@ -11,7 +11,7 @@ session_start();
 require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
-// Check user authentication and role
+
 if ($_SESSION['user']['role'] !== 'officer') {
     die("Unauthorized user!");
 }

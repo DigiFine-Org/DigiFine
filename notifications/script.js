@@ -38,7 +38,7 @@ const delete_notifications = async () => {
       return;
     }
 
-    // Refresh notifications after deletion
+
     await fetch_notifications();
   } catch (error) {
     console.error("Failed to delete notifications:", error);
@@ -51,9 +51,9 @@ function init_notifications() {
   window.addEventListener("DOMContentLoaded", async () => {
     notification_interval = setInterval(async () => {
       await fetch_notifications();
-    }, 5000); // Check every 30 seconds
+    }, 5000); 
 
-    // Initial fetch
+
     await fetch_notifications();
   });
 

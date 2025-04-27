@@ -53,7 +53,7 @@
   font-size: 14px;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -61,11 +61,11 @@
 
   .about-image,
   .description {
-    order: initial; /* Reset order for mobile */
+    order: initial; 
   }
 }
 
-/* Feature Tiles */
+
 .feature-tiles {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -98,7 +98,7 @@
   line-height: 1.5;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .feature-tiles {
     grid-template-columns: 1fr;
