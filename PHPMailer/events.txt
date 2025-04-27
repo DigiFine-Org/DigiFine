@@ -42,3 +42,5 @@ SET NEW.offence_type = 'court';
 END IF;
 END//
 DELIMITER ;
+
+Authentication verifies who a user is, while authorization determines what they are allowed to do or access after being authenticated
