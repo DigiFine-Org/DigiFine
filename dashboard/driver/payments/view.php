@@ -77,6 +77,7 @@ $fine = $result->fetch_assoc();
                 </div>
 
                 <a href="download-slip.php?fine_id=<?= $fine['id'] ?>" class="btn">Download Payment Slip</a>
+
             </div>
         </div>
 </main>
