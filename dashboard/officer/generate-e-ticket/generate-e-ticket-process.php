@@ -21,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $issued_date = htmlspecialchars($_POST['issued_date']);
     $issued_time = htmlspecialchars($_POST['issued_time']);
     $expire_date = date('Y-m-d', strtotime($issued_date . ' + 28 days'));
-    $driver_id = htmlspecialchars($_POST['driver_id']);
-    $license_plate_number = htmlspecialchars($_POST['license_plate_number']);
+    $driver_id = strtoupper(($_POST['driver_id']));
+    $license_plate_number = strtoupper(($_POST['license_plate_number']));
     $offence_type = htmlspecialchars($_POST['offence_type']);
     $nature_of_offence = htmlspecialchars($_POST['nature_of_offence']);
     $location = htmlspecialchars($_POST['location']);

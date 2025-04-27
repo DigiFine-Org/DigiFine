@@ -10,9 +10,11 @@ require_once "../../../../db/connect.php";
 include_once "../../../../includes/header.php";
 require_once "../../../../constants.php";
 
+
 if ($_SESSION['user']['role'] !== 'admin') {
     die("unauthorized user!");
 }
+
 
 $provinces = $PROVINCES;
 
@@ -31,6 +33,19 @@ if (!$result) {
 }
 
 $policeStations = $result->fetch_all(MYSQLI_ASSOC);
+
+//alerts
+if ($_SESSION['message'] ?? null) {
+    if ($_SESSION['message'] === 'success') {
+        $message = "Officer registered successfully!";
+        unset($_SESSION['message']); // Clear the session message
+        include '../../../../includes/alerts/success.php';
+    } else {
+        $message = $_SESSION['message']; // Store the message
+        unset($_SESSION['message']); // Clear the session message
+        include '../../../../includes/alerts/failed.php';
+    }
+}
 
 ?>
 
@@ -52,25 +67,30 @@ $policeStations = $result->fetch_all(MYSQLI_ASSOC);
                 <form action="register-officer-process.php" method="POST">
                     <div class="field">
                         <label for="fname">First Name:<span style="color: red;">*</span> </label>
-                        <input type="text" id="fname" name="fname" required class="input" placeholder="John">
+                        <input type="text" id="fname" name="fname" required class="input" placeholder="Imalsha"
+                            pattern="[A-Za-z]+" title="First name should only contain letters.">
                     </div>
                     <div class="field">
                         <label for="fname">Last Name:<span style="color: red;">*</span> </label>
-                        <input type="text" id="lname" name="lname" required class="input" placeholder="Doe">
+                        <input type="text" id="lname" name="lname" required class="input" placeholder="Jathunarachchi"
+                            pattern="[A-Za-z]+" title="Last name should only contain letters.">
                     </div>
 
                     <div class="field">
                         <label for="email">Email:<span style="color: red;">*</span> </label>
                         <input type="email" id="email" name="email" required class="input"
-                            placeholder="johndoe@example.com">
+                            placeholder="imaz@example.com">
                     </div>
                     <div class="field">
                         <label for="nic">NIC:<span style="color: red;">*</span> </label>
-                        <input type="text" id="nic" name="nic" required class="input" placeholder="1122334455V">
+                        <input type="text" id="nic" name="nic" required class="input"
+                            placeholder="123456789V or 123456789012" pattern="^\d{9}[Vv]$|^\d{12}$"
+                            title="NIC should be a 9-digit number followed by 'V' or 'v' (e.g., 911042754V), or a 12-digit number (e.g., 197419202757).">
                     </div>
                     <div class="field">
                         <label for="userid">Police ID:<span style="color: red;">*</span> </label>
-                        <input type="text" pattern="\d{5}" id="userid" name="userid" class="input" placeholder="44332">
+                        <input type="text" pattern="\d{5}" id="userid" name="userid" class="input" placeholder="12345"
+                            title="Police ID must be a 5-digit number" required>
                         <small style="margin-top: 5px;">You can't change this value once entered!</small>
                     </div>
                     <div class="field">
@@ -93,7 +113,7 @@ $policeStations = $result->fetch_all(MYSQLI_ASSOC);
                     <div class="field">
                         <label for="phoneno">Phone No:<span style="color: red;">*</span> </label>
                         <input type="tel" id="phoneno" name="phoneno" required class="input" placeholder="0766743755"
-                            pattern="\d{10}">
+                            pattern="\d{10}" title="Phone number should be a 10-digit number.">
                     </div>
                     <!-- <div class="field">
                         <label for="password">Password:<span style="color: red;">*</span> </label>

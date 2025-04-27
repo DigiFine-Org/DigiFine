@@ -88,7 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $conn->prepare($sql);
 
         if ($stmt) {
-            $stmt->bind_param("ssssssss", 
+            $stmt->bind_param(
+                "ssssssss",
                 $inputs['license_plate_number'],
                 $inputs['seizure_date_time'],
                 $inputs['seized_location'],
@@ -149,77 +150,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!-- HTML Structure -->
 <main>
     <?php include_once "../../includes/navbar.php"; ?>
-    
+
     <div class="dashboard-layout">
         <?php include_once "../../includes/sidebar.php"; ?>
-        
+
         <div class="content">
             <div class="container">
-                
-                
+
+
                 <h1>Seizing the Vehicle <?= htmlspecialchars($vehicle['license_plate_number']) ?></h1>
-                
+
                 <!-- Seizure Form -->
                 <form method="POST" action="" class="seizure-form">
                     <!-- Row 1: License Plate and Owner -->
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">License Plate Number</label>
-                            <input type="text" class="form-control readonly" name="license_plate_number" 
-                                   value="<?= htmlspecialchars($vehicle['license_plate_number']) ?>" readonly>
+                            <input type="text" class="form-control readonly" name="license_plate_number"
+                                value="<?= htmlspecialchars($vehicle['license_plate_number']) ?>" readonly>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Owner Name</label>
-                            <input type="text" class="form-control readonly" name="owner_name" 
-                                   value="<?= htmlspecialchars($vehicle['full_name']) ?>" readonly>
+                            <input type="text" class="form-control readonly" name="owner_name"
+                                value="<?= htmlspecialchars($vehicle['full_name']) ?>" readonly>
                         </div>
                     </div>
-                    
+
                     <!-- Row 2: Seizure Details -->
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Seizure Date & Time <span class="required">*</span></label>
-                            <input type="datetime-local" class="form-control" id="seizure-date-time" 
-                                   name="seizure_date_time" required>
+                            <input type="datetime-local" class="form-control" id="seizure-date-time"
+                                name="seizure_date_time" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Seizure Location <span class="required">*</span></label>
-                            <input type="text" class="form-control" name="seized_location" 
-                                   value="<?= htmlspecialchars($_POST['seized_location'] ?? '') ?>" 
-                                   placeholder="Street name, City" required>
+                            <input type="text" class="form-control" name="seized_location"
+                                value="<?= htmlspecialchars($_POST['seized_location'] ?? '') ?>"
+                                placeholder="Street name, City" required>
                         </div>
                     </div>
-                    
+
                     <!-- Row 3: Officer Details -->
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Officer ID</label>
-                            <input type="text" class="form-control readonly" name="officer_id" 
-                                   value="<?= htmlspecialchars($officer['id']) ?>" readonly>
+                            <input type="text" class="form-control readonly" name="officer_id"
+                                value="<?= htmlspecialchars($officer['id']) ?>" readonly>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Officer Name</label>
-                            <input type="text" class="form-control readonly" name="officer_name" 
-                                   value="<?= htmlspecialchars($officer['full_name']) ?>" readonly>
+                            <input type="text" class="form-control readonly" name="officer_name"
+                                value="<?= htmlspecialchars($officer['full_name']) ?>" readonly>
                         </div>
                     </div>
-                    
+
                     <!-- Row 4: Police Station -->
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Police Station <span class="required">*</span></label>
-                            <select id="police_station" name="police_station" class="form-control select2-dropdown" required>
+                            <select id="police_station" name="police_station" class="form-control select2-dropdown"
+                                required>
                                 <option value="">Select Police Station</option>
                                 <?php
                                 $stationQuery = "SELECT id, name FROM police_stations ORDER BY name";
                                 $stationStmt = $conn->prepare($stationQuery);
                                 $stationStmt->execute();
                                 $stationResult = $stationStmt->get_result();
-                                
-                                while($station = $stationResult->fetch_assoc()): ?>
+
+                                while ($station = $stationResult->fetch_assoc()): ?>
                                     <option value="<?= htmlspecialchars($station['id']) ?>"
                                         <?= (isset($officer['police_station']) && $officer['police_station'] == $station['id']) ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($station['name']) ?>
@@ -228,24 +230,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </select>
                         </div>
                     </div>
-                    
+
                     <!-- Row 5: Driver NIC -->
                     <div class="form-group">
                         <label class="form-label">Driver NIC <span class="required">*</span></label>
-                        <input type="text" class="form-control" name="driver_NIC" 
-                            value="<?= htmlspecialchars($_POST['driver_NIC'] ?? '') ?>" 
-                            placeholder="NIC Number (12 digits or 11 digits with V/X)" 
-                            pattern="^(?:\d{12}|\d{9}[vVxX])$"
-                            title="Must be 12 digits or 9 digits followed by V/X"
+                        <input type="text" class="form-control" name="driver_NIC"
+                            value="<?= htmlspecialchars($_POST['driver_NIC'] ?? '') ?>"
+                            placeholder="NIC Number (12 digits or 11 digits with V/X)"
+                            pattern="^(?:\d{12}|\d{9}[vVxX])$" title="Must be 12 digits or 9 digits followed by V/X"
                             required>
                         <?php if (isset($errors['driver_NIC'])): ?>
                             <small class="error-message"><?= $errors['driver_NIC'] ?></small>
                         <?php endif; ?>
-                        
+
                     </div>
-                    
+
                     <!-- Form Actions -->
+
                     <form action="process-seizure.php" method="post" class="seizure-form">    
+
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">Seize Vehicle</button>
                             <a href="index.php" class="btn btn-secondary">Cancel</a>
@@ -285,7 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         textEl.innerHTML = message;
         popup.style.display = 'flex';
 
-        button.onclick = function() {
+        button.onclick = function () {
             closePopup();
             if (isSuccess) {
                 window.location.href = 'index.php';
@@ -299,30 +302,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Event Listeners
     document.getElementById('popup-closeNew').addEventListener('click', closePopup);
-    window.addEventListener('click', function(event) {
+    window.addEventListener('click', function (event) {
         if (event.target === document.getElementById('popupNew')) {
             closePopup();
         }
     });
 
     // Initialize Select2
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.select2-dropdown').select2({
             placeholder: "Type to search police stations...",
             allowClear: true,
             width: '100%',
             minimumInputLength: 1
         });
-        
+
         // Set default police station if available
-        <?php if(isset($officer['police_station'])): ?>
+        <?php if (isset($officer['police_station'])): ?>
             $('#police_station').val('<?= $officer['police_station'] ?>').trigger('change');
         <?php endif; ?>
     });
 
     // Show popup if message exists
     <?php if (!empty($popupMessage)): ?>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             showPopup("<?= addslashes($popupMessage) ?>", <?= $popupSuccess ? 'true' : 'false' ?>);
         });
     <?php endif; ?>
