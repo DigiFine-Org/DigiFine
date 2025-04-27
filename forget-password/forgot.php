@@ -97,7 +97,7 @@ function send_email($email)
 {
 	global $conn;
 
-	$expire = time() + (60 * 3); // Expiration time: 3 minute
+	$expire = time() + (60 * 5); // Expiration time: 5 minute
 	$code = rand(10000, 99999); // Generate random code
 	$email = addslashes($email);
 
