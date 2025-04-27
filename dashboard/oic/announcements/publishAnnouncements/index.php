@@ -51,10 +51,10 @@ if ($_SESSION['message'] ?? null) {
 
 ?>
 
-<main>
-    <?php include_once "../../../includes/navbar.php" ?>
+<main class="dashboard-main">
+    <?php include_once "../../../includes/navbar.php"; ?>
     <div class="dashboard-layout">
-        <?php include_once "../../../includes/sidebar.php" ?>
+        <?php include_once "../../../includes/sidebar.php"; ?>
         <div class="content">
             <div class="container">
                 <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
@@ -65,25 +65,25 @@ if ($_SESSION['message'] ?? null) {
                     </svg>
                 </button>
                 <div id="alert-container"></div> <!-- Alert container -->
-                <h1>Publish Announcements for station officers</h1>
-                <form action="./process.php" method="POST">
+                <h1 class="page-title">Publish Announcements for station officers</h1>
+                <form action="./process.php" method="POST" id="publishAnnouncementForm">
                     <div class="field">
-                        <label for="">Title</label>
-                        <input type="text" name="title" placeholder="Title" required>
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="title" class="input" placeholder="Title" required>
                     </div>
 
                     <div class="field">
-                        <label for="">Message</label>
-                        <textarea name="message" placeholder="Message" required></textarea>
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" class="input" rows="10" style="min-height: 200px; width: 100%;" required>
                     </div>
 
                     <div class="field">
-                        <label for="">Expires At(Optional)</label>
-                        <input type="datetime-local" name="expires_at">
+                        <label for="expires_at">Expires At (Optional)</label>
+                        <input type="datetime-local" name="expires_at" id="expires_at" class="input">
                     </div>
 
                     <div class="field">
-                        <button class="btn">Add Announcement</button>
+                        <button type="submit" class="btn" id="submitBtn">Add Announcement</button>
                     </div>
                 </form>
 

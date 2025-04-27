@@ -140,4 +140,4 @@ function getLastDays(days) {
   return labels;
 }
 
-fetchFineStatusData(); // Initial fetch
+// fetchFineStatusData(); // Initial fetch

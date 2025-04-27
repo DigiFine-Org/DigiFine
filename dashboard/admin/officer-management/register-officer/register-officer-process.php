@@ -62,18 +62,18 @@ if ($stmt->execute()) {
                 <p class='details'><strong>Your Police ID:</strong> $userid</p>
                 <p class='details'><strong>Temporary Password:</strong> $temp_password</p>
                 <p class='details'>For security reasons, please reset your password within 24 hours using the link below:</p>
-                <p><a href='http://localhost/digifine/officer-reset-password.php?token=$reset_token' class='button' style='color: white;'>Set New Password</a></p>
+                
             </div>
         </body>
         </html>
 ";
     send_mail($email, $subject, $message);
-
-    $_SESSION["message"] = "Officer registered successfully! Email sent.";
+    $_SESSION["message"] = "success";
     header("Location: /digifine/dashboard/admin/officer-management/register-officer/index.php");
     exit();
 
 } else {
+    $_SESSION["message"] = "Registration failed!";
     file_put_contents("error_log.txt", "Error inserting officer: " . $conn->error . "\n", FILE_APPEND);
     die("Error inserting officer. Check logs.");
 }

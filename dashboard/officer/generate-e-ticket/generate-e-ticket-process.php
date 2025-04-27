@@ -3,6 +3,7 @@ session_start();
 
 include '../../../db/connect.php';
 require_once "send-fine-mail.php";
+require_once "../../../notifications/functions.php";
 
 // Check if user is logged in as police officer
 $policeId = $_SESSION['user']['id'] ?? null;
@@ -20,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $issued_date = htmlspecialchars($_POST['issued_date']);
     $issued_time = htmlspecialchars($_POST['issued_time']);
     $expire_date = date('Y-m-d', strtotime($issued_date . ' + 28 days'));
-    $driver_id = htmlspecialchars($_POST['driver_id']);
-    $license_plate_number = htmlspecialchars($_POST['license_plate_number']);
+    $driver_id = strtoupper(($_POST['driver_id']));
+    $license_plate_number = strtoupper(($_POST['license_plate_number']));
     $offence_type = htmlspecialchars($_POST['offence_type']);
     $nature_of_offence = htmlspecialchars($_POST['nature_of_offence']);
     $location = htmlspecialchars($_POST['location']);
@@ -92,6 +93,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bind_param("isissssssssd", $policeId, $driver_id, $policeStation, $license_plate_number, $issued_date, $issued_time, $expire_date, $offence_type, $nature_of_offence, $location, $offence_number, $fine_amount);
     if ($stmt->execute()) {
 
+        // Get the ID of the newly created fine
+        $fine_id = $conn->insert_id;
+
         // Deduct points from the driver's total
         if ($points_deducted > 0) {
             $new_points = max(0, $current_points - $points_deducted); // Ensure points don't go negative
@@ -130,7 +134,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             sendFineEmail($driverEmail, $fineDetails);
         }
 
+        // Send notification to the driver about the fine
+        include "send-notification-driver.php";
+
+
         $_SESSION["message"] = "success";
+        $_SESSION["redirect_after_alert"] = "/digifine/dashboard/officer/index.php";
         header("Location: /digifine/dashboard/officer/generate-e-ticket/index.php");
         exit();
     } else {

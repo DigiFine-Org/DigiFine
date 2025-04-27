@@ -71,6 +71,8 @@ header .notification-button span {
   font-weight: 700;
 }
 
+
+
 @media only screen and (min-width: 600px) {
   .menu-button {
     display: none;
@@ -521,18 +523,7 @@ table td.centered {
   color: #721c24; /* Match text color */
 }
 
-.court-violation {
-  color: #ff6b6b; /* Bright red to draw attention */
-  font-size: 1.1rem; /* Slightly larger font size */
-  font-weight: bold; /* Bold text for emphasis */
-  padding: 10px; /* Add some padding */
-  background-color: #fff0f0; /* Light red background for contrast */
-  border: 1px solid #ff6b6b; /* Border matching the text color */
-  border-radius: 5px; /* Rounded corners */
-  text-align: center; /* Center the text */
-  margin-top: 20px; /* Space above the message */
-  margin-bottom: 20px; /* Space below the message */
-}
+
 
 .btn1 {
   background-color: #721c24;
@@ -798,3 +789,5 @@ table td.centered {
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
+
+

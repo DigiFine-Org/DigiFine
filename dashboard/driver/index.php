@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Dashboard',
-    'styles' => ["../dashboard.css", "./driver-dashboard.css"],
+    'styles' => ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css", "../dashboard.css", "./driver-dashboard.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
 ];
@@ -99,7 +99,7 @@ $conn->close();
             <div class="stats-grid">
                 <a href="/digifine/dashboard/driver/points-scheme/view-points-status.php" class="stat-card">
                     <div class="stat-icon" style="background-color: #FFEFB4;">
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-tachometer-alt"></i>
                     </div>
                     <div class="stat-info">
                         <h3><?= htmlspecialchars($driver['points']) ?></h3>
@@ -109,7 +109,7 @@ $conn->close();
 
                 <a href="/digifine/dashboard/driver/my-fines/index.php" class="stat-card">
                     <div class="stat-icon" style="background-color: #CDE4FF;">
-                        <i class="fas fa-exclamation-circle"></i>
+                        <i class="fas fa-balance-scale"></i>
                     </div>
                     <div class="stat-info">
                         <h3><?= $active_fines; ?></h3>
@@ -119,7 +119,7 @@ $conn->close();
 
                 <a href="#" class="stat-card">
                     <div class="stat-icon" style="background-color: #F8C8D8;">
-                        <i class="fas fa-flag"></i>
+                        <i class="fas fa-flag-checkered"></i>
                     </div>
                     <div class="stat-info">
                         <h3><?= $reported_fines; ?></h3>
@@ -129,7 +129,7 @@ $conn->close();
 
                 <a href="/digifine/dashboard/driver/payments/index.php" class="stat-card">
                     <div class="stat-icon" style="background-color: #D5F2EA;">
-                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-wallet"></i>
                     </div>
                     <div class="stat-info">
                         <h3><?= $cleared_fines; ?></h3>

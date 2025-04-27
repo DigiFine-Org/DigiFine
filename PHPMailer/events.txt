@@ -1,0 +1,52 @@
+# Event sql
+
+ALTER EVENT update_overdue_fines
+ON SCHEDULE EVERY 1 DAY
+DO
+UPDATE fines
+SET fine_status = 'overdue'
+WHERE fine_status = '**pending**'
+AND DATEDIFF(CURRENT_DATE, issued_date) > 30;
+
+SHOW VARIABLES LIKE 'event_scheduler';
+
+SET GLOBAL event_scheduler = ON;
+
+- - Option 1: Modify your existing event to update both fields at once
+ALTER EVENT update_overdue_fines
+ON SCHEDULE EVERY 1 DAY
+DO
+UPDATE fines
+SET
+fine_status = 'overdue',
+offence_type = 'court'
+WHERE
+fine_status = 'pending'
+AND DATEDIFF(CURRENT_DATE, issued_date) > 30;
+- - Option 2: Create a new separate event for changing offence_type
+-- CREATE EVENT update_offence_type
+-- ON SCHEDULE EVERY 1 DAY
+-- DO
+-- UPDATE fines
+-- SET offence_type = 'court'
+-- WHERE fine_status = 'overdue'
+-- AND offence_type = 'fine';
+- - Option 3: Create a trigger that automatically changes offence_type when fine_status changes to 'overdue'
+DELIMITER //
+CREATE TRIGGER change_to_court_when_overdue
+BEFORE UPDATE ON fines
+FOR EACH ROW
+BEGIN
+IF NEW.fine_status = 'overdue' AND NEW.fine_status != OLD.fine_status THEN
+SET NEW.offence_type = 'court';
+END IF;
+END//
+DELIMITER ;
+
+Authentication verifies who a user is, while authorization determines what they are allowed to do or access after being authenticated
+
+
+// <p><a href='http://localhost/digifine/officer-reset-password.php?token=$reset_token' class='button' style='color: white;'>Set New Password</a></p>
+
+
+<p><a href='" . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST']) . "/digifine/officer-reset-password.php?token=$reset_token' class='button' style='color: white;'>Set New Password</a></p>

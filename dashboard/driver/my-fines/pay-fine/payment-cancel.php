@@ -13,7 +13,7 @@ include_once "../../../../includes/header.php";
     <div class="dashboard-layout">
         <?php include_once "../../../includes/sidebar.php" ?>
         <div class="content">
-            <div class="container large">
+            <div class="container">
                 <h1>Payment Canceled</h1>
                 <p>Your payment was canceled. Please try again.</p>
                 <a href="/digifine/dashboard/driver/my-fines/" class="btn">Back to Fines</a>

@@ -37,14 +37,15 @@ if (!is_null($authRequired)) {
     <link rel="stylesheet" href="/digifine/styles/components.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="/digifine/notifications/script.js"></script>
     <?php
     foreach ($pageStyles as $style) {
         echo "<link rel='stylesheet' href='$style'/>";
     }
 
-    
+
 
     ?>
 </head>

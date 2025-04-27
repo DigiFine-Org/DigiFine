@@ -85,4 +85,4 @@ function updateOffencesChart(data, period) {
     },
   });
 }
-fetchFineData(); // on load display
+// fetchFineData(); // on load display

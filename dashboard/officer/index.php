@@ -1,7 +1,7 @@
 <?php
 $pageConfig = [
     'title' => 'Officer Dashboard',
-    'styles' => ["../dashboard.css", "./officer-dashboard.css"],
+    'styles' => ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css", "../dashboard.css", "./officer-dashboard.css"],
     'scripts' => ["../dashboard.js"],
     'authRequired' => true
 ];
@@ -52,9 +52,10 @@ $stmt->close();
 // Fetch upcoming duties
 $sql_future_duties = "SELECT police_id, duty, duty_date, duty_time_start 
                       FROM assigned_duties 
-                      WHERE duty_date > CURDATE() 
+                      WHERE duty_date >= CURDATE() 
                       AND submitted = 0 
-                      AND police_id = ?";
+                      AND police_id = ?
+                      LIMIT 1";
 
 $stmt = $conn->prepare($sql_future_duties);
 if (!$stmt) {
@@ -216,8 +217,9 @@ $conn->close();
             <p class="station-info"><i class="fas fa-building"></i>
                 <?= htmlspecialchars($officer['police_station_name']) ?></p>
             <div class="stats-grid">
-                <a href="" class="stat-card">
-                    <div class="icon" style="background-color: #FFEFB4;">
+                <a href="/digifine/dashboard/officer/verify-driver-details/index.php" class="stat-card">
+                    <div class="icon" style="background-color: #FFEFB4; font-size: 1.7rem;">
+                        <i class="fas fa-id-card"></i>
                     </div>
                     <div class="info">
                         <p>Check Driver Details</p>
@@ -225,8 +227,9 @@ $conn->close();
                     </div>
                 </a>
 
-                <a href="" class="stat-card">
-                    <div class="icon" style="background-color: #CDE4FF;">
+                <a href="/digifine/dashboard/officer/check-vehicle-details/index.php" class="stat-card">
+                    <div class="icon" style="background-color: #CDE4FF;  font-size: 1.7rem;">
+                        <i class="fas fa-car"></i>
                     </div>
                     <div class="info">
                         <p>Check Vehicle Details</p>
@@ -234,8 +237,9 @@ $conn->close();
                     </div>
                 </a>
 
-                <a href="" class="stat-card">
-                    <div class="icon" style="background-color: #F8C8D8;">
+                <a href="/digifine/dashboard/officer/generate-e-ticket/index.php" class="stat-card">
+                    <div class="icon" style="background-color: #F8C8D8; font-size: 1.7rem;">
+                        <i class="fas fa-file-invoice-dollar"></i>
                     </div>
                     <div class="info">
                         <p>Issue Fines</p>
@@ -243,8 +247,9 @@ $conn->close();
                     </div>
                 </a>
 
-                <a href="" class="stat-card">
-                    <div class="icon" style="background-color: #D5F2EA;">
+                <a href="/digifine/dashboard/officer/submit-duty/index.php" class="stat-card">
+                    <div class="icon" style="background-color: #D5F2EA; font-size: 1.7rem;">
+                        <i class="fas fa-tasks"></i>
                     </div>
                     <div class="info">
                         <p>Submit Duty</p>

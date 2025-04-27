@@ -53,7 +53,7 @@ function updateOffencesRevenueChart(data, period) {
           beginAtZero: true,
           title: {
             display: true,
-            text: "Revenue of Offence type (Rs.)",
+            text: "total fine amount (Rs.)",
           },
         },
         x: {
@@ -66,7 +66,7 @@ function updateOffencesRevenueChart(data, period) {
       plugins: {
         title: {
           display: true,
-          text: `Revenue of Fines by Offence (${period})`,
+          text: `Total Fines - Offences (${period})`,
         },
         legend: {
           display: false,
@@ -88,4 +88,4 @@ function updateOffencesRevenueChart(data, period) {
     },
   });
 }
-fetchOffencesRevenueFineData(); // on load display
+// fetchOffencesRevenueFineData(); // on load display

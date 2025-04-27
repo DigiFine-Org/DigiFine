@@ -2,7 +2,7 @@
 
 $pageConfig = [
     'title' => 'Fine Details',
-    'styles' => ["../../dashboard.css","./my-fines.css"],
+    'styles' => ["../../dashboard.css", "./my-fines.css"],
     'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
@@ -34,9 +34,10 @@ if ($fine_id <= 0 || !$driver_id) {
 // Fetch fine details - added is_reported to the query
 $sql = "
     SELECT f.id AS fine_id, f.police_id, f.driver_id, f.license_plate_number, f.issued_date, 
-    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported,f.is_solved
+    f.issued_time, f.offence_type, f.nature_of_offence, f.offence, f.fine_status, f.is_reported,f.is_solved, f.fine_amount, o.description_english  AS offence_description
     FROM fines AS f 
-    INNER JOIN drivers AS d ON f.driver_id = d.id 
+    INNER JOIN drivers AS d ON f.driver_id = d.id
+    LEFT JOIN offences AS o ON f.offence = o.offence_number 
     WHERE f.id = ? AND d.id = ?;
 ";
 
@@ -103,11 +104,15 @@ $conn->close();
                 </div>
                 <div class="data-line">
                     <span>Offence:</span>
-                    <p><?= htmlspecialchars($fine['offence']); ?></p>
+                    <p><?= htmlspecialchars($fine['offence_description']); ?></p>
                 </div>
                 <div class="data-line">
                     <span>Nature of Offence:</span>
                     <p><?= htmlspecialchars($fine['nature_of_offence']); ?></p>
+                </div>
+                <div class="data-line">
+                    <span>Fine Amount:</span>
+                    <p><?= htmlspecialchars($fine['fine_amount']); ?></p>
                 </div>
                 <div class="data-line">
                     <span>Fine Status:</span>
@@ -117,12 +122,18 @@ $conn->close();
                     <?php if ($fine['offence_type'] === 'court'): ?>
                         <p class="court-violation">This is a court violation. Reporting or paying is not allowed online.</p>
                     <?php else: ?>
-                        <?php if ($fine['is_reported'] == 0): ?>
-                            <button class="btn" id="reportFineButton" style="margin-right: 10px;">Report</button>
-                        <?php endif; ?>
-                        <?php if ($fine['is_reported'] == 0): ?>
-                            <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']); ?>"
-                                class="btn" id="payFineButton">Pay</a>
+                        <?php if ($fine['fine_status'] === 'overdue'): ?>
+                            <p class="reported-message1">This fine is overdue. Reporting or paying is not allowed.</p>
+                        <?php elseif ($fine['fine_status'] === 'paid'): ?>
+                            <p class="reported-message2">This fine has already been paid. Further actions are not allowed.</p>
+                        <?php else: ?>
+                            <?php if ($fine['is_reported'] == 0): ?>
+                                <button class="btn" id="reportFineButton" style="margin-right: 10px;">Report</button>
+                            <?php endif; ?>
+                            <?php if ($fine['is_reported'] == 0): ?>
+                                <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']); ?>"
+                                    class="btn" id="payFineButton">Pay</a>
+                            <?php endif; ?>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
@@ -138,7 +149,7 @@ $conn->close();
                     </div>
                     <div class="wrapper">
                         <a href="/digifine/dashboard/driver/my-fines/pay-fine/index.php?fine_id=<?= htmlspecialchars($fine['fine_id']); ?>"
-                        class="btn" id="payFineButton">Pay</a>
+                            class="btn" id="payFineButton">Pay</a>
                     </div>
                 <?php endif; ?>
 

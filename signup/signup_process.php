@@ -16,7 +16,6 @@ $cpassword = $_POST['cpassword'];
 $asPolice = $_POST['aspolice'] ?? false;
 $policeStation = $_POST['policestation'] ?? null;
 $phoneNo = $_POST['phoneno'];
-$province = $_POST['province'];
 
 if ($password !== $cpassword) {
     die("Passwords do not match!");

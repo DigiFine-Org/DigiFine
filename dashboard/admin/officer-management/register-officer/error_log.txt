@@ -1,0 +1,6 @@
+Error inserting officer: Duplicate entry 'imazja225@gmail.com' for key 'unique_email'
+Error inserting officer: Duplicate entry 'imazja225@gmail.com' for key 'unique_email'
+Error inserting officer: Duplicate entry '23233' for key 'PRIMARY'
+Error inserting officer: Duplicate entry '12005' for key 'PRIMARY'
+Error inserting officer: Duplicate entry '12005' for key 'PRIMARY'
+Error inserting officer: Duplicate entry 'mrclocktd@gmail.com' for key 'unique_email'

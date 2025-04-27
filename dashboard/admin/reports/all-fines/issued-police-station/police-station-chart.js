@@ -73,4 +73,4 @@ function updatePoliceStationChart(data, period) {
 }
 
 // Initial fetch
-fetchPoliceStationData();
+// fetchPoliceStationData();

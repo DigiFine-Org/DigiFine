@@ -9,6 +9,10 @@ $pageConfig = [
 session_start();
 require_once "../../../db/connect.php";
 
+// Check if the user is logged in and has the role of 'officer'
+
+
+
 // Fetch offences from offences table
 $sql = "SELECT offence_number, description_english, fine_amount FROM offences";
 $result = $conn->query($sql);
@@ -158,19 +162,24 @@ if ($_SESSION['message'] ?? null) {
                     <div class="field">
                         <label for="driver_id">Driver License ID:</label>
                         <input type="text" class="input" id="driver_id" name="driver_id"
-                            value="<?php echo htmlspecialchars($driverId); ?>" placeholder="B5767089" required>
+                            value="<?php echo htmlspecialchars($driverId); ?>" placeholder="B1234567" required
+                            pattern="^B|b\d{7}$" title="Driver License ID must start with 'B' followed by 7 digits."
+                            >
                     </div>
-                    <div class="field">
+                    <div class=" field">
                         <label for="">Vehicle License Number:</label>
                         <?php
                         $licensePlateNumber = $_GET['license_plate_number'] ?? '';
                         ?>
-                        <input type="text" class="input" placeholder="CAD-6264" name="license_plate_number"
-                            value="<?php echo htmlspecialchars($licensePlateNumber); ?>" required>
+                        <input type="text" class="input" placeholder="SP|BBY-1683 or BBY-1683"
+                            name="license_plate_number" value="<?php echo htmlspecialchars($licensePlateNumber); ?>"
+                            required
+                            pattern="^((SP|CP|EP|NC|NP|NW|SG|SP|UP|WP|sp|cp|ep|nc|np|nw|sg|sp|up|wp)\||[A-Za-z]{2,3}-)([A-Za-z]{3}-)\d{4}$"
+                            title="Vehicle License Number must be in the format SP|XXX-1234 or XXX-1234." >
                     </div>
 
                     <!-- Updated Location field with a search bar (datalist) -->
-                    <div class="field">
+                    <div class=" field">
                         <label for="location">Location:</label>
                         <select name="location" class="input" required>
                             <!-- Default selection is the last location, but the officer can change it -->

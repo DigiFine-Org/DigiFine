@@ -1,8 +1,8 @@
 <?php
 $pageConfig = [
-    'title' => 'Reports Dashboard',
-    'styles' => ["../../dashboard.css", "../reports.css"],
-    'scripts' => ["../reports.js"],
+    'title' => 'Register Police Officer',
+    'styles' => ["../../dashboard.css", "../officer-management/styles.css"],
+    'scripts' => ["../../dashboard.js"],
     'authRequired' => true
 ];
 
@@ -10,22 +10,23 @@ session_start();
 include_once "../../../includes/header.php";
 require_once "../../../db/connect.php";
 
-if ($_SESSION['user']['role'] !== 'admin') {
-    die("Unauthorized user!");
+//checked in duty submissions/get -data.php
+if ($_SESSION['message'] ?? null) {
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']);
+    include '../../../includes/alerts/failed.php';
 }
+
+
 ?>
 
-<body>
-    <main>
-        <!-- Navbar -->
-        <?php include_once "../../includes/navbar.php"; ?>
+<main>
+    <?php include_once "../../includes/navbar.php" ?>
 
-        <div class="dashboard-layout">
-            <!-- Sidebar -->
-            <?php include_once "../../includes/sidebar.php"; ?>
-
-            <!-- Main Content -->
-            <div class="content">
+    <div class="dashboard-layout">
+        <?php include_once "../../includes/sidebar.php" ?>
+        <div class="content">
+            <div class="">
                 <button onclick="history.back()" class="back-btn" style="position: absolute; top: 7px; right: 8px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         viewBox="0 0 16 16">
@@ -33,34 +34,67 @@ if ($_SESSION['user']['role'] !== 'admin') {
                             d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                     </svg>
                 </button>
-                <h1>Analytics</h1>
-                <p class="description">View and analyze statistics for different time periods.</p>
+                <div style="margin-bottom: 50px;">
+                    <h1>Reports Dashboard</h1>
+                    <p class="description">View and analyze statistics for different time periods.</p>
+                </div>
+                <div class="feature-tiles">
+                    <a href="all-fines/index.php"
+                        class="feature-tile">
+                        <div class="tile-full">
+                            <div class="tile-content">
+                                <h3>Analyze All Fines</h3>
+                                <p>View and analyze statistics for different time periods</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="officer-reports/index.php" class="feature-tile">
+                        <div class="tile-full">
+                            <div class="tile-content">
+                                <h3>Analyze by Police Officer</h3>
+                                <p>View and analyze statistics for different time periods</p>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="feature-tile">
+                        <div class="tile-full">
+                            <div class="tile-content">
+                                <h3>Analyze by Police Station</h3>
+                                <form action="police-station-report/index.php" method="GET" style="display: flex; align-items: center;">
+                                    <div class="filter-field" style="flex-direction: row; margin-right: 10px;">
+                                        <!-- <label for="officerId">Police Station ID:</label> -->
+                                        <input type="text" id="station_id" name="station_id" step="1" placeholder="Enter Police Station ID" required style="padding: 6.5px 13px; margin-right: 20px; ">
+                                        <button type="submit" class="btn btn-primary" style="padding: 0px 23px;">Analyze</button>
+                                    </div>
+                                    <!-- <div class="filter-field"> -->
+                                    <!-- </div> -->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="revenue\index.php" class="feature-tile">
+                        <div class="tile-full">
+                            <div class="tile-content">
+                                <h3>Analyze Revenue</h3>
+                                <p>View and analyze statistics for different time periods</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="offence\index.php" class="feature-tile">
+                        <div class="tile-full">
+                            <div class="tile-content">
+                                <h3>Analyze by Offence</h3>
+                                <p>View and analyze statistics for different time periods</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+</main>
 
 
-                <div class="filter-field">
-                    <a href="all-fines/index.php" class="btn">analyze all fines</a>
-                </div>
-                <!-- <div class="filter-field">
-                    <a href="location-reports\issued-place\index.php" class="btn">analyze by location</a>
-                </div> -->
-                <!-- <div class="filter-field">
-                    <a href="location-reports\issued-police-station\index.php" class="btn">issued police station</a>
-                </div> -->
-                <br>
-                <div class="filter-field">
-                    <a href="officer-reports/issued-reported/index.php" class="btn">analyze by officer</a>
-                </div>
-                <!-- <div class="filter-field">
-                    <a href="all-fines\fine-status\index.php" class="btn">analyze by fine status</a>
-                </div> -->
-                <div class="filter-field">
-                    <a href="police-station-reports/index.php" class="btn">analyze by police station</a>
-                </div>
-                <div class="filter-field">
-                    <a href="revenue\index.php" class="btn">analyze Revenue</a>
-                </div>
-
-                <div class="filter-field">
-                    <a href="offence\index.php" class="btn">analyze by Offence</a>
-                </div>
-</body>
+<?php include_once "../../../includes/footer.php"; ?>

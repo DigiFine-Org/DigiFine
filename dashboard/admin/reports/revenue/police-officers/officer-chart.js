@@ -63,7 +63,7 @@ function updateOfficerChart(data, period) {
       plugins: {
         title: {
           display: true,
-          text: `Revenue Distribution by Police Officer (${period})`,
+          text: `Total Fines by Police Officer (${period})`,
         },
         legend: {
           display: false,
@@ -72,4 +72,4 @@ function updateOfficerChart(data, period) {
     },
   });
 }
-fetchOfficerFineData(); // on load display
+// fetchOfficerFineData(); // on load display

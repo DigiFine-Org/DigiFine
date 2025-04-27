@@ -1,5 +1,6 @@
 <?php
 include '../../../db/connect.php';
+include '../../../notifications/functions.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $police_id = htmlspecialchars($_POST['police_id']);
@@ -8,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $patrol_time_started = htmlspecialchars($_POST['patrol_time_started']);
     $patrol_time_ended = htmlspecialchars($_POST['patrol_time_ended']);
     $patrol_information = htmlspecialchars($_POST['patrol_information']);
-    $is_late_submission = isset($_POST['is_late_submission']) ? (int)$_POST['is_late_submission'] : 0;
+    $is_late_submission = isset($_POST['is_late_submission']) ? (int) $_POST['is_late_submission'] : 0;
 
     $check_stmt = $conn->prepare("SELECT id FROM assigned_duties WHERE id = ?");
     $check_stmt->bind_param("i", $assigned_duty_id);
@@ -30,15 +31,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("iissssi", $police_id, $assigned_duty_id, $patrol_location, $patrol_time_started, $patrol_time_ended, $patrol_information, $is_late_submission);
 
     if ($stmt->execute()) {
+
+        // Get the submission ID for the notification
+        $submission_id = $conn->insert_id;
+
         // Update 'submitted' column in assigned_duties table
         $update_stmt = $conn->prepare("UPDATE assigned_duties SET submitted = 1 WHERE id = ?");
         $update_stmt->bind_param("i", $assigned_duty_id);
         $update_stmt->execute();
 
-        $message = $is_late_submission ? 
-            "Duty submitted successfully (marked as late submission)" : 
+
+
+        // Send notification to OIC
+        include "send-submit-duty-notification-to-oic.php";
+
+        $message = $is_late_submission ?
+            "Duty submitted successfully (marked as late submission)" :
             "Duty submitted successfully";
-            
+
         header("Location: /digifine/dashboard/officer/submit-duty/index.php?message=" . urlencode($message));
         exit();
     } else {
