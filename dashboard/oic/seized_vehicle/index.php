@@ -127,18 +127,36 @@ $conn->close();
       <input type="hidden" name="license_plate_number" id="modalLicensePlate">
 
       <div class="field">
-        <label>Owner Name</label>
-        <input type="text" name="owner_name" required>
+        <label for="owner_name">Owner Name:</label>
+        <input type="text" 
+              id="owner_name" 
+              name="owner_name" 
+              pattern="^[A-Za-zÀ-ÖØ-öø-ÿ]+(?: [A-Za-zÀ-ÖØ-öø-ÿ]+)*$"
+              title="Should contain only letters and single spaces between names (no numbers or special characters)"
+              required
+              minlength="3"
+              maxlength="50">
       </div>
 
       <div class="field">
-        <label>National ID</label>
-        <input type="text" name="national_id" required>
+        <label for="national_id">National ID (NIC):</label>
+        <input type="text" 
+              id="national_id" 
+              name="national_id" 
+              pattern="^([0-9]{9}[xXvV]|[0-9]{12})$"
+              title="Enter valid Sri Lankan NIC (old format: 9 digits with X/V or new format: 12 digits)"
+              required
+              maxlength="12">
       </div>
 
       <div class="field">
-        <label>Date</label>
-        <input type="date" name="date" required>
+        <label for="date">Date:</label>
+        <input type="date" 
+              id="date" 
+              name="date" 
+              max="<?= date('Y-m-d') ?>" 
+              required
+              title="Date cannot be in the future">
       </div>
 
       <div class="field">
