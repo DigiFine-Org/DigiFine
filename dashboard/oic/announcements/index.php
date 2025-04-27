@@ -40,6 +40,11 @@ if ($_SESSION['message'] ?? null) {
         $message = "Announcement Deleted successfully!";
         unset($_SESSION['message']); // Clear the session message
         include '../../../includes/alerts/success.php';
+    }
+    if ($_SESSION['message'] === 'successfully updated') {
+        $message = "Announcement Updated successfully!";
+        unset($_SESSION['message']); // Clear the session message
+        include '../../../includes/alerts/success.php';
     } else {
         $message = $_SESSION['message']; // Store the message
         unset($_SESSION['message']); // Clear the session message

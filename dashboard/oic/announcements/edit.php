@@ -19,7 +19,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'oic') {
 // Fetch the announcement to edit
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $stmt = $conn->prepare("SELECT title, message FROM announcements WHERE id = ? AND published_id = ?");
+    $stmt = $conn->prepare("SELECT title, message, expires_at FROM announcements WHERE id = ? AND published_id = ?");
     $stmt->bind_param("ii", $id, $_SESSION['user']['id']);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -31,11 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $id = intval($_POST['id']);
     $title = $_POST['title'];
     $message = $_POST['message'];
+    $expires_at = $_POST['expires_at'] ?? null;
 
-    $stmt = $conn->prepare("UPDATE announcements SET title = ?, message = ? WHERE id = ? AND published_id = ?");
-    $stmt->bind_param("ssii", $title, $message, $id, $_SESSION['user']['id']);
+    $stmt = $conn->prepare("UPDATE announcements SET title = ?, message = ?, expires_at = ? WHERE id = ? AND published_id = ?");
+    $stmt->bind_param("sssii", $title, $message, $expires_at, $id, $_SESSION['user']['id']);
     if ($stmt->execute()) {
-        $_SESSION['message'] = 'success';
+        $_SESSION['message'] = 'successfully updated';
         header("Location: index.php");
         exit;
     } else {
@@ -73,8 +74,8 @@ if ($_SESSION['message'] ?? null) {
                     </svg>
                 </button>
                 <div id="alert-container"></div>
-                <h1 class="page-title">Edit Announcement</h1>
-                <form method="POST" action="edit.php" id="editAnnouncementForm" class="form-container">
+                <h1>Edit Announcement</h1>
+                <form method="POST" action="edit.php" id="editAnnouncementForm">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
                     <div class="field">
                         <label for="title">Title</label>
@@ -83,7 +84,14 @@ if ($_SESSION['message'] ?? null) {
 
                     <div class="field">
                         <label for="message">Message</label>
-                        <textarea id="message" name="message" class="input" rows="5" required><?php echo htmlspecialchars($announcement['message']); ?></textarea>
+                        <textarea id="message" name="message" class="input" rows="10" style="min-height: 200px; width: 100%;" required>
+                            <?php echo htmlspecialchars($announcement['message']); ?></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label for="expires_at">Expires At (Optional)</label>
+                        <input type="datetime-local" id="expires_at" name="expires_at" class="input"
+                            value="<?php echo htmlspecialchars($announcement['expires_at'] ?? ''); ?>">
                     </div>
 
                     <div class="field">
