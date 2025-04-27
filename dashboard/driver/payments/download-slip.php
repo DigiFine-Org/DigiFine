@@ -123,7 +123,7 @@ $html = '
     </table>
 
     <div class="footer">
-         Generated electronically • Digifine
+         Digifine • Generated electronically 
     </div>
 </div>
 ';
@@ -139,3 +139,4 @@ $dompdf->render();
 
 // Download PDF
 $dompdf->stream("fine_payment_slip_{$fine['id']}.pdf", ["Attachment" => 1]);
+
