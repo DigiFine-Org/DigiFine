@@ -9,6 +9,7 @@ session_start();
 $period = $_GET['time_period'] ?? '';
 $police_id = $_GET['police_id'] ?? '';
 
+
 // Set time interval
 $interval = match ($period) {
     "24h" => "INTERVAL 24 HOUR",
@@ -27,26 +28,27 @@ $group_by = ($period === "24h" || $period === "72h")
     : "DATE(issued_date)";
 
 // Function to fetch data by fine status
-function fetchFineAmounts($conn, $interval, $group_by, $fine_status)
+function fetchFineAmounts($conn, $interval, $group_by, $police_id, $fine_status)
 {
     $query = "SELECT $group_by AS label, SUM(fine_amount) AS total_amount 
               FROM fines 
               WHERE CONCAT(issued_date, ' ', issued_time) >= NOW() - $interval
               AND fine_status = ? 
+              AND police_id = ?
               GROUP BY label 
               ORDER BY label ASC";
 
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("s", $fine_status);
+    $stmt->bind_param("si", $fine_status, $police_id);
     $stmt->execute();
     $result = $stmt->get_result();
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
 // Fetch datasets for each fine status
-$paidFines = fetchFineAmounts($conn, $interval, $group_by, 'paid');
-$pendingFines = fetchFineAmounts($conn, $interval, $group_by, 'pending');
-$overdueFines = fetchFineAmounts($conn, $interval, $group_by, 'overdue');
+$paidFines = fetchFineAmounts($conn, $interval, $group_by, $police_id, 'paid');
+$pendingFines = fetchFineAmounts($conn, $interval, $group_by, $police_id, 'pending');
+$overdueFines = fetchFineAmounts($conn, $interval, $group_by, $police_id, 'overdue');
 
 // Calculate total amounts
 $totalPaidAmount = array_sum(array_column($paidFines, 'total_amount'));

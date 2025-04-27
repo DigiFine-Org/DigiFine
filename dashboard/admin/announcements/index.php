@@ -53,7 +53,7 @@ if ($_SESSION['message'] ?? null) {
 
                     <div class="field">
                         <label for="">Message</label>
-                        <textarea class="input" name="message" placeholder="Message" required></textarea>
+                        <textarea class="input" name="message" placeholder="Message" style="min-height: 200px; width: 100%;" required></textarea>
                     </div>
                     <div class="field">
                         <label for="">Target Role</label>

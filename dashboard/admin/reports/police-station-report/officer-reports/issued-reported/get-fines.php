@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 header("Content-Type: application/json");
 
-require_once "../../../../../db/connect.php";
+require_once "../../../../../../db/connect.php";
 session_start();
 
 $police_id = intval($_GET['police_id'] ?? 0);

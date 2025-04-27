@@ -8,14 +8,14 @@ session_start();
 
 $police_id = $_GET['police_id'] ?? '';
 
-$checkPoliceQuery = "SELECT COUNT(*) AS count FROM officers WHERE id = $police_id";
-$resultCheckPolice = $conn->query($checkPoliceQuery);
+// $checkPoliceQuery = "SELECT COUNT(*) AS count FROM officers WHERE id = $police_id";
+// $resultCheckPolice = $conn->query($checkPoliceQuery);
 
-$policeExists = $resultCheckPolice->fetch_assoc()['count'] > 0;
-if (!$policeExists) {
-    echo json_encode(["error" => "Officer not found. Please enter a valid Officer ID."]);
-    exit;
-}
+// $policeExists = $resultCheckPolice->fetch_assoc()['count'] > 0;
+// if (!$policeExists) {
+//     echo json_encode(["error" => "Officer not found. Please enter a valid Officer ID."]);
+//     exit;
+// }
 $period = $_GET['time_period'] ?? '';
 
 // Set time interval

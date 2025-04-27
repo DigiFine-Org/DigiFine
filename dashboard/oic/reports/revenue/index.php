@@ -6,8 +6,6 @@ $pageConfig = [
         "overall/chart.js",
         "overall/analytics.js",
         "overall/growth-chart.js",
-        "police-stations/station-chart.js",
-        "police-stations/station-analytics.js",
         "police-officers/officer-chart.js",
         "police-officers/officer-analytics.js",
         "offence-type-revenue/offence-revenue-chart.js",
@@ -50,13 +48,13 @@ if (!$policeStationId) {
                             d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                     </svg>
                 </button>
-                <h1>Status of All Fines Issued</h1>
+                <h1>Analize Revenue of All Fines Issued by Police Station <?php echo htmlspecialchars($policeStationId); ?></h1>
                 <p class="description">View and analyze status of fines over different time periods.</p>
                 <form method="get" class="filter-form-grid">
-                    <div class="filter-field">
-                        <label for="stationId">Police Station ID:</label>
-                        <input type="text" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
-                    </div>
+                    <!-- <div class="filter-field">
+                        <label for="stationId">Police Station ID:</label> -->
+                    <input type="hidden" id="stationId" name="stationId" value="<?php echo htmlspecialchars($policeStationId); ?>" readonly>
+                    <!-- </div> -->
                     <div class="table-container">
                         <!-- Input Section -->
                         <!-- <div class="filter-form-grid"> -->
@@ -102,24 +100,6 @@ if (!$policeStationId) {
 
                     <div class="fine-summary mt-4" id="fineSummary"></div>
 
-                    <h1>Issued fines by police stations</h1>
-                    <p class="description">View and analyze fines over different time periods.</p>
-
-                    <div class="table-container">
-                        <!-- Chart Section -->
-                        <div class="chart-section">
-                            <canvas id="policeStationFineChart" width="800" height="400"></canvas>
-                        </div>
-
-                        <form action="police-stations/get-full-stations-table.php" method="get">
-                            <input type="hidden" name="time_period" class="hiddenTimePeriod">
-                            <input type="hidden" name="station_id" id="hiddenStationId">
-                            <button type="submit" class="btn full-report">Full Report</button>
-                        </form>
-                    </div>
-
-                    <div class="fine-summary mt-4" id="stationFineSummary"></div>
-
                     <h1>Issued fines by Issued Police Officers</h1>
                     <p class="description">View and analyze fines by issued location over different time periods.</p>
 
@@ -158,6 +138,8 @@ if (!$policeStationId) {
 
                     <h1>Issued Fines - location</h1>
                     <p class="description">View and analyze fines by issued location over different time periods.</p>
+                    <p class="description">*location_name = Location entered by officers.</p>
+
 
                     <div class="table-container">
                         <!-- Chart Section -->
@@ -220,7 +202,7 @@ if (!$policeStationId) {
             });
 
             fetchFineData();
-            fetchStationFineData();
+            // fetchStationFineData();
             fetchOfficerFineData();
             fetchOffencesRevenueFineData();
             fetchIssuedPlaceFineData();

@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 header("Content-Type: application/json");
 
-require_once "../../../../../db/connect.php";
+require_once "../../../../../../db/connect.php";
 session_start();
 
 // Get the time period and police station parameters

@@ -164,16 +164,17 @@ $conn->close();
                         d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                 </svg>
             </button>
+            <div class="table-container">
 
-            <h1>Fines Issued by Station Officers</h1>
-            <!-- FILTER FINES -->
-            <div class="feild">
-                <button class="btn margintop marginbottom">Filter Results</button>
+                <h1>Fines Issued by Station Officers</h1>
+                <!-- FILTER FINES -->
+                <div class="feild">
+                    <button class="btn margintop marginbottom">Filter Results</button>
+                </div>
+
+                <?php include_once "./filter-results.php"; ?>
+
             </div>
-
-            <?php include_once "./filter-results.php"; ?>
-
-
         </div>
 
     </div>
@@ -226,7 +227,7 @@ $conn->close();
 <?php include_once "../../../includes/footer.php"; ?>
 
 <script>
-    document.querySelector('.btn').addEventListener('click', function () {
+    document.querySelector('.btn').addEventListener('click', function() {
         var filterForm = document.getElementById('filter-form');
         if (filterForm.style.display === 'none') {
             filterForm.style.display = 'block';

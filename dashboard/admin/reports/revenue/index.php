@@ -187,6 +187,8 @@ if ($_SESSION['user']['role'] !== 'admin') {
         const generateBtn = document.getElementById("generateReportBtn");
         const timePeriodSelect = document.getElementById("timePeriod");
         const hiddenTimePeriods = document.querySelectorAll("input[name='time_period']");
+        const fullReportButtons = document.querySelectorAll(".btn.full-report");
+
 
         generateBtn.addEventListener("click", function(e) {
             e.preventDefault(); // Prevent reload
@@ -202,11 +204,11 @@ if ($_SESSION['user']['role'] !== 'admin') {
             fetchIssuedPlaceFineData();
         });
 
-        // Optional: sync timePeriod dropdown to hidden inputs live
-        timePeriodSelect.addEventListener("change", function() {
-            hiddenTimePeriods.forEach(input => {
-                input.value = this.value;
-            });
-        });
+        // // Optional: sync timePeriod dropdown to hidden inputs live
+        // timePeriodSelect.addEventListener("change", function() {
+        //     hiddenTimePeriods.forEach(input => {
+        //         input.value = this.value;
+        //     });
+        // });
     });
 </script>
