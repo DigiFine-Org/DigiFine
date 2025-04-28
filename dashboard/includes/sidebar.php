@@ -225,6 +225,18 @@ const icons = [
 </svg>
 '
   ],
+  "Edit Duties" => [
+    'outlined' => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+</svg>
+
+',
+    'solid' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+  <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+</svg>
+
+'
+  ],
   "Manage Announcements" => [
     'outlined' => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
@@ -300,6 +312,7 @@ function renderLink(string $title, string $link)
       <?php renderLink("Fines", "/digifine/dashboard/oic/fine-management/index.php") ?>
       <?php renderLink("Duty Submissions", "/digifine/dashboard/oic/duty-submissions/index.php") ?>
       <?php renderLink("Assign Duties", "/digifine/dashboard/oic/assign-duties/index.php") ?>
+      <?php renderLink("Edit Duties", "/digifine/dashboard/oic/assign-duties/edit-duties.php") ?>
       <?php renderLink("Stolen Vehicle", "/digifine/dashboard/oic/stolen-vehicles/index.php") ?>
       <?php renderLink("Duty History", "/digifine/dashboard/oic/duty-history/index.php") ?>
       <?php renderLink("Reports", "/digifine/dashboard/oic/reports/index.php") ?>
