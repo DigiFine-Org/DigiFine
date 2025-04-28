@@ -18,7 +18,6 @@ if ($_SESSION['user']['role'] !== 'driver') {
 $driver_id = $_SESSION['user']['id'];
 
 
-// Fetch announcements for drivers
 $stmt = $conn->prepare("
     SELECT title, message, published_by, created_at, expires_at 
     FROM announcements 
@@ -29,24 +28,7 @@ $stmt = $conn->prepare("
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Display announcements
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Driver Announcements</title>
-    <!-- <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-        }
-
-    </style> -->
-</head>
 
 <main>
 
@@ -68,17 +50,10 @@ $result = $stmt->get_result();
                         closures, new regulations, and other essential information.</p>
                 </div>
 
-                <div class="sinhala">
-                    <!-- <h3>ඔබගේ රියදුරු බලපත්‍රය හෝ දඩ ගෙවීම් සඳහා බලපාන දැන්වීම්, ගෙවීම් සහ ප්රතිපත්ති
-                        වෙනස්කම්...</h2>
-                        <p>වැදගත් යාවත්කාලීන කිරීම්, ගමනාගමන දැන්වීම් සහ අනෙකුත් දැන්වීම්. මාර්ග වසාදැමීම්, නව
-                            නීතිරීති සහ අනෙකුත් අත්‍යවශ්‍ය තොරතුරු සඳහා යාවත්කාලීන වන්න.</p> -->
 
-                </div>
             </div>
             <div class="content">
 
-                <!-- <div class="home-grid"> -->
                 <?php if ($result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <div class="announcement">
@@ -106,7 +81,3 @@ $result = $stmt->get_result();
 
 
 <?php include_once "../../../includes/footer.php"; ?>
-
-
-
-</html>
