@@ -21,7 +21,6 @@ if (!$driverId) {
     exit();
 }
 
-// Fetch driver details to get NIC
 $driverSql = "SELECT * FROM dmt_drivers WHERE license_id = ?";
 $driverStmt = $conn->prepare($driverSql);
 $driverStmt->bind_param("s", $driverId);

@@ -5,15 +5,11 @@ include '../../../db/connect.php';
 require_once "send-fine-mail.php";
 require_once "../../../notifications/functions.php";
 
-// Check if user is logged in as police officer
 $policeId = $_SESSION['user']['id'] ?? null;
 
 if (!$policeId) {
     die("Unauthorized access. Police ID not found.");
 }
-
-// Fetch the police station for the logged-in officer
-// $policeStation = "SELECT police_station FROM officers WHERE id = '$policeId'";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -25,14 +21,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $license_plate_number = strtoupper(($_POST['license_plate_number']));
     $offence_type = htmlspecialchars($_POST['offence_type']);
     $nature_of_offence = htmlspecialchars($_POST['nature_of_offence']);
+
     $location = htmlspecialchars($_POST['location']);
     if ($location === 'other') {
         $location = htmlspecialchars(trim($_POST['other_location'] ?? ''));
     }
+
+
     $offence_number = htmlspecialchars($_POST['offence'] ?? null);
     $fine_amount = htmlspecialchars($_POST['fine_amount'] ?? 0);
 
-    // Validate if the driver exists in the system
+
     $driverCheckSql = "SELECT points FROM drivers WHERE id = ?";
     $driverCheckStmt = $conn->prepare($driverCheckSql);
     if (!$driverCheckStmt) {
@@ -54,7 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $points_deducted = 0;
     if ($offence_type !== 'court') {
-        // Fetch the English description and points deducted for the offence
         $offenceSql = "SELECT description_english, points_deducted FROM offences WHERE offence_number = ?";
         $offenceStmt = $conn->prepare($offenceSql);
         if (!$offenceStmt) {
@@ -76,10 +74,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $points_deducted = $offenceData['points_deducted'];
     }
 
-    // Handle offence for court
     $offence_number = $offence_type === "court" ? null : $offence_number;
 
-    // Insert the fine into the database
     $sql = "INSERT INTO fines (
         police_id, driver_id, police_station, license_plate_number, issued_date, issued_time, expire_date, offence_type, nature_of_offence, location, offence, fine_amount
     ) VALUES (
@@ -93,10 +89,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bind_param("isissssssssd", $policeId, $driver_id, $policeStation, $license_plate_number, $issued_date, $issued_time, $expire_date, $offence_type, $nature_of_offence, $location, $offence_number, $fine_amount);
     if ($stmt->execute()) {
 
-        // Get the ID of the newly created fine
         $fine_id = $conn->insert_id;
 
-        // Deduct points from the driver's total
+
+
+
+        // Not mine (point system, notifications and email sending)
+        // 
+        // 
+        // 
+
+
+
+
+
         if ($points_deducted > 0) {
             $new_points = max(0, $current_points - $points_deducted); // Ensure points don't go negative
 
