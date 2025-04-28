@@ -9,10 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $target_role = $_POST['target_role'];
     $expires_at = empty($_POST['expires_at']) ? null : $_POST['expires_at'];
 
-    if (empty($expires_at)) {
-        $expires_at = null;
-    }
-
     $stmt = $conn->prepare("INSERT INTO announcements (title, message, published_by, published_id, target_role, expires_at) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssss", $title, $message, $role, $id, $target_role, $expires_at);
 

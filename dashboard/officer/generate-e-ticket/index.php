@@ -159,11 +159,10 @@ if ($_SESSION['message'] ?? null) {
                                 title="Vehicle License Number must be in the format SP|XXX-1234 or XXX-1234.">
                         </div>
 
-                        <!-- Updated Location field with a search bar (datalist) -->
+
                         <div class=" field">
                             <label for="location">Location:</label>
                             <select name="location" class="input" required>
-                                <!-- Default selection is the last location, but the officer can change it -->
                                 <?php if (!empty($lastLocation)): ?>
                                     <option value="<?php echo htmlspecialchars($lastLocation); ?>" selected>
                                         <?php echo htmlspecialchars($lastLocation); ?> (Last Used)
@@ -173,7 +172,6 @@ if ($_SESSION['message'] ?? null) {
                                 <?php endif; ?>
 
                                 <?php foreach ($locations as $loc): ?>
-                                    <!-- Prevent duplicate entry of the last location in the dropdown -->
                                     <?php if ($loc['location_name'] !== $lastLocation): ?>
                                         <option value="<?php echo htmlspecialchars($loc['id']); ?>">
                                             <?php echo htmlspecialchars($loc['location_name']); ?>

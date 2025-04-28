@@ -10,7 +10,7 @@ require_once "../../../db/connect.php";
 include_once "../../../includes/header.php";
 
 
-$userId = $_SESSION['user']['id'] ?? null;  // Get user ID from session
+$userId = $_SESSION['user']['id'] ?? null;
 if (!$userId) {
     die("User ID not found in session.");
 }
@@ -32,7 +32,6 @@ if (!$stationNumber) {
     die("Officer's station not found. Station number is empty.");
 }
 
-// Fetch announcements for officers from the same station or those targeting all officers
 $stmt = $conn->prepare("
     SELECT title, message, published_by, created_at, expires_at, police_station
     FROM announcements 
@@ -44,12 +43,13 @@ $stmt = $conn->prepare("
 ");
 
 if ($stmt === false) {
-    // Error preparing the statement
     die('MySQL prepare failed: ' . $conn->error);
 }
 
-$stmt->bind_param("i", $stationNumber);  // "i" for integer
-$stmt->execute();
+$stmt->bind_param("i", $stationNumber);
+if (!$stmt->execute()) {
+    die('Execute failed: ' . $stmt->error);
+}
 $result = $stmt->get_result();
 
 ?>
@@ -68,7 +68,6 @@ $result = $stmt->get_result();
             </button>
             <h1>Announcements</h1>
             <div class="content">
-                <!-- <div class="home-grid"> -->
                 <?php if ($result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <div class="announcement">

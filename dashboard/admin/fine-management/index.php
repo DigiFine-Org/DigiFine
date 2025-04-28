@@ -31,7 +31,6 @@ $offences = $result->fetch_all(MYSQLI_ASSOC);
 
 $stmt->close();
 
-// Handle filters
 $whereClauses = [];
 $params = [];
 $types = '';
@@ -148,7 +147,6 @@ $stmt->close();
         </div>
     </div>
 
-    <!-- Export to PDF Button -->
     <div class="table-container">
         <form action="generate-fines-report.php" method="GET" target="_blank">
             <input type="hidden" name="fine_id" value="<?= htmlspecialchars($_GET['fine_id'] ?? '') ?>">

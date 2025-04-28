@@ -26,7 +26,6 @@ $filters = [
     'Fine Status' => $_GET['fine_status'] ?? '',
 ];
 
-// Generate filter summary
 $filterSummary = '<ul>';
 foreach ($filters as $key => $value) {
     if (!empty($value)) {
@@ -35,7 +34,6 @@ foreach ($filters as $key => $value) {
 }
 $filterSummary .= '</ul>';
 
-// Build query with filters
 $whereClauses = [];
 $params = [];
 $types = '';
@@ -125,8 +123,7 @@ $result = $stmt->get_result();
 $fines = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-// Generate table rows for the PDF
-ob_start(); // Start output buffering
+ob_start();
 ?>
 <table class="data-table">
     <thead>

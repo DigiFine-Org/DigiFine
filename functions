@@ -1,0 +1,22 @@
+<?php
+$nic = "950123456V";
+
+$yearPart = substr($nic, 0, 2); // Get first 2 digits
+$yearFull = ($yearPart > date('y')) ? ('19' . $yearPart) : ('20' . $yearPart); // Intelligent guess
+
+$birthYear = (int)$yearFull;
+
+// Calculate age
+$currentYear = (int)date('Y');
+$age = $currentYear - $birthYear;
+
+echo "Birth Year: " . $birthYear . "<br>";
+echo "Age: " . $age;
+
+
+// SQL Query to get age from NIC
+$query = "SELECT 
+  nic,
+  (YEAR(CURDATE()) - (1900 + CAST(SUBSTRING(nic, 1, 2) AS UNSIGNED))) AS age
+FROM your_table
+WHERE SUBSTRING(nic, 1, 2) BETWEEN '90' AND '99';";

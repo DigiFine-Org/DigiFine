@@ -16,13 +16,11 @@ if ($_SESSION['user']['role'] !== 'admin') {
 if ($_SESSION['message'] ?? null) {
     if ($_SESSION['message'] === 'success') {
         $message = "Announcement published successfully!";
-        unset($_SESSION['message']); // Clear the session message
+        unset($_SESSION['message']);
         include '../../../includes/alerts/success.php';
     } else {
-        $message = $_SESSION['message']; // Store the message
-        unset($_SESSION['message']); // Clear the session message
-
-        // Include the alert.php file to display the message
+        $message = $_SESSION['message'];
+        unset($_SESSION['message']);
         include '../../../includes/alerts/failed.php';
     }
 }
@@ -43,7 +41,7 @@ if ($_SESSION['message'] ?? null) {
                             d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z" />
                     </svg>
                 </button>
-                <div id="alert-container"></div> <!-- Alert container -->
+                <div id="alert-container"></div>
                 <h1>Add Announcement</h1>
                 <form action="process.php" method="POST">
                     <div class="field">
