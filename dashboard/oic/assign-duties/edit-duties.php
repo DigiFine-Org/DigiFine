@@ -42,7 +42,7 @@ $dutiesQuery = "SELECT d.id, d.duty, d.duty_date, d.duty_time_start, d.duty_time
                 FROM assigned_duties d
                 JOIN officers o ON d.police_id = o.id 
                 WHERE o.police_station = ? 
-                ORDER BY d.duty_date, d.duty_time_start";
+                ORDER BY d.duty_date DESC, d.duty_time_start DESC";
 $dutiesStmt = $conn->prepare($dutiesQuery);
 
 if (!$dutiesStmt) {

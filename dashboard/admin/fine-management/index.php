@@ -107,6 +107,7 @@ $query = "SELECT id, police_id, driver_id, license_plate_number, issued_date, is
 if (!empty($whereClauses)) {
     $query .= " WHERE " . implode(' AND ', $whereClauses);
 }
+$query .= " ORDER BY id DESC, issued_date DESC";
 
 $stmt = $conn->prepare($query);
 if ($types && $stmt) {

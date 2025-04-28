@@ -132,6 +132,7 @@ $query = "
 if (!empty($whereClauses)) {
     $query .= " AND " . implode(" AND ", $whereClauses);
 }
+$query .= " ORDER BY id DESC, issued_date DESC";
 
 // Prepare and execute the query
 $stmt = $conn->prepare($query);
