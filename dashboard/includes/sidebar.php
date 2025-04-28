@@ -312,9 +312,9 @@ function renderLink(string $title, string $link)
       <?php renderLink("Fines", "/digifine/dashboard/oic/fine-management/index.php") ?>
       <?php renderLink("Duty Submissions", "/digifine/dashboard/oic/duty-submissions/index.php") ?>
       <?php renderLink("Assign Duties", "/digifine/dashboard/oic/assign-duties/index.php") ?>
+      <?php renderLink("Duty History", "/digifine/dashboard/oic/duty-history/index.php") ?>
       <?php renderLink("Edit Duties", "/digifine/dashboard/oic/assign-duties/edit-duties.php") ?>
       <?php renderLink("Stolen Vehicle", "/digifine/dashboard/oic/stolen-vehicles/index.php") ?>
-      <?php renderLink("Duty History", "/digifine/dashboard/oic/duty-history/index.php") ?>
       <?php renderLink("Reports", "/digifine/dashboard/oic/reports/index.php") ?>
 
 
