@@ -60,24 +60,24 @@ if ($searchId) {
     if ($fineRow = $fineResult->fetch_assoc()) {
         $fineCount = $fineRow['total'];
     }
-    
+
     // Check if the driver's license is suspended in the drivers table
     // Find the driver record in the drivers table using nic (since we can see it's a field in both tables)
     $licenseSql = "SELECT license_suspended FROM drivers WHERE nic = ?";
     $licenseStmt = $conn->prepare($licenseSql);
-    
+
     if (!$licenseStmt) {
         die("Database error: " . $conn->error);
     }
-    
+
     $licenseStmt->bind_param("s", $result['nic']);
-    
+
     if (!$licenseStmt->execute()) {
         die("Query execution error: " . $licenseStmt->error);
     }
-    
+
     $licenseResult = $licenseStmt->get_result();
-    
+
     if ($licenseResult->num_rows > 0) {
         $licenseData = $licenseResult->fetch_assoc();
         $isSuspended = (int)$licenseData['license_suspended'];
@@ -125,7 +125,7 @@ if ($searchId) {
                         <button class="btn margintop">Search</button>
                     </form>
                 <?php else: ?>
-                    <div class="data-line" style="">
+                    <div class="data-line">
                         <span>Number OF past violations of this driver: </span>
                         <p><?= $fineCount ?></p>
                         <?php if ($fineCount > 0): ?>
@@ -133,13 +133,13 @@ if ($searchId) {
                                 Violations</a>
                         <?php endif; ?>
                     </div>
-                    
+
                     <?php if ($isSuspended == 1): ?>
                         <div class="alert" style="background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #f5c6cb;">
                             <strong>Warning:</strong> This driver's license is currently suspended.
                         </div>
                     <?php endif; ?>
-                    
+
                     <h3>Driver License</h3>
                     <div class="data-line">
                         <span>FULL NAME:</span>

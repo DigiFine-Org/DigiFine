@@ -1,2 +1,0 @@
-this is the code of admin. now i want to design oic related sytem that gives only details related to his police station. change this code to achive that. police station id can get by this
-$policeStationId = $_GET['police_station'] ?? null;
