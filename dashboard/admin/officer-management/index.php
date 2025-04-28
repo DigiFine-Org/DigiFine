@@ -52,7 +52,8 @@ include_once "../../../includes/header.php";
                             </div>
                         </div>
                     </a>
-                    <a href="" class="feature-tile">
+                    <a href="/digifine/dashboard\admin\reports\officer-reports\index.php"
+                        class="feature-tile">
                         <div class="tile-full">
                             <div class="tile-content">
                                 <h3>Police Officer Analytics</h3>
