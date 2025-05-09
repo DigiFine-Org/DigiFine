@@ -33,7 +33,6 @@ try {
 
     $stmt->close();
     $conn->close();
-
 } catch (mysqli_sql_exception $e) {
     die("error: " . $e->getMessage());
 }
@@ -61,7 +60,6 @@ include_once "../../includes/header.php";
                 <table>
                     <thead>
                         <tr>
-                            <th>offence Number</th>
                             <th>offence Desciption (Sinhala)</th>
                             <th>offence Desciption (Tamil)</th>
                             <th>offence Desciption (English)</th>
@@ -72,7 +70,6 @@ include_once "../../includes/header.php";
                     <tbody>
                         <?php foreach ($offences as $offence): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($offence['offence_number']); ?></td>
                                 <td><?php echo htmlspecialchars($offence['description_sinhala']); ?></td>
                                 <td><?php echo htmlspecialchars($offence['description_tamil']); ?></td>
                                 <td><?php echo htmlspecialchars($offence['description_english']); ?></td>

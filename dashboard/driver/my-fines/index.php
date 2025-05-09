@@ -26,6 +26,7 @@ $stmt = $conn->prepare("
     INNER JOIN drivers AS d ON f.driver_id = d.id
     LEFT JOIN offences AS o ON f.offence = o.offence_number
     WHERE d.id = ? AND is_discarded = 0 AND (fine_status = 'pending' OR fine_status = 'overdue')
+    ORDER BY f.issued_date DESC, f.issued_time DESC;
     ");
 
 if (!$stmt) {

@@ -10,6 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $policeStation = $_SESSION['user']['police_station'] ?? '';
     $expiresAt = $_POST['expires_at'] ?? null;
 
+    if (empty($expiresAt)) {
+        $expiresAt = null;
+    }
+
     // Target role is automatically "officers in the same station"
     $targetRole = "officer";
 

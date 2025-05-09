@@ -148,6 +148,24 @@ $stmt->close();
         </div>
     </div>
 
+    <!-- Export to PDF Button -->
+    <div class="table-container">
+        <form action="generate-fines-report.php" method="GET" target="_blank">
+            <input type="hidden" name="fine_id" value="<?= htmlspecialchars($_GET['fine_id'] ?? '') ?>">
+            <input type="hidden" name="police_id" value="<?= htmlspecialchars($_GET['police_id'] ?? '') ?>">
+            <input type="hidden" name="driver_id" value="<?= htmlspecialchars($_GET['driver_id'] ?? '') ?>">
+            <input type="hidden" name="date-from" value="<?= htmlspecialchars($_GET['date-from'] ?? '') ?>">
+            <input type="hidden" name="date-to" value="<?= htmlspecialchars($_GET['date-to'] ?? '') ?>">
+            <input type="hidden" name="price-from" value="<?= htmlspecialchars($_GET['price-from'] ?? '') ?>">
+            <input type="hidden" name="price-to" value="<?= htmlspecialchars($_GET['price-to'] ?? '') ?>">
+            <input type="hidden" name="offence_type" value="<?= htmlspecialchars($_GET['offence_type'] ?? '') ?>">
+            <input type="hidden" name="is_reported" value="<?= htmlspecialchars($_GET['is_reported'] ?? '') ?>">
+            <input type="hidden" name="offence" value="<?= htmlspecialchars($_GET['offence'] ?? '') ?>">
+            <input type="hidden" name="fine_status" value="<?= htmlspecialchars($_GET['fine_status'] ?? '') ?>">
+            <button type="submit" class="btn">Generate PDF Report</button>
+        </form>
+    </div>
+
     <!-- Fines Table -->
     <div class="table-container">
         <table>
@@ -185,7 +203,7 @@ $stmt->close();
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="7">No fines found for the selected filters.</td>
+                        <td colspan="10">No fines found for the selected filters.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>

@@ -65,7 +65,7 @@ if ($_SESSION['message'] ?? null) {
                     </svg>
                 </button>
                 <div id="alert-container"></div> <!-- Alert container -->
-                <h1 class="page-title">Publish Announcements for station officers</h1>
+                <h1 class="page-title">Publish Announcements for Station Officers</h1>
                 <form action="./process.php" method="POST" id="publishAnnouncementForm">
                     <div class="field">
                         <label for="title">Title</label>
@@ -74,7 +74,7 @@ if ($_SESSION['message'] ?? null) {
 
                     <div class="field">
                         <label for="message">Message</label>
-                        <textarea id="message" name="message" class="input" rows="10" style="min-height: 200px; width: 100%;" required>
+                        <textarea id="message" name="message" class="input" rows="10" style="min-height: 200px; width: 100%;" required></textarea>
                     </div>
 
                     <div class="field">
@@ -86,7 +86,6 @@ if ($_SESSION['message'] ?? null) {
                         <button type="submit" class="btn" id="submitBtn">Add Announcement</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
