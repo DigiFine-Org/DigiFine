@@ -14,4 +14,4 @@ Admin Credentials
 Username - DigiAdmin27
 Password - 123456
 
-Youcan change database credentials by editing db folder connect.php
+You can change database credentials by editing db folder connect.php
