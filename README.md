@@ -1,38 +1,38 @@
-🔐 System Credentials
-🚗 Driver Login
-Driver ID: B1234567
+# 🚦 DigiFine System - Setup Guide
 
-Password: 123456
+## 🔐 System Credentials
 
-👮 Police Officer Login
-Officer ID: 23230
+### Driver Login
+- **Driver ID:** `B1234567`
+- **Password:** `123456`
 
-Password: 123456
+### Police Officer Login
+- **Officer ID:** `23230`
+- **Password:** `123456`
 
-🕵️‍♂️ OIC Login
-OIC ID: 23233
+### OIC Login
+- **OIC ID:** `23233`
+- **Password:** `123456`
 
-Password: 123456
+### Admin Login
+- **Username:** `DigiAdmin27`
+- **Password:** `123456`
 
-🛠️ Admin Login
-Username: DigiAdmin27
+---
 
-Password: 123456
+## ⚙️ Database Setup
 
-⚙️ Database Setup
-Create a database named digifine_db.
+1. **Create a database** named `digifine_db`.
+2. **Import** the `digifine_db.sql` file into your database.
+3. To **update database credentials**, edit the `connect.php` file located in the `db` folder.
 
-Import the digifine_db.sql file into the database.
+---
 
-To update database credentials, edit the connect.php file located inside the db folder.
+## 📧 Contact & Support
 
-📧 Support Contacts
-If you encounter any issues, feel free to reach out:
+For any issues or support, please reach out to:
 
-Imalsha: imalsha.contact@gmail.com
-
-Risafa: risafaimtiyas@gmail.com
-
-Liseka: lisekamendis2@gmail.com
-
-Pubuditha: pubuditha2001@gmail.com
+- **Imalsha** – [imalsha.contact@gmail.com](mailto:imalsha.contact@gmail.com)
+- **Risafa** – [risafaimtiyas@gmail.com](mailto:risafaimtiyas@gmail.com)
+- **Liseka** – [lisekamendis2@gmail.com](mailto:lisekamendis2@gmail.com)
+- **Pubuditha** – [pubuditha2001@gmail.com](mailto:pubuditha2001@gmail.com)
