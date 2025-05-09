@@ -30,7 +30,7 @@
 
 ## 📧 Contact & Support
 
-For any issues or support, please reach out to:
+For any issues or support, please reach out us:
 
 - **Imalsha** – [imalsha.contact@gmail.com](mailto:imalsha.contact@gmail.com)
 - **Risafa** – [risafaimtiyas@gmail.com](mailto:risafaimtiyas@gmail.com)
